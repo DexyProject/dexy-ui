@@ -8,11 +8,12 @@
 * evaluate highcharts
 
 # TODO
+* script to get top eth markets from cmc
+* put logo on left of tabs, clear UI separators, margins, font
 * charting lib: order book depth?
 * Proper table for markets
 * exchange layout
 * fullscreen button
-* font
 * browserifying deps, web3
 * building with gulp
 * split/architect source code properly
