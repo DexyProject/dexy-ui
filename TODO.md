@@ -3,11 +3,11 @@
 * basic scaffold
 * ngRoute
 * tables
+* separate `js` dir
+* naming: `markets` and `exchange`
 
 # TODO
 
-* separate `js` dir
-* naming: `markets` and `exchange`
 * charting lib
 * font
 * browserifying deps, web3

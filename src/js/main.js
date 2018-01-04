@@ -31,18 +31,18 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		url: '/markets',
 		sticky: true,
 		views: {
-			'view': { templateUrl: 'marketsListTpl' }
+			'view': { templateUrl: 'marketsTpl' }
 		}
 	})
 
 	$stateProvider.state({
-		name: 'market',
-		url: '/market/:pair',
+		name: 'exchange',
+		url: '/exchange/:pair',
 		params:{
 			pair: null,
 		},
 		views: {
-			'market': { templateUrl: 'marketTpl' }
+			'exchange': { templateUrl: 'exchangeTpl' }
 		}
 	});
 
