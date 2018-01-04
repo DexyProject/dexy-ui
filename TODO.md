@@ -20,5 +20,16 @@
 * split/architect source code properly
 
 
+
+[LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
+(mybe make ETH/USD a dropdown and have ETH/EUR)
+
+# mañana but important
+
+* xss: check `ng-bind` ( esp `<a>` and `onclick`)
+* xss: no third-party scripts
+* xss: no third-party sources of data
+* xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
+
 # mañana
 * localization
