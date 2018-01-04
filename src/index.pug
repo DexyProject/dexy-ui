@@ -10,9 +10,13 @@ html(lang="en", ng-app="dexyApp")
 
 	body()
 		// Tabs
-		lx-tabs(lx-active-tab='vm.activeTab')
+		lx-tabs
 			lx-tab(ng-repeat='tab in tabs track by tab.go', lx-label='{{::tab.name}}')
-				p(class='p+', ng-bind='::tab.name')
+
+		.divider.divider--dark
+
+		div(ng-controller='DemoDataTableController as vm')
+			lx-data-table(lx-border='false', lx-thumbnail='true', lx-thead='vm.advancedDataTableThead', lx-tbody='vm.dataTableTbody')
 
 		// RESOURCES Before body closing tag
 		script(src='node_modules/jquery/dist/jquery.js')
@@ -22,3 +26,4 @@ html(lang="en", ng-app="dexyApp")
 		script(src='node_modules/official-lumx/dist/lumx.js')
 
 		script(src='src/main.js')
+		script(src='src/tmp.js')

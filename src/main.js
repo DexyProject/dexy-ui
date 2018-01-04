@@ -6,6 +6,8 @@ app.run(['$rootScope', function($rootScope) {
 		{ name: 'Markets', go: 'markets' },
 		{ name: 'Wallets', go: 'wallets' }
 	]
+
+
 }])
 
 // ...
