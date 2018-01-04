@@ -4,11 +4,18 @@
   "description": "DEXY UI - first iteration",
   "main": "index.js",
   "scripts": {
+    "start": "node build/dev-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "GPL-3.0",
   "dependencies": {
-    "official-lumx": "^1.7.5"
+    "angular": "^1.5.11",
+    "express": "^4.16.2",
+    "nib": "^1.1.2",
+    "official-lumx": "^1.7.5",
+    "pug": "^2.0.0-rc.4",
+    "serve-static": "^1.13.1",
+    "stylus": "^0.54.5"
   }
 }
