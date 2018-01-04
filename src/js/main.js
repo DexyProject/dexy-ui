@@ -4,8 +4,10 @@ var app = angular.module('dexyApp', ['lumx', 'ui.router'])
 app.run(['$rootScope', '$state', function($rootScope, $state) {
 	var tabs = [
 		{ name: 'Markets', route: 'markets' },
-		{ name: 'Wallets', route: 'wallets' },
-		{ name: 'Help', route: 'help' }
+		{ name: 'Wallets', route: 'wallets' }, // this will show the active balances, and deposits/withdraws 
+		//{ name: 'Transactions', route: 'transactions' }, // alternatively those will be shown on 'trans'
+		{ name: 'Help', route: 'help' },
+
 	]
 	var routes = tabs.map(function(x) { return x.route })
 
@@ -22,6 +24,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 	})
 
 }])
+
 // TODO split in routes.js
 .config(['$urlRouterProvider', '$stateProvider', function($urlRouterProvider, $stateProvider) {
 	$urlRouterProvider.when('', '/').when('/', '/markets');
@@ -30,9 +33,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		name: 'markets',
 		url: '/markets',
 		sticky: true,
-		views: {
-			'view': { templateUrl: 'marketsTpl' }
-		}
+		templateUrl: 'marketsTpl'
 	})
 
 	$stateProvider.state({
@@ -41,9 +42,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		params:{
 			pair: null,
 		},
-		views: {
-			'exchange': { templateUrl: 'exchangeTpl' }
-		}
+		templateUrl: 'exchangeTpl'
 	});
 
 	$stateProvider.state({
