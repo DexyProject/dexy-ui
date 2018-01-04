@@ -4,11 +4,11 @@
 
     angular
         .module('dexyApp')
-        .controller('DemoDataTableController', DemoDataTableController);
+        .controller('MarketsController', MarketsController);
 
-    DemoDataTableController.$inject = ['$filter', '$scope', '$state'];
+    MarketsController.$inject = ['$filter', '$scope', '$state'];
 
-    function DemoDataTableController($filter, $scope, $state)
+    function MarketsController($filter, $scope, $state)
     {
         var vm = this;
 
@@ -19,22 +19,30 @@
             sortable: true
         },
         {
-            name: 'calories',
-            label: 'Calories',
+            name: 'name',
+            label: 'Name',
             sortable: true
         },
         {
-            name: 'fat',
-            label: 'Fat (g)',
+            // default sort
+            name: 'vol',
+            label: 'Volume',
             sortable: true,
-            sort: 'asc'
+            sort: 'desc'
         },
         {
-            name: 'comments',
-            label: 'Comments',
-            icon: 'comment-text',
-            sortable: false
-        }];
+            name: 'price_eth',
+            label: 'Price ETH',
+            //icon: 'comment-text',
+            sortable: true
+        },
+        {
+            name: 'price_fiat',
+            label: 'Price USD', // TODO: multiple currencies
+            //icon: 'comment-text',
+            sortable: true
+        },
+        ];
         vm.advancedDataTableThead = angular.copy(vm.dataTableThead);
         vm.advancedDataTableThead.unshift(
         {
@@ -49,16 +57,16 @@
             id: 1,
             image: '/images/placeholder/1-square.jpg',
             symbol: 'ETH-BNB',
-            calories: 159,
-            fat: 6.0,
+            vol: 159,
+            price_fiat: 6.0,
             comments: 'Lorem ipsum'
         },
         {
             id: 2,
             image: '/images/placeholder/2-square.jpg',
             symbol: 'ETH-OMG',
-            calories: 237,
-            fat: 9.0,
+            vol: 237,
+            price_fiat: 9.0,
             comments: 'Lorem ipsum',
             //lxDataTableDisabled: true
         },
@@ -66,8 +74,8 @@
             id: 3,
             image: '/images/placeholder/3-square.jpg',
             symbol: 'ETH-ADX',
-            calories: 262,
-            fat: 16.0,
+            vol: 262,
+            price_fiat: 16.0,
             comments: 'Lorem ipsum'
         }];
 
