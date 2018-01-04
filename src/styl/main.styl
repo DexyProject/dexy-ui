@@ -21,3 +21,41 @@ body
 		
 .markets-table td:nth-child(2), th:nth-child(2)
 	display none
+	
+
+.exchangeLayout
+	position absolute
+	top 70px
+	bottom 20px
+	left 20px
+	right 20px
+	
+	.topLeft, .bottomLeft, .topRight, .bottomRight
+		position absolute
+		
+	.topLeft, .topRight
+		top 0px
+		bottom 35%
+		
+	.bottomLeft, .bottomRight
+		height 35%
+		bottom 0px
+	
+	.topLeft, .bottomLeft
+		left 0px
+		width 52%
+	
+	.topRight, .bottomRight
+		left 52%
+		right 0px
+		
+	.bids, .asks, .sell, .buy
+		width 50%
+		position absolute
+		height 100%
+		
+	.bids, .sell 
+		left 0px
+	
+	.asks, .buy
+		right 0px

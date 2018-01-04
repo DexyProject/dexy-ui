@@ -1,3 +1,19 @@
 div(class='p+',ng-controller='marketCtrl as exchange')
-	h2(ng-bind='exchange.pair')
-	#candleChart
+	//-h2(ng-bind='exchange.pair')
+	.exchangeLayout
+		.topLeft.bgc-indigo-50
+			#candleChart(class='p+')
+		.bottomLeft.bgc-pink-50
+	
+		.topRight
+			.bids.bgc-red-50(class='p+')
+				h3 Bids
+			.asks.bgc-green-50(class='p+')
+				h3 Asks
+		.bottomRight
+			.sell.bgc-purple-50(class='p+')
+				h3 Sell
+				lx-button(lx-color='red',lx-size='l') Sell
+			.buy.bgc-yellow-50(class='p+')
+				h3 Buy
+				lx-button(lx-color='green',lx-size='l') Buy
