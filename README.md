@@ -7,3 +7,12 @@
 ## Running in production
 
 TODO
+
+
+## Development help
+
+### Adding routes
+
+TODO
+
+

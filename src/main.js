@@ -2,10 +2,23 @@ var app = angular.module('dexyApp', ['lumx', 'ui.router'])
 
 // Constants
 app.run(['$rootScope', '$state', function($rootScope, $state) {
-	$rootScope.tabs = [
+	var tabs = [
 		{ name: 'Markets', route: 'markets' },
-		{ name: 'Wallets', route: 'wallets' }
+		{ name: 'Wallets', route: 'wallets' },
+		{ name: 'Help', route: 'help' }
 	]
+	var routes = tabs.map(function(x) { return x.route })
+
+	$rootScope.tabs = tabs
+
+	// Ugly sync between lx-tabs and ui-router
+	$rootScope.$watch('activeTab', function(t, o) {
+		if (t === o) return
+		$state.go(tabs[t].route)
+	})
+	$rootScope.$on('$stateChangeSuccess', function() {
+		$rootScope.activeTab = routes.indexOf($state.current.name)
+	})
 
 }])
 // TODO split in routes.js
@@ -24,6 +37,13 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 	$stateProvider.state({
 		name: 'wallets',
 		url: '/wallets',
+
+	})
+
+
+	$stateProvider.state({
+		name: 'help',
+		url: '/help',
 
 	})
 }]);
