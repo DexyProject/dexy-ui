@@ -1,13 +1,31 @@
-var app = angular.module('dexyApp', ['lumx'])
+var app = angular.module('dexyApp', ['lumx', 'ui.router'])
 
 // Constants
-app.run(['$rootScope', function($rootScope) {
+app.run(['$rootScope', '$state', function($rootScope, $state) {
 	$rootScope.tabs = [
-		{ name: 'Markets', go: 'markets' },
-		{ name: 'Wallets', go: 'wallets' }
+		{ name: 'Markets', route: 'markets' },
+		{ name: 'Wallets', route: 'wallets' }
 	]
 
-
 }])
+// TODO split in routes.js
+.config(['$urlRouterProvider', '$stateProvider', function($urlRouterProvider, $stateProvider) {
+	$urlRouterProvider.when('', '/').when('/', '/markets');
+
+	$stateProvider.state({
+		name: 'markets',
+		url: '/markets',
+		sticky: true,
+		views: {
+			'view': { templateUrl: 'marketsTpl' }
+		}
+	});
+
+	$stateProvider.state({
+		name: 'wallets',
+		url: '/wallets',
+
+	})
+}]);
 
 // ...

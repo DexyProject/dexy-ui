@@ -11,6 +11,8 @@
   "license": "GPL-3.0",
   "dependencies": {
     "angular": "^1.5.11",
+    "angular-route": "^1.5.11",
+    "angular-ui-router": "^0.4.3",
     "express": "^4.16.2",
     "nib": "^1.1.2",
     "official-lumx": "^1.7.5",

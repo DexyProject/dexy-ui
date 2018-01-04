@@ -8,21 +8,23 @@ html(lang="en", ng-app="dexyApp")
 	
 		meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
 
-	body()
-		// Tabs
+		include ./templates.pug
+
+	body
+		// tabs
 		lx-tabs
-			lx-tab(ng-repeat='tab in tabs track by tab.go', lx-label='{{::tab.name}}')
+			lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
 
 		.divider.divider--dark
 
-		div(ng-controller='DemoDataTableController as vm')
-			lx-data-table(lx-border='false', lx-thumbnail='true', lx-thead='vm.advancedDataTableThead', lx-tbody='vm.dataTableTbody')
+		div(ui-view='view')
 
 		// RESOURCES Before body closing tag
 		script(src='node_modules/jquery/dist/jquery.js')
 		script(src='node_modules/velocity-animate/velocity.js')
 		script(src='node_modules/moment/min/moment-with-locales.js')
 		script(src='node_modules/angular/angular.js')
+		script(src='node_modules/angular-ui-router/release/angular-ui-router.js')
 		script(src='node_modules/official-lumx/dist/lumx.js')
 
 		script(src='src/main.js')
