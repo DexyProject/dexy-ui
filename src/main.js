@@ -18,7 +18,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		$state.go(tabs[t].route)
 	})
 	$rootScope.$on('$stateChangeSuccess', function() {
-		$rootScope.activeTab = routes.indexOf($state.current.name)
+		$rootScope.activeTab = Math.max(0, routes.indexOf($state.current.name))
 	})
 
 }])
