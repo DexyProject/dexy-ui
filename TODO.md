@@ -9,9 +9,9 @@
 * split/architect source code properly
 
 # TODO
+* put logo on left of tabs, clear UI separators, margins, font
 * script to get top eth markets from cmc
 * Proper table for markets
-* put logo on left of tabs, clear UI separators, margins, font
 * binance-like exchange layout
 * top indicators
 * components: obTable, services: orderbook 
