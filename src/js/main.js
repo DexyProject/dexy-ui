@@ -14,13 +14,13 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 	$rootScope.tabs = tabs
 
 	// Ugly sync between lx-tabs and ui-router
-	$rootScope.$watch('activeTab', function(t, o) {
-		if (t === o) return
+	$rootScope.updateRoute = function(t) {
 		if (! tabs[t]) return
 		$state.go(tabs[t].route)
-	})
+	}
 	$rootScope.$on('$stateChangeSuccess', function() {
-		$rootScope.activeTab = routes.indexOf($state.current.name)
+		var idx = routes.indexOf($state.current.name === 'exchange' ? 'markets' : $state.current.name)
+		if (idx > -1) $rootScope.activeTab = idx
 	})
 
 }])

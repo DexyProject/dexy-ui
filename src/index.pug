@@ -16,7 +16,7 @@ html(lang="en", ng-app="dexyApp")
 
 	body
 		// tabs
-		lx-tabs(lx-active-tab='activeTab')
+		lx-tabs(lx-active-tab='activeTab', ng-click='updateRoute(activeTab)')
 			lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
 
 		.divider.divider--dark
