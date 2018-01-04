@@ -8,6 +8,10 @@ html(lang="en", ng-app="dexyApp")
 	
 		meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
 
+		// WARNING: security; we shouldn't include stuff from third party sources
+		script(src='https://code.highcharts.com/stock/highstock.js')
+		script(src='https://code.highcharts.com/stock/modules/exporting.js')
+
 		include ./templates.pug
 
 	body
