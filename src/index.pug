@@ -4,18 +4,15 @@ html(lang="en", ng-app="dexyApp")
 	head
 		// RESOURCES Head
 		link(rel='stylesheet', href='node_modules/official-lumx/dist/lumx.css')
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=OpenSans:300,400,500,700')
 	
 		meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
 
 	body()
-		// Tabs test
+		// Tabs
 		lx-tabs(lx-active-tab='vm.activeTab')
-			lx-tab(lx-label='Lorem Ipsum 1')
-				p(class='p+') Lorem Ipsum Content 1
-
-			lx-tab(lx-label='Lorem Ipsum 3')
-				p(class='p+') Lorem Ipsum Content 3
+			lx-tab(ng-repeat='tab in tabs track by tab.go', lx-label='{{::tab.name}}')
+				p(class='p+', ng-bind='::tab.name')
 
 		// RESOURCES Before body closing tag
 		script(src='node_modules/jquery/dist/jquery.js')
