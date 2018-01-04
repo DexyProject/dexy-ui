@@ -5,10 +5,10 @@
 * tables
 * separate `js` dir
 * naming: `markets` and `exchange`
+* evaluate highcharts
 
 # TODO
-
-* charting lib
+* charting lib: order book depth?
 * Proper table for markets
 * font
 * browserifying deps, web3
