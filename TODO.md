@@ -19,7 +19,7 @@
 * building with gulp
 * split/architect source code properly
 * Metamask
-* Trezor
+* Hardware Wallets (Trezor, Ledger)
 
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
