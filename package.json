@@ -19,5 +19,16 @@
     "pug": "^2.0.0-rc.4",
     "serve-static": "^1.13.1",
     "stylus": "^0.54.5"
+  },
+  "development": {
+    "gulp": "^3.9.1",
+    "gulp-pug": "^3.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-pug": "^3.3.0",
+    "gulp-stylus": "^2.7.0",
+    "require-dir": "^0.3.2",
+    "run-sequence": "^2.2.1"
   }
 }
