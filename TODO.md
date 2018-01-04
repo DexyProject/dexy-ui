@@ -7,9 +7,10 @@
 * naming: `markets` and `exchange`
 * evaluate highcharts
 * split/architect source code properly
+* put logo on left of tabs, clear UI separators, margins, font
 
 # TODO
-* put logo on left of tabs, clear UI separators, margins, font
+* building with gulp
 * script to get top eth markets from cmc
 * Proper table for markets
 * binance-like exchange layout
@@ -18,7 +19,6 @@
 * charting lib: order book depth?
 * fullscreen button
 * browserifying deps, web3
-* building with gulp
 * Metamask
 * Trezor
 
