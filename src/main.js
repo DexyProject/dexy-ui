@@ -14,6 +14,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 	// Ugly sync between lx-tabs and ui-router
 	$rootScope.$watch('activeTab', function(t, o) {
 		if (t === o) return
+		if (! tabs[t]) return
 		$state.go(tabs[t].route)
 	})
 	$rootScope.$on('$stateChangeSuccess', function() {
@@ -30,7 +31,18 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		url: '/markets',
 		sticky: true,
 		views: {
-			'view': { templateUrl: 'marketsTpl' }
+			'view': { templateUrl: 'marketsListTpl' }
+		}
+	})
+
+	$stateProvider.state({
+		name: 'market',
+		url: '/market/:pair',
+		params:{
+			pair: null,
+		},
+		views: {
+			'market': { templateUrl: 'marketTpl' }
 		}
 	});
 

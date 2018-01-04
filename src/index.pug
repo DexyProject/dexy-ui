@@ -19,6 +19,8 @@ html(lang="en", ng-app="dexyApp")
 
 		div(ui-view='view')
 
+		div(ui-view='market')
+
 		// RESOURCES Before body closing tag
 		script(src='node_modules/jquery/dist/jquery.js')
 		script(src='node_modules/velocity-animate/velocity.js')
@@ -27,5 +29,7 @@ html(lang="en", ng-app="dexyApp")
 		script(src='node_modules/angular-ui-router/release/angular-ui-router.js')
 		script(src='node_modules/official-lumx/dist/lumx.js')
 
+
 		script(src='src/main.js')
 		script(src='src/tmp.js')
+		script(src='src/pages/market/market.js')
