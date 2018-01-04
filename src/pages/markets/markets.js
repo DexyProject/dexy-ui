@@ -26,7 +26,7 @@
         {
             // default sort
             name: 'vol',
-            label: 'Volume',
+            label: 'Volume (24hr)',
             sortable: true,
             sort: 'desc'
         },
@@ -57,6 +57,7 @@
             id: 1,
             image: '/images/placeholder/1-square.jpg',
             symbol: 'ETH-BNB',
+            name: 'Binance Coin',
             vol: 159,
             price_fiat: 6.0,
             comments: 'Lorem ipsum'
@@ -65,6 +66,7 @@
             id: 2,
             image: '/images/placeholder/2-square.jpg',
             symbol: 'ETH-OMG',
+            name: 'OmiseGo',
             vol: 237,
             price_fiat: 9.0,
             comments: 'Lorem ipsum',
@@ -74,6 +76,7 @@
             id: 3,
             image: '/images/placeholder/3-square.jpg',
             symbol: 'ETH-ADX',
+            name: 'AdEx',
             vol: 262,
             price_fiat: 16.0,
             comments: 'Lorem ipsum'

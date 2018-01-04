@@ -32,13 +32,19 @@ html(lang="en", ng-app="dexyApp")
 					lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
 
 			
-			div(flex-item='6')
+			div(flex-item='5')
 				//- Indicators here
 
 			div(flex-item='1')
 				// Night mode
 				span Night mode
 				lx-switch(ng-model='nightMode')
+
+			div(flex-item='1')
+				// Fullscreen
+				lx-button(lx-type='icon')
+					i.mdi.mdi-fullscreen
+
 
 		.divider.divider--dark
 
