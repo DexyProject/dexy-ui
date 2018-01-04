@@ -18,7 +18,8 @@
 * browserifying deps, web3
 * building with gulp
 * split/architect source code properly
-
+* Metamask
+* Trezor
 
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
