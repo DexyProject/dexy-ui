@@ -10,6 +10,8 @@
 # TODO
 * charting lib: order book depth?
 * Proper table for markets
+* exchange layout
+* fullscreen button
 * font
 * browserifying deps, web3
 * building with gulp
