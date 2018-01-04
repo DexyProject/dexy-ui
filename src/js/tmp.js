@@ -6,16 +6,16 @@
         .module('dexyApp')
         .controller('DemoDataTableController', DemoDataTableController);
 
-    DemoDataTableController.$inject = ['$filter', '$scope'];
+    DemoDataTableController.$inject = ['$filter', '$scope', '$state'];
 
-    function DemoDataTableController($filter, $scope)
+    function DemoDataTableController($filter, $scope, $state)
     {
         var vm = this;
 
         vm.dataTableThead = [
         {
-            name: 'dessert',
-            label: 'Dessert',
+            name: 'symbol',
+            label: 'Market',
             sortable: true
         },
         {
@@ -41,14 +41,14 @@
             name: 'image',
             format: function(row)
             {
-                return '<img src="https://files.coinmarketcap.com/static/img/coins/32x32/adx-net.png" width="40" height="40">';
+                return '<a href="/#/exchange/ETH-ADX"><img src="https://files.coinmarketcap.com/static/img/coins/32x32/adx-net.png" width="40" height="40"></a>';
             }
         });
         vm.dataTableTbody = [
         {
             id: 1,
             image: '/images/placeholder/1-square.jpg',
-            dessert: 'Frozen yogurt',
+            symbol: 'ETH-BNB',
             calories: 159,
             fat: 6.0,
             comments: 'Lorem ipsum'
@@ -56,16 +56,16 @@
         {
             id: 2,
             image: '/images/placeholder/2-square.jpg',
-            dessert: 'Ice cream sandwich',
+            symbol: 'ETH-OMG',
             calories: 237,
             fat: 9.0,
             comments: 'Lorem ipsum',
-            lxDataTableDisabled: true
+            //lxDataTableDisabled: true
         },
         {
             id: 3,
             image: '/images/placeholder/3-square.jpg',
-            dessert: 'Eclair',
+            symbol: 'ETH-ADX',
             calories: 262,
             fat: 16.0,
             comments: 'Lorem ipsum'
@@ -79,9 +79,8 @@
 
         function updateActions(_event, _dataTableId, _selectedRows)
         {
-            if (_dataTableId === 'lolo') {
-                vm.selectedRows = _selectedRows;
-            }
+            $state.go('exchange', { pair: _selectedRows[0].symbol })
+
         }
 
         function updateSort(_event, _dataTableId, _column)

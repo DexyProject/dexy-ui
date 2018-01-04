@@ -9,6 +9,7 @@
 # TODO
 
 * charting lib
+* Proper table for markets
 * font
 * browserifying deps, web3
 * building with gulp
