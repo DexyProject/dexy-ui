@@ -4,11 +4,11 @@
 
     angular
         .module('dexyApp')
-        .controller('MarketsController', MarketsController);
+        .controller('WalletsController', WalletsController);
 
-    MarketsController.$inject = ['$filter', '$scope', '$state'];
+    WalletsController.$inject = ['$filter', '$scope', '$state'];
 
-    function MarketsController($filter, $scope, $state)
+    function WalletsController($filter, $scope, $state)
     {
         var vm = this;
 
@@ -24,36 +24,21 @@
             sortable: true
         },
         {
-            // default sort
-            name: 'vol',
-            label: '24hr Volume',
+            name: 'balance',
+            label: 'In Wallet',
             sortable: true,
-            sort: 'desc'
         },
         {
-            name: '24hr_high',
-            label: '24hr High',
+            name: 'balance_exchange',
+            label: 'On Exchange (available)',
             sortable: true,
-            sort: 'desc',
         },
         {
-            name: '24hr_low',
-            label: '24hr Low',
+            name: 'balance_orders',
+            label: 'On Orders',
             sortable: true,
-            sort: 'desc',
         },
-        {
-            name: 'price',
-            label: 'Price',
-            //icon: 'comment-text',
-            sortable: true
-        },
-        {
-            name: 'added',
-            label: 'Added',
-            sortable: true,
-            sort: 'desc',
-        }
+
         ];
         vm.advancedDataTableThead = angular.copy(vm.dataTableThead);
         vm.advancedDataTableThead.unshift(
@@ -64,6 +49,12 @@
                 return '<img src="/img/markets/'+row.symbol+'-ETH.png" height="40"></a>';
             }
         });
+        vm.advancedDataTableThead.push({
+            name: 'deposit',
+            format: function(row) {
+                return '<lx-button name="deposit">Deposit</lx-button>'
+            }
+        })
 
         // Fill in vol, price_eth, price_fiat
         vm.dataTableTbody = angular.copy(CONSTS.markets);

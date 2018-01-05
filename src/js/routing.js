@@ -5,7 +5,6 @@ angular.module('dexyApp')
 	$stateProvider.state({
 		name: 'markets',
 		url: '/markets',
-		sticky: true,
 		templateUrl: 'marketsTpl'
 	})
 
@@ -21,7 +20,7 @@ angular.module('dexyApp')
 	$stateProvider.state({
 		name: 'wallets',
 		url: '/wallets',
-
+		templateUrl: 'walletsTpl',
 	})
 
 

@@ -22,11 +22,12 @@
 * top bar indicators (price, etc.)
 * service for CMC
 * fiat amounts showing in market table
+* wallets tab
+* Metamask
+* Hardware Wallets (Trezor, Ledger)
 * service for the API
 * Spificator: include to improve TX UX
 * components: orderbook, services: orderbook ; start integrating API
-* Metamask
-* Hardware Wallets (Trezor, Ledger)
 * Consider something more visual for day and night button: https://codepen.io/jsndks/pen/qEXzOQ
 
 
