@@ -18,9 +18,10 @@
 
 
 # TODO
-* top bar indicators (price, etc.)
-* components: obTable, services: orderbook ; start integrating API
 * charting lib: order book depth?
+* top bar indicators (price, etc.)
+* service for the API
+* components: obTable, services: orderbook ; start integrating API
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
 
