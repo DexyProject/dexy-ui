@@ -2,18 +2,24 @@ div(class='p+',ng-controller='marketCtrl as exchange')
 	//-h2(ng-bind='exchange.pair')
 	.exchangeLayout
 		.topLeft.bgc-indigo-50
-			#candleChart(class='p+')
-		.bottomLeft.bgc-pink-50
-	
+			#candleChart.p
+		.bottomLeft.bgc-pink-50.p
+			//- TODO split
+			lx-tabs(lx-active-tab='activeTab')
+				lx-tab(lx-label='Wallet')
+				lx-tab(lx-label='My Orders')
+				lx-tab(lx-label='Last Trades')
+
+			
 		.topRight
-			.bids.bgc-red-50(class='p+')
+			.bids.bgc-red-50.p
 				h3 Bids
-			.asks.bgc-green-50(class='p+')
+			.asks.bgc-green-50.p
 				h3 Asks
 		.bottomRight
-			.sell.bgc-purple-50(class='p+')
+			.sell.bgc-purple-50.p
 				h3 Sell
 				lx-button(lx-color='red',lx-size='l') Place Sell Order
-			.buy.bgc-yellow-50(class='p+')
+			.buy.bgc-yellow-50.p
 				h3 Buy
 				lx-button(lx-color='green',lx-size='l') Place Buy Order
