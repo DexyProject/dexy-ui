@@ -66,7 +66,16 @@
         });
 
         // Fill in vol, price_eth, price_fiat
-        vm.dataTableTbody = angular.copy(CONSTS.markets);
+        //vm.dataTableTbody = angular.copy(CONSTS.markets);
+        // ugly but works
+        $scope.$watch('hideZeroBal', function(hide, o) {
+            // btw no need to copy at this stage
+            vm.dataTableTbody = angular.copy(CONSTS.markets)
+
+            if (hide) vm.dataTableTbody = vm.dataTableTbody.filter(function(x) {
+                return x.balance > 0
+            })
+        })
 
         $scope.$on('lx-data-table__selected', updateActions);
         $scope.$on('lx-data-table__unselected', updateActions);
@@ -82,7 +91,8 @@
 
         function updateSort(_event, _dataTableId, _column)
         {
-            vm.dataTableTbody = $filter('orderBy')(vm.dataTableTbody, _column.name, _column.sort === 'desc' ? true : false);
+            vm.dataTableTbody = $filter('orderBy')
+                (vm.dataTableTbody, _column.name, _column.sort === 'desc' ? true : false)
         }
     }
 })();
