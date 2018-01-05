@@ -9,10 +9,9 @@
 * split/architect source code properly
 * put logo on left of tabs, clear UI separators, margins, font
 * binance-like exchange layout
+* building with gulp
 
 # TODO
-* building with gulp
-	babel-polyfill
 * script to get top eth markets from cmc
 * Proper table for markets
 * top indicators
