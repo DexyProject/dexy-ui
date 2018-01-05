@@ -68,10 +68,11 @@
         // Fill in vol, price_eth, price_fiat
         //vm.dataTableTbody = angular.copy(CONSTS.markets);
         // ugly but works
-        $scope.$watch('hideZeroBal', function(hide, o) {
-            // btw no need to copy at this stage
-            vm.dataTableTbody = angular.copy(CONSTS.markets)
+        var markets = angular.copy(CONSTS.markets)
 
+        $scope.$watch('hideZeroBal', function(hide, o) {
+            vm.dataTableTbody = [].concat(markets)
+            
             if (hide) vm.dataTableTbody = vm.dataTableTbody.filter(function(x) {
                 return x.balance > 0
             })
