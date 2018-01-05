@@ -9,8 +9,8 @@
 
 	
 	div(flex-item='6')
-		//- Indicators here
-		include ./indicators
+		//- those are view-specific indicators
+		div(ng-view='indicators')
 
 	div(flex-item='2')
 		//- Switches like night mode / fullscreen

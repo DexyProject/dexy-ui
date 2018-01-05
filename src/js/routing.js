@@ -5,7 +5,10 @@ angular.module('dexyApp')
 	$stateProvider.state({
 		name: 'markets',
 		url: '/markets',
-		templateUrl: 'marketsTpl'
+		views: {
+			main: { templateUrl: 'marketsTpl' },
+			indicators: { templateUrl: 'globalIndicatorsTpl' }
+		}
 	})
 
 	$stateProvider.state({
@@ -14,7 +17,10 @@ angular.module('dexyApp')
 		params:{
 			pair: null,
 		},
-		templateUrl: 'exchangeTpl'
+		views: {
+			main: { templateUrl: 'exchangeTpl' },
+			indicators: { templateUrl: 'exchangeIndicatorsTpl' }
+		}
 	});
 
 

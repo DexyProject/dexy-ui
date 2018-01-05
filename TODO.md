@@ -50,3 +50,4 @@
 * service worker 
 * modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
 * order book depth
+* optimize angular watchers: https://medium.com/@kentcdodds/counting-angularjs-watchers-11c5134dc2ef
