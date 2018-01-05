@@ -11,12 +11,11 @@
 * binance-like exchange layout
 * building with gulp
 * browserifying deps, web3
-
-# TODO
 * script to get top eth markets from cmc
 * Proper table for markets
-* top bar indicators (price, etc.)
 
+# TODO
+* top bar indicators (price, etc.)
 * components: obTable, services: orderbook 
 * charting lib: order book depth?
 * fullscreen button
