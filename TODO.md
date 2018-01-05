@@ -10,16 +10,16 @@
 * put logo on left of tabs, clear UI separators, margins, font
 * binance-like exchange layout
 * building with gulp
+* browserifying deps, web3
 
 # TODO
 * script to get top eth markets from cmc
 * Proper table for markets
-* top indicators
+* top bar indicators (price, etc.)
 
 * components: obTable, services: orderbook 
 * charting lib: order book depth?
 * fullscreen button
-* browserifying deps, web3
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
 
