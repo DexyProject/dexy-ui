@@ -16,7 +16,7 @@
 
 # TODO
 * top bar indicators (price, etc.)
-* components: obTable, services: orderbook 
+* components: obTable, services: orderbook ; start integrating API
 * charting lib: order book depth?
 * fullscreen button
 * Metamask

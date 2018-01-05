@@ -7,12 +7,6 @@
     var web3 = new Web3()
     web3.setProvider(new Web3.providers.HttpProvider(CONSTS.mainnetUrl))
 
-    // TEST
-    // Works wow
-    var contract = new web3.eth.Contract(CONSTS.erc20ABI, '0x4470BB87d77b963A013DB939BE332f927f2b992e')
-    contract.methods.balanceOf('0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC').call(function(err, bal) { console.log(err, bal/10000) })
-    // END TEST
-
 
 
     // XXX NOTE
@@ -28,8 +22,13 @@
 
     function marketCtrl($scope, $stateParams)
     {
-        var exchange = this;
+        // TEST
+        // Works wow
+        var contract = new web3.eth.Contract(CONSTS.erc20ABI, '0x4470BB87d77b963A013DB939BE332f927f2b992e')
+        contract.methods.balanceOf('0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC').call(function(err, bal) { console.log(err, bal/10000) })
+        // END TEST
 
+        var exchange = this;
 
         exchange.pair = $stateParams.pair
 

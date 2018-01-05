@@ -27,4 +27,20 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		if (idx > -1) $rootScope.activeTab = idx
 	})
 
+	// Ugliness
+	$rootScope.isFullscreen = function() {
+		return document.webkitIsFullScreen || document.mozFullScreen || false
+	}
+	$rootScope.toggleFullscreen = function() {
+		var element = document.body
+
+		var isFullscreen = $rootScope.isFullscreen()
+
+		element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || function () { return false; };
+		document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || function () { return false; };
+
+		isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+
+		if (! $scope.$$phase) $scope.$apply();
+	}
 }])

@@ -43,8 +43,8 @@ html(lang="en", ng-app="dexyApp")
 
 			div(flex-item='1')
 				// Fullscreen
-				lx-button(lx-type='icon')
-					i.mdi.mdi-fullscreen
+				lx-button(lx-type='icon', ng-click='toggleFullscreen()')
+					i.mdi(ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
 
 
 		.divider.divider--dark
