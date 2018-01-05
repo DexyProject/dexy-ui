@@ -20,7 +20,7 @@
 * fullscreen button
 * browserifying deps, web3
 * Metamask
-* Trezor
+* Hardware Wallets (Trezor, Ledger)
 
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
