@@ -15,15 +15,16 @@
 * Proper table for markets
 * fullscreen button
 * consider if markets/walelts should be merged: no. because just [wallet balance] vs [exchange balance] or however we want to call it is enough cognitive load to also put at markets
-
+* order book depth: canceled for now, not important
 
 # TODO
 * split: header, header/{tabs, indicators, night-mode} (components: ...)
-* charting lib: order book depth?
 * top bar indicators (price, etc.)
+* service for CMC
+* fiat amounts showing in market table
 * service for the API
 * Spificator: include to improve TX UX
-* components: obTable, services: orderbook ; start integrating API
+* components: orderbook, services: orderbook ; start integrating API
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
 * Consider something more visual for day and night button: https://codepen.io/jsndks/pen/qEXzOQ
@@ -40,5 +41,8 @@
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 
 # mañana
+* trade history (perhaps this can go under the main chart: [Last Trades | My Trades] tabs)
 * localization
 * service worker 
+* modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
+* order book depth

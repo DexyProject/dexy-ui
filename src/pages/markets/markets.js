@@ -31,6 +31,12 @@
             sort: 'desc'
         },
         {
+            name: '24hr_high',
+            label: '24hr High',
+            sortable: true,
+            sort: 'desc',
+        },
+        {
             name: 'price_eth',
             label: 'Price ETH',
             //icon: 'comment-text',
@@ -42,6 +48,12 @@
             //icon: 'comment-text',
             sortable: true
         },
+        {
+            name: 'added',
+            label: 'Added',
+            sortable: true,
+            sort: 'desc',
+        }
         ];
         vm.advancedDataTableThead = angular.copy(vm.dataTableThead);
         vm.advancedDataTableThead.unshift(
