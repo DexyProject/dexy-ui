@@ -49,38 +49,12 @@
             name: 'image',
             format: function(row)
             {
-                return '<a href="/#/exchange/ETH-ADX"><img src="https://files.coinmarketcap.com/static/img/coins/32x32/adx-net.png" width="40" height="40"></a>';
+                return '<img src="/img/markets/'+row.symbol+'.png" width="40" height="40"></a>';
             }
         });
-        vm.dataTableTbody = [
-        {
-            id: 1,
-            image: '/images/placeholder/1-square.jpg',
-            symbol: 'ETH-BNB',
-            name: 'Binance Coin',
-            vol: 159,
-            price_fiat: 6.0,
-            comments: 'Lorem ipsum'
-        },
-        {
-            id: 2,
-            image: '/images/placeholder/2-square.jpg',
-            symbol: 'ETH-OMG',
-            name: 'OmiseGo',
-            vol: 237,
-            price_fiat: 9.0,
-            comments: 'Lorem ipsum',
-            //lxDataTableDisabled: true
-        },
-        {
-            id: 3,
-            image: '/images/placeholder/3-square.jpg',
-            symbol: 'ETH-ADX',
-            name: 'AdEx',
-            vol: 262,
-            price_fiat: 16.0,
-            comments: 'Lorem ipsum'
-        }];
+
+        // Fill in vol, price_eth, price_fiat
+        vm.dataTableTbody = angular.copy(CONSTS.markets);
 
         $scope.$on('lx-data-table__selected', updateActions);
         $scope.$on('lx-data-table__unselected', updateActions);
