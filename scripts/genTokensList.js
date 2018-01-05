@@ -24,7 +24,7 @@ fetch('https://api.coinmarketcap.com/v1/ticker/?limit=150')
 
 		fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
 		.then(function(res) {
-			res.body.pipe(fs.createWriteStream('./img/markets/'+x.symbol+'.png'))
+			res.body.pipe(fs.createWriteStream('./img/markets/'+x.symbol+'-ETH.png'))
 		})
 	})
 

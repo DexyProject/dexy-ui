@@ -49,7 +49,7 @@
             name: 'image',
             format: function(row)
             {
-                return '<img src="/img/markets/'+row.symbol+'.png" width="40" height="40"></a>';
+                return '<img src="/img/markets/'+row.symbol+'-ETH.png" height="40"></a>';
             }
         });
 
