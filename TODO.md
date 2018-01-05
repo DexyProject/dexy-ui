@@ -22,6 +22,7 @@
 * charting lib: order book depth?
 * top bar indicators (price, etc.)
 * service for the API
+* Spificator: include to improve TX UX
 * components: obTable, services: orderbook ; start integrating API
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
