@@ -23,6 +23,7 @@
 * charting lib: order book depth?
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
+* Consider something more visual for day and night button: https://codepen.io/jsndks/pen/qEXzOQ
 
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
