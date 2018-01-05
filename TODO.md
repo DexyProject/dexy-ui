@@ -16,13 +16,16 @@
 * fullscreen button
 * consider if markets/walelts should be merged: no. because just [wallet balance] vs [exchange balance] or however we want to call it is enough cognitive load to also put at markets
 * order book depth: canceled for now, not important
+* wallets tab
 
 # TODO
 * split: header, header/{tabs, indicators, night-mode} (components: ...)
+* tradeview chart
+* remove wallets tab and shift wallet part in the exchange view
 * top bar indicators (price, etc.)
 * service for CMC
 * fiat amounts showing in market table
-* wallets tab
+* markets: ETH balance, hide zero balances
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
 * service for the API

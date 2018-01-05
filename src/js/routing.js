@@ -17,12 +17,6 @@ angular.module('dexyApp')
 		templateUrl: 'exchangeTpl'
 	});
 
-	$stateProvider.state({
-		name: 'wallets',
-		url: '/wallets',
-		templateUrl: 'walletsTpl',
-	})
-
 
 	$stateProvider.state({
 		name: 'help',

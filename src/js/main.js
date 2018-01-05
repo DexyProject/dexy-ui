@@ -8,8 +8,8 @@ var app = angular.module('dexyApp', ['lumx', 'ui.router'])
 app.run(['$rootScope', '$state', function($rootScope, $state) {
 	var tabs = [
 		{ name: 'Markets', route: 'markets' },
-		{ name: 'Wallets', route: 'wallets' }, // this will show the active balances, and deposits/withdraws 
-		//{ name: 'Transactions', route: 'transactions' }, // alternatively those will be shown on 'trans'
+		//{ name: 'Transactions', route: 'transactions' }, // alternatively those will be shown on 'trans' 
+		// OR 'order history'
 		{ name: 'Help', route: 'help' },
 
 	]
