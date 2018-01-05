@@ -10,7 +10,7 @@ var stylus = require('stylus')
 var nib = require('nib')
 var fs = require('fs')
 var url = require('url')
-//var depsBlob = require('./browserify-client-deps')
+var depsBlob = require('./browserify-client-deps')
 var router = express.Router()
 
 router.get('/', function(req, res) {
@@ -36,9 +36,9 @@ function serveCss(req, res, err, stylesheets) {
     res.end(stylesheets);
 }
 
-//router.get('/depsblob.js', function(req, res) {
-//    depsBlob().bundle().pipe(res);
-//});
+router.get('/depsblob.js', function(req, res) {
+    depsBlob().bundle().pipe(res);
+});
 
 router.use(require('serve-static')('./'));
 

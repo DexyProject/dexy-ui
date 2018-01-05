@@ -8,13 +8,15 @@
 * evaluate highcharts
 * split/architect source code properly
 * put logo on left of tabs, clear UI separators, margins, font
+* binance-like exchange layout
 
 # TODO
 * building with gulp
+	babel-polyfill
 * script to get top eth markets from cmc
 * Proper table for markets
-* binance-like exchange layout
 * top indicators
+
 * components: obTable, services: orderbook 
 * charting lib: order book depth?
 * fullscreen button
@@ -35,3 +37,4 @@
 
 # mañana
 * localization
+* service worker 

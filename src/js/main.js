@@ -1,3 +1,7 @@
+// needed for older browsers
+require('babel-polyfill')
+
+// Define the main angular module
 var app = angular.module('dexyApp', ['lumx', 'ui.router'])
 
 // Constants
