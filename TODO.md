@@ -14,6 +14,8 @@
 * script to get top eth markets from cmc
 * Proper table for markets
 * fullscreen button
+* consider if markets/walelts should be merged: no. because just [wallet balance] vs [exchange balance] or however we want to call it is enough cognitive load to also put at markets
+
 
 # TODO
 * top bar indicators (price, etc.)
