@@ -5,10 +5,14 @@ body
 //- Required for fullscreen, otherwise things go dark
 .mainView
 	background-color white	
-	
+
+#topBar
+	// the tabs are styled as 48px, we don't want this to become anything different
+	height 48px
+	overflow hidden
 
 #topBar .tabs
-	// y to?
+	// y to (browser prefix)? 
 	user-select none
 	-webkit-user-select none
 	-moz-user-select none

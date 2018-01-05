@@ -22,34 +22,11 @@ html(lang="en", ng-app="dexyApp")
 		include ./templates.pug
 
 	body
-		// Top bar
-		#topBar.bgc-grey-100(flex-container='row', flex-column='12')
-			div#logo(flex-item='1', ui-sref='markets')
-				//- Logo here
-
-			div(flex-item='3')
-				// tabs
-				lx-tabs(lx-active-tab='activeTab', ng-click='updateRoute(activeTab)')
-					lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
-
-			
-			div(flex-item='6')
-				//- Indicators here
-
-			div(flex-item='1')
-				// Night mode
-				div(flex-container='row')
-					lx-icon(lx-id='weather-sunny',lx-size='l')
-					lx-switch(ng-model='nightMode')
-					lx-icon(lx-id='weather-night',lx-size='l')
-
-			div(flex-item='1')
-				// Fullscreen
-				lx-button(lx-type='icon', ng-click='toggleFullscreen()')
-					i.mdi(ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
-
+		//- Top bar
+		include ./components/header/header
 
 		.divider.divider--dark
 
+		//- Main view
 		div.mainView(ui-view)
 

@@ -1,0 +1,17 @@
+#topBar.bgc-grey-100(flex-container='row', flex-column='12')
+	div#logo(flex-item='1', ui-sref='markets')
+		//- Logo here
+
+	div(flex-item='3')
+		// tabs
+		lx-tabs(lx-active-tab='activeTab', ng-click='updateRoute(activeTab)')
+			lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
+
+	
+	div(flex-item='6')
+		//- Indicators here
+		include ./indicators
+
+	div(flex-item='2')
+		//- Switches like night mode / fullscreen
+		include ./switches
