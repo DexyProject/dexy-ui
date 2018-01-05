@@ -13,12 +13,12 @@
 * browserifying deps, web3
 * script to get top eth markets from cmc
 * Proper table for markets
+* fullscreen button
 
 # TODO
 * top bar indicators (price, etc.)
 * components: obTable, services: orderbook ; start integrating API
 * charting lib: order book depth?
-* fullscreen button
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
 
