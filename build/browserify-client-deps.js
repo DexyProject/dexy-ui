@@ -17,7 +17,9 @@ module.exports = function() {
 			'util', 'buffer', 'url', 
 			'punycode', // ??
 			'querystring', 'os', 'path', 
-			//'stream', // ?
+			'crypto',
+			'stream', 'events', 'string_decoder'
+
 		] 
 	}
 
@@ -47,14 +49,14 @@ module.exports = function() {
  	// Do we need those?
 	b.require('url');
 	b.require('os');
-	//b.require('crypto');
+	b.require('crypto');
 	b.require('path');
 	b.require('querystring');
 	b.require('buffer');
 
 	for (dep in require('../package').dependencies) {
 		if (!ignoreList[dep]) { 
-			console.log('including '+dep)
+			//console.log('including '+dep)
 			b.require(dep);
 
 		}

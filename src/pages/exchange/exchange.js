@@ -2,6 +2,9 @@
 {
     'use strict';
 
+    var web3 = require('web3')
+
+    console.log(web3)
     // XXX NOTE
     // Using a directive for charts considered harmful
     // We will have to update the charts often, and often just a small portion (e.g. inserting a new bar)
