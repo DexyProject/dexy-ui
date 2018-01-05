@@ -38,8 +38,10 @@ html(lang="en", ng-app="dexyApp")
 
 			div(flex-item='1')
 				// Night mode
-				span Night mode
-				lx-switch(ng-model='nightMode')
+				div(flex-container='row')
+					lx-icon(lx-id='weather-sunny',lx-size='l')
+					lx-switch(ng-model='nightMode')
+					lx-icon(lx-id='weather-night',lx-size='l')
 
 			div(flex-item='1')
 				// Fullscreen

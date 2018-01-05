@@ -18,6 +18,7 @@
 
 
 # TODO
+* split: header, header/{tabs, indicators, night-mode} (components: ...)
 * charting lib: order book depth?
 * top bar indicators (price, etc.)
 * service for the API
