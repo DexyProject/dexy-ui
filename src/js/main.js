@@ -41,6 +41,6 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 
 		isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
 
-		if (! $scope.$$phase) $scope.$apply();
+		if (! $rootScope.$$phase) $rootScope.$apply();
 	}
 }])
