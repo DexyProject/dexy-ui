@@ -4,17 +4,14 @@
 
     var Web3 = require('web3')
 
-    var erc20ABI = [{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]
-
     var web3 = new Web3()
-    web3.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/W0a3PCAj1UfQZxo5AIrv'))
+    web3.setProvider(new Web3.providers.HttpProvider(CONSTS.mainnetUrl))
 
     // TEST
     // Works wow
-    //var contract = new web3.eth.Contract(erc20ABI, '0x4470BB87d77b963A013DB939BE332f927f2b992e')
-    //contract.methods.balanceOf(/* SOMEONE */).call(function(err, bal) { console.log(err, bal) })
+    var contract = new web3.eth.Contract(CONSTS.erc20ABI, '0x4470BB87d77b963A013DB939BE332f927f2b992e')
+    contract.methods.balanceOf('0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC').call(function(err, bal) { console.log(err, bal/10000) })
     // END TEST
-
 
 
 
