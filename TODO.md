@@ -18,11 +18,11 @@
 * order book depth: canceled for now, not important
 * wallets tab
 * split: header, header/{tabs, indicators, night-mode} (components: ...)
+* top bar indicators (price, etc.)
+* remove wallets tab and shift wallet part in the exchange view
 
 # TODO
 * tradeview chart
-* remove wallets tab and shift wallet part in the exchange view
-* top bar indicators (price, etc.)
 * service for CMC
 * fiat amounts showing in market table
 * markets: ETH balance, hide zero balances
@@ -43,6 +43,7 @@
 * xss: no third-party scripts
 * xss: no third-party sources of data
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
+* TradingView license: also check if we can host `tv.js` on our servers
 
 # mañana
 * trade history (perhaps this can go under the main chart: [Last Trades | My Trades] tabs)

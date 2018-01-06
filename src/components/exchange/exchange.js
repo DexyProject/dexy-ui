@@ -39,24 +39,6 @@
 
         exchange.pair = $stateParams.pair
 
-        // Chart
-        // move from here?
-        /*
-        new TradingView.widget({
-            "container_id": '#mainChart',
-            "autosize": false,
-            "symbol": symbol,
-
-            "style": "1",
-            "locale": "en",
-            "enable_publishing": false,
-            "hide_top_toolbar": false,
-            "hide_side_toolbar": true,
-            "show_popup_button": false,
-
-        });
-        */
-
         // TEMP test data
         // TEMP until we hook up API
         exchange.orderbook = [
