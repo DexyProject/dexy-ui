@@ -51,6 +51,7 @@
             [0.00002324, 1000],
             [0.00002410, 3244],
             [0.00002501, 99],
+            [0.00002802, 222],
         ].map(function(x, i) { return { idx: i, rate: x[0].toFixed(8), amount: x[1], filled: 0 } })
 
         // model skeleton
@@ -61,6 +62,7 @@
 
         $scope.fillForOrder = function(side, order)
         {
+            console.log(side)
             exchange.orders[side] = order
         }
     }
@@ -75,6 +77,17 @@
     placeOrderCtrl.$inject = ['$scope', '$stateParams'];
 
     function placeOrderCtrl($scope, $stateParams)
+    {
+    }
+
+    // Orderbook ctrl
+    angular
+        .module('dexyApp')
+        .controller('orderbookCtrl', orderbookCtrl);
+
+    orderbookCtrl.$inject = ['$scope', '$stateParams'];
+
+    function orderbookCtrl($scope, $stateParams)
     {
     }
 })();

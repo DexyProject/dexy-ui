@@ -17,10 +17,10 @@ div(class='p+',ng-controller='exchangeCtrl as exchange')
 
 			
 		.topRight
-			.bids(class='p+', ng-init='side="BUY"')
+			.bids(class='p+',ng-controller='orderbookCtrl', ng-init='fillSide="SELL"')
 				h3 Bids
 				include ./orderbook
-			.asks(class='p+', ng-init='side="SELL"')
+			.asks(class='p+', ng-controller='orderbookCtrl', ng-init='fillSide="BUY"')
 				h3 Asks
 				include ./orderbook
 		.bottomRight
