@@ -65,6 +65,10 @@
             }
         });
 
+        // Persistent props
+        $scope.hideZeroBal = false
+        $scope.persistingProp($scope, 'hideZeroBal')
+
         // Fill in vol, price_eth, price_fiat
         //vm.dataTableTbody = angular.copy(CONSTS.markets);
         // ugly but works

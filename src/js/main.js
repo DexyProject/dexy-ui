@@ -16,6 +16,10 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 	var routes = tabs.map(function(x) { return x.route })
 
 	$rootScope.tabs = tabs
+	$rootScope.persistingProp = persistingProp
+
+	// Persistant properties
+	persistingProp($rootScope, 'nightMode')
 
 	// Ugly sync between lx-tabs and ui-router
 	$rootScope.updateRoute = function(t) {
@@ -43,8 +47,6 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 
 		if (! $rootScope.$$phase) $rootScope.$apply();
 	}
-
-	persistingProp($rootScope, 'nightMode')
 }])
 
 
