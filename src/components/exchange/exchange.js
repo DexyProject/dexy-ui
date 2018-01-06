@@ -35,6 +35,7 @@
                 if (err) console.error(err)
                 else {
                     exchange.onWallet = (bal/token[1]).toFixed(2)
+                    exchange.walletAddr = addr
                     if (! $scope.$$phase) $scope.$apply()
                 }
             })

@@ -1,4 +1,4 @@
-div(flex-container='row', flex-column='3', ng-controller='exchangeCtrl as exchange')
+div(flex-container='row', flex-column='4', ng-controller='exchangeCtrl as exchange')
 	div.indicator(flex-item='1')
 		div.label ETH/{{::exchange.pair}}
 		div.val 0.0002
@@ -10,3 +10,7 @@ div(flex-container='row', flex-column='3', ng-controller='exchangeCtrl as exchan
 	div.indicator(flex-item='1')
 		div.label 24hr Low
 		div.val 0.00015
+
+	div.indicator(flex-item='1')
+		div.label Volume
+		div.val 234.00
