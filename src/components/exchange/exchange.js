@@ -20,16 +20,22 @@
 
     function exchangeCtrl($scope, $stateParams)
     {
+        var exchange = this;
+
         var symbol = $stateParams.pair.split('/').pop()
         var token = CONSTS.tokens[symbol]
         // TEST
         // Works wow
         var addr = '0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC' // should be user addr
         var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
-        contract.methods.balanceOf(addr).call(function(err, bal) { console.log(err, bal/token[1]) })
-        // END TEST
+        contract.methods.balanceOf(addr).call(function(err, bal) {
+            if (err) console.error(err)
+            else {
+                exchange.onWallet = bal/token[1]
+                if (! $scope.$$phase) $scope.$apply()
+            }
+        })
 
-        var exchange = this;
 
         exchange.pair = $stateParams.pair
 

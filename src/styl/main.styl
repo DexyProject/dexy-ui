@@ -6,6 +6,7 @@ body
 .mainView
 	background-color white	
 
+//- Split header
 #topBar
 	// the tabs are styled as 48px, we don't want this to become anything different
 	height 48px
@@ -23,12 +24,17 @@ body
 	background-repeat no-repeat
 	background-position center
 	cursor pointer
-	
-.hideZeroBal
-	float right
-	margin-top 20px
-	margin-right 20px
-	
+
+.indicator
+	text-align center
+	margin 7px 30px
+	.label
+		color #888
+		font-size 11px
+	.val
+		font-size 13px
+		
+//- Split markets
 .markets-table
 	th
 		font-size 0.9rem
@@ -37,7 +43,14 @@ body
 	td:nth-child(2), th:nth-child(2)
 		display none
 	
+.hideZeroBal
+	float right
+	margin-top 20px
+	margin-right 20px
 
+		
+
+//- Split exchangeLayout
 .exchangeLayout
 	position absolute
 	top 65px
@@ -77,17 +90,12 @@ body
 	
 	.asks, .buy
 		right 0px
-		
-.indicator
-	text-align center
-	margin 7px 30px
-	.label
-		color #888
-		font-size 11px
-	.val
-		font-size 13px
-		
+
+//- Split orderbook
 .orderbook
 	text-align left
 	tr
 		border-bottom 1px solid rgba(0,0,0,0.1)
+		cursor pointer
+		&:hover
+			background-color rgba(0,0,0,0.1)
