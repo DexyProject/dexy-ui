@@ -24,13 +24,18 @@ body
 	background-position center
 	cursor pointer
 	
-
+.hideZeroBal
+	float right
+	margin-top 20px
+	margin-right 20px
+	
 .markets-table
 	th
 		font-size 0.9rem
 		
-.markets-table td:nth-child(2), th:nth-child(2)
-	display none
+.markets-table
+	td:nth-child(2), th:nth-child(2)
+		display none
 	
 
 .exchangeLayout
@@ -54,6 +59,9 @@ body
 	.topLeft, .bottomLeft
 		left 0px
 		width 60%
+		
+	.bottomLeft
+		border 1px solid rgba(0,0,0,.1)
 	
 	.topRight, .bottomRight
 		left 60%
@@ -78,3 +86,8 @@ body
 		font-size 11px
 	.val
 		font-size 13px
+		
+.orderbook
+	text-align left
+	tr
+		border-bottom 1px solid rgba(0,0,0,0.1)

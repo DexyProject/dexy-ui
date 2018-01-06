@@ -1,6 +1,6 @@
 div.markets-table(ng-controller='MarketsController as vm', class='p+')
 	//-h3 ETH Balance: 0.00
 
-	lx-switch(ng-model='hideZeroBal') Hide zero balances
+	lx-switch.hideZeroBal(ng-model='hideZeroBal', lx-position='right') Hide zero balances
 
 	lx-data-table(class='p+', lx-border='false', lx-selectable='true', lx-thumbnail='true', lx-thead='vm.advancedDataTableThead', lx-tbody='vm.dataTableTbody')

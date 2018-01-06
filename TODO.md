@@ -17,9 +17,9 @@
 * consider if markets/walelts should be merged: no. because just [wallet balance] vs [exchange balance] or however we want to call it is enough cognitive load to also put at markets
 * order book depth: canceled for now, not important
 * wallets tab
+* split: header, header/{tabs, indicators, night-mode} (components: ...)
 
 # TODO
-* split: header, header/{tabs, indicators, night-mode} (components: ...)
 * tradeview chart
 * remove wallets tab and shift wallet part in the exchange view
 * top bar indicators (price, etc.)

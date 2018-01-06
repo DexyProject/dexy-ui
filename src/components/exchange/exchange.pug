@@ -1,9 +1,9 @@
 div(class='p+',ng-controller='exchangeCtrl as exchange')
 	//-h2(ng-bind='exchange.pair')
 	.exchangeLayout
-		.topLeft.bgc-indigo-50
+		.topLeft
 			#candleChart.p
-		.bottomLeft.bgc-pink-50.p
+		.bottomLeft
 			//- TODO split
 			lx-tabs(lx-active-tab='activeTab')
 				lx-tab(lx-label='Wallet')
@@ -12,14 +12,16 @@ div(class='p+',ng-controller='exchangeCtrl as exchange')
 
 			
 		.topRight
-			.bids.bgc-red-50.p
+			.bids(class='p+')
 				h3 Bids
-			.asks.bgc-green-50.p
+				include ./orderbook
+			.asks(class='p+')
 				h3 Asks
+				include ./orderbook
 		.bottomRight
-			.sell.bgc-purple-50.p
+			.sell(class='p+')
 				h3 Sell
 				lx-button(lx-color='red',lx-size='l') Place Sell Order
-			.buy.bgc-yellow-50.p
+			.buy(class='p+')
 				h3 Buy
 				lx-button(lx-color='green',lx-size='l') Place Buy Order

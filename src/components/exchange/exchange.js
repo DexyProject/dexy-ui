@@ -20,46 +20,27 @@
 
     function exchangeCtrl($scope, $stateParams)
     {
+        var symbol = $stateParams.pair.split('/').pop()
+        var token = CONSTS.tokens[symbol]
         // TEST
         // Works wow
-        var contract = new web3.eth.Contract(CONSTS.erc20ABI, '0x4470BB87d77b963A013DB939BE332f927f2b992e')
-        contract.methods.balanceOf('0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC').call(function(err, bal) { console.log(err, bal/10000) })
+        var addr = '0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC' // should be user addr
+        var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
+        contract.methods.balanceOf(addr).call(function(err, bal) { console.log(err, bal/token[1]) })
         // END TEST
 
         var exchange = this;
 
         exchange.pair = $stateParams.pair
 
-        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?a=e&filename=aapl-ohlc.json&callback=?', function (data) {
-
-            // create the chart
-            Highcharts.stockChart('candleChart', {
-                rangeSelector: {
-                    selected: 1
-                },
-
-                title: {
-                    text: 'AAPL Stock Price'
-                },
-
-                series: [{
-                    type: 'candlestick',
-                    name: 'AAPL Stock Price',
-                    data: data,
-                    dataGrouping: {
-                        units: [
-                            [
-                                'week', // unit name
-                                [1] // allowed multiples
-                            ], [
-                                'month',
-                                [1, 2, 3, 4, 6]
-                            ]
-                        ]
-                    }
-                }]
-            });
-        });
+        // TEMP test data
+        // TEMP until we hook up API
+        exchange.orderbook = [
+            [0.00002323, 23],
+            [0.00002324, 1000],
+            [0.00002410, 3244],
+            [0.00002501, 99],
+        ].map(function(x, i) { return { idx: i, rate: x[0].toFixed(8), amount: x[1], filled: 0 } })
 
     }
 })();
