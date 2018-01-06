@@ -2,7 +2,8 @@ div(class='p+',ng-controller='exchangeCtrl as exchange')
 	//-h2(ng-bind='exchange.pair')
 	.exchangeLayout
 		.topLeft
-			#candleChart.p
+			#mainChart
+
 		.bottomLeft
 			//- TODO split
 			lx-tabs(lx-active-tab='activeTab')
@@ -13,16 +14,14 @@ div(class='p+',ng-controller='exchangeCtrl as exchange')
 
 			
 		.topRight
-			.bids(class='p+')
+			.bids(class='p+', ng-init='side="BUY"')
 				h3 Bids
 				include ./orderbook
-			.asks(class='p+')
+			.asks(class='p+', ng-init='side="SELL"')
 				h3 Asks
 				include ./orderbook
 		.bottomRight
-			.sell(class='p+')
-				h3 Sell
-				lx-button(lx-color='red',lx-size='l') Place Sell Order
-			.buy(class='p+')
-				h3 Buy
-				lx-button(lx-color='green',lx-size='l') Place Buy Order
+			.sell(class='p+', ng-controller='placeOrderCtrl', ng-init='side="SELL"')
+				include ./placeOrder
+			.buy(class='p+', ng-controller='placeOrderCtrl', ng-init='side="BUY"')
+				include ./placeOrder

@@ -20,6 +20,7 @@
 
     function exchangeCtrl($scope, $stateParams)
     {
+
         var exchange = this;
 
         var symbol = $stateParams.pair.split('/').pop()
@@ -36,8 +37,25 @@
             }
         })
 
-
         exchange.pair = $stateParams.pair
+
+        // Chart
+        // move from here?
+        /*
+        new TradingView.widget({
+            "container_id": '#mainChart',
+            "autosize": false,
+            "symbol": symbol,
+
+            "style": "1",
+            "locale": "en",
+            "enable_publishing": false,
+            "hide_top_toolbar": false,
+            "hide_side_toolbar": true,
+            "show_popup_button": false,
+
+        });
+        */
 
         // TEMP test data
         // TEMP until we hook up API
@@ -48,5 +66,28 @@
             [0.00002501, 99],
         ].map(function(x, i) { return { idx: i, rate: x[0].toFixed(8), amount: x[1], filled: 0 } })
 
+        // model skeleton
+        exchange.orders = {
+            SELL: { },
+            BUY: { }
+        }
+
+        $scope.fillForOrder = function(side, order)
+        {
+            exchange.orders[side] = order
+        }
+    }
+
+
+    // Place order ctrl
+
+    angular
+        .module('dexyApp')
+        .controller('placeOrderCtrl', placeOrderCtrl);
+
+    placeOrderCtrl.$inject = ['$scope', '$stateParams'];
+
+    function placeOrderCtrl($scope, $stateParams)
+    {
     }
 })();
