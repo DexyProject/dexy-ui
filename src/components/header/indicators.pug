@@ -1,5 +1,10 @@
 div(flex-container='row', flex-column='3', ng-controller='GlobalIndicatorsCtrl')
+	//- Consider using a ng-repeat here
+
 	div.indicator(flex-item='1',ng-if="cmc.pairs.ETHUSD")
 		div.label ETH/USD
 		div.val(ng-bind="cmc.pairs.ETHUSD+'$'")
 
+	div.indicator(flex-item='1',ng-if="cmc.pairs.ETHEUR")
+		div.label ETH/EUR
+		div.val(ng-bind="cmc.pairs.ETHEUR+'€'")
