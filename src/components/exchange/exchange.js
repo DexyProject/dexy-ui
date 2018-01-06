@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    var Web3 = require('web3')
-
-    var web3 = new Web3()
-    web3.setProvider(new Web3.providers.HttpProvider(CONSTS.mainnetUrl))
 
     // XXX NOTE
     // Using a directive for charts considered harmful
@@ -25,16 +21,24 @@
 
         var symbol = $stateParams.pair.split('/').pop()
         var token = CONSTS.tokens[symbol]
-        // TEST
-        // Works wow
-        var addr = '0xa3B83839ae676DF0A92788DF1D545c3bB96B5ffC' // should be user addr
-        var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
-        contract.methods.balanceOf(addr).call(function(err, bal) {
-            if (err) console.error(err)
-            else {
-                exchange.onWallet = bal/token[1]
-                if (! $scope.$$phase) $scope.$apply()
+
+        // Get wallet balance
+        web3.eth.getAccounts(function(err, accounts) {
+            if (err) {
+                console.error(err)
+                return
             }
+
+            var addr = accounts[0]
+            var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
+            contract.methods.balanceOf(addr).call(function(err, bal) {
+                if (err) console.error(err)
+                else {
+                    exchange.onWallet = (bal/token[1]).toFixed(2)
+                    if (! $scope.$$phase) $scope.$apply()
+                }
+            })
+
         })
 
         exchange.pair = $stateParams.pair

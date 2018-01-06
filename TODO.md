@@ -21,14 +21,15 @@
 * top bar indicators (price, etc.)
 * remove wallets tab and shift wallet part in the exchange view
 * orderbook component
+* tradeview chart
+* Metamask
 
 # TODO
-* tradeview chart
+* Hardware Wallets (Trezor, Ledger)
+* re-visit charts
 * service for CMC
 * fiat amounts showing in market table
 * markets: ETH balance, hide zero balances
-* Metamask
-* Hardware Wallets (Trezor, Ledger)
 * service for the API
 * orderbook service
 * Spificator: include to improve TX UX
