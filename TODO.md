@@ -38,6 +38,7 @@
 * service for the API
 * service for the orderbook state
 * Spificator: include to improve TX UX
+* Order form fields should only allow the input of numbers and decimals
 
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
