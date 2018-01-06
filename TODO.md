@@ -23,15 +23,15 @@
 * orderbook component
 * tradeview chart
 * Metamask
+* service for user
+* Hardware Wallets: Trezor
 
 # TODO
-* Hardware Wallets: Trezor
-* service for user
 * re-visit charts
 * service for CMC
+* service for getting user's balances for tokens
 * fiat amounts showing in market table
 * markets: ETH balance, hide zero balances
-* service for getting user's balance
 * service for the API
 * orderbook service
 * Spificator: include to improve TX UX
