@@ -7,8 +7,6 @@
     var web3 = new Web3()
     web3.setProvider(new Web3.providers.HttpProvider(CONSTS.mainnetUrl))
 
-
-
     // XXX NOTE
     // Using a directive for charts considered harmful
     // We will have to update the charts often, and often just a small portion (e.g. inserting a new bar)
@@ -16,11 +14,11 @@
 
     angular
         .module('dexyApp')
-        .controller('marketCtrl', marketCtrl);
+        .controller('exchangeCtrl', exchangeCtrl);
 
-    marketCtrl.$inject = ['$scope', '$stateParams'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams'];
 
-    function marketCtrl($scope, $stateParams)
+    function exchangeCtrl($scope, $stateParams)
     {
         // TEST
         // Works wow

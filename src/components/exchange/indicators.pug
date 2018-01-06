@@ -1,5 +1,5 @@
-div(flex-container='row', flex-column='3')
-	div(flex-item='1')
-		div {{::pair}}
-		div 0.0002
+div(flex-container='row', flex-column='3', ng-controller='exchangeCtrl as exchange')
+	div.indicator(flex-item='1')
+		div.label ETH/{{::exchange.pair}}
+		div.val 0.0002
 
