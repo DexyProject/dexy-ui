@@ -23,10 +23,13 @@
         var symbol = $stateParams.pair.split('/').pop()
         var token = CONSTS.tokens[symbol]
 
+        exchange.pair = $stateParams.pair
+        exchange.symbol = symbol
+
         // Get wallet balance
-        var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
+        exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
         $scope.$watch(function() { return user.publicAddr }, function(addr) {
-            contract.methods.balanceOf(addr).call(function(err, bal) {
+            exchange.token.methods.balanceOf(addr).call(function(err, bal) {
                 if (err) console.error(err)
                 else {
                     exchange.onWallet = (bal/token[1]).toFixed(2)
@@ -35,10 +38,13 @@
                 }
             })
 
-            // TODO: get from SC too
+            // TODO: get from exchange SC too
         })
 
-        exchange.pair = $stateParams.pair
+
+        // How to test signing
+        // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange; 
+        // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
 
         // TEMP test data
         // TEMP until we hook up API
