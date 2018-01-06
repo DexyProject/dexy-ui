@@ -34,13 +34,11 @@
             name: '24hr_high',
             label: '24hr High',
             sortable: true,
-            sort: 'desc',
         },
         {
             name: '24hr_low',
             label: '24hr Low',
             sortable: true,
-            sort: 'desc',
         },
         {
             name: 'price',
