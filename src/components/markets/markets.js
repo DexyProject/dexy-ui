@@ -24,6 +24,11 @@
             sortable: true
         },
         {
+            name: 'change',
+            label: '% Change',
+            sortable: true,
+        },
+        {
             // default sort
             name: 'vol',
             label: '24hr Volume',
@@ -66,13 +71,19 @@
         // ugly but works
         var markets = angular.copy(CONSTS.markets)
 
-        $scope.$watch('hideZeroBal', function(hide, o) {
+        // debounce the search?
+        $scope.$watch('hideZeroBal', updateItems)
+        $scope.$watch('vm.search', updateItems)
+
+        function updateItems() {
             vm.dataTableTbody = [].concat(markets)
             
-            if (hide) vm.dataTableTbody = vm.dataTableTbody.filter(function(x) {
+            if ($scope.hideZeroBal) vm.dataTableTbody = vm.dataTableTbody.filter(function(x) {
                 return x.balance > 0
             })
-        })
+
+            if (vm.search) vm.dataTableTbody = $filter('filter')(vm.dataTableTbody, vm.search)
+        }
 
         $scope.$on('lx-data-table__selected', updateActions);
         $scope.$on('lx-data-table__unselected', updateActions);
