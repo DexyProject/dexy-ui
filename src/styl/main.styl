@@ -31,10 +31,11 @@ body
 		.label
 			color #888
 			font-size 11px
-			white-space nowrap
-			overflow hidden
 		.val
 			font-size 13px
+		.label, .val
+			white-space nowrap
+			overflow hidden
 	
 	.nightSwitch, .fiatSwitch
 		margin-top 13px
@@ -55,6 +56,11 @@ body
 	.label
 		color #888
 		font-size 11px
+	
+	.positive
+		color #4DB6AC
+	.negative
+		color #E57373
 
 .hideZeroBal
 	float right
@@ -135,3 +141,9 @@ html.nightMode
 		-webkit-filter invert(0.75)
 		-moz-filter invert(0.75)
 		filter invert(0.75)
+			
+	.markets-table
+		.negative
+			color #4DB6AC
+		.positive
+			color #E57373
