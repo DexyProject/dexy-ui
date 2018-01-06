@@ -32,7 +32,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		return document.webkitIsFullScreen || document.mozFullScreen || false
 	}
 	$rootScope.toggleFullscreen = function() {
-		var element = document.body
+		var element = document.documentElement
 
 		var isFullscreen = $rootScope.isFullscreen()
 
