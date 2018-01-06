@@ -37,11 +37,6 @@ app.run(['$rootScope', '$state', 'user', function($rootScope, $state, user) {
 		if (idx > -1) $rootScope.activeTab = idx
 	})
 
-	$rootScope.enableTrezor = function(accountIdx)
-	{
-		TrezorConnect.ethereumGetAddress(user.HD_PATH+'/'+(parseInt(accountIdx) || 0), user.onTrezorAddr)
-	}
-
 	// Ugliness
 	$rootScope.isFullscreen = function() {
 		return document.webkitIsFullScreen || document.mozFullScreen || false

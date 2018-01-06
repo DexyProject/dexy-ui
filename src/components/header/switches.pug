@@ -5,9 +5,8 @@ div(flex-container='row')
 		lx-switch(ng-model='nightMode')
 		lx-icon(lx-id='weather-night',lx-size='l')
 
-	//- Trezor
-	lx-button(lx-type='icon', ng-click='enableTrezor()')
-		i.mdi.mdi-lock
+	//- User management
+	include ./user.pug
 
 	//- Fullscreen
 	lx-button(lx-type='icon', ng-click='toggleFullscreen()')
