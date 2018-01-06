@@ -30,6 +30,7 @@
 * service for CMC
 * fiat amounts showing in market table
 * markets: ETH balance, hide zero balances
+* service for getting user's balance
 * service for the API
 * orderbook service
 * Spificator: include to improve TX UX

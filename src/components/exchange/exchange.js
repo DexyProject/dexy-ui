@@ -81,6 +81,7 @@
 
 
     // Init web3
+    // TODO: https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#best-practices-bowtie
     function initWeb3()
     {
         var Web3 = require('web3')
