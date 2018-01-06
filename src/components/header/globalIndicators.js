@@ -10,6 +10,6 @@
 
     function GlobalIndicatorsCtrl($scope, $state, cmc)
     {
-
+        $scope.cmc = cmc
     }
 })();
