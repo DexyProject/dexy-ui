@@ -10,6 +10,8 @@
 
 	function UserService($scope)
 	{
+		initWeb3()
+
 		var user = this
 		
 		// MEW default, also from the trezor examples
@@ -87,8 +89,23 @@
 			// TODO  make this visual
 			console.error('Error:', resp.error); // error message
 		}
-	
 
+		// Init web3
+		function initWeb3()
+		{
+			var Web3 = require('web3')
+
+			// Checking if Web3 has been injected by the browser (Mist/MetaMask)
+			if (typeof web3 !== 'undefined') {
+				// Use Mist/MetaMask's provider
+				window.web3 = new Web3(web3.currentProvider);
+			} else {
+				console.log('No web3? You should consider trying MetaMask!')
+				// fallback - use your fallback strategy
+				window.web3 = new Web3(new Web3.providers.HttpProvider(CONSTS.mainnetUrl));
+			}
+		}
+		
 		return user
 	}
 
