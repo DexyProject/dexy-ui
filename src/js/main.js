@@ -1,5 +1,8 @@
 // needed for older browsers
-require('babel-polyfill')
+require('babel-polyfill');
+
+// By default this is set to the same origin if we're opening from localhost; doesn't make sense for us
+window.TREZOR_POPUP_ORIGIN = 'https://connect.trezor.io';
 
 // Define the main angular module
 var app = angular.module('dexyApp', ['lumx', 'ui.router'])
@@ -47,6 +50,7 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 			}
 		}, '1.5.2');
 		*/
+		
 		TrezorConnect.ethereumGetAddress(path, function (response) {
         	console.log("TrezorConnect.ethereumGetAddress", response);
         })
