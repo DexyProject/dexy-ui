@@ -26,6 +26,7 @@
 
 # TODO
 * Hardware Wallets: Trezor
+* service for user
 * re-visit charts
 * service for CMC
 * fiat amounts showing in market table

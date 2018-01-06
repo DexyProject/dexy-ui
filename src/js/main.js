@@ -8,7 +8,7 @@ window.TREZOR_POPUP_ORIGIN = 'https://connect.trezor.io';
 var app = angular.module('dexyApp', ['lumx', 'ui.router'])
 
 // Constants
-app.run(['$rootScope', '$state', function($rootScope, $state) {
+app.run(['$rootScope', '$state', 'user', function($rootScope, $state, user) {
 	var tabs = [
 		{ name: 'Markets', route: 'markets' },
 		//{ name: 'Transactions', route: 'transactions' }, // alternatively those will be shown on 'trans' 
@@ -34,26 +34,9 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		if (idx > -1) $rootScope.activeTab = idx
 	})
 
-	$rootScope.enableTrezor = function()
+	$rootScope.enableTrezor = function(accountIdx)
 	{
-		// MEW default, also from the trezor examples
-		var path = "m/44'/60'/0'/0/0"; 
-
-		/*
-		TrezorConnect.getXPubKey(path, function (result) {
-			if (result.success) {
-				console.log(result)
- 				// derive (result.publicKey, result.chainCode, "trezor", path);
-			} else {
-				// TODO
-				console.error('Error:', result.error); // error message
-			}
-		}, '1.5.2');
-		*/
-		
-		TrezorConnect.ethereumGetAddress(path, function (response) {
-        	console.log("TrezorConnect.ethereumGetAddress", response);
-        })
+		TrezorConnect.ethereumGetAddress(user.HD_PATH+'/'+(parseInt(accountIdx) || 0), user.onTrezorAddr)
 	}
 
 	// Ugliness

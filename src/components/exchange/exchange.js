@@ -12,9 +12,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', 'user'];
 
-    function exchangeCtrl($scope, $stateParams)
+    function exchangeCtrl($scope, $stateParams, user)
     {
         initWeb3()
 
@@ -24,14 +24,8 @@
         var token = CONSTS.tokens[symbol]
 
         // Get wallet balance
-        web3.eth.getAccounts(function(err, accounts) {
-            if (err) {
-                console.error(err)
-                return
-            }
-
-            var addr = accounts[0]
-            var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
+        var contract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
+        $scope.$watch(function() { return user.publicAddr }, function(addr) {
             contract.methods.balanceOf(addr).call(function(err, bal) {
                 if (err) console.error(err)
                 else {
@@ -41,6 +35,7 @@
                 }
             })
 
+            // TODO: get from SC too
         })
 
         exchange.pair = $stateParams.pair
@@ -81,7 +76,6 @@
 
 
     // Init web3
-    // TODO: https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#best-practices-bowtie
     function initWeb3()
     {
         var Web3 = require('web3')
