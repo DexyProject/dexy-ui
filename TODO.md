@@ -25,9 +25,9 @@
 * Metamask
 * service for user
 * Hardware Wallets: Trezor
+* fix double-loading bug on FF
 
 # TODO
-* fix double-loading bug on FF
 * re-visit charts
 * service for CMC
 * service for getting user's balances for tokens

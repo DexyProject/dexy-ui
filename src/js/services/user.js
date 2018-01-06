@@ -6,9 +6,9 @@
 		.module('dexyApp')
 		.service('user', UserService)
 
-	UserService.$inject = ['$rootScope']
+	UserService.$inject = ['$rootScope', 'LxNotificationService']
 
-	function UserService($scope)
+	function UserService($scope, LxNotificationService)
 	{
 		initWeb3()
 
@@ -98,12 +98,14 @@
 
 		user.handleTrezorErr = function(resp)
 		{
-			// TODO  make this visual
-			console.error('Error:', resp.error); // error message
+			LxNotificationService.error('Trezor Error: '+resp.error);
+			console.error('Trezor Error:', resp.error); // error message
 		}
 
 		user.handleWeb3Err = function(err)
 		{
+			LxNotificationService.error('web3 error: '+err);
+
 			// TODO: make this visual
 			console.error(err)
 		}
