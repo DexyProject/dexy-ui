@@ -23,7 +23,7 @@ app.run(['$rootScope', '$state', 'user', function($rootScope, $state, user) {
 
 	// Persistant properties
 	persistingProp($rootScope, 'nightMode')
-	persistingProp($rootScope, 'useEur')
+	persistingProp($rootScope, 'useEUR')
 
 	// Ugly sync between lx-tabs and ui-router
 	$rootScope.updateRoute = function(t) {
