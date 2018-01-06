@@ -4,14 +4,14 @@ html(lang="en", ng-app="dexyApp", ng-class="{ nightMode: nightMode }")
 	head
 		title DEXY Exchange
 
+		meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+
 		if (mode === 'production')
 			link(rel='stylesheet', href='blob.css')
 			script(type='text/javascript', src='blob.js')
 		else
 			script(type='text/javascript', src='depsblob.js')
 			include ./resources.pug
-
-		meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
 
 		include ./templates.pug
 
