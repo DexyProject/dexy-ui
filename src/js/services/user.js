@@ -48,6 +48,8 @@
 		user.onTrezorAddr = function(resp)
 		{
 			if (resp.success) {
+				LxNotificationService.success('Trezor: imported address: 0x'+resp.address);
+
 				user.mode = 'trezor'
 				user.publicAddr = '0x'+resp.address
 				if (!$scope.$$phase) $scope.$apply()
