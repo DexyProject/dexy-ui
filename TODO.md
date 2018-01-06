@@ -30,7 +30,7 @@
 * markets: hide zero balances
 
 # TODO
-* re-visit charts
+* re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube; tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one)
 * service for CMC
 * service for getting user's balances for tokens; ensure hide zero balances works
 * UI: user dropdown: ethereum network, addr, login with trezor
