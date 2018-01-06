@@ -20,6 +20,7 @@
 * split: header, header/{tabs, indicators, night-mode} (components: ...)
 * top bar indicators (price, etc.)
 * remove wallets tab and shift wallet part in the exchange view
+* orderbook component
 
 # TODO
 * tradeview chart
@@ -29,8 +30,8 @@
 * Metamask
 * Hardware Wallets (Trezor, Ledger)
 * service for the API
+* orderbook service
 * Spificator: include to improve TX UX
-* components: orderbook, services: orderbook ; start integrating API
 * Consider something more visual for day and night button: https://codepen.io/jsndks/pen/qEXzOQ
 
 
