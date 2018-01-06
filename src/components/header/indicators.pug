@@ -2,7 +2,7 @@ div(flex-container='row', flex-column='3', ng-controller='GlobalIndicatorsCtrl')
 
 	div.indicator(flex-item='1',ng-if="useEUR ? cmc.pairs.ETHEUR : cmc.pairs.ETHUSD")
 		div.label ETH/{{useEUR ? 'EUR' : 'USD'}}
-		div.val(ng-bind="cmc.pairs[useEUR ? 'ETHEUR' : 'ETHUSD']+(useEUR ? '€' : '$')")
+		div.val(ng-bind="cmc.pairs[useEUR ? 'ETHEUR' : 'ETHUSD']+(useEUR ? ' €' : ' $')")
 
 	div.fiatSwitch(flex-container='row')
 		span $
