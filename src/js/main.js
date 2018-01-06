@@ -43,5 +43,22 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 
 		if (! $rootScope.$$phase) $rootScope.$apply();
 	}
+
+	persistingProp($rootScope, 'nightMode')
 }])
 
+
+function persistingProp(scope, prop)
+{
+	var prp = localStorage['persist_'+prop]
+	if (prp) {
+		try { 
+			scope[prop] = JSON.parse(prp)
+		} catch(e) { }
+	}
+
+	scope.$watch(prop, function(newVal, o) {
+		if (o === undefined) return
+		if (newVal != o) localStorage['persist_'+prop] = JSON.stringify(newVal)
+	})
+}
