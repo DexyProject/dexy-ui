@@ -12,29 +12,35 @@ body
 	height 48px
 	overflow hidden
 
-#topBar .tabs
-	// y to (browser prefix)? 
-	user-select none
-	-webkit-user-select none
-	-moz-user-select none
-	
-#logo
-	background url('/img/dexy.png')
-	background-size 70%
-	background-repeat no-repeat
-	background-position center
-	cursor pointer
+	.tabs
+		// y to (browser prefix)? 
+		user-select none
+		-webkit-user-select none
+		-moz-user-select none
 
-.indicator
-	text-align center
-	margin 7px 30px
-	.label
-		color #888
-		font-size 11px
-		white-space nowrap
-		overflow hidden
-	.val
-		font-size 13px
+	#logo
+		background url('/img/dexy.png')
+		background-size 70%
+		background-repeat no-repeat
+		background-position center
+		cursor pointer
+
+	.indicator
+		text-align center
+		margin 7px 30px
+		.label
+			color #888
+			font-size 11px
+			white-space nowrap
+			overflow hidden
+		.val
+			font-size 13px
+	
+	.nightSwitch
+		margin-top 13px
+		margin-right 20px
+	button
+		margin 6px 3px
 		
 //- Split markets
 .markets-table
@@ -113,6 +119,7 @@ html.nightMode
 	-moz-filter invert(0.75)
 	filter invert(0.75)
 	background-color: rgb(64,64,64)
+	transition 0.3s ease-in
 	
 	button, img 
 		-webkit-filter invert(0.75)
