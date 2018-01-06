@@ -24,6 +24,12 @@
             sortable: true
         },
         {
+            name: 'price',
+            label: 'Price',
+            //icon: 'comment-text',
+            sortable: true
+        },
+        {
             name: 'change',
             label: '% Change',
             sortable: true,
@@ -45,12 +51,7 @@
             label: '24hr Low',
             sortable: true,
         },
-        {
-            name: 'price',
-            label: 'Price',
-            //icon: 'comment-text',
-            sortable: true
-        }
+
         ];
         vm.advancedDataTableThead = angular.copy(vm.dataTableThead);
         vm.advancedDataTableThead.unshift(

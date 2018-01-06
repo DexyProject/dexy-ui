@@ -1,5 +1,5 @@
-div(flex-container='row', flex-column='3')
-	div.indicator(flex-item='1')
+div(flex-container='row', flex-column='3', ng-controller='GlobalIndicatorsCtrl')
+	div.indicator(flex-item='1',ng-if="pairs['ETHUSD']")
 		div.label ETH/USD
-		div.val 1072.33$
+		div.val(ng-bind="pairs['ETHUSD'].price+'$'")
 
