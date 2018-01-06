@@ -20,17 +20,29 @@
 		// Configurable things
 		user.GAS_PRICE = 30099515020 // 30 gwei
 
+		// Mainnet by default
+		user.chainId = 1
+
 		// Default: try metamask
 		web3.eth.getAccounts(function(err, accounts) {
 			if (err) {
-				console.error(err)
+				user.handleWeb3Err(err)
 				return
 			}
 
 			user.mode = 'metamask'
 			user.publicAddr = accounts[0]
+
 		})
-	    // TODO: https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#best-practices-bowtie
+		web3.eth.net.getId(function(err, netId) {
+			if (err) {
+				user.handleWeb3Err(err)
+				return
+			}
+			user.chainId = netId
+		})
+		// TODO: https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#best-practices-bowtie
+
 
 		// On Trezor enabled
 		user.onTrezorAddr = function(resp)
@@ -63,7 +75,7 @@
 					user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
 					'00', // value TODO
 					null, // data TODO
-					1, // ETH chain
+					user.chainId,
 					function (response) {
 						if (response.success) {
 							console.log('Signature V (recovery parameter):', response.v); // number
@@ -90,6 +102,12 @@
 			console.error('Error:', resp.error); // error message
 		}
 
+		user.handleWeb3Err = function(err)
+		{
+			// TODO: make this visual
+			console.error(err)
+		}
+
 		// Init web3
 		function initWeb3()
 		{
@@ -105,7 +123,7 @@
 				window.web3 = new Web3(new Web3.providers.HttpProvider(CONSTS.mainnetUrl));
 			}
 		}
-		
+
 		return user
 	}
 
