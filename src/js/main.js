@@ -31,6 +31,27 @@ app.run(['$rootScope', '$state', function($rootScope, $state) {
 		if (idx > -1) $rootScope.activeTab = idx
 	})
 
+	$rootScope.enableTrezor = function()
+	{
+		// MEW default, also from the trezor examples
+		var path = "m/44'/60'/0'/0/0"; 
+
+		/*
+		TrezorConnect.getXPubKey(path, function (result) {
+			if (result.success) {
+				console.log(result)
+ 				// derive (result.publicKey, result.chainCode, "trezor", path);
+			} else {
+				// TODO
+				console.error('Error:', result.error); // error message
+			}
+		}, '1.5.2');
+		*/
+		TrezorConnect.ethereumGetAddress(path, function (response) {
+        	console.log("TrezorConnect.ethereumGetAddress", response);
+        })
+	}
+
 	// Ugliness
 	$rootScope.isFullscreen = function() {
 		return document.webkitIsFullScreen || document.mozFullScreen || false

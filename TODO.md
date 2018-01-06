@@ -25,7 +25,7 @@
 * Metamask
 
 # TODO
-* Hardware Wallets (Trezor, Ledger)
+* Hardware Wallets: Trezor
 * re-visit charts
 * service for CMC
 * fiat amounts showing in market table
@@ -47,6 +47,7 @@
 * xss: no third-party sources of data
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * TradingView license: also check if we can host `tv.js` on our servers
+* Hardware wallets: Ledger
 
 # mañana
 * trade history (perhaps this can go under the main chart: [Last Trades | My Trades] tabs)

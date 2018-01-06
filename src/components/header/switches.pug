@@ -1,11 +1,16 @@
 div(flex-container='row')
-	// Night mode
+	//- Night mode
 	div.p(flex-container='row')
 		lx-icon(lx-id='weather-sunny',lx-size='l')
 		lx-switch(ng-model='nightMode')
 		lx-icon(lx-id='weather-night',lx-size='l')
 
-	// Fullscreen
+	//- Trezor
+	lx-button.p(lx-type='icon', ng-click='enableTrezor()')
+		i.mdi.mdi-lock
+
+
+	//- Fullscreen
 	lx-button.p(lx-type='icon', ng-click='toggleFullscreen()')
 		i.mdi(ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
 
