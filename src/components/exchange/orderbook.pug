@@ -7,7 +7,7 @@ table.orderbook
 		th
 			Filled
 	
-	tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='fillForOrder(side, order)')
+	tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='fillForOrder(fillSide, order)')
 		th(ng-bind='::order.rate')
 		th(ng-bind='::order.amount')
 		th(ng-bind='order.filled')

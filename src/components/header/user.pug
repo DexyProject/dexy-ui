@@ -1,0 +1,15 @@
+lx-dropdown
+		lx-dropdown-toggle
+			lx-button(lx-type='icon')
+				i.mdi.mdi-account
+		lx-dropdown-menu
+			div(ng-controller='UserCtrl', ng-cloak)
+				div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
+				div.publicAddr {{user.publicAddr}}
+
+
+				ul
+					li
+						a(class='dropdown-link') Metamask
+					li
+						a(class='dropdown-link', ng-click='enableTrezor()') Trezor
