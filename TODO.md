@@ -21,22 +21,23 @@
 * top bar indicators (price, etc.)
 * remove wallets tab and shift wallet part in the exchange view
 * orderbook component
+* Consider something more visual for day and night button: https://codepen.io/jsndks/pen/qEXzOQ
 * tradeview chart
 * Metamask
 * service for user
 * Hardware Wallets: Trezor
 * fix double-loading bug on FF
+* markets: hide zero balances
 
 # TODO
 * re-visit charts
 * service for CMC
-* service for getting user's balances for tokens
-* fiat amounts showing in market table
-* markets: ETH balance, hide zero balances
+* service for getting user's balances for tokens; ensure hide zero balances works
+* UI: user dropdown: ethereum network, addr, login with trezor
+* UI: fiat amounts showing in market table
 * service for the API
-* orderbook service
+* service for the orderbook state
 * Spificator: include to improve TX UX
-* Consider something more visual for day and night button: https://codepen.io/jsndks/pen/qEXzOQ
 
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE

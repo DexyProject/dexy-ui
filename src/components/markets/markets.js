@@ -47,12 +47,6 @@
             label: 'Price',
             //icon: 'comment-text',
             sortable: true
-        },
-        {
-            name: 'added',
-            label: 'Added',
-            sortable: true,
-            sort: 'desc',
         }
         ];
         vm.advancedDataTableThead = angular.copy(vm.dataTableThead);
