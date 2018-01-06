@@ -1,0 +1,13 @@
+table.orderbook
+	tr
+		th
+			Price
+		th
+			Amount
+		th
+			Filled
+	
+	tr(ng-repeat='order in exchange.orderbook track by order.idx')
+		th(ng-bind='::order.rate')
+		th(ng-bind='::order.amount')
+		th(ng-bind='order.filled')
