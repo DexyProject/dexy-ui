@@ -1,13 +1,12 @@
 div(ng-controller='UserCtrl', ng-cloak)
-	lx-dropdown
+	lx-dropdown(lx-position='right',lx-width='250')
 			lx-dropdown-toggle
 				lx-button(lx-type='icon')
 					i.mdi.mdi-account
 			lx-dropdown-menu
-				div
+				div.p
 					div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
 					div.publicAddr {{user.publicAddr}}
-
 
 					ul
 						li
