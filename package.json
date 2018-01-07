@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node build/dev-server.js",
     "build": "gulp",
+    "start-dist": " ( cd dist; PORT=8091 http-server ) ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
