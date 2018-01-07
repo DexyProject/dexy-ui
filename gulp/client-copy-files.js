@@ -5,10 +5,12 @@ var path = require('path')
 
 gulp.task('client-copy-files', function(cb) {
 	gulp.src([
-		'img/*',
+		'img/**', // ** means recursive
+		'./node_modules/official-lumx/dist/fonts',
 		'worker.js',
 	])
 	.pipe(gulp.dest(function(f) {
+		if (f.path.match('node_modules/')) return f.path.match('dist/(.*)')[0]
 		return path.join('./dist', path.dirname(path.relative(process.cwd(), f.path)));
 	}))
 	.on('end', cb)
