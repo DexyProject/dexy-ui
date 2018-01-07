@@ -1,9 +1,12 @@
 h4(ng-bind='::side=="SELL" ? "Sell" : "Buy"')
 
+//- Usually exchanges use the order Price, Amount; sometimes they have amount after 
 lx-text-field(lx-label='Rate', lx-focus='true')
 	input(type='text', ng-model='exchange.orders[side].rate')
 lx-text-field(lx-label='Amount')
 	input(type='text', ng-model='exchange.orders[side].amount')
+lx-text-field(lx-label='Total')
+	input(type='text', ng-model='exchange.orders[side].amount * exchange.orders[side].rate')
 
 lx-button(
 		lx-color='{{::side=="SELL" ? "red" : "green"}}',
