@@ -74,6 +74,12 @@
         function isValidNumber(n) {
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
+
+        $scope.$watch(function () { return exchange.orders.SELL }, refreshTotal, true)
+        $scope.$watch(function () { return exchange.orders.BUY }, refreshTotal, true)
+        function refreshTotal(order) {
+            if (order.valid) order.total = order.amount * order.rate
+        }
     }
 
 

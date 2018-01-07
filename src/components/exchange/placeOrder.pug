@@ -16,7 +16,7 @@ h4(ng-bind='::side=="SELL" ? "Sell "+exchange.symbol : "Buy "+exchange.symbol')
 
 .inputRow
 	lx-text-field(lx-label='Total', lx-fixed-label='true')
-		input(type='text', ng-model='exchange.orders[side].amount * exchange.orders[side].rate')
+		input(type='text', ng-model='exchange.orders[side].total')
 	.label ETH
 
 lx-button(
