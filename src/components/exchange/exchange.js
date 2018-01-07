@@ -1,4 +1,4 @@
-(function()
+(function() 
 {
     'use strict';
 
@@ -64,6 +64,15 @@
         {
             console.log(side)
             exchange.orders[side] = order
+        }
+
+        $scope.$watch(function () { return exchange.orders }, function (orders) {
+            exchange.orders.SELL.valid = isValidNumber(orders.SELL.rate) && isValidNumber(orders.SELL.amount) // && sufficient tokens
+            exchange.orders.BUY.valid = isValidNumber(orders.BUY.rate) && isValidNumber(orders.BUY.amount) // && sufficient eth
+        }, true)
+
+        function isValidNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
     }
 

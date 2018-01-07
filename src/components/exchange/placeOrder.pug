@@ -11,4 +11,6 @@ lx-text-field(lx-label='Total')
 lx-button(
 		lx-color='{{::side=="SELL" ? "red" : "green"}}',
 		ng-bind='side=="SELL" ? "Place Sell Order" : "Place Buy Order"'
-		lx-size='m')
+		lx-size='m'
+		ng-disabled='!exchange.orders[side].valid'
+		)
