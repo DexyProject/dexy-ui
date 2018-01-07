@@ -31,12 +31,10 @@
 * service for CMC
 * UI: fiat amounts showing in market table
 * UI: user dropdown: ethereum network, addr, login with trezor
-
-# TODO
-
-
 * Order form fields should only allow the input of numbers and decimals
 * merge validation
+
+# TODO
 * Auth: ability to use more than one trezor addr
 * colors in order book
 * buy/sell controls: slider, calculate total amount, show available amnt
