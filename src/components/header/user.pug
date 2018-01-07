@@ -1,15 +1,30 @@
-lx-dropdown
-		lx-dropdown-toggle
-			lx-button(lx-type='icon')
-				i.mdi.mdi-account
-		lx-dropdown-menu
-			div(ng-controller='UserCtrl', ng-cloak)
-				div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
-				div.publicAddr {{user.publicAddr}}
+div(ng-controller='UserCtrl', ng-cloak)
+	lx-dropdown
+			lx-dropdown-toggle
+				lx-button(lx-type='icon')
+					i.mdi.mdi-account
+			lx-dropdown-menu
+				div
+					div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
+					div.publicAddr {{user.publicAddr}}
 
 
-				ul
-					li
-						a(class='dropdown-link') Metamask
-					li
-						a(class='dropdown-link', ng-click='enableTrezor()') Trezor
+					ul
+						li
+							a(class='dropdown-link') Metamask
+						li
+							a(class='dropdown-link', ng-click='enableTrezor()') Trezor
+
+	lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
+		lx-dialog-header
+			.toolbar.bgc-primary(class='pl++')
+				span.toolbar__label.tc-white.fs-title Choose Trezor account
+
+		lx-dialog-content(class='p+')
+			lx-radio-button(ng-name='address', ng-repeat='address in addresses', ng-value='address', ng-model='selected.address')
+				lx-radio-button-label {{address}}
+				lx-radio-button-help {{-0}} ETH
+
+		lx-dialog-footer
+			lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
+			lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onTrezorAddr(selected.address)') Ok

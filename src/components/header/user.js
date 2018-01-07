@@ -6,26 +6,22 @@
 		.module('dexyApp')
 		.controller('UserCtrl', UserCtrl);
 
-	UserCtrl.$inject = ['$scope', 'user'];
+	UserCtrl.$inject = ['$scope', 'user', 'LxDialogService'];
 
-	function UserCtrl($scope, user)
+	function UserCtrl($scope, user, LxDialogService)
 	{
 		$scope.user = user
+
+		$scope.selected = { address: 0 }
 
 
 		$scope.enableTrezor = function(accountIdx)
 		{
-			// TODO show modal 
-
 			// NOTE: this callback will only be called on success
 			// Errors will be reported through the user service
 			user.getTrezorAddresses(function(addresses) {
-				// TODO show modal
-
-				console.log(addresses)
-
-				// user.setAccount() ? or just user.publicAddr = ...
-				user.onTrezorAddr(addresses[0])
+				$scope.addresses = addresses
+				LxDialogService.open('trezorAccPick')
 			})
 		}
 	}

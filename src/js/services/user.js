@@ -74,7 +74,7 @@
 		}
 		user.onTrezorAddr = function(address)
 		{
-			LxNotificationService.success('Trezor: imported address: '+address);
+			LxNotificationService.success('Trezor: imported address');
 
 			user.mode = 'trezor'
 			user.publicAddr = address
