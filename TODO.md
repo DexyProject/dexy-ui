@@ -14,7 +14,7 @@
 * script to get top eth markets from cmc
 * Proper table for markets
 * fullscreen button
-* consider if markets/walelts should be merged: no. because just [wallet balance] vs [exchange balance] or however we want to call it is enough cognitive load to also put at markets
+* consider if markets/wallets should be merged: no. because just [wallet balance] vs [exchange balance] or however we want to call it is enough cognitive load to also put at markets
 * order book depth: canceled for now, not important
 * wallets tab
 * split: header, header/{tabs, indicators, night-mode} (components: ...)
@@ -33,19 +33,26 @@
 * UI: user dropdown: ethereum network, addr, login with trezor
 
 # TODO
+
+
+* Order form fields should only allow the input of numbers and decimals
+* merge validation
+* Auth: ability to use more than one trezor addr
+* colors in order book
+* buy/sell controls: slider, calculate total amount, show available amnt
 * re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin)
+
+## Depends on API
+
 * service for the API
 * service for the orderbook state
 * service for getting user's balances for tokens; ensure hide zero balances works
 * Spificator: include to improve TX UX
-* Order form fields should only allow the input of numbers and decimals
-* Auth: ability to use more than one trezor addr
-* Ability to add new tokens
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
 (mybe make ETH/USD a dropdown and have ETH/EUR)
 
-# mañana but important
+## mañana but important
 
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
 * xss: no third-party scripts
@@ -53,8 +60,10 @@
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * TradingView license: also check if we can host `tv.js` on our servers
 * Hardware wallets: Ledger
+* Ability to add new tokens
 
-# mañana
+## mañana
+
 * trade history (perhaps this can go under the main chart: [Last Trades | My Trades] tabs)
 * localization
 * service worker 
