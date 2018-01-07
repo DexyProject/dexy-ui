@@ -30,16 +30,17 @@
 * markets: hide zero balances
 * service for CMC
 * UI: fiat amounts showing in market table
+* UI: user dropdown: ethereum network, addr, login with trezor
 
 # TODO
-* re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube; tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one)
-* service for getting user's balances for tokens; ensure hide zero balances works
-* UI: user dropdown: ethereum network, addr, login with trezor
+* re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin)
 * service for the API
 * service for the orderbook state
+* service for getting user's balances for tokens; ensure hide zero balances works
 * Spificator: include to improve TX UX
 * Order form fields should only allow the input of numbers and decimals
-
+* Auth: ability to use more than one trezor addr
+* Ability to add new tokens
 
 [LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
 (mybe make ETH/USD a dropdown and have ETH/EUR)
