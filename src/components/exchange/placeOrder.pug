@@ -3,12 +3,21 @@ h4(ng-bind='::side=="SELL" ? "Sell "+exchange.symbol : "Buy "+exchange.symbol')
 //- Usually exchanges use the order Price, Amount; sometimes they have amount after
 //- TODO show total available amnt
 //- TODO slider 
-lx-text-field(lx-label='Rate', lx-focus='true', lx-fixed-label='true')
-	input(type='text', ng-model='exchange.orders[side].rate')
-lx-text-field(lx-label='Amount', lx-fixed-label='true')
-	input(type='text', ng-model='exchange.orders[side].amount')
-lx-text-field(lx-label='Total', lx-fixed-label='true')
-	input(type='text', ng-model='exchange.orders[side].amount * exchange.orders[side].rate')
+
+.inputRow
+	lx-text-field(lx-label='Rate', lx-fixed-label='true')
+		input(type='text', ng-model='exchange.orders[side].rate')
+	.label {{::exchange.symbol+'/ETH'}}
+
+.inputRow
+	lx-text-field(lx-label='Amount', lx-fixed-label='true')
+		input(type='text', ng-model='exchange.orders[side].amount')
+	.label {{::exchange.symbol}}
+
+.inputRow
+	lx-text-field(lx-label='Total', lx-fixed-label='true')
+		input(type='text', ng-model='exchange.orders[side].amount * exchange.orders[side].rate')
+	.label ETH
 
 lx-button(
 		lx-color='{{::side=="SELL" ? "red" : "green"}}',
