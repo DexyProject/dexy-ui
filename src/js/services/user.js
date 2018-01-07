@@ -8,6 +8,13 @@
 
 	UserService.$inject = ['$rootScope', 'LxNotificationService']
 
+	// NOTE: regarding authentication, this helps a lot:
+	// https://github.com/kvhnuke/etherwallet/blob/bd1bcb499f84dabecf133ef9f2e6c684d769ae23/app/scripts/controllers/decryptWalletCtrl.js
+
+	var HDKey = require('hdkey')
+	var Buffer = require('buffer').Buffer
+	var wallet = require('ethereumjs-wallet')
+
 	function UserService($scope, LxNotificationService)
 	{
 		initWeb3()
@@ -43,19 +50,35 @@
 		})
 		// TODO: https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#best-practices-bowtie
 
-
-		// On Trezor enabled
-		user.onTrezorAddr = function(resp)
+		user.getTrezorAddresses = function(cb)
 		{
-			if (resp.success) {
-				LxNotificationService.success('Trezor: imported address: 0x'+resp.address);
+			TrezorConnect.getXPubKey(user.HD_PATH, function(resp) {
+				if (! resp.success) {
+					user.handleTrezorErr(resp)
+					return
+				}
 
-				user.mode = 'trezor'
-				user.publicAddr = '0x'+resp.address
-				if (!$scope.$$phase) $scope.$apply()
-			} else {
-				user.handleTrezorErr(resp)
-			}
+				// we need resp.publicKey, resp.chainCode, user.HD_PATh
+				var hdk = new HDKey()
+				hdk.publicKey = new Buffer(resp.publicKey, 'hex')
+				hdk.chainCode = new Buffer(resp.chainCode, 'hex')
+
+				var all = []
+				for (var i = 0; i!=10; i++) {
+					var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/'+i).publicExtendedKey)
+					all.push('0x'+wlt.getAddress().toString('hex'))
+				}
+
+				cb(all)
+			})	
+		}
+		user.onTrezorAddr = function(address)
+		{
+			LxNotificationService.success('Trezor: imported address: '+address);
+
+			user.mode = 'trezor'
+			user.publicAddr = address
+			if (!$scope.$$phase) $scope.$apply()
 		}
 
 		user.sendTx = function(tx)

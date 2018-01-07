@@ -18,7 +18,7 @@ module.exports = function() {
 			'punycode', // ??
 			'querystring', 'os', 'path', 
 			'crypto',
-			'stream', 'events', 'string_decoder'
+			'stream', 'events', 'string_decoder', 'assert'
 
 		] 
 	}
