@@ -8,9 +8,9 @@ var concat = require('gulp-concat')
 var addsrc = require('gulp-add-src')
 var buffer = require('vinyl-buffer')
 var source = require('vinyl-source-stream')
-var uglify = require('gulp-uglify')
 var fs = require('fs')
 var browserify = require('browserify')
+var minify = require('gulp-babel-minify')
 
 gulp.task('client-bundle-js', function(cb) {
 	// Take the normal deps blob, uglify it, add the rest of the JS files to it
@@ -42,7 +42,11 @@ gulp.task('client-bundle-js', function(cb) {
 	.pipe(addsrc.append(scripts))
 	.on('error', createErrorHandler('addsrc'))
 	.pipe(sourcemaps.init())
-	.pipe(uglify({ compress: true, mangle: true }))
+	.pipe(minify({
+		mangle: {
+			keepClassName: true
+		}
+	}))
 	.on('error', createErrorHandler('uglify'))
 	.pipe(concat('blob.js'))
 	.pipe(sourcemaps.write('../sourcemaps', { addComment: false }))

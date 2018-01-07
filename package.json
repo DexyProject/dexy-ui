@@ -14,6 +14,7 @@
     "angular": "^1.5.11",
     "angular-ui-router": "^0.4.3",
     "ethereumjs-wallet": "^0.6.0",
+    "gulp-babel-minify": "^0.2.0",
     "hdkey": "^0.7.1",
     "official-lumx": "^1.7.5",
     "web3": "^1.0.0-beta.27"
@@ -23,26 +24,25 @@
     "gulp-pug": "^3.3.0"
   },
   "devDependencies": {
-    "express": "^4.16.2",
-    "pug": "^2.0.0-rc.4",
-    "serve-static": "^1.13.1",
-    "stylus": "^0.54.5",
     "babel-core": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^15.0.0",
+    "express": "^4.16.2",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-pug": "^3.3.0",
     "gulp-sourcemaps": "^2.6.3",
     "gulp-stylus": "^2.7.0",
-    "gulp-uglify": "^3.0.0",
     "nib": "^1.1.2",
+    "pug": "^2.0.0-rc.4",
     "require-dir": "^0.3.2",
     "run-sequence": "^2.2.1",
+    "serve-static": "^1.13.1",
+    "stylus": "^0.54.5",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }
