@@ -33,9 +33,9 @@
 * UI: user dropdown: ethereum network, addr, login with trezor
 * Order form fields should only allow the input of numbers and decimals
 * merge validation
+* Auth: ability to use more than one trezor addr
 
 # TODO
-* Auth: ability to use more than one trezor addr
 * colors in order book
 * buy/sell controls: slider, calculate total amount, show available amnt
 * re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin)
