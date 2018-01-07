@@ -64,7 +64,7 @@
 				hdk.chainCode = new Buffer(resp.chainCode, 'hex')
 
 				var all = []
-				for (var i = 0; i!=10; i++) {
+				for (var i = 0; i!=8; i++) {
 					var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/'+i).publicExtendedKey)
 					all.push('0x'+wlt.getAddress().toString('hex'))
 				}

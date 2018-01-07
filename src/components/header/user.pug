@@ -20,10 +20,10 @@ div(ng-controller='UserCtrl', ng-cloak)
 			.toolbar.bgc-primary(class='pl++')
 				span.toolbar__label.tc-white.fs-title Choose Trezor account
 
-		lx-dialog-content(class='p+')
-			lx-radio-button(ng-name='address', ng-repeat='address in addresses', ng-value='address', ng-model='selected.address')
-				lx-radio-button-label {{address}}
-				lx-radio-button-help {{-0}} ETH
+		lx-dialog-content(class='p++')
+			lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.addr', ng-model='selected.address')
+				lx-radio-button-label {{x.addr}}
+				lx-radio-button-help {{x.bal}} ETH
 
 		lx-dialog-footer
 			lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
