@@ -92,23 +92,23 @@ body
 		
 	.topLeft, .topRight
 		top 0px
-		bottom 38%
+		bottom 40%
 		
 	.bottomLeft, .bottomRight
-		height 38%
+		height 40%
 		bottom 0px
 	
 	.topLeft, .bottomLeft
 		left 0px
-		width 60%
+		width 56%
+		
+	.topRight, .bottomRight
+		left 56%
+		right 0px
 		
 	.bottomLeft
 		border 1px solid rgba(0,0,0,.1)
 	
-	.topRight, .bottomRight
-		left 60%
-		right 0px
-		
 	.bids, .asks, .sell, .buy
 		width 50%
 		position absolute
@@ -121,8 +121,10 @@ body
 		right 0px
 
 //- Place order
-.placeOrder button
-	color white !important
+.placeOrder
+	button
+		color white !important
+
 
 //- Split orderbook
 .orderbook
