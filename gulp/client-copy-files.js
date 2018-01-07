@@ -11,7 +11,7 @@ gulp.task('client-copy-files', function(cb) {
 		'worker.js',
 	])
 	.pipe(gulp.dest(function(f) {
-		if (f.path.match('node_modules/')) return f.path.match('dist/(.*)')[0]
+		if (f.path.match('node_modules/')) return path.dirname(f.path.match('dist/(.*)')[0])
 		return path.join('./dist', path.dirname(path.relative(process.cwd(), f.path)));
 	}))
 	.on('end', cb)
