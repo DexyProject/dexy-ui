@@ -46,6 +46,6 @@
 			app.getAddress(user.HD_PATH, $scope.ledgerCallback, false, true)
 
 		}
-		/
+		*/
 	}
 })();
