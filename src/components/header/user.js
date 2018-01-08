@@ -35,5 +35,17 @@
 				LxDialogService.open('trezorAccPick')
 			})
 		}
+
+		/*
+		// basically should follow the same logic as enableTrezor
+		// ledger-eth and ledger3 need to be imported
+		$scope.enableLedger = function() 
+		{
+			var ledger = new Ledger3('w0w')
+			var app = new ledgerEth(ledger)
+			app.getAddress(user.HD_PATH, $scope.ledgerCallback, false, true)
+
+		}
+		/
 	}
 })();
