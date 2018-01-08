@@ -65,10 +65,9 @@
                     selected: 1
                 },
 
-                title: {
-                    text: 'AAPL Stock Price'
+                chart: {
+                    height: '44%'
                 },
-
                 series: [{
                     type: 'candlestick',
                     name: 'AAPL Stock Price',

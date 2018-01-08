@@ -8,7 +8,6 @@
 	
 	.topLeft, .bottomLeft, .topRight, .bottomRight
 		position absolute
-		border 1px solid rgba(0,0,0,0.1)
 		
 	.topLeft, .topRight
 		top 0px
@@ -26,20 +25,21 @@
 		left 56%
 		right 0px
 		
-	.bottomLeft
+	.bottomLeft .tabs
 		border 1px solid rgba(0,0,0,.1)
-	
+		height 100%
+		
 	.bids, .asks, .sell, .buy
 		width 50%
 		position absolute
 		height 100%
-		border 1px solid rgba(0,0,0,0.1)
 		
 	.bids, .sell 
 		left 0px
 	
 	.asks, .buy
 		right 0px
+		border-left 1px solid rgba(0,0,0,.1)
 		
 
 //- Place order
@@ -72,3 +72,8 @@
 		&:hover
 			background-color rgba(0,0,0,0.1)
 			
+.bids
+	color green
+	
+.asks 
+	color red
