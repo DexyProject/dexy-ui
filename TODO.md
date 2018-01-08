@@ -34,9 +34,10 @@
 * Order form fields should only allow the input of numbers and decimals
 * merge validation
 * Auth: ability to use more than one trezor addr
+* colors in order book
 
 # TODO
-* colors in order book
+* gas price controls in the UI
 * buy/sell controls: slider, calculate total amount, show available amnt
 * re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin)
 
