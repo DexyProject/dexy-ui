@@ -40,9 +40,11 @@
         })
 
 
-        // How to test signing
+
+        // How to test signing tx
         // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange; 
         // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
+
 
         // TEMP test data
         // TEMP until we hook up API
@@ -54,11 +56,44 @@
             [0.0002802, 222],
         ].map(function(x, i) { return { idx: i, rate: x[0].toFixed(8), amount: x[1], filled: 0 } })
 
-        // model skeleton
+        // chart
+        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?a=e&filename=aapl-ohlc.json&callback=?', function (data) {
+
+            // create the chart
+            Highcharts.stockChart('mainChart', {
+                rangeSelector: {
+                    selected: 1
+                },
+
+                title: {
+                    text: 'AAPL Stock Price'
+                },
+
+                series: [{
+                    type: 'candlestick',
+                    name: 'AAPL Stock Price',
+                    data: data,
+                    dataGrouping: {
+                        units: [
+                            [
+                                'week', // unit name
+                                [1] // allowed multiples
+                            ], [
+                                'month',
+                                [1, 2, 3, 4, 6]
+                            ]
+                        ]
+                    }
+                }]
+            });
+        });
+
+        // Orders
         exchange.orders = {
             SELL: { },
             BUY: { }
         }
+
 
         $scope.fillForOrder = function(side, order)
         {
