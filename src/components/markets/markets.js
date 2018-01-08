@@ -130,10 +130,10 @@
         function formatRowWithFIAT(prop, row)
         {
             // TODO: use angular number format 
-            
+
             var fiatAmnt = $scope.useEUR
-            ? (row[prop] * cmc.pairs.ETHEUR).toFixed(2) + '€'
-            : (row[prop] * cmc.pairs.ETHUSD).toFixed(2) + '$'
+            ? '€'+(row[prop] * cmc.pairs.ETHEUR).toFixed(2)
+            : '$'+(row[prop] * cmc.pairs.ETHUSD).toFixed(2)
 
             return '<div>'+row[prop].toFixed(8)+'</div><div class="label">'+fiatAmnt+'</div>'
         }
