@@ -37,6 +37,7 @@
 * colors in order book
 
 # TODO
+* make all third party scripts NOT load from third party domains
 * gas price controls in the UI
 * buy/sell controls: slider, calculate total amount, show available amnt
 * re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin)
