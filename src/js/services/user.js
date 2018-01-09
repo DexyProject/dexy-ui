@@ -22,7 +22,7 @@
 		var user = this
 		
 		// MEW default, also from the trezor examples
-		user.HD_PATH = "m/44'/60'/0'/0";
+		user.HD_PATH = "m/44'/60'/0'";
 
 		// Configurable things
 		user.GAS_PRICE = 30099515020 // 30 gwei
@@ -58,19 +58,38 @@
 					return
 				}
 
-				// we need resp.publicKey, resp.chainCode, user.HD_PATh
-				var hdk = new HDKey()
-				hdk.publicKey = new Buffer(resp.publicKey, 'hex')
-				hdk.chainCode = new Buffer(resp.chainCode, 'hex')
-
-				var all = []
-				for (var i = 0; i!=8; i++) {
-					var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/'+i).publicExtendedKey)
-					all.push('0x'+wlt.getAddress().toString('hex'))
+				cb(user.getAddrs(resp.publicKey, resp.chainCode))
+			})	
+		}
+		/*
+		user.getLedgerAddresses = function(cb)
+		{
+			var ledger = new ledger3('w0w')
+			var app = new ledgerEth(ledger)
+			app.getAddress(user.HD_PATH, function(resp, err) {
+				if (err) {
+					console.log(err)
+					LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
+					return
 				}
 
-				cb(all)
-			})	
+				cb(user.getAddrs(resp.publicKey, resp.chainCode))
+			}, false, true)
+		}
+		*/
+		user.getAddrs = function(publicKey, chainCode)
+		{
+			// we need resp.publicKey, resp.chainCode, user.HD_PATh
+			var hdk = new HDKey()
+			hdk.publicKey = new Buffer(publicKey, 'hex')
+			hdk.chainCode = new Buffer(chainCode, 'hex')
+
+			var all = []
+			for (var i = 0; i!=8; i++) {
+				var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/'+i).publicExtendedKey)
+				all.push('0x'+wlt.getAddress().toString('hex'))
+			}
+			return all
 		}
 		user.onTrezorAddr = function(address)
 		{

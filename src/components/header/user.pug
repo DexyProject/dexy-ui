@@ -13,6 +13,8 @@ div(ng-controller='UserCtrl', ng-cloak)
 							a(class='dropdown-link') Metamask
 						li
 							a(class='dropdown-link', ng-click='enableTrezor()') Trezor
+						li
+							a(class='dropdown-link', ng-click='enableLedger()') Ledger
 
 	lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
 		lx-dialog-header
