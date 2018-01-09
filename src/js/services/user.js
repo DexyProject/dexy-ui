@@ -61,22 +61,27 @@
 				cb(user.getAddrs(resp.publicKey, resp.chainCode))
 			})	
 		}
-		/*
+		
 		user.getLedgerAddresses = function(cb)
 		{
 			var ledger = new ledger3('w0w')
 			var app = new ledgerEth(ledger)
-			app.getAddress(user.HD_PATH, function(resp, err) {
-				if (err) {
+
+			ledger.comm_u2f.create_async()
+			.then(function(comm) {
+				var eth = new ledger.eth(comm);
+				eth.getAddress_async("44'/0'/0'/0")
+				.then(function(resp) { 
+					cb(user.getAddrs(resp.publicKey, resp.chainCode))
+				})
+				.catch(function(err) {
 					console.log(err)
 					LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
 					return
-				}
-
-				cb(user.getAddrs(resp.publicKey, resp.chainCode))
-			}, false, true)
+				})
+			})
 		}
-		*/
+		
 		user.getAddrs = function(publicKey, chainCode)
 		{
 			// we need resp.publicKey, resp.chainCode, user.HD_PATh
