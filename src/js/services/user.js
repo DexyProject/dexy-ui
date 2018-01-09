@@ -64,9 +64,6 @@
 		
 		user.getLedgerAddresses = function(cb)
 		{
-			var ledger = new ledger3('w0w')
-			var app = new ledgerEth(ledger)
-
 			ledger.comm_u2f.create_async()
 			.then(function(comm) {
 				var eth = new ledger.eth(comm);
