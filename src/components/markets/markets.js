@@ -48,20 +48,20 @@
         {
             // default sort
             name: 'vol',
-            label: '24hr Volume',
+            label: '24h Volume',
             format: formatRowWithFIAT.bind(null, 'vol'),
             sortable: true,
             sort: 'desc'
         },
         {
             name: 'high',
-            label: '24hr High',
+            label: '24h High',
             format: formatRowWithFIAT.bind(null, 'high'),
             sortable: true,
         },
         {
             name: 'low',
-            label: '24hr Low',
+            label: '24h Low',
             format: formatRowWithFIAT.bind(null, 'low'),
             sortable: true,
         },
