@@ -22,7 +22,8 @@
 		var user = this
 		
 		// MEW default, also from the trezor examples
-		user.HD_PATH = "m/44'/60'/0'/0";
+		user.TREZOR_HD_PATH = "m/44'/60'/0'/0";
+		user.LEDGER_HD_PATH = "44'/60'/0'";
 
 		// Configurable things
 		user.GAS_PRICE = 30099515020 // 30 gwei
@@ -52,7 +53,7 @@
 
 		user.getTrezorAddresses = function(cb)
 		{
-			TrezorConnect.getXPubKey(user.HD_PATH, function(resp) {
+			TrezorConnect.getXPubKey(user.TREZOR_HD_PATH, function(resp) {
 				if (! resp.success) {
 					user.handleTrezorErr(resp)
 					return
@@ -66,8 +67,9 @@
 		{
 			ledger.comm_u2f.create_async()
 			.then(function(comm) {
-				var eth = new ledger.eth(comm);
-				eth.getAddress_async("44'/0'/0'/0")
+				var eth = new ledger.eth(comm)
+
+				eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
 				.then(function(resp) { 
 					cb(user.getAddrs(resp.publicKey, resp.chainCode))
 				})
@@ -114,7 +116,7 @@
 
 					// TODO; estimate gas
 					TrezorConnect.ethereumSignTx(
-					user.HD_PATH,
+					user.TREZOR_HD_PATH,
 					'0'+count.toString(16),
 					'0'+user.GAS_PRICE.toString(16), // gas price
 					'0'+GAS_LIM.toString(16), // gas limit
