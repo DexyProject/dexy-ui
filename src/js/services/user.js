@@ -22,7 +22,7 @@
 		var user = this
 		
 		// MEW default, also from the trezor examples
-		user.HD_PATH = "m/44'/60'/0'";
+		user.HD_PATH = "m/44'/60'/0'/0";
 
 		// Configurable things
 		user.GAS_PRICE = 30099515020 // 30 gwei
