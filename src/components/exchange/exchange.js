@@ -62,17 +62,53 @@
             // create the chart
             Highcharts.stockChart('mainChart', {
                 rangeSelector: {
-                    selected: 1
+                    inputEnabled: false,
+                    buttons: [
+                        {
+                            type: 'hour',
+                            count: 1,
+                            text: '1h'
+                        },
+                        {
+                            type: 'day',
+                            count: 1,
+                            text: '1d'
+                        },
+                        {
+                            type: 'week',
+                            count: 1,
+                            text: '1w'
+                        },
+                        {
+                            type: 'month',
+                            count: 1,
+                            text: '1m'
+                        },
+                    ],
                 },
-
                 chart: {
                     height: '44%'
                 },
+                credits: {
+                    enabled: false
+                },
+                navigator: {
+                    enabled: false
+                },
+                scrollbar: {
+                    enabled: false
+                },
+                title: {
+                    enabled: false
+                },
                 series: [{
                     type: 'candlestick',
-                    name: 'AAPL Stock Price',
+                    name: 'Price',
                     data: data,
                     dataGrouping: {
+                        enabled: true,
+                        forced: true,
+                        // groupPixelWidth: 25,
                         units: [
                             [
                                 'week', // unit name
