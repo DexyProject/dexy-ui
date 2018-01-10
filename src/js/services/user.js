@@ -144,11 +144,12 @@
 				.then(function(comm) {
 					var eth = new ledger.eth(comm)
 
-					console.log(user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx)
-					eth.signTransaction_async(user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx, tx.encodeABI()).then(function(result) {
+					var dPath = user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx;
+					console.log(dPath)
+					eth.signTransaction_async(dPath, tx.encodeABI()).then(function(result) {
 							console.log('from signtx', result);
 
-							eth.signPersonalMessage_async(user.LEDGER_HD_PATH, Buffer.from("order pls").toString("hex")).then(function(result) {
+							eth.signPersonalMessage_async(dPath, Buffer.from("order pls").toString("hex")).then(function(result) {
 								var v = result['v'] - 27;
 								v = v.toString(16);
 								if (v.length < 2) {
