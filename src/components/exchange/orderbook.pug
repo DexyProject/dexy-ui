@@ -5,9 +5,9 @@ table.orderbook
 		th
 			Amount
 		th
-			Filled
+			Total
 	
 	tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='fillForOrder(fillSide, order)')
 		th(ng-bind='::order.rate')
 		th(ng-bind='::order.amount')
-		th(ng-bind='order.filled')
+		th(ng-bind='order.filled') // @todo calculate
