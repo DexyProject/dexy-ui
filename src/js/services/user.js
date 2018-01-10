@@ -32,16 +32,20 @@
 		user.chainId = 1
 
 		// Default: try metamask
-		web3.eth.getAccounts(function(err, accounts) {
-			if (err) {
-				user.handleWeb3Err(err)
-				return
-			}
+		$scope.setMetamask = function() {
+			web3.eth.getAccounts(function(err, accounts) {
+				if (err) {
+					user.handleWeb3Err(err)
+					return
+				}
 
-			user.mode = 'metamask'
-			user.publicAddr = accounts[0]
+				user.mode = 'metamask'
+				user.publicAddr = accounts[0]
 
-		})
+			})
+		}
+		$scope.setMetamask()
+
 		web3.eth.net.getId(function(err, netId) {
 			if (err) {
 				user.handleWeb3Err(err)
@@ -122,7 +126,7 @@
 					'0'+GAS_LIM.toString(16), // gas limit
 					user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
 					'00', // value TODO
-					null, // data TODO
+					tx.encodeABI(), // data TODO
 					user.chainId,
 					function (response) {
 						if (response.success) {
