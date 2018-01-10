@@ -54,7 +54,7 @@
             [0.0002410, 3244],
             [0.0002501, 99],
             [0.0002802, 222],
-        ].map(function(x, i) { return { idx: i, rate: x[0].toFixed(8), amount: x[1], filled: 0 } })
+        ].map(function(x, i) { return { idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0 } })
 
         // chart
         $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?a=e&filename=aapl-ohlc.json&callback=?', function (data) {
