@@ -65,10 +65,11 @@
 * xss: no third-party sources of data
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * TradingView license: also check if we can host `tv.js` on our servers
+* component for the top indicators that would flash green/red
+* Proper night mode
 
 ## mañana
 
-* trade history (perhaps this can go under the main chart: [Last Trades | My Trades] tabs)
 * localization
 * service worker 
 * modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
