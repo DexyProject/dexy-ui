@@ -143,18 +143,19 @@
 					var eth = new ledger.eth(comm)
 
 					eth.signTransaction_async(user.LEDGER_HD_PATH, tx.encodeABI()).then(function(result) {
-							console.log('from signtx'+result);
+							console.log('from signtx', result);
+
+							eth.signPersonalMessage_async(user.LEDGER_HD_PATH, Buffer.from("order pls").toString("hex")).then(function(result) {
+								var v = result['v'] - 27;
+								v = v.toString(16);
+								if (v.length < 2) {
+								v = "0" + v;
+								}
+								console.log("Signature 0x" + result['r'] + result['s'] + v);
+
+							}).catch(function(ex) {console.log(ex);})
 					}).catch(function(ex) {console.log(ex);});
 
-					eth.signPersonalMessage_async(user.LEDGER_HD_PATH, Buffer.from("order pls").toString("hex")).then(function(result) {
-						var v = result['v'] - 27;
-						v = v.toString(16);
-						if (v.length < 2) {
-						v = "0" + v;
-						}
-						console.log("Signature 0x" + result['r'] + result['s'] + v);
-
-					}).catch(function(ex) {console.log(ex);});
 				})
 			} else {
 				// normal mode
