@@ -77,12 +77,9 @@
 				.then(function(resp) { 
 					cb(user.getAddrs(resp.publicKey, resp.chainCode))
 				})
-				.catch(function(err) {
-					console.log(err)
-					LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
-					return
-				})
+				.catch($scope.handleLedgerError)
 			})
+			.catch($scope.handleLedgerError)
 		}
 		
 		user.getAddrs = function(publicKey, chainCode)
@@ -166,6 +163,12 @@
 		{
 			LxNotificationService.error('Trezor Error: '+resp.error);
 			console.error('Trezor Error:', resp.error); // error message
+		}
+
+		user.handleLedgerError = function(err)
+		{
+			console.error(err)
+			LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
 		}
 
 		user.handleWeb3Err = function(err)

@@ -41,6 +41,7 @@
 # TODO
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * Ledger signing
+* Proper Ledger errors (e.g. when it's locked)
 * order book: show which orders are yours and which are pending 
 * make all third party scripts NOT load from third party domains
 * summarize '24h' on the top indicators rather than writing it separately
