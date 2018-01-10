@@ -22,10 +22,10 @@ div(ng-controller='UserCtrl', ng-cloak)
 				span.toolbar__label.tc-white.fs-title Choose account
 
 		lx-dialog-content(class='p++')
-			lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.addr', ng-model='selected.address')
+			lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.idx', ng-model='selected.idx')
 				lx-radio-button-label {{x.addr}}
 				lx-radio-button-help {{x.bal}} ETH
 
 		lx-dialog-footer
 			lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
-			lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onHDWalletAddr(selected.address, selected.hdWallet)') Ok
+			lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onHDWalletAddr(addresses[selected.idx].addr, selected.hdWallet, selected.idx)') Ok

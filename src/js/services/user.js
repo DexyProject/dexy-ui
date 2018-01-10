@@ -96,12 +96,14 @@
 			}
 			return all
 		}
-		user.onHDWalletAddr = function(address, type)
+		user.onHDWalletAddr = function(address, type, idx)
 		{
 			LxNotificationService.success(( type === 'trezor' ? 'Trezor' : 'Ledger' ) + ': imported address');
 
-			user.mode = type
 			user.publicAddr = address
+			user.mode = type
+			user.hdWalletAddrIdx = idx
+
 			if (!$scope.$$phase) $scope.$apply()
 		}
 
@@ -142,7 +144,8 @@
 				.then(function(comm) {
 					var eth = new ledger.eth(comm)
 
-					eth.signTransaction_async(user.LEDGER_HD_PATH, tx.encodeABI()).then(function(result) {
+					console.log(user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx)
+					eth.signTransaction_async(user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx, tx.encodeABI()).then(function(result) {
 							console.log('from signtx', result);
 
 							eth.signPersonalMessage_async(user.LEDGER_HD_PATH, Buffer.from("order pls").toString("hex")).then(function(result) {

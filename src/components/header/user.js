@@ -13,7 +13,7 @@
 		$scope.user = user
 
 		$scope.selected = { 
-			address: 0,
+			idx: 0,
 			hdWallet: '' // trezor or ledger
 		}
 
@@ -36,8 +36,8 @@
 		$scope.onAddresses = function(hdWallet, addresses) {
 			$scope.selected.hdWallet = hdWallet
 
-			$scope.addresses = addresses.map(function(x) {
-				return { addr: x, bal: '...' }
+			$scope.addresses = addresses.map(function(x, i) {
+				return { addr: x, idx: i, bal: '...' }
 			})
 
 			// refresh balances
