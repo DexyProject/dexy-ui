@@ -41,6 +41,7 @@
 # TODO
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * Ledger signing
+* order book: show which orders are yours and which are pending 
 * make all third party scripts NOT load from third party domains
 * summarize '24h' on the top indicators rather than writing it separately
 * auth (user) dialog should show ETH balance, highlight the current auth type 

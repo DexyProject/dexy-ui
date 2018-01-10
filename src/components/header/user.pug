@@ -28,4 +28,4 @@ div(ng-controller='UserCtrl', ng-cloak)
 
 		lx-dialog-footer
 			lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
-			lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onTrezorAddr(selected.address)') Ok
+			lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onHDWalletAddr(selected.address, selected.hdWallet)') Ok

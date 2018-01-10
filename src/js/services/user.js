@@ -95,11 +95,11 @@
 			}
 			return all
 		}
-		user.onTrezorAddr = function(address)
+		user.onHDWalletAddr = function(address, type)
 		{
-			LxNotificationService.success('Trezor: imported address');
+			LxNotificationService.success(( type === 'trezor' ? 'Trezor' : 'Ledger' ) + ': imported address');
 
-			user.mode = 'trezor'
+			user.mode = type
 			user.publicAddr = address
 			if (!$scope.$$phase) $scope.$apply()
 		}
@@ -135,6 +135,20 @@
 
 					})
 				})
+			} else if (user.mode === 'ledger') {
+				eth.signTransaction_async(user.LEDGER_HD_PATH, tx.encodeABI()).then(function(result) {
+						console.log('from signtx'+result);
+				}).catch(function(ex) {console.log(ex);});
+
+				eth.signPersonalMessage_async(user.LEDGER_HD_PATH, Buffer.from("order pls").toString("hex")).then(function(result) {
+					var v = result['v'] - 27;
+					v = v.toString(16);
+					if (v.length < 2) {
+					v = "0" + v;
+					}
+					console.log("Signature 0x" + result['r'] + result['s'] + v);
+
+				}).catch(function(ex) {console.log(ex);});
 
 			} else {
 				// normal mode

@@ -12,14 +12,17 @@
 	{
 		$scope.user = user
 
-		$scope.selected = { address: 0 }
+		$scope.selected = { 
+			address: 0,
+			hdWallet: '' // trezor or ledger
+		}
 
 
 		$scope.enableTrezor = function(accountIdx)
 		{
 			// NOTE: this callback will only be called on success
 			// Errors will be reported through the user service
-			user.getTrezorAddresses($scope.onAddresses)
+			user.getTrezorAddresses($scope.onAddresses, 'trezor')
 		}
 
 		
@@ -27,10 +30,12 @@
 		// ledger-eth and ledger3 need to be imported
 		$scope.enableLedger = function() 
 		{
-			user.getLedgerAddresses($scope.onAddresses)
+			user.getLedgerAddresses($scope.onAddresses, 'ledger')
 		}
 
-		$scope.onAddresses = function(addresses) {
+		$scope.onAddresses = function(addresses, hdWallet) {
+			$scope.selected.hdWallet = hdWallet
+
 			$scope.addresses = addresses.map(function(x) {
 				return { addr: x, bal: '...' }
 			})
