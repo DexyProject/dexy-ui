@@ -36,11 +36,12 @@
 * Auth: ability to use more than one trezor addr
 * colors in order book
 * re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin); decided on highcharts temporarily
-
+* Ledger signing
+* Proper Ledger errors (e.g. when it's locked)
 
 # TODO
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
-* Ledger signing
+* order book: show which orders are yours and which are pending 
 * make all third party scripts NOT load from third party domains
 * summarize '24h' on the top indicators rather than writing it separately
 * auth (user) dialog should show ETH balance, highlight the current auth type 

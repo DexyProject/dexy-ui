@@ -32,16 +32,20 @@
 		user.chainId = 1
 
 		// Default: try metamask
-		web3.eth.getAccounts(function(err, accounts) {
-			if (err) {
-				user.handleWeb3Err(err)
-				return
-			}
+		$scope.setMetamask = function() {
+			web3.eth.getAccounts(function(err, accounts) {
+				if (err) {
+					user.handleWeb3Err(err)
+					return
+				}
 
-			user.mode = 'metamask'
-			user.publicAddr = accounts[0]
+				user.mode = 'metamask'
+				user.publicAddr = accounts[0]
 
-		})
+			})
+		}
+		$scope.setMetamask()
+
 		web3.eth.net.getId(function(err, netId) {
 			if (err) {
 				user.handleWeb3Err(err)
@@ -73,12 +77,9 @@
 				.then(function(resp) { 
 					cb(user.getAddrs(resp.publicKey, resp.chainCode))
 				})
-				.catch(function(err) {
-					console.log(err)
-					LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
-					return
-				})
+				.catch($scope.handleLedgerError)
 			})
+			.catch($scope.handleLedgerError)
 		}
 		
 		user.getAddrs = function(publicKey, chainCode)
@@ -95,12 +96,14 @@
 			}
 			return all
 		}
-		user.onTrezorAddr = function(address)
+		user.onHDWalletAddr = function(address, type, idx)
 		{
-			LxNotificationService.success('Trezor: imported address');
+			LxNotificationService.success(( type === 'trezor' ? 'Trezor' : 'Ledger' ) + ': imported address');
 
-			user.mode = 'trezor'
 			user.publicAddr = address
+			user.mode = type
+			user.hdWalletAddrIdx = idx
+
 			if (!$scope.$$phase) $scope.$apply()
 		}
 
@@ -122,7 +125,7 @@
 					'0'+GAS_LIM.toString(16), // gas limit
 					user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
 					'00', // value TODO
-					null, // data TODO
+					tx.encodeABI(), // data TODO
 					user.chainId,
 					function (response) {
 						if (response.success) {
@@ -135,7 +138,29 @@
 
 					})
 				})
+			} else if (user.mode === 'ledger') {
 
+				ledger.comm_u2f.create_async()
+				.then(function(comm) {
+					var eth = new ledger.eth(comm)
+
+					var dPath = user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx;
+					console.log(dPath)
+					eth.signTransaction_async(dPath, tx.encodeABI()).then(function(result) {
+							console.log('from signtx', result);
+
+							eth.signPersonalMessage_async(dPath, Buffer.from("order pls").toString("hex")).then(function(result) {
+								var v = result['v'] - 27;
+								v = v.toString(16);
+								if (v.length < 2) {
+								v = "0" + v;
+								}
+								console.log("Signature 0x" + result['r'] + result['s'] + v);
+
+							}).catch(function(ex) {console.log(ex);})
+					}).catch(function(ex) {console.log(ex);});
+
+				})
 			} else {
 				// normal mode
 				tx.send({ from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE })
@@ -148,6 +173,12 @@
 		{
 			LxNotificationService.error('Trezor Error: '+resp.error);
 			console.error('Trezor Error:', resp.error); // error message
+		}
+
+		user.handleLedgerError = function(err)
+		{
+			console.error(err)
+			LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
 		}
 
 		user.handleWeb3Err = function(err)
