@@ -35,22 +35,28 @@
 * merge validation
 * Auth: ability to use more than one trezor addr
 * colors in order book
+* re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin); decided on highcharts temporarily
+
 
 # TODO
+* Ledger signing
 * make all third party scripts NOT load from third party domains
+* summarize '24h' on the top indicators rather than writing it separately
+* auth (user) dialog should show ETH balance, highlight the current auth type 
+* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
+* ability to go to a token by addr
 * gas price controls in the UI
 * buy/sell controls: slider, calculate total amount, show available amnt
-* re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin)
+* chart size
+* Last Trades UI
+* My Orders UI
+* Spificator (or similar 'in progress'): include to improve TX UX
 
 ## Depends on API
 
 * service for the API
 * service for the orderbook state
 * service for getting user's balances for tokens; ensure hide zero balances works
-* Spificator: include to improve TX UX
-
-[LOGO][MARKETS | WALLETS | HELP]          ETH/USD  NIGHTMODE
-(mybe make ETH/USD a dropdown and have ETH/EUR)
 
 ## mañana but important
 
@@ -59,8 +65,6 @@
 * xss: no third-party sources of data
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * TradingView license: also check if we can host `tv.js` on our servers
-* Hardware wallets: Ledger
-* Ability to add new tokens
 
 ## mañana
 
