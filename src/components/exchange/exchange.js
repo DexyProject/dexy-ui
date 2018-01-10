@@ -101,6 +101,9 @@
                 title: {
                     enabled: false
                 },
+                tooltip: {
+                    enabled: false
+                },
                 series: [{
                     type: 'candlestick',
                     name: 'Price',
