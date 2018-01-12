@@ -41,7 +41,8 @@
 
 				user.mode = 'metamask'
 				user.publicAddr = accounts[0]
-
+				
+				if (!$scope.$$phase) $scope.$apply()
 			})
 		}
 		$scope.setMetamask()
