@@ -30,6 +30,8 @@
         $scope.$watch(function() { return user.publicAddr }, function(addr) {
             if (!addr) return
 
+            console.log('Fetching balances for '+addr)
+
             exchange.token.methods.balanceOf(addr).call(function(err, bal) {
                 if (err) console.error(err)
                 else {
@@ -181,5 +183,24 @@
 
     function orderbookCtrl($scope, $stateParams)
     {
+    }
+
+
+    // Indicators ctrl
+    angular
+        .module('dexyApp')
+        .controller('exchangeIndicatorsCtrl', orderbookCtrl);
+
+    orderbookCtrl.$inject = ['$scope', '$stateParams'];
+
+    function orderbookCtrl($scope, $stateParams)
+    {
+        var exchange = this
+
+        var symbol = $stateParams.pair.split('/').pop()
+
+        exchange.pair = $stateParams.pair
+        exchange.symbol = symbol
+
     }
 })();
