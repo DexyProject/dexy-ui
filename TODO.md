@@ -58,6 +58,7 @@
 
 * service for the API
 * service for the orderbook state
+* service for submitting ordeers, keccak256
 * service for getting user's balances for tokens; ensure hide zero balances works
 
 ## mañana but important

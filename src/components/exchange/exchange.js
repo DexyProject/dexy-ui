@@ -30,7 +30,7 @@
         $scope.$watch(function() { return user.publicAddr }, function(addr) {
             if (!addr) return
 
-            console.log('Fetching balances for '+addr)
+            console.log('Fetching '+exchange.symbol+' balances for '+addr)
 
             exchange.token.methods.balanceOf(addr).call(function(err, bal) {
                 if (err) console.error(err)
