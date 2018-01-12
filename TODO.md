@@ -40,9 +40,9 @@
 * Proper Ledger errors (e.g. when it's locked)
 
 # TODO
+* make all third party scripts NOT load from third party domains
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * order book: show which orders are yours and which are pending 
-* make all third party scripts NOT load from third party domains
 * summarize '24h' on the top indicators rather than writing it separately
 * auth (user) dialog should show ETH balance, highlight the current auth type 
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
