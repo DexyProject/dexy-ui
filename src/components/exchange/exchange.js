@@ -23,9 +23,9 @@
 
         exchange.pair = $stateParams.pair
         exchange.symbol = symbol
+        exchange.user = user
 
         // Get wallet balance
-        exchange.ethBal = { }
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
         $scope.$watch(function() { return user.publicAddr }, function(addr) {
             if (!addr) return
@@ -40,11 +40,6 @@
                     if (! $scope.$$phase) $scope.$apply()
                 }
             })
-            web3.eth.getBalance(addr).then(function(bal) {
-                exchange.ethBal.onWallet = bal / 1000000000000000000
-                if (! $scope.$$phase) $scope.$apply()
-            })
-
             // TODO: get from exchange SC too
         })
 

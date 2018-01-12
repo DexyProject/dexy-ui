@@ -41,11 +41,26 @@
 
 				user.mode = 'metamask'
 				user.publicAddr = accounts[0]
-				
+
 				if (!$scope.$$phase) $scope.$apply()
 			})
 		}
 		$scope.setMetamask()
+
+		// Eth bal
+		user.ethBal = { }
+		$scope.$watch(function() { return user.publicAddr }, function(addr) {
+			if (!addr) return
+
+			console.log('Fetching ETH balances for '+addr)
+
+			web3.eth.getBalance(addr).then(function(bal) {
+				user.ethBal.onWallet = bal / 1000000000000000000
+				if (! $scope.$$phase) $scope.$apply()
+			})
+
+			// TODO: get from exchange SC too
+		})
 
 		web3.eth.net.getId(function(err, netId) {
 			if (err) {

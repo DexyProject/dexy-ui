@@ -38,9 +38,9 @@
 * re-visit charts (highcharts: orderbook.io, coinmarketcap, radar, yobit, iconomi, cryptopia, coincube, bitstamp (depth chart); tradingview: liqui, idex, bitfinex, hitbtc, gatecoin, huobi, big.one, kucoin); decided on highcharts temporarily
 * Ledger signing
 * Proper Ledger errors (e.g. when it's locked)
+* make all third party scripts NOT load from third party domains
 
 # TODO
-* make all third party scripts NOT load from third party domains
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * order book: show which orders are yours and which are pending 
 * summarize '24h' on the top indicators rather than writing it separately
