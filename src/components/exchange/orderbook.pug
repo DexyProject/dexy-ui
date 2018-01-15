@@ -3,7 +3,7 @@ table.orderbook
 		tr
 			th Price
 			th Amount
-			th Total
+			th Total (ETH)
 
 	tbody
 		tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='fillForOrder(fillSide, order)')
