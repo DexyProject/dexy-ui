@@ -216,7 +216,7 @@
             // https://github.com/0xProject/0x.js/issues/162
             //  personal_sign
             var msg = "\x19Ethereum Signed Message:\n32"+web3.utils.toAscii(hash)
-            web3.eth.sign(msg, userAddr, function(err, resp) {
+            web3.eth.personal.sign(msg, userAddr, function(err, resp) {
                 console.log(err, resp)
             })
 
