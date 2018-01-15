@@ -90,6 +90,14 @@
                         },
                     ],
                 },
+                plotOptions: {
+                    candlestick: {
+                        color: '#e57373',
+                        lineColor: '#e57373',
+                        upColor: 'transparent',
+                        upLineColor: '#4db6ac'
+                    }
+                },
                 chart: {
                     height: '44%'
                 },
@@ -108,25 +116,49 @@
                 tooltip: {
                     enabled: false
                 },
-                series: [{
-                    type: 'candlestick',
-                    name: 'Price',
-                    data: data,
-                    dataGrouping: {
-                        enabled: true,
-                        forced: true,
-                        // groupPixelWidth: 25,
-                        units: [
-                            [
-                                'week', // unit name
-                                [1] // allowed multiples
-                            ], [
-                                'month',
-                                [1, 2, 3, 4, 6]
+                series: [
+                    {
+                        type: 'candlestick',
+                        name: 'Price',
+                        data: data,
+                        dataGrouping: {
+                            enabled: true,
+                            forced: true,
+                            // groupPixelWidth: 25,
+                            units: [
+                                [
+                                    'week', // unit name
+                                    [1] // allowed multiples
+                                ], [
+                                    'month',
+                                    [1, 2, 3, 4, 6]
+                                ]
                             ]
-                        ]
-                    }
-                }]
+                        }
+                    },
+                    // {
+                    //     type: 'column',
+                    //     name: 'Volume',
+                    //     pointWidth: 10,
+                    //     data: [],
+                    //     yAxis: 1,
+                    //     dataGrouping: {
+                    //         enabled: true,
+                    //         forced: true,
+                    //         // groupPixelWidth: 25,
+                    //         units: [
+                    //             [
+                    //                 'week', // unit name
+                    //                 [1] // allowed multiples
+                    //             ], [
+                    //                 'month',
+                    //                 [1, 2, 3, 4, 6]
+                    //             ]
+                    //         ]
+                    //     },
+                    //     color: '#b9b9b9'
+                    // }
+                ]
             });
         });
 
