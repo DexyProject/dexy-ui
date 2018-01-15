@@ -170,6 +170,17 @@
 
     function placeOrderCtrl($scope, $stateParams)
     {
+        $scope.placeOrder = function(order, type, symbol)
+        {
+            var token = CONSTS.tokens[symbol]
+            
+            var amntUint = parseFloat(order.amount) * token[1]
+            console.log(token[1])
+            var rateUint = parseFloat(order.rate) * Math.pow(10, 18)
+
+
+            console.log(order, type, amntUint, rateUint)
+        }
     }
 
     // Orderbook ctrl

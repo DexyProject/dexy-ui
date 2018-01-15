@@ -24,4 +24,5 @@ lx-button(
 		ng-bind='side=="SELL" ? "Place Sell Order" : "Place Buy Order"'
 		lx-size='m'
 		ng-disabled='!exchange.orders[side].valid'
+		ng-click='placeOrder(exchange.orders[side], side, exchange.symbol)'
 		)
