@@ -166,20 +166,60 @@
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
 
-    placeOrderCtrl.$inject = ['$scope', '$stateParams'];
+    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
 
-    function placeOrderCtrl($scope, $stateParams)
+    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService)
     {
         $scope.placeOrder = function(order, type, symbol)
         {
+            if (!user.publicAddr) {
+                LxNotificationService.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
+                return
+            }
+
             var token = CONSTS.tokens[symbol]
-            
-            var amntUint = parseFloat(order.amount) * token[1]
-            console.log(token[1])
-            var rateUint = parseFloat(order.rate) * Math.pow(10, 18)
+
+            var amntUint = order.amount * token[1]
+            var totalUint = order.rate * order.amount * Math.pow(10, 18)
+
+            // hardcoded for now
+            var expires = 20160
+
+            var userAddr = user.publicAddr
+
+            var tokenGet = 0
+            var amountGet = 0
+            var tokenGive = 0
+            var amountGive = 0
+
+            // TODO
+            var nonce = parseInt(Math.random() * 1000000000000000000)
+
+            if (type === 'SELL') {
+                tokenGive = amntUint
+                amountGet = totalUint
+            } else {
+                tokenGet = amntUint
+                amountGive = totalUint
+            }
+
+            // TODO
+            var scAddr = '0x0000000000000000000000000000000000000000'
+
+            //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
+            var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, scAddr)
 
 
-            console.log(order, type, amntUint, rateUint)
+            console.log(hash, web3.utils.toAscii(hash).length)
+            // https://github.com/ethereum/web3.js/issues/392
+            // https://github.com/MetaMask/metamask-extension/issues/1530
+            // https://github.com/0xProject/0x.js/issues/162
+            //  personal_sign
+            var msg = "\x19Ethereum Signed Message:\n32"+web3.utils.toAscii(hash)
+            web3.eth.sign(msg, userAddr, function(err, resp) {
+                console.log(err, resp)
+            })
+
         }
     }
 
