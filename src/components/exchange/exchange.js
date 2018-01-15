@@ -158,7 +158,18 @@
                     //     },
                     //     color: '#b9b9b9'
                     // }
-                ]
+                ],
+                yAxis: {
+                    gridLineWidth: 0,
+                    //     tickColor: 'black',
+                    // tickLength: 5,
+                    // tickWidth: 1,
+                    tickPosition: 'outside',
+                    labels: {
+                        align: 'left',
+                    },
+                    lineWidth: 0,
+                }
             });
         });
 
