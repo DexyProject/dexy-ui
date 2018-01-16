@@ -180,7 +180,7 @@
                             }
                         }
                     },
-                    height: '80%',
+                    height: '100%',
                     lineWidth: 0,
                     min: 0,
                     gridLineWidth: 0,
@@ -232,6 +232,7 @@
                         }
                     },
                     lineColor: "#b9b9b9",
+                    tickColor: "#b9b9b9",
                     ordinal: false,
                     labels: {
                         style: {
@@ -246,6 +247,7 @@
                     type: 'candlestick',
                     name: 'Price',
                     data: prices,
+                    zIndex: 2,
                     dataGrouping: {
                         enabled: true,
                         forced: true,
@@ -255,12 +257,14 @@
                             ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
                         ]
                     }
-                }, {
+                },
+                    {
                     type: 'column',
                     name: 'Volume',
                     pointWidth: 10,
                     data: volume,
                     yAxis: 1,
+                    zIndex: 1,
                     dataGrouping: {
                         enabled: true,
                         forced: true,
