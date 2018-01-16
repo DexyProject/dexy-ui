@@ -88,7 +88,7 @@ Highcharts.setOptions({
       }
     });
 
-    Highcharts.stockChart('mainChart', {
+Highcharts.stockChart('mainChart', {
       rangeSelector: {
         inputEnabled: false,
         selected: 1,
@@ -167,14 +167,22 @@ Highcharts.setOptions({
           snap: false,
           label: {
             enabled: true,
-            format: '{value:.5f}'
+            format: '{value:.5f}',
+            backgroundColor: '#FFF',
+            borderColor: '#6c54c9',
+            borderWidth: '1',
+            style: {
+              "color": "#6c54c9",
+              "fontWeight": "normal",
+              "fontSize": "11px",
+              "textAlign": "center"
+            }
           }
         },
         height: '80%',
         lineWidth: 0,
         min: 0,
         gridLineWidth: 0,
-        lineColor: '#b9b9b9',
         offset: 0,
         labels: {
           align: 'left',
@@ -193,7 +201,6 @@ Highcharts.setOptions({
         lineWidth: 0,
         offset: 0,
         gridLineWidth: 0,
-        lineColor: '#b9b9b9',
         labels: {
           enabled: false
         }
@@ -208,9 +215,19 @@ Highcharts.setOptions({
           dashStyle: 'Dot',
           snap: false,
           label: {
-            enabled: true
+            enabled: true,
+            backgroundColor: '#FFF',
+            borderColor: '#6c54c9',
+            borderWidth: '1',
+            style: {
+              "color": "#6c54c9",
+              "fontWeight": "normal",
+              "fontSize": "11px",
+              "textAlign": "center"
+            }
           }
         },
+        lineColor: "#b9b9b9",
         ordinal: false,
         labels: {
           style: {
