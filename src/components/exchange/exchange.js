@@ -1,5 +1,4 @@
-(function() 
-{
+(function () {
     'use strict';
 
 
@@ -14,8 +13,7 @@
 
     exchangeCtrl.$inject = ['$scope', '$stateParams', 'user'];
 
-    function exchangeCtrl($scope, $stateParams, user)
-    {
+    function exchangeCtrl($scope, $stateParams, user) {
         var exchange = this;
 
         var symbol = $stateParams.pair.split('/').pop()
@@ -27,26 +25,27 @@
 
         // Get wallet balance
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
-        $scope.$watch(function() { return user.publicAddr }, function(addr) {
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function (addr) {
             if (!addr) return
 
-            console.log('Fetching '+exchange.symbol+' balances for '+addr)
+            console.log('Fetching ' + exchange.symbol + ' balances for ' + addr)
 
-            exchange.token.methods.balanceOf(addr).call(function(err, bal) {
+            exchange.token.methods.balanceOf(addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    exchange.onWallet = (bal/token[1]).toFixed(2)
+                    exchange.onWallet = (bal / token[1]).toFixed(2)
                     exchange.walletAddr = addr
-                    if (! $scope.$$phase) $scope.$apply()
+                    if (!$scope.$$phase) $scope.$apply()
                 }
             })
             // TODO: get from exchange SC too
         })
 
 
-
         // How to test signing tx
-        // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange; 
+        // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange;
         // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
 
 
@@ -58,9 +57,11 @@
             [0.0002410, 3244],
             [0.0002501, 99],
             [0.0002802, 222],
-        ].map(function(x, i) { return { idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0 } })
+        ].map(function (x, i) {
+            return {idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0}
+        })
 
-        $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0x2956356cd2a2bf3202f771f50d3d14a367b48070/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data)    {
+        $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0x2956356cd2a2bf3202f771f50d3d14a367b48070/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
             // Create the chart
 
             var prices = [];
@@ -82,211 +83,210 @@
 
             prices.reverse()
             volume.reverse()
-Highcharts.setOptions({
-      lang: {
-        rangeSelectorZoom: ''
-      }
-    });
+            Highcharts.setOptions({
+                lang: {
+                    rangeSelectorZoom: ''
+                }
+            });
 
-Highcharts.stockChart('mainChart', {
-      rangeSelector: {
-        inputEnabled: false,
-        selected: 1,
-        buttons: [{
-          type: 'hour',
-          count: 1,
-          text: '1h'
-        }, {
-          type: 'day',
-          count: 1,
-          text: '1d'
-        }, {
-          type: 'week',
-          count: 1,
-          text: '1w'
-        }, {
-          type: 'month',
-          count: 1,
-          text: '1m'
-        }],
-        buttonTheme: {
-          fill: 'none',
-          stroke: 'none',
-          'stroke-width': 0,
-          style: {
-            color: '#b9b9b9',
-            textTransform: 'uppercase',
-          },
-          states: {
-            hover: {
-              fill: 'none',
-              stroke: 'none',
-              'stroke-width': 0,
-              style: {
-                color: '',
-              }
-            },
-            select: {
-              fill: 'none',
-              stroke: 'none',
-              'stroke-width': 0,
-              style: {
-                color: '#6c54c9',
-              }
-            }
-          }
-        },
-      },
-      plotOptions: {
-        candlestick: {
-          color: '#e57373',
-          lineColor: '#e57373',
-          upColor: 'transparent',
-          upLineColor: '#4db6ac'
-        }
-      },
-      chart: {
-        height: '44%',
-        panning: true,
-      },
-      credits: {
-        enabled: false
-      },
-      navigator: {
-        enabled: false
-      },
-      scrollbar: {
-        enabled: false
-      },
-      title: {
-        enabled: false
-      },
-      yAxis: [{
-        crosshair: {
-          dashStyle: 'Dot',
-          snap: false,
-          label: {
-            enabled: true,
-            format: '{value:.5f}',
-            backgroundColor: '#FFF',
-            borderColor: '#6c54c9',
-            borderWidth: '1',
-            style: {
-              "color": "#6c54c9",
-              "fontWeight": "normal",
-              "fontSize": "11px",
-              "textAlign": "center"
-            }
-          }
-        },
-        height: '80%',
-        lineWidth: 0,
-        min: 0,
-        gridLineWidth: 0,
-        offset: 0,
-        labels: {
-          align: 'left',
-          style: {
-            color: '#b9b9b9',
-            'min-width': '40px'
-          },
-        }
-      }, {
-        crosshair: {
-          dashStyle: 'Dot',
-          snap: false,
-        },
-        top: '80%',
-        height: '20%',
-        lineWidth: 0,
-        offset: 0,
-        gridLineWidth: 0,
-        labels: {
-          enabled: false
-        }
-      }],
-      xAxis: [{
-        dateTimeLabelFormats: {
-          day: '%b %e',
-          week: '%b %e',
-          month: '%b \'%y',
-        },
-        crosshair: {
-          dashStyle: 'Dot',
-          snap: false,
-          label: {
-            enabled: true,
-            backgroundColor: '#FFF',
-            borderColor: '#6c54c9',
-            borderWidth: '1',
-            style: {
-              "color": "#6c54c9",
-              "fontWeight": "normal",
-              "fontSize": "11px",
-              "textAlign": "center"
-            }
-          }
-        },
-        lineColor: "#b9b9b9",
-        ordinal: false,
-        labels: {
-          style: {
-            color: '#b9b9b9'
-          },
-        }
-      }],
-      tooltip: {
-        enabled: false
-      },
-      series: [{
-        type: 'candlestick',
-        name: 'Price',
-        data: prices,
-        dataGrouping: {
-          enabled: true,
-          forced: true,
-          groupPixelWidth: 25,
+            Highcharts.stockChart('mainChart', {
+                rangeSelector: {
+                    inputEnabled: false,
+                    selected: 1,
+                    buttons: [{
+                        type: 'hour',
+                        count: 1,
+                        text: '1h'
+                    }, {
+                        type: 'day',
+                        count: 1,
+                        text: '1d'
+                    }, {
+                        type: 'week',
+                        count: 1,
+                        text: '1w'
+                    }, {
+                        type: 'month',
+                        count: 1,
+                        text: '1m'
+                    }],
+                    buttonTheme: {
+                        fill: 'none',
+                        stroke: 'none',
+                        'stroke-width': 0,
+                        style: {
+                            color: '#b9b9b9',
+                            textTransform: 'uppercase',
+                        },
+                        states: {
+                            hover: {
+                                fill: 'none',
+                                stroke: 'none',
+                                'stroke-width': 0,
+                                style: {
+                                    color: '',
+                                }
+                            },
+                            select: {
+                                fill: 'none',
+                                stroke: 'none',
+                                'stroke-width': 0,
+                                style: {
+                                    color: '#6c54c9',
+                                }
+                            }
+                        }
+                    },
+                },
+                plotOptions: {
+                    candlestick: {
+                        color: '#e57373',
+                        lineColor: '#e57373',
+                        upColor: 'transparent',
+                        upLineColor: '#4db6ac'
+                    }
+                },
+                chart: {
+                    height: '44%',
+                    panning: true,
+                },
+                credits: {
+                    enabled: false
+                },
+                navigator: {
+                    enabled: false
+                },
+                scrollbar: {
+                    enabled: false
+                },
+                title: {
+                    enabled: false
+                },
+                yAxis: [{
+                    crosshair: {
+                        dashStyle: 'Dot',
+                        snap: false,
+                        label: {
+                            enabled: true,
+                            format: '{value:.5f}',
+                            backgroundColor: '#FFF',
+                            borderColor: '#6c54c9',
+                            borderWidth: '1',
+                            style: {
+                                "color": "#6c54c9",
+                                "fontWeight": "normal",
+                                "fontSize": "11px",
+                                "textAlign": "center"
+                            }
+                        }
+                    },
+                    height: '80%',
+                    lineWidth: 0,
+                    min: 0,
+                    gridLineWidth: 0,
+                    offset: 0,
+                    labels: {
+                        align: 'left',
+                        style: {
+                            color: '#b9b9b9',
+                            'min-width': '40px'
+                        }
+                    }
+                }, {
+                    crosshair: {
+                        dashStyle: 'Dot',
+                        snap: false,
+                    },
+                    top: '80%',
+                    height: '20%',
+                    lineWidth: 0,
+                    offset: 0,
+                    gridLineWidth: 0,
+                    labels: {
+                        enabled: false
+                    }
+                }],
+                xAxis: [{
+                    dateTimeLabelFormats: {
+                        day: '%b %e',
+                        week: '%b %e',
+                        month: '%b \'%y',
+                    },
+                    crosshair: {
+                        dashStyle: 'Dot',
+                        snap: false,
+                        label: {
+                            enabled: true,
+                            backgroundColor: '#FFF',
+                            borderColor: '#6c54c9',
+                            borderWidth: '1',
+                            style: {
+                                "color": "#6c54c9",
+                                "fontWeight": "normal",
+                                "fontSize": "11px",
+                                "textAlign": "center"
+                            }
+                        }
+                    },
+                    lineColor: "#b9b9b9",
+                    ordinal: false,
+                    labels: {
+                        style: {
+                            color: '#b9b9b9'
+                        }
+                    }
+                }],
+                tooltip: {
+                    enabled: false
+                },
+                series: [{
+                    type: 'candlestick',
+                    name: 'Price',
+                    data: prices,
+                    dataGrouping: {
+                        enabled: true,
+                        forced: true,
+                        groupPixelWidth: 25,
 
-          units: [
-            ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
-          ]
-        }
-      }, {
-        type: 'column',
-        name: 'Volume',
-        pointWidth: 10,
-        data: volume,
-        yAxis: 1,
-        dataGrouping: {
-          enabled: true,
-          forced: true,
-          groupPixelWidth: 25,
+                        units: [
+                            ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
+                        ]
+                    }
+                }, {
+                    type: 'column',
+                    name: 'Volume',
+                    pointWidth: 10,
+                    data: volume,
+                    yAxis: 1,
+                    dataGrouping: {
+                        enabled: true,
+                        forced: true,
+                        groupPixelWidth: 25,
 
-          units: [
-            ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
-          ]
-        },
-        color: '#b9b9b9'
-      }],
-    });
-           
-
+                        units: [
+                            ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
+                        ]
+                    },
+                    color: '#b9b9b9'
+                }]
+            });
         });
 
         // Orders
         exchange.orders = {
-            SELL: { },
-            BUY: { }
+            SELL: {},
+            BUY: {}
         }
 
 
-        $scope.fillForOrder = function(side, order)
-        {
+        $scope.fillForOrder = function (side, order) {
             console.log(side)
             exchange.orders[side] = order
         }
 
-        $scope.$watch(function () { return exchange.orders }, function (orders) {
+        $scope.$watch(function () {
+            return exchange.orders
+        }, function (orders) {
             exchange.orders.SELL.valid = isValidNumber(orders.SELL.rate) && isValidNumber(orders.SELL.amount) // && sufficient tokens
             exchange.orders.BUY.valid = isValidNumber(orders.BUY.rate) && isValidNumber(orders.BUY.amount) // && sufficient eth
         }, true)
@@ -295,8 +295,13 @@ Highcharts.stockChart('mainChart', {
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
 
-        $scope.$watch(function () { return exchange.orders.SELL }, refreshTotal, true)
-        $scope.$watch(function () { return exchange.orders.BUY }, refreshTotal, true)
+        $scope.$watch(function () {
+            return exchange.orders.SELL
+        }, refreshTotal, true)
+        $scope.$watch(function () {
+            return exchange.orders.BUY
+        }, refreshTotal, true)
+
         function refreshTotal(order) {
             if (order.valid) order.total = order.amount * order.rate
         }
@@ -306,15 +311,13 @@ Highcharts.stockChart('mainChart', {
     // Place order ctrl
 
     angular
-    
+
         .controller('placeOrderCtrl', placeOrderCtrl);
 
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
 
-    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService)
-    {
-        $scope.placeOrder = function(order, type, symbol)
-        {
+    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
+        $scope.placeOrder = function (order, type, symbol) {
             if (!user.publicAddr) {
                 LxNotificationService.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
                 return
@@ -358,8 +361,8 @@ Highcharts.stockChart('mainChart', {
             // https://github.com/MetaMask/metamask-extension/issues/1530
             // https://github.com/0xProject/0x.js/issues/162
             //  personal_sign
-            var msg = "\x19Ethereum Signed Message:\n32"+web3.utils.toAscii(hash)
-            web3.eth.personal.sign(msg, userAddr, function(err, resp) {
+            var msg = "\x19Ethereum Signed Message:\n32" + web3.utils.toAscii(hash)
+            web3.eth.personal.sign(msg, userAddr, function (err, resp) {
                 console.log(err, resp)
             })
 
@@ -373,8 +376,7 @@ Highcharts.stockChart('mainChart', {
 
     orderbookCtrl.$inject = ['$scope', '$stateParams'];
 
-    function orderbookCtrl($scope, $stateParams)
-    {
+    function orderbookCtrl($scope, $stateParams) {
     }
 
 
@@ -385,8 +387,7 @@ Highcharts.stockChart('mainChart', {
 
     orderbookCtrl.$inject = ['$scope', '$stateParams'];
 
-    function orderbookCtrl($scope, $stateParams)
-    {
+    function orderbookCtrl($scope, $stateParams) {
         var exchange = this
 
         var symbol = $stateParams.pair.split('/').pop()
