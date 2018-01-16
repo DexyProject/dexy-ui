@@ -47,7 +47,7 @@
 * auth (user) dialog should show ETH balance, highlight the current auth type 
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * ability to go to a token by addr
-* gas price controls in the UI
+* gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
 * buy/sell controls: slider, calculate total amount, show available amnt
 * chart size
 * Last Trades UI
