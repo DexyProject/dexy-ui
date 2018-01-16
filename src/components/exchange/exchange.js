@@ -60,13 +60,34 @@
             [0.0002802, 222],
         ].map(function(x, i) { return { idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0 } })
 
-        // chart
-        $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?a=e&filename=aapl-ohlc.json&callback=?', function (data) {
+        $(document).ready(function(){
+        $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0x2956356cd2a2bf3202f771f50d3d14a367b48070/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data)    {
+            // Create the chart
 
-            // create the chart
+            var prices = [];
+            var volume = [];
+            data.forEach(function (data) {
+                prices.push([
+                    data.startBlockTimestamp * 1000,
+                    Number(data.open),
+                    Number(data.high),
+                    Number(data.low),
+                    Number(data.close)
+                ])
+
+                volume.push([
+                    data.startBlockTimestamp * 1000,
+                    Number(data.takerTokenVolume)
+                ])
+            });
+
+            prices.reverse()
+            volume.reverse()
+
             Highcharts.stockChart('mainChart', {
                 rangeSelector: {
                     inputEnabled: false,
+                    selected: 1,
                     buttons: [
                         {
                             type: 'hour',
@@ -99,7 +120,8 @@
                     }
                 },
                 chart: {
-                    height: '44%'
+                    height: '44%',
+                    panning: true,
                 },
                 credits: {
                     enabled: false
@@ -113,6 +135,57 @@
                 title: {
                     enabled: false
                 },
+                yAxis: [{
+                    crosshair: {
+                        dashStyle: 'Dot',
+                        snap: false
+                    },
+                    height: '80%',
+                    lineWidth: 0,
+                    min: 0,
+                    gridLineWidth: 0,
+                    lineColor: '#b9b9b9',
+                    offset: 0,
+                    labels: {
+                        align: 'left',
+                        style: {
+                            color: '#b9b9b9',
+                            'min-width': '40px'
+                        },
+                    }
+                },
+                {
+                    crosshair: {
+                        dashStyle: 'Dot',
+                        snap: false
+                    },
+                    top: '80%',
+                    height: '20%',
+                    lineWidth: 0,
+                    offset: 0,
+                    gridLineWidth: 0,
+                    lineColor: '#b9b9b9',
+                    labels: {
+                        enabled: false
+                    }
+                }],
+                xAxis: [{
+                    dateTimeLabelFormats: {
+                        day: '%b %e',
+                        week: '%b %e',
+                        month: '%b \'%y',
+                    },
+                    crosshair: {
+                        dashStyle: 'Dot',
+                        snap: false
+                    },
+                    ordinal: false,
+                    labels: {
+                        style: {
+                            color: '#b9b9b9'
+                        },
+                    }
+                }],
                 tooltip: {
                     enabled: false
                 },
@@ -120,58 +193,39 @@
                     {
                         type: 'candlestick',
                         name: 'Price',
-                        data: data,
+                        data: prices,
                         dataGrouping: {
                             enabled: true,
                             forced: true,
-                            // groupPixelWidth: 25,
+                            groupPixelWidth: 25,
+
                             units: [
-                                [
-                                    'week', // unit name
-                                    [1] // allowed multiples
-                                ], [
-                                    'month',
-                                    [1, 2, 3, 4, 6]
-                                ]
+                                ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
                             ]
                         }
                     },
-                    // {
-                    //     type: 'column',
-                    //     name: 'Volume',
-                    //     pointWidth: 10,
-                    //     data: [],
-                    //     yAxis: 1,
-                    //     dataGrouping: {
-                    //         enabled: true,
-                    //         forced: true,
-                    //         // groupPixelWidth: 25,
-                    //         units: [
-                    //             [
-                    //                 'week', // unit name
-                    //                 [1] // allowed multiples
-                    //             ], [
-                    //                 'month',
-                    //                 [1, 2, 3, 4, 6]
-                    //             ]
-                    //         ]
-                    //     },
-                    //     color: '#b9b9b9'
-                    // }
+                    {
+                        type: 'column',
+                        name: 'Volume',
+                        pointWidth: 10,
+                        data: volume,
+                        yAxis: 1,
+                        dataGrouping: {
+                            enabled: true,
+                            forced: true,
+                            groupPixelWidth: 25,
+
+                            units: [
+                                ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
+                            ]
+                        },
+                        color: '#b9b9b9'
+                    }
                 ],
-                yAxis: {
-                    gridLineWidth: 0,
-                    //     tickColor: 'black',
-                    // tickLength: 5,
-                    // tickWidth: 1,
-                    tickPosition: 'outside',
-                    labels: {
-                        align: 'left',
-                    },
-                    lineWidth: 0,
-                }
             });
+
         });
+    });
 
         // Orders
         exchange.orders = {
