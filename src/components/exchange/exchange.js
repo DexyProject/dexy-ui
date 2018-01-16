@@ -306,7 +306,7 @@ Highcharts.stockChart('mainChart', {
     // Place order ctrl
 
     angular
-    
+        .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
 
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
