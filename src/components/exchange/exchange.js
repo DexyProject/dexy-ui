@@ -60,7 +60,6 @@
             [0.0002802, 222],
         ].map(function(x, i) { return { idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0 } })
 
-        $(document).ready(function(){
         $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0x2956356cd2a2bf3202f771f50d3d14a367b48070/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data)    {
             // Create the chart
 
@@ -225,7 +224,6 @@
             });
 
         });
-    });
 
         // Orders
         exchange.orders = {
@@ -260,7 +258,7 @@
     // Place order ctrl
 
     angular
-        .module('dexyApp')
+    
         .controller('placeOrderCtrl', placeOrderCtrl);
 
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
