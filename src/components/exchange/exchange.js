@@ -196,6 +196,9 @@
                     crosshair: {
                         dashStyle: 'Dot',
                         snap: false,
+                        label: {
+                            enabled: false,
+                        }
                     },
                     top: '80%',
                     height: '20%',
