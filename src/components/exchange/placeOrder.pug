@@ -21,7 +21,7 @@ h4(ng-bind='::side=="SELL" ? "Sell "+exchange.symbol : "Buy "+exchange.symbol')
 
 lx-button(
 		lx-color='{{::side=="SELL" ? "red" : "green"}}',
-		ng-bind='side=="SELL" ? "Place Sell Order" : "Place Buy Order"'
+		ng-bind='side=="SELL" ? "Sell" : "Buy"'
 		lx-size='m'
 		ng-disabled='!exchange.orders[side].valid'
 		ng-click='placeOrder(exchange.orders[side], side, exchange.symbol)'
