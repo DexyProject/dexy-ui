@@ -21,8 +21,8 @@ router.get('/', function(req, res) {
     });
 });
 
-router.get(/\/css\/(.*).css/, function(req, res, next) {
-    var pathname = url.parse(req.url).pathname.slice('/css/'.length);
+router.get(/^\/([a-zA-Z]*)\.css/, function(req, res, next) {
+    var pathname = url.parse(req.url).pathname.slice(1);
     var styl_file = pathname.replace('.css', '.styl');
     var p = (pathname.indexOf('/') === -1 ? './src/styl/' : './') + styl_file; // put /styl in front if it's top-level
     fs.readFile(p, function(err, str) {

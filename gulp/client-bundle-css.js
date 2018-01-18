@@ -19,10 +19,13 @@ gulp.task('client-bundle-css', function(cb) {
 
 		var sheet = line.split('\'')[3]
 		if (sheet.match('.css')) {
-			if (sheet.match('css/')) {
-				var split = sheet.split('/').slice(1)
-				if (split.length === 1) split.unshift('src/styl') // if it's in the root, add src/styl/ in front
-				sheets.push(split.join('/').replace('.css', '.styl'))
+			var spl = sheet.split('/')
+
+			// TODO: better detection if it's a css generated from styl or an existing file (fs.existsSync ?)
+
+			if (spl.length === 1) {
+				spl.unshift('src/styl') // if it's in the root, add src/styl/ in front
+				sheets.push(spl.join('/').replace('.css', '.styl'))
 			} else {
 				sheets.push(sheet)
 			}
