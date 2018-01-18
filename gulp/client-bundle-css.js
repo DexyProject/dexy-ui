@@ -32,7 +32,7 @@ gulp.task('client-bundle-css', function(cb) {
 	gulp.src(sheets)
 	.pipe(stylus({ compress: true, use: nib() }))
 	.pipe(concat('blob.css'))
-	.pipe(gulp.dest('./dist'))
+	.pipe(gulp.dest('./dist/css'))
 	.on('end', cb)
 
 })
