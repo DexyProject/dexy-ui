@@ -68,7 +68,8 @@
             }
         });
 
-        window.chartStyle.chart.events = { load: function() {
+        var chartStyle = angular.copy(window.chartStyle)
+        chartStyle.chart.events = { load: function() {
             var chart = this 
 
             $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0x2956356cd2a2bf3202f771f50d3d14a367b48070/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
@@ -98,7 +99,7 @@
                 chart.series[1].setData(volume)
             });
         } }
-        Highcharts.stockChart('mainChart', window.chartStyle);
+        Highcharts.stockChart('mainChart', chartStyle);
 
 
         // Orders
