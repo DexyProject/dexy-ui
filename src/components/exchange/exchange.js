@@ -143,6 +143,8 @@
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
 
     function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
+        var Buffer = require('buffer').Buffer
+
         $scope.placeOrder = function (order, type, symbol) {
             if (!user.publicAddr) {
                 LxNotificationService.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
@@ -164,7 +166,6 @@
             var tokenGive = 0
             var amountGive = 0
 
-            // TODO
             var nonce = parseInt(Math.random() * 1000000000000000000)
 
             if (type === 'SELL') {
@@ -188,8 +189,36 @@
             // https://github.com/0xProject/0x.js/issues/162
             //  personal_sign
             var msg = "\x19Ethereum Signed Message:\n32" + web3.utils.toAscii(hash)
-            web3.eth.personal.sign(msg, userAddr, function (err, resp) {
-                console.log(err, resp)
+            web3.eth.personal.sign(msg, userAddr, function (err, sig) {
+                // NOTE: TODO: shim fetch()?? safari?
+
+                // strip the 0x
+                sig = sig.slice(2)
+
+                var r = new Buffer(sig.substring(0, 64), 'hex')
+                var s = new Buffer(sig.substring(64, 128), 'hex')
+                var v = new Buffer((parseInt(sig.substring(128, 130)) + 27).toString())
+
+                console.log(r,s,v)
+
+
+                /*
+                fetch('http://127.0.0.1:12312/orders', {
+                    get: {
+                        token:,
+                        amount: 
+                    },
+                    give: {
+                        same
+                    },
+                    expires: someBlock,
+                    nonce: nonce,
+                    exchange: scAddr,
+                    signature: {
+                        ...
+                    }
+                })
+                */
             })
 
         }
