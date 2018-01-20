@@ -121,7 +121,7 @@
                     if (err) console.error(err)
                     else {
                         x.balance = bal / x.token[1]
-                        if (!$scope.$$phase) $scope.$apply()
+                        if (!$scope.$$phase) $scope.$apply(function() { updateItems() })
                     }
                 }))
             })
