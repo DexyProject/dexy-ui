@@ -5,6 +5,9 @@
 
     var Buffer = require('buffer').Buffer
 
+    // TEMP
+    var endpoint = 'http://127.0.0.1:12312'
+
     angular
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
@@ -61,7 +64,7 @@
             var tokenGive = 0
             var amountGive = 0
 
-            var nonce = parseInt(Math.random() * 1000000000000000000)
+            var nonce = Date.now()
 
             if (type === 'SELL') {
                 tokenGive = amntUint
@@ -97,23 +100,26 @@
                 console.log(r,s,v)
 
 
-                /*
-                fetch('http://127.0.0.1:12312/orders', {
+                var body = {
                     get: {
-                        token:,
-                        amount: 
+                        token: tokenGet,
+                        amount: amountGet,
                     },
                     give: {
-                        same
+                        token: tokenGive,
+                        amount: amountGive,
                     },
-                    expires: someBlock,
+                    expires: expires,
                     nonce: nonce,
                     exchange: scAddr,
-                    signature: {
-                        ...
-                    }
+                    signature: { r: r, s: s, v: v }
+                }
+                fetch(endpoint+'/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
                 })
-                */
+                
             })
 
         }
