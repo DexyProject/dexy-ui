@@ -26,13 +26,15 @@
                 if (err) {
                     LxNotificationService.error('Invalid ERC20 token address')
                     console.error(err)
+                    return
                 }
 
-                // TODO validate data?
-                var token = [lastPart, Math.pow(10, parseInt(props.decimals)), props.symbol]
+                var multiplier = Math.pow(10, props.decimals)
+                var symbol = props.symbol
+                var token = [lastPart, multiplier, symbol]
                 
-                if (CONSTS.tokens[props.symbol] && CONSTS.tokens[props.symbol][0] === lastPart) {
-                    $state.go('exchange', { pair: props.symbol }, { replace: true })
+                if (CONSTS.tokens[symbol] && CONSTS.tokens[symbol][0] === lastPart) {
+                    $state.go('exchange', { pair: symbol }, { replace: true })
                 } else {
                     $state.go('exchange', { pair: $stateParams.pair, token: token }, { replace: true })
                 }
@@ -256,26 +258,20 @@
     // Fetch custom token
     function fetchCustomToken(addr, cb)
     {
-        var pending = 0
         var props = { }
-        var error
+        web3.eth.call({ to:addr, data:web3.utils.sha3('decimals()') }, function(err, res) {
+            if (err) return cb(err)
+            if (res == '0x') return cb(new Error('unable to read decimals'))
 
-        var token = new web3.eth.Contract(CONSTS.erc20ABI, addr)
-        var batch = new web3.eth.BatchRequest()
-        batch.add(doFetchProp('symbol'))
-        batch.add(doFetchProp('decimals'))
-        batch.execute()
-
-        function doFetchProp(prop)
-        {
-            pending++
-
-            return token.methods[prop]().call.request(function(err, res) {
-                if (err) error = err
-                if (res) props[prop] = res
-                if (--pending === 0) cb(error, props)
+            props.decimals = web3.utils.hexToNumber(res)
+           
+            var token = new web3.eth.Contract(CONSTS.erc20ABI, addr)
+            token.methods.symbol().call(function(err, res) {
+                if (err) return cb(err)
+                props.symbol = res
+                cb(null, props)
             })
-        }
+        })
     }
 
     // Orderbook ctrl
