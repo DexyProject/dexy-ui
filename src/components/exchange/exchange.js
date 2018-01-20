@@ -20,25 +20,22 @@
 
         var lastPart = $stateParams.pair.split('/').pop()
 
-        if (lastPart.match(/^0x[a-fA-F0-9]{40}$/)) 
+        if (lastPart.match(/^0x[a-fA-F0-9]{40}$/) && !$stateParams.token) 
         {
             fetchCustomToken(lastPart, function(err, props) {
                 if (err) console.error(err)
 
-                if (! CONSTS.tokens[props.symbol]) {
-                    // TODO warn user that they should be sure this is the token they should be trading
-                    // TODO validate data?
-                    CONSTS.tokens[props.symbol] = [lastPart, Math.pow(10, parseInt(props.decimals))]
-                } else {
-                    // TODO warn the user if the retrieved token has a different addr then the one in CONSTS.tokens
-                }
+                // TODO validate data?
+                var token = [lastPart, Math.pow(10, parseInt(props.decimals))]
+                
+                // TODO warn user that they should be sure this is the token they should be trading
 
-                $state.go('exchange', { pair: props.symbol }, { replace: true })
+                $state.go('exchange', { pair: $stateParams.pair, token: token }, { replace: true })
             })
             return
         }
 
-        var token = CONSTS.tokens[lastPart]
+        var token = $stateParams.token || CONSTS.tokens[lastPart]
 
         if (! token) {
             // TODO 404

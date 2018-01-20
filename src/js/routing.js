@@ -16,6 +16,7 @@ angular.module('dexyApp')
 		url: '/exchange/:pair',
 		params:{
 			pair: null,
+			token: null, // internal param when using custom tokens
 		},
 		views: {
 			main: { templateUrl: 'exchangeTpl' },
