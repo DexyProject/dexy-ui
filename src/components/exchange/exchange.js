@@ -28,9 +28,12 @@
                 // TODO validate data?
                 var token = [lastPart, Math.pow(10, parseInt(props.decimals)), props.symbol]
                 
+                if (CONSTS.tokens[props.symbol] && CONSTS.tokens[props.symbol][0] === lastPart) {
+                    $state.go('exchange', { pair: props.symbol }, { replace: true })
+                } else {
+                    $state.go('exchange', { pair: $stateParams.pair, token: token }, { replace: true })
+                }
                 // TODO warn user that they should be sure this is the token they should be trading
-
-                $state.go('exchange', { pair: $stateParams.pair, token: token }, { replace: true })
             })
             return
         }
