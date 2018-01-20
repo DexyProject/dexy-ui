@@ -11,9 +11,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', 'user'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', 'user', 'LxNotificationService'];
 
-    function exchangeCtrl($scope, $stateParams, $state, user) {
+    function exchangeCtrl($scope, $stateParams, $state, user, LxNotificationService) {
         var exchange = this;
 
         // exchange page: loading state and error (404) state
@@ -23,7 +23,10 @@
         if (lastPart.match(/^0x[a-fA-F0-9]{40}$/) && !$stateParams.token) 
         {
             fetchCustomToken(lastPart, function(err, props) {
-                if (err) console.error(err)
+                if (err) {
+                    LxNotificationService.error('Invalid ERC20 token address')
+                    console.error(err)
+                }
 
                 // TODO validate data?
                 var token = [lastPart, Math.pow(10, parseInt(props.decimals)), props.symbol]
