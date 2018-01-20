@@ -20,14 +20,13 @@
 
         var lastPart = $stateParams.pair.split('/').pop()
 
-        if (lastPart.match(/^0x[a-fA-F0-9]{40}$/)) {
-            var token = new web3.eth.Contract(CONSTS.erc20ABI, lastPart)
-            console.log(token)
-            var batch = new web3.eth.BatchRequest()
-            batch.add(token.methods.symbol.call(function(err, res) { console.log(res) }))
-            batch.add(token.methods.decimals.call(function(err, res) { console.log(res) }))
-            batch.execute()
+        if (lastPart.match(/^0x[a-fA-F0-9]{40}$/)) 
+        {
+            fetchCustomToken(lastPart, function(err, props) {
+                if (err) console.error(err)
+                console.log(props)
 
+            })
             return
         }
 
@@ -240,6 +239,32 @@
                 */
             })
 
+        }
+    }
+
+    // Fetch custom token
+    function fetchCustomToken(addr, cb)
+    {
+        var pending = 0
+        var props = { }
+        var error
+
+        var token = new web3.eth.Contract(CONSTS.erc20ABI, addr)
+        var batch = new web3.eth.BatchRequest()
+        batch.add(doFetchProp('symbol'))
+        batch.add(doFetchProp('decimals'))
+        batch.execute()
+
+        function doFetchProp(prop)
+        {
+            pending++
+
+            console.log(prop)
+            return token.methods[prop].call().call(function(err, res) {
+                if (err) error = err
+                if (res) props[prop] = res
+                if (--pending === 0) cb(error, props)
+            })
         }
     }
 
