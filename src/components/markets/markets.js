@@ -27,6 +27,7 @@
             name: 'balance',
             label: 'Balance',
             sortable: true,
+            format: function(row) { return row.balance.toFixed(2) }
         },
         {
             name: 'price',
@@ -108,20 +109,24 @@
         }, function (addr) {
             if (!addr) return
 
+            var batch = new web3.eth.BatchRequest()
+
+            console.log('Fetching all balances for '+addr)
+
             markets.forEach(function(x) {
                 if (!x.token) return
 
-                console.log('Fetching ' + x.symbol + ' balances for ' + addr)
-
-                x.tokenContract.methods.balanceOf(addr).call(function (err, bal) {
+                //console.log('Fetching ' + x.symbol + ' balances for ' + addr)
+                batch.add(x.tokenContract.methods.balanceOf(addr).call.request(function(err, bal) {
                     if (err) console.error(err)
                     else {
-                        x.balance = (bal / x.token[1]).toFixed(2)
+                        x.balance = bal / x.token[1]
                         if (!$scope.$$phase) $scope.$apply()
                     }
-                })
+                }))
             })
 
+            batch.execute()
         })
 
         // debounce the search?
