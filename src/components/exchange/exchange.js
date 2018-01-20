@@ -20,7 +20,7 @@
 
         var lastPart = $stateParams.pair.split('/').pop()
 
-        if (lastPart.match(/^0x[a-fA-F0-9]{40}$/) && !$stateParams.token) 
+        if (web3.utils.isAddress(lastPart) && !$stateParams.token) 
         {
             fetchCustomToken(lastPart, function(err, props) {
                 if (err) {
