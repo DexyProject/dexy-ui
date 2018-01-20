@@ -6,17 +6,17 @@ h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
 
 .inputRow
 	lx-text-field(lx-label='Rate', lx-fixed-label='true')
-		input(type='number', ng-model='orders.'+side+'.rate', step='0.000001')
+		input(ng-model='orders.'+side+'.rate', step='0.000001')
 	.label {{::exchange.symbol+'/ETH'}}
 
 .inputRow
 	lx-text-field(lx-label='Amount', lx-fixed-label='true')
-		input(type='number', ng-model='orders.'+side+'.amount', step='0.1')
+		input(ng-model='orders.'+side+'.amount', step='0.1')
 	.label {{::exchange.symbol}}
 
 .inputRow
 	lx-text-field(lx-label='Total', lx-fixed-label='true')
-		input(type='number', ng-model='orders.'+side+'.total')
+		input(ng-model='orders.'+side+'.total')
 	.label ETH
 
 lx-button(

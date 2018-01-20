@@ -56,7 +56,6 @@
 * buy/sell controls: slider, calculate total amount, show available amnt
 
 * order book: show which orders are yours and which are pending
-* summarize '24h' on the top indicators rather than writing it separately
 * auth (user) dialog should show ETH balance, highlight the current auth type 
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
