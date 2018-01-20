@@ -41,6 +41,7 @@
 * make all third party scripts NOT load from third party domains
 * service for submitting ordeers, keccak256
 * chart size
+* service for getting user's balances for tokens; ensure hide zero balances works
 
 # TODO
 * service for the API
@@ -58,9 +59,6 @@
 * My Orders UI
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-## Depends on API
-
-* service for getting user's balances for tokens; ensure hide zero balances works
 
 ## mañana but important
 
