@@ -40,6 +40,7 @@
 * Proper Ledger errors (e.g. when it's locked)
 * make all third party scripts NOT load from third party domains
 * service for submitting ordeers, keccak256
+* chart size
 
 # TODO
 * service for the API
@@ -53,7 +54,6 @@
 * ability to go to a token by addr
 * gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
 * buy/sell controls: slider, calculate total amount, show available amnt
-* chart size
 * Last Trades UI
 * My Orders UI
 * Spificator (or similar 'in progress'): include to improve TX UX

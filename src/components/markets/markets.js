@@ -6,9 +6,9 @@
         .module('dexyApp')
         .controller('MarketsController', MarketsController);
 
-    MarketsController.$inject = ['$filter', '$scope', '$state', 'cmc'];
+    MarketsController.$inject = ['$filter', '$scope', '$state', 'cmc', 'user'];
 
-    function MarketsController($filter, $scope, $state, cmc)
+    function MarketsController($filter, $scope, $state, cmc, user)
     {
         var vm = this;
 
@@ -93,6 +93,35 @@
             x.vol = 200 * Math.random()
             x.change = 0.4*(Math.random()-0.5)
             x.balance = 0
+            
+            var token = CONSTS.tokens[x.symbol]
+            if (token) {
+                x.token = token
+                x.tokenContract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
+            }
+        })
+
+        // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract 
+        // once we have to get from the contract too
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function (addr) {
+            if (!addr) return
+
+            markets.forEach(function(x) {
+                if (!x.token) return
+
+                console.log('Fetching ' + x.symbol + ' balances for ' + addr)
+
+                x.tokenContract.methods.balanceOf(addr).call(function (err, bal) {
+                    if (err) console.error(err)
+                    else {
+                        x.balance = (bal / x.token[1]).toFixed(2)
+                        if (!$scope.$$phase) $scope.$apply()
+                    }
+                })
+            })
+
         })
 
         // debounce the search?
