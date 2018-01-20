@@ -299,10 +299,9 @@
     function exchangeIndicatorsCtrl($scope, $stateParams) {
         var exchange = this
 
-        var symbol = $scope.exchange.symbol
-
         exchange.pair = $stateParams.pair
-        exchange.symbol = symbol
 
+        var lastPart = $stateParams.pair.split('/').pop()
+        exchange.symbol = ($stateParams.token ? $stateParams.token[2] : null) || lastPart
     }
 })();

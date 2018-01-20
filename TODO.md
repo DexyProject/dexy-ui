@@ -61,6 +61,7 @@
 * My Orders UI
 * Spificator (or similar 'in progress'): include to improve TX UX
 * consider DAI pairs
+* issue: custom tokens do not have elegant err handling
 
 ## mañana but important
 
