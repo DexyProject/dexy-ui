@@ -131,129 +131,9 @@
             });
         } }
         Highcharts.stockChart('mainChart', chartStyle);
-
-
-        // Orders
-        exchange.orders = {
-            SELL: {},
-            BUY: {}
-        }
-
-
-        $scope.fillForOrder = function (side, order) {
-            console.log(side)
-            exchange.orders[side] = order
-        }
-
-        $scope.$watch(function () {
-            return exchange.orders
-        }, function (orders) {
-            exchange.orders.SELL.valid = isValidNumber(orders.SELL.rate) && isValidNumber(orders.SELL.amount) // && sufficient tokens
-            exchange.orders.BUY.valid = isValidNumber(orders.BUY.rate) && isValidNumber(orders.BUY.amount) // && sufficient eth
-        }, true)
-
-        function isValidNumber(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
-        }
-
-        $scope.$watch(function () { return exchange.orders.SELL }, refreshTotal, true)
-        $scope.$watch(function () { return exchange.orders.BUY }, refreshTotal, true)
-
-        function refreshTotal(order) {
-            if (order.valid) order.total = order.amount * order.rate
-        }
     }
 
 
-    // Place order ctrl
-
-    angular
-        .module('dexyApp')
-        .controller('placeOrderCtrl', placeOrderCtrl);
-
-    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
-
-    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
-        var Buffer = require('buffer').Buffer
-
-        $scope.placeOrder = function (order, type, symbol) {
-            if (!user.publicAddr) {
-                LxNotificationService.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
-                return
-            }
-
-            var token = CONSTS.tokens[symbol]
-
-            var amntUint = order.amount * token[1]
-            var totalUint = order.rate * order.amount * Math.pow(10, 18)
-
-            // hardcoded for now
-            var expires = 20160
-
-            var userAddr = user.publicAddr
-
-            var tokenGet = 0
-            var amountGet = 0
-            var tokenGive = 0
-            var amountGive = 0
-
-            var nonce = parseInt(Math.random() * 1000000000000000000)
-
-            if (type === 'SELL') {
-                tokenGive = amntUint
-                amountGet = totalUint
-            } else {
-                tokenGet = amntUint
-                amountGive = totalUint
-            }
-
-            // TODO
-            var scAddr = '0x0000000000000000000000000000000000000000'
-
-            //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
-            var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, scAddr)
-
-
-            console.log(hash, web3.utils.toAscii(hash).length)
-            // https://github.com/ethereum/web3.js/issues/392
-            // https://github.com/MetaMask/metamask-extension/issues/1530
-            // https://github.com/0xProject/0x.js/issues/162
-            //  personal_sign
-            var msg = "\x19Ethereum Signed Message:\n32" + web3.utils.toAscii(hash)
-            web3.eth.personal.sign(msg, userAddr, function (err, sig) {
-                // NOTE: TODO: shim fetch()?? safari?
-
-                // strip the 0x
-                sig = sig.slice(2)
-
-                var r = new Buffer(sig.substring(0, 64), 'hex')
-                var s = new Buffer(sig.substring(64, 128), 'hex')
-                var v = new Buffer((parseInt(sig.substring(128, 130)) + 27).toString())
-
-                console.log(r,s,v)
-
-
-                /*
-                fetch('http://127.0.0.1:12312/orders', {
-                    get: {
-                        token:,
-                        amount: 
-                    },
-                    give: {
-                        same
-                    },
-                    expires: someBlock,
-                    nonce: nonce,
-                    exchange: scAddr,
-                    signature: {
-                        ...
-                    }
-                })
-                */
-            })
-
-        }
-    }
 
     // Fetch custom token
     function fetchCustomToken(addr, cb)
@@ -272,16 +152,6 @@
                 cb(null, props)
             })
         })
-    }
-
-    // Orderbook ctrl
-    angular
-        .module('dexyApp')
-        .controller('orderbookCtrl', orderbookCtrl);
-
-    orderbookCtrl.$inject = ['$scope', '$stateParams'];
-
-    function orderbookCtrl($scope, $stateParams) {
     }
 
 

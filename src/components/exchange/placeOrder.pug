@@ -6,23 +6,23 @@ h4(ng-bind='::side=="SELL" ? "Sell "+exchange.symbol : "Buy "+exchange.symbol')
 
 .inputRow
 	lx-text-field(lx-label='Rate', lx-fixed-label='true')
-		input(type='number', ng-model='exchange.orders[side].rate', step='0.000001')
+		input(type='number', ng-model='orders[side].rate', step='0.000001')
 	.label {{::exchange.symbol+'/ETH'}}
 
 .inputRow
 	lx-text-field(lx-label='Amount', lx-fixed-label='true')
-		input(type='number', ng-model='exchange.orders[side].amount', step='0.1')
+		input(type='number', ng-model='orders[side].amount', step='0.1')
 	.label {{::exchange.symbol}}
 
 .inputRow
 	lx-text-field(lx-label='Total', lx-fixed-label='true')
-		input(type='number', ng-model='exchange.orders[side].total')
+		input(type='number', ng-model='orders[side].total')
 	.label ETH
 
 lx-button(
 		lx-color='{{::side=="SELL" ? "red" : "green"}}',
 		ng-bind='side=="SELL" ? "Sell" : "Buy"'
 		lx-size='m'
-		ng-disabled='!exchange.orders[side].valid'
-		ng-click='placeOrder(exchange.orders[side], side, exchange.symbol)'
+		ng-disabled='!orders[side].valid'
+		ng-click='placeOrder(orders[side], side, exchange.symbol)'
 		)

@@ -25,8 +25,8 @@ div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token'
 			.asks(class='p+', ng-controller='orderbookCtrl', ng-init='fillSide="BUY"')
 				h3 Asks
 				include ./orderbook
-		.bottomRight
-			.sell.placeOrder.p(ng-controller='placeOrderCtrl', ng-init='side="SELL"')
+		.bottomRight(ng-controller='placeOrderCtrl')
+			.sell.placeOrder.p(ng-controller='orderbookCtrl',ng-init='side="SELL"')
 				include ./placeOrder
-			.buy.placeOrder.p(ng-controller='placeOrderCtrl', ng-init='side="BUY"')
+			.buy.placeOrder.p(ng-controller='orderbookCtrl',ng-init='side="BUY"')
 				include ./placeOrder
