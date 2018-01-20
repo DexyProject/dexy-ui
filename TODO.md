@@ -39,8 +39,12 @@
 * Ledger signing
 * Proper Ledger errors (e.g. when it's locked)
 * make all third party scripts NOT load from third party domains
+* service for submitting ordeers, keccak256
 
 # TODO
+* service for the API
+* service for the orderbook state
+* split code a bit
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * order book: show which orders are yours and which are pending 
 * summarize '24h' on the top indicators rather than writing it separately
@@ -56,9 +60,6 @@
 
 ## Depends on API
 
-* service for the API
-* service for the orderbook state
-* service for submitting ordeers, keccak256
 * service for getting user's balances for tokens; ensure hide zero balances works
 
 ## mañana but important
