@@ -26,7 +26,7 @@
 		user.LEDGER_HD_PATH = "44'/60'/0'";
 
 		// How many addresses to list for a hardware wallet
-		user.HWWALLET_ADDRESS_COUNT = 12;
+		user.HWWALLET_ADDRESS_COUNT = 10;
 
 		// Configurable things
 		user.GAS_PRICE = 30099515020 // 30 gwei

@@ -42,12 +42,17 @@
 
 			// refresh balances
 			var multiplier = 1000000000000000000 // 10**18
+
+			var batch = new web3.eth.BatchRequest()
+
 			$scope.addresses.forEach(function(addr) {
-				web3.eth.getBalance(addr.addr).then(function(bal) {
+				batch.add(web3.eth.getBalance.request(addr.addr, function(err, bal) {
 					addr.bal = bal/multiplier
 					if (!$scope.$$phase) $scope.$digest()
-				})
+				}))
 			})
+
+			batch.execute()
 
 			LxDialogService.open('trezorAccPick')
 		}
