@@ -11,9 +11,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', 'user'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', 'user'];
 
-    function exchangeCtrl($scope, $stateParams, user) {
+    function exchangeCtrl($scope, $stateParams, $state, user) {
         var exchange = this;
 
         // exchange page: loading state and error (404) state
@@ -24,8 +24,16 @@
         {
             fetchCustomToken(lastPart, function(err, props) {
                 if (err) console.error(err)
-                console.log(props)
 
+                if (! CONSTS.tokens[props.symbol]) {
+                    // TODO warn user that they should be sure this is the token they should be trading
+                    // TODO validate data?
+                    CONSTS.tokens[props.symbol] = [lastPart, Math.pow(10, parseInt(props.decimals))]
+                } else {
+                    // TODO warn the user if the retrieved token has a different addr then the one in CONSTS.tokens
+                }
+
+                $state.go('exchange', { pair: props.symbol }, { replace: true })
             })
             return
         }
