@@ -259,8 +259,7 @@
         {
             pending++
 
-            console.log(prop)
-            return token.methods[prop].call().call(function(err, res) {
+            return token.methods[prop]().call.request(function(err, res) {
                 if (err) error = err
                 if (res) props[prop] = res
                 if (--pending === 0) cb(error, props)
