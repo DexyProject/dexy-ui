@@ -59,7 +59,6 @@
 * My Orders UI
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-
 ## mañana but important
 
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)

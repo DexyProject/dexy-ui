@@ -6,7 +6,7 @@ div(ng-controller='UserCtrl', ng-cloak)
 			lx-dropdown-menu.userDropdown
 				div.p
 					div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
-					div.publicAddr {{user.publicAddr}}
+					//-div.publicAddr {{user.publicAddr}}
 					div.bal {{user.ethBal.onWallet.toFixed(6)}} ETH
 
 					ul
