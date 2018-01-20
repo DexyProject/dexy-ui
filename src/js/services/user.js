@@ -25,6 +25,9 @@
 		user.TREZOR_HD_PATH = "m/44'/60'/0'/0";
 		user.LEDGER_HD_PATH = "44'/60'/0'";
 
+		// How many addresses to list for a hardware wallet
+		user.HWWALLET_ADDRESS_COUNT = 12;
+
 		// Configurable things
 		user.GAS_PRICE = 30099515020 // 30 gwei
 
@@ -106,7 +109,7 @@
 			hdk.chainCode = new Buffer(chainCode, 'hex')
 
 			var all = []
-			for (var i = 0; i!=8; i++) {
+			for (var i = 0; i!=user.HWWALLET_ADDRESS_COUNT; i++) {
 				var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/'+i).publicExtendedKey)
 				all.push('0x'+wlt.getAddress().toString('hex'))
 			}
