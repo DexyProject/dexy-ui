@@ -26,7 +26,7 @@
                 if (err) console.error(err)
 
                 // TODO validate data?
-                var token = [lastPart, Math.pow(10, parseInt(props.decimals))]
+                var token = [lastPart, Math.pow(10, parseInt(props.decimals)), props.symbol]
                 
                 // TODO warn user that they should be sure this is the token they should be trading
 
@@ -43,7 +43,7 @@
         }
 
         exchange.pair = $stateParams.pair
-        exchange.symbol = lastPart
+        exchange.symbol = token[2] || lastPart
         exchange.user = user
 
         // Get wallet balance
@@ -286,11 +286,11 @@
     // Indicators ctrl
     angular
         .module('dexyApp')
-        .controller('exchangeIndicatorsCtrl', orderbookCtrl);
+        .controller('exchangeIndicatorsCtrl', exchangeIndicatorsCtrl);
 
-    orderbookCtrl.$inject = ['$scope', '$stateParams'];
+    exchangeIndicatorsCtrl.$inject = ['$scope', '$stateParams'];
 
-    function orderbookCtrl($scope, $stateParams) {
+    function exchangeIndicatorsCtrl($scope, $stateParams) {
         var exchange = this
 
         var symbol = $scope.exchange.symbol
