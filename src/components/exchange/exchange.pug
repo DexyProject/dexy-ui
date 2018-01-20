@@ -18,15 +18,19 @@ div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token'
 				lx-tab(lx-label='Last Trades')
 
 			
-		.topRight
-			.bids(class='p+',ng-controller='orderbookCtrl', ng-init='fillSide="SELL"')
+		.topRight(ng-controller='orderbookCtrl')
+			- var fillSide = 'SELL'
+			.bids(class='p+')
 				h3 Bids
 				include ./orderbook
-			.asks(class='p+', ng-controller='orderbookCtrl', ng-init='fillSide="BUY"')
+			- var fillSide = 'BUY'
+			.asks(class='p+')
 				h3 Asks
 				include ./orderbook
 		.bottomRight(ng-controller='placeOrderCtrl')
-			.sell.placeOrder.p(ng-controller='orderbookCtrl',ng-init='side="SELL"')
+			- var side = 'SELL'
+			.sell.placeOrder.p
 				include ./placeOrder
-			.buy.placeOrder.p(ng-controller='orderbookCtrl',ng-init='side="BUY"')
+			- var side = 'BUY'
+			.buy.placeOrder.p
 				include ./placeOrder
