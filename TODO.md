@@ -44,24 +44,26 @@
 * service for getting user's balances for tokens; ensure hide zero balances works
 * Allow custom urls by using address in url eg: /exchange/0x107c4504cd79c5d2696ea0030a8dd4e92601b82e. Data should be read from the contract, it will be treated automatically as ERC20, if the contract is not erc20 show some error. All values should be escaped to mitigate XSS injections
 * issue: orderbookCtrl 3 times?
+* split code a bit
+* issue: custom tokens do not have elegant err handling
+* ability to go to a token by addr
+
 
 # TODO
-* issue: custom tokens do not have elegant err handling
 * service for the API
 * service for the orderbook state
-* split code a bit
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
-* order book: show which orders are yours and which are pending 
+* fix the controllers dynamic on orderbook, placeorder (no need for separate controllers)
+* buy/sell controls: slider, calculate total amount, show available amnt
+
+* order book: show which orders are yours and which are pending
 * summarize '24h' on the top indicators rather than writing it separately
 * auth (user) dialog should show ETH balance, highlight the current auth type 
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
-* ability to go to a token by addr
 * gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
-* buy/sell controls: slider, calculate total amount, show available amnt
 * Last Trades UI
 * My Orders UI
 * Spificator (or similar 'in progress'): include to improve TX UX
-* consider DAI pairs
 
 ## mañana but important
 
@@ -76,6 +78,7 @@
 ## mañana
 
 * localization
+* consider DAI pairs
 * service worker 
 * modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
 * order book depth
