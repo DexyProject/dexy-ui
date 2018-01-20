@@ -41,9 +41,10 @@
 			})
 
 			// refresh balances
+			var multiplier = 1000000000000000000 // 10**18
 			$scope.addresses.forEach(function(addr) {
 				web3.eth.getBalance(addr.addr).then(function(bal) {
-					addr.bal = (bal/Math.pow(10,18)).toFixed(6)
+					addr.bal = bal/multiplier
 					if (!$scope.$$phase) $scope.$digest()
 				})
 			})

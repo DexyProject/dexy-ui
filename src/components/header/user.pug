@@ -25,7 +25,7 @@ div(ng-controller='UserCtrl', ng-cloak)
 		lx-dialog-content(class='p++')
 			lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.idx', ng-model='selected.idx')
 				lx-radio-button-label {{x.addr}}
-				lx-radio-button-help {{x.bal}} ETH
+				lx-radio-button-help {{x.bal.toFixed(6)}} ETH
 
 		lx-dialog-footer
 			lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
