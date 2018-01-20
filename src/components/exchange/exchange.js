@@ -16,11 +16,30 @@
     function exchangeCtrl($scope, $stateParams, user) {
         var exchange = this;
 
-        var symbol = $stateParams.pair.split('/').pop()
-        var token = CONSTS.tokens[symbol]
+        // exchange page: loading state and error (404) state
+
+        var lastPart = $stateParams.pair.split('/').pop()
+
+        if (lastPart.match(/^0x[a-fA-F0-9]{40}$/)) {
+            var token = new web3.eth.Contract(CONSTS.erc20ABI, lastPart)
+            console.log(token)
+            var batch = new web3.eth.BatchRequest()
+            batch.add(token.methods.symbol.call(function(err, res) { console.log(res) }))
+            batch.add(token.methods.decimals.call(function(err, res) { console.log(res) }))
+            batch.execute()
+
+            return
+        }
+
+        var token = CONSTS.tokens[lastPart]
+
+        if (! token) {
+            // TODO 404
+            return
+        }
 
         exchange.pair = $stateParams.pair
-        exchange.symbol = symbol
+        exchange.symbol = lastPart
         exchange.user = user
 
         // Get wallet balance
@@ -245,7 +264,7 @@
     function orderbookCtrl($scope, $stateParams) {
         var exchange = this
 
-        var symbol = $stateParams.pair.split('/').pop()
+        var symbol = $scope.exchange.symbol
 
         exchange.pair = $stateParams.pair
         exchange.symbol = symbol

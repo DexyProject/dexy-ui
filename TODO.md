@@ -44,6 +44,7 @@
 * service for getting user's balances for tokens; ensure hide zero balances works
 
 # TODO
+* issue: orderbookCtrl 3 times?
 * service for the API
 * service for the orderbook state
 * split code a bit
@@ -59,6 +60,7 @@
 * My Orders UI
 * Spificator (or similar 'in progress'): include to improve TX UX
 * Allow custom urls by using address in url eg: /exchange/0x107c4504cd79c5d2696ea0030a8dd4e92601b82e. Data should be read from the contract, it will be treated automatically as ERC20, if the contract is not erc20 show some error. All values should be escaped to mitigate XSS injections
+* consider DAI pairs
 
 ## mañana but important
 
