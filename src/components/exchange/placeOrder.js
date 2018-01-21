@@ -93,9 +93,9 @@
                 // strip the 0x
                 sig = sig.slice(2)
 
-                var r = new Buffer(sig.substring(0, 64), 'hex')
-                var s = new Buffer(sig.substring(64, 128), 'hex')
-                var v = new Buffer((parseInt(sig.substring(128, 130)) + 27).toString())
+                var r = '0x'+sig.substring(0, 64)
+                var s = '0x'+sig.substring(64, 128)
+                var v = parseInt(sig.substring(128, 130)) + 27
 
                 console.log(r,s,v)
 
@@ -114,7 +114,7 @@
                     exchange: scAddr,
                     signature: { r: r, s: s, v: v }
                 }
-                fetch(endpoint+'/orders', {
+                fetch(endpoint+'/orders?token='+token[0], {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body),
