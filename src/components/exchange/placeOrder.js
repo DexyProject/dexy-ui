@@ -51,17 +51,17 @@
 
             var token = CONSTS.tokens[symbol]
 
-            var tokenUint = order.amount * token[1]
-            var weiUint = order.rate * order.amount * Math.pow(10, 18)
+            var tokenUint = parseInt(order.amount * token[1]).toString()
+            var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18)).toString()
 
             // hardcoded for now
-            var expires = 20160
+            var expires = "201600"
 
             var userAddr = user.publicAddr
 
-            var tokenGet, amountGet, tokenGive, amountGive = 0
+            var tokenGet, amountGet, tokenGive, amountGive 
 
-            var nonce = Date.now()
+            var nonce = Date.now().toString()
 
             if (type === 'SELL') {
                 tokenGive = token[0]
@@ -101,14 +101,14 @@
                 var body = {
                     get: {
                         token: tokenGet,
-                        amount: amountGet.toString(),
+                        amount: amountGet,
                     },
                     give: {
                         token: tokenGive,
-                        amount: amountGive.toString(),
+                        amount: amountGive,
                     },
-                    expires: expires.toString(),
-                    nonce: nonce.toString(),
+                    expires: expires,
+                    nonce: nonce,
                     exchange: scAddr,
                     user: user.publicAddr,
                     signature: { r: r, s: s, v: v }
