@@ -86,8 +86,7 @@
             // https://github.com/MetaMask/metamask-extension/issues/1530
             // https://github.com/0xProject/0x.js/issues/162
             //  personal_sign
-            var msg = "\x19Ethereum Signed Message:\n32" + web3.utils.toAscii(hash)
-            web3.eth.personal.sign(msg, userAddr, function (err, sig) {
+            web3.eth.personal.sign(hash, userAddr, function (err, sig) {
                 // NOTE: TODO: shim fetch()?? safari?
 
                 // strip the 0x
@@ -98,7 +97,6 @@
                 var v = parseInt(sig.substring(128, 130)) + 27
 
                 console.log(r,s,v)
-
 
                 var body = {
                     get: {
