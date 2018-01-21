@@ -50,6 +50,9 @@
 * fix the controllers dynamic on orderbook, placeorder (no need for separate controllers)
 
 # TODO
+* dialog to confirm placing order (or filling order)
+* open dialog to fill order when you click on order
+
 * service for the API
 * service for the orderbook state
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
