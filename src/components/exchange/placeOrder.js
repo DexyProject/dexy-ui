@@ -51,27 +51,28 @@
 
             var token = CONSTS.tokens[symbol]
 
-            var amntUint = order.amount * token[1]
-            var totalUint = order.rate * order.amount * Math.pow(10, 18)
+            var tokenUint = order.amount * token[1]
+            var weiUint = order.rate * order.amount * Math.pow(10, 18)
 
             // hardcoded for now
             var expires = 20160
 
             var userAddr = user.publicAddr
 
-            var tokenGet = 0
-            var amountGet = 0
-            var tokenGive = 0
-            var amountGive = 0
+            var tokenGet, amountGet, tokenGive, amountGive = 0
 
             var nonce = Date.now()
 
             if (type === 'SELL') {
-                tokenGive = amntUint
-                amountGet = totalUint
+                tokenGive = token[0]
+                tokenGet = '0x0000000000000000000000000000000000000000'
+                amountGive = tokenUint
+                amountGet = weiUint
             } else {
-                tokenGet = amntUint
-                amountGive = totalUint
+                tokenGive = '0x0000000000000000000000000000000000000000'
+                tokenGet = token[0]
+                amountGive = weiUint
+                amountGet = tokenUint
             }
 
             // TODO
@@ -80,8 +81,7 @@
             //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
             var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, scAddr)
 
-
-            console.log(hash, web3.utils.toAscii(hash).length)
+            console.log('order hash', hash, web3.utils.toAscii(hash).length)
             // https://github.com/ethereum/web3.js/issues/392
             // https://github.com/MetaMask/metamask-extension/issues/1530
             // https://github.com/0xProject/0x.js/issues/162
@@ -103,18 +103,19 @@
                 var body = {
                     get: {
                         token: tokenGet,
-                        amount: amountGet,
+                        amount: amountGet.toString(),
                     },
                     give: {
                         token: tokenGive,
-                        amount: amountGive,
+                        amount: amountGive.toString(),
                     },
-                    expires: expires,
-                    nonce: nonce,
+                    expires: expires.toString(),
+                    nonce: nonce.toString(),
                     exchange: scAddr,
+                    user: user.publicAddr,
                     signature: { r: r, s: s, v: v }
                 }
-                fetch(endpoint+'/orders?token='+token[0], {
+                fetch(endpoint+'/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body),
