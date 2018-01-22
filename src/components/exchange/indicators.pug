@@ -1,7 +1,7 @@
 //- Warning: flex-column here not working
 div(flex-container='row', flex-column='4', ng-controller='exchangeIndicatorsCtrl as exchangeIndicators')
 	div.indicator(flex-item='1')
-		div.label ETH/{{::exchangeIndicators.pair}}
+		div.label ETH/{{::exchangeIndicators.symbol}}
 		div.val 0.0002
 
 	div.indicator(flex-item='1')
