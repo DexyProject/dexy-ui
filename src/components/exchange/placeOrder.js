@@ -15,6 +15,17 @@
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
 
     function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
+        // Updating orderbook
+        fetch(endpoint+"/orders?token="+$scope.exchange.tokenInf[0])
+        .then(function(res) { return res.json() })
+        .then(function(ob) {
+            console.log(ob)
+        })
+        .catch(function(err) {
+            // TODO handle error
+            console.error(err)
+        })
+
         // Orders
         $scope.orders = {
             SELL: {},

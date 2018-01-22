@@ -55,6 +55,7 @@
         exchange.user = user
 
         // Get wallet balance
+        exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
         $scope.$watch(function () {
             return user.publicAddr
