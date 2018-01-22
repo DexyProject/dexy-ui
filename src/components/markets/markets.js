@@ -95,11 +95,7 @@
             x.change = 0.4*(Math.random()-0.5)
             x.balance = 0
             
-            var token = CONSTS.tokens[x.symbol]
-            if (token) {
-                x.token = token
-                x.tokenContract = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
-            }
+            x.token = CONSTS.tokens[x.symbol]
         })
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract 
@@ -117,7 +113,8 @@
                 if (!x.token) return
 
                 //console.log('Fetching ' + x.symbol + ' balances for ' + addr)
-                batch.add(x.tokenContract.methods.balanceOf(addr).call.request(function(err, bal) {
+                var contract = new web3.eth.Contract(CONSTS.erc20ABI, x.token[0])
+                batch.add(contract.methods.balanceOf(addr).call.request(function(err, bal) {
                     if (err) console.error(err)
                     else {
                         x.balance = bal / x.token[1]
