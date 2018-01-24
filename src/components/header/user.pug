@@ -1,32 +1,32 @@
 div(ng-controller='UserCtrl', ng-cloak)
-	lx-dropdown(lx-position='right',lx-width='250')
-			lx-dropdown-toggle
-				lx-button(lx-type='icon')
-					i.mdi.mdi-account
-			lx-dropdown-menu.userDropdown
-				div.p
-					div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
-					//-div.publicAddr {{user.publicAddr}}
-					div.bal {{user.ethBal.onWallet.toFixed(6)}} ETH
+    lx-dropdown(lx-position='right',lx-width='250')
+            lx-dropdown-toggle
+                lx-button(lx-type='icon')
+                    i.mdi.mdi-account
+            lx-dropdown-menu.userDropdown
+                div.p
+                    div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
+                    //-div.publicAddr {{user.publicAddr}}
+                    div.bal {{user.ethBal.onWallet.toFixed(6)}} ETH
 
-					ul
-						li
-							a(class='dropdown-link') Metamask
-						li
-							a(class='dropdown-link', ng-click='enableTrezor()') Trezor
-						li
-							a(class='dropdown-link', ng-click='enableLedger()') Ledger
+                    ul
+                        li
+                            a(class='dropdown-link') Metamask
+                        li
+                            a(class='dropdown-link', ng-click='enableTrezor()') Trezor
+                        li
+                            a(class='dropdown-link', ng-click='enableLedger()') Ledger
 
-	lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
-		lx-dialog-header
-			.toolbar.bgc-primary(class='pl++')
-				span.toolbar__label.tc-white.fs-title Choose account
+    lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
+        lx-dialog-header
+            .toolbar.bgc-primary(class='pl++')
+                span.toolbar__label.tc-white.fs-title Choose account
 
-		lx-dialog-content(class='p++')
-			lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.idx', ng-model='selected.idx')
-				lx-radio-button-label {{x.addr}}
-				lx-radio-button-help {{x.bal.toFixed(6)}} ETH
+        lx-dialog-content(class='p++')
+            lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.idx', ng-model='selected.idx')
+                lx-radio-button-label {{x.addr}}
+                lx-radio-button-help {{x.bal.toFixed(6)}} ETH
 
-		lx-dialog-footer
-			lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
-			lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onHDWalletAddr(addresses[selected.idx].addr, selected.hdWallet, selected.idx)') Ok
+        lx-dialog-footer
+            lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
+            lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onHDWalletAddr(addresses[selected.idx].addr, selected.hdWallet, selected.idx)') Ok
