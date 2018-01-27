@@ -48,12 +48,13 @@
 * issue: custom tokens do not have elegant err handling
 * ability to go to a token by addr
 * fix the controllers dynamic on orderbook, placeorder (no need for separate controllers)
-
-# TODO
 * dialog to confirm placing order (or filling order)
 * open dialog to fill order when you click on order
 
-* service for the API,  orderbook state and price history
+# TODO
+
+* sign a tx calling trade() 
+* service for the API, orderbook state and price history
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * buy/sell controls: slider, calculate total amount, show available amnt
 
