@@ -12,9 +12,9 @@
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
 
-    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
+    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService', 'LxDialogService'];
 
-    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
+    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
         // Updating orderbook
         fetch(endpoint+"/orders?token="+$scope.exchange.tokenInf[0])
         .then(function(res) { return res.json() })
@@ -33,7 +33,12 @@
         }
 
         $scope.exchange.fillForOrder = function (side, order) {
-            $scope.orders[side] = order
+            console.log('fillForOrder ' +side)
+            $scope.exchange.toFill = {
+                order: order,
+                side: side,
+            }
+            LxDialogService.open('fillOrder')
         }
 
         $scope.$watch(function () {

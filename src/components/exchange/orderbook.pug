@@ -9,4 +9,4 @@ table.orderbook
         tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='exchange.fillForOrder("'+fillSide+'", order)')
             td(ng-bind='::order.rate')
             td(ng-bind='::order.amount')
-            td(ng-bind='order.filled') // @todo calculate
+            td(ng-bind='::(order.rate * order.amount).toFixed(3)') // @todo calculate

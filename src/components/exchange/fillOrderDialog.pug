@@ -1,0 +1,15 @@
+lx-dialog(id='fillOrder', lx-escape-close='true', lx-auto-close='true')
+    lx-dialog-header
+        .toolbar.bgc-primary(class='pl++')
+            span.toolbar__label.tc-white.fs-title Fill order
+
+    lx-dialog-content(class='p++')
+        //- Something
+        div Rate: {{exchange.toFill.order.rate}} ETH/{{exchange.symbol}}
+        div Amount: {{exchange.toFill.order.amount}} {{exchange.symbol}}
+        div Total: {{exchange.toFill.order.amount * exchange.toFill.order.rate}} ETH
+        div <br/>Summary: {{exchange.toFill.side == 'SELL' ? 'Selling': 'Buying'}} {{exchange.toFill.order.amount}} {{exchange.symbol}} for {{exchange.toFill.order.amount * exchange.toFill.order.rate}} ETH
+
+    lx-dialog-footer
+        lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
+        lx-button(lx-type='flat', lx-dialog-close='', ng-click='')  {{exchange.toFill.side == 'SELL' ? 'Sell': 'Buy'}}
