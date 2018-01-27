@@ -10,23 +10,23 @@ var all = []
 fetch('https://api.coinmarketcap.com/v1/ticker/?limit=150')
 .then(function(res) { return res.json() })
 .then(function(res) {
-	res.forEach(function(x) {
-		if (excludes[x.symbol]) return
-		if (!tokens[x.symbol]) return 
+    res.forEach(function(x) {
+        if (excludes[x.symbol]) return
+        if (!tokens[x.symbol]) return
 
 
-		all.push({
-			name: x.name, 
-			symbol: x.symbol,
-			erc20: tokens[x.symbol]
-		})
+        all.push({
+            name: x.name,
+            symbol: x.symbol,
+            erc20: tokens[x.symbol]
+        })
 
 
-		fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
-		.then(function(res) {
-			res.body.pipe(fs.createWriteStream('./img/markets/'+x.symbol+'-ETH.png'))
-		})
-	})
+        fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
+        .then(function(res) {
+            res.body.pipe(fs.createWriteStream('./img/markets/'+x.symbol+'-ETH.png'))
+        })
+    })
 
-	console.log(JSON.stringify(all))
+    console.log(JSON.stringify(all))
 })

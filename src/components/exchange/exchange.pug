@@ -1,36 +1,36 @@
 div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
-	//-h2(ng-bind='exchange.pair')
-	.exchangeLayout
-		.topLeft
-			#mainChart(height='100%')
-			//-iframe#tradingview(name='tradingview', src='/img/tv-chart.html', frameborder='0', allowtransparency='true', scrolling='no', allowfullscreen='', style='display: block; width: 100%; height: 100%;')
+    //-h2(ng-bind='exchange.pair')
+    .exchangeLayout
+        .topLeft
+            #mainChart(height='100%')
+            //-iframe#tradingview(name='tradingview', src='/img/tv-chart.html', frameborder='0', allowtransparency='true', scrolling='no', allowfullscreen='', style='display: block; width: 100%; height: 100%;')
 
-		.bottomLeft(class='p+')
-			lx-tabs(lx-active-tab='activeTab')
-				lx-tab(lx-label='Wallet')
-					div.p 
-						div On wallet: {{exchange.onWallet}}
-						div My wallet: {{exchange.walletAddr}}
-					div.p
-						div On wallet: {{exchange.user.ethBal.onWallet}} ETH
+        .bottomLeft(class='p+')
+            lx-tabs(lx-active-tab='activeTab')
+                lx-tab(lx-label='Wallet')
+                    div.p
+                        div On wallet: {{exchange.onWallet}}
+                        div My wallet: {{exchange.walletAddr}}
+                    div.p
+                        div On wallet: {{exchange.user.ethBal.onWallet}} ETH
 
-				lx-tab(lx-label='My Orders')
-				lx-tab(lx-label='Last Trades')
+                lx-tab(lx-label='My Orders')
+                lx-tab(lx-label='Last Trades')
 
-			
-		.topRight(ng-controller='orderbookCtrl')
-			- var fillSide = 'SELL'
-			.bids(class='p+')
-				h3 Bids
-				include ./orderbook
-			- var fillSide = 'BUY'
-			.asks(class='p+')
-				h3 Asks
-				include ./orderbook
-		.bottomRight(ng-controller='placeOrderCtrl')
-			- var side = 'SELL'
-			.sell.placeOrder.p
-				include ./placeOrder
-			- var side = 'BUY'
-			.buy.placeOrder.p
-				include ./placeOrder
+
+        .topRight(ng-controller='orderbookCtrl')
+            - var fillSide = 'SELL'
+            .bids(class='p+')
+                h3 Bids
+                include ./orderbook
+            - var fillSide = 'BUY'
+            .asks(class='p+')
+                h3 Asks
+                include ./orderbook
+        .bottomRight(ng-controller='placeOrderCtrl')
+            - var side = 'SELL'
+            .sell.placeOrder.p
+                include ./placeOrder
+            - var side = 'BUY'
+            .buy.placeOrder.p
+                include ./placeOrder

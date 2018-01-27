@@ -5,23 +5,23 @@ h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
 //- TODO slider 
 
 .inputRow
-	lx-text-field(lx-label='Rate', lx-fixed-label='true')
-		input(ng-model='orders.'+side+'.rate', step='0.000001')
-	.label {{::exchange.symbol+'/ETH'}}
+    lx-text-field(lx-label='Rate', lx-fixed-label='true')
+        input(ng-model='orders.'+side+'.rate', step='0.000001')
+    .label {{::exchange.symbol+'/ETH'}}
 
 .inputRow
-	lx-text-field(lx-label='Amount', lx-fixed-label='true')
-		input(ng-model='orders.'+side+'.amount', step='0.1')
-	.label {{::exchange.symbol}}
+    lx-text-field(lx-label='Amount', lx-fixed-label='true')
+        input(ng-model='orders.'+side+'.amount', step='0.1')
+    .label {{::exchange.symbol}}
 
 .inputRow
-	lx-text-field(lx-label='Total', lx-fixed-label='true')
-		input(ng-model='orders.'+side+'.total')
-	.label ETH
+    lx-text-field(lx-label='Total', lx-fixed-label='true')
+        input(ng-model='orders.'+side+'.total')
+    .label ETH
 
 lx-button(
-		lx-color=side=="SELL" ? "red" : "green"
-		lx-size='m'
-		ng-disabled='!orders.'+side+'.valid'
-		ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)'
-		) #{side=="SELL" ? "Sell" : "Buy"}
+        lx-color=side=="SELL" ? "red" : "green"
+        lx-size='m'
+        ng-disabled='!orders.'+side+'.valid'
+        ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)'
+        ) #{side=="SELL" ? "Sell" : "Buy"}

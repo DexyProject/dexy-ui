@@ -1,12 +1,12 @@
 table.orderbook
-	thead
-		tr
-			th Price
-			th Amount
-			th Total (ETH)
+    thead
+        tr
+            th Price
+            th Amount
+            th Total (ETH)
 
-	tbody
-		tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='exchange.fillForOrder("'+fillSide+'", order)')
-			td(ng-bind='::order.rate')
-			td(ng-bind='::order.amount')
-			td(ng-bind='order.filled') // @todo calculate
+    tbody
+        tr(ng-repeat='order in exchange.orderbook track by order.idx', ng-click='exchange.fillForOrder("'+fillSide+'", order)')
+            td(ng-bind='::order.rate')
+            td(ng-bind='::order.amount')
+            td(ng-bind='order.filled') // @todo calculate
