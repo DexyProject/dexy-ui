@@ -4,6 +4,7 @@ h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
 //- TODO show total available amnt
 //- TODO slider 
 
+
 .inputRow
     lx-text-field(lx-label='Rate', lx-fixed-label='true')
         input(ng-model='orders.'+side+'.rate', step='0.000001')
@@ -14,14 +15,26 @@ h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
         input(ng-model='orders.'+side+'.amount', step='0.1')
     .label {{::exchange.symbol}}
 
+
+.inputRow.percentages(flex-container='row')
+    div(flex-item='3')
+        lx-button(lx-size='s', lx-type='flat') 25%
+    div(flex-item='3')
+        lx-button(lx-size='s', lx-type='flat') 50%
+    div(flex-item='3')
+        lx-button(lx-size='s', lx-type='flat') 75%
+    div(flex-item='3')
+        lx-button(lx-size='s', lx-type='flat') 100%
+
 .inputRow
     lx-text-field(lx-label='Total', lx-fixed-label='true')
         input(ng-model='orders.'+side+'.total')
     .label ETH
 
-lx-button(
+lx-button.action(
         lx-color=side=="SELL" ? "red" : "green"
-        lx-size='m'
+        lx-size='l'
         ng-disabled='!orders.'+side+'.valid'
         ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)'
         ) #{side=="SELL" ? "Sell" : "Buy"}
+

@@ -44,10 +44,12 @@
 
 //- Place order
 .placeOrder
-    button
+    button.action
         color white !important
+        margin-top 0.5em
     .inputRow
         overflow hidden
+        margin-top 0.5em
     .inputRow .text-field
         float left
         width 60%
@@ -56,6 +58,9 @@
         font-size 11px
         margin-right 10%
         padding-top 10px
+
+    .inputRow.percentages button
+        border 1px solid #ccc
 
 //- Split orderbook
 .orderbook
