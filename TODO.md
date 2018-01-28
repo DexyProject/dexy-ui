@@ -53,10 +53,12 @@
 
 # TODO
 
+* eth addresses to be clickable and take to etherscan
+* slider+input on fill dialog
 * sign a tx calling trade() 
 * service for the API, orderbook state and price history
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
-* buy/sell controls: slider, calculate total amount, show available amnt
+* place order: slider, calculate total amount, show available amnt
 
 * order book: show which orders are yours and which are pending
 * auth (user) dialog should show ETH balance, highlight the current auth type 
