@@ -50,22 +50,24 @@
 * fix the controllers dynamic on orderbook, placeorder (no need for separate controllers)
 * dialog to confirm placing order (or filling order)
 * open dialog to fill order when you click on order
+* eth addresses to be clickable and take to etherscan
 
 # TODO
 
-* eth addresses to be clickable and take to etherscan
 * slider+input on fill dialog
 * sign a tx calling trade() 
 * service for the API, orderbook state and price history
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * place order: slider, calculate total amount, show available amnt
 
+* Last Trades UI
+* My Orders UI
+
 * order book: show which orders are yours and which are pending
 * auth (user) dialog should show ETH balance, highlight the current auth type 
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
-* Last Trades UI
-* My Orders UI
+
 * Spificator (or similar 'in progress'): include to improve TX UX
 
 ## mañana but important

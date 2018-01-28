@@ -67,7 +67,8 @@
             exchange.token.methods.balanceOf(addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    exchange.onWallet = (bal / token[1]).toFixed(2)
+                    var tokenBal = bal / token[1]
+                    exchange.onWallet = tokenBal
                     exchange.walletAddr = addr
                     if (!$scope.$$phase) $scope.$apply()
                 }

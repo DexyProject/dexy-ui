@@ -8,14 +8,7 @@ div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token'
         .bottomLeft(class='p+')
             lx-tabs(lx-active-tab='activeTab')
                 lx-tab(lx-label='Wallet')
-                    div.p
-                        div On wallet: {{exchange.onWallet}}
-                        div
-                            | My wallet: 
-                            a(target="_blank", ng-href="https://etherscan.io/address/{{exchange.walletAddr}}") {{exchange.walletAddr}}
-                    div.p
-                        div On wallet: {{exchange.user.ethBal.onWallet}} ETH
-
+                    include ./wallet
                 lx-tab(lx-label='My Orders')
                 lx-tab(lx-label='My Trades')
                 lx-tab(lx-label='Last Trades')
