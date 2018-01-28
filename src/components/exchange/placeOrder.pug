@@ -5,9 +5,10 @@ h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
 //- TODO slider 
 
 
-.inputRow
+.inputRow.rate
     lx-text-field(lx-label='Rate', lx-fixed-label='true')
         input(ng-model='orders.'+side+'.rate', step='0.000001')
+    lx-button(lx-type='flat', lx-size='s') Best #{side=="SELL" ? "bid" : "ask"}
     .label {{::'ETH/'+exchange.symbol}}
 
 .inputRow
