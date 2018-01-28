@@ -1,0 +1,24 @@
+div.exchangeWallet(flex-container='row')
+    //- Split in two
+    //- Left part ETH, right part TOKEN
+    //- Up-down would be: On wallet, On exchange, on orders
+    div(flex-item='6', class='p+')
+        //-div
+            | My wallet: 
+            a(target="_blank", ng-href="https://etherscan.io/address/{{exchange.walletAddr}}") {{exchange.walletAddr}}
+
+        div On wallet: {{exchange.onWallet.toFixed(3)}} {{exchange.symbol}}
+        div On exchange: {{exchange.onExchange.toFixed(3)}} {{exchange.symbol}}
+        div
+            lx-button(lx-size='m') Deposit ↓
+            lx-button(lx-size='m') Withdraw ↑
+
+        div On orders: {{exchange.onOrders.toFixed(3)}} {{exchange.symbol}}
+    div(flex-item='6', class='p+')
+        div On wallet: {{exchange.user.ethBal.onWallet}} ETH
+        div On exchange: {{exchange.user.ethBapl.onExchange}} ETH
+        div.p
+            lx-button(lx-size='m') Deposit ↓
+            lx-button(lx-size='m') Withdraw ↑
+
+        div On orders: {{exchange.user.ethBal.onOrders}} ETH
