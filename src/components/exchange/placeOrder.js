@@ -36,6 +36,7 @@
             console.log('fillForOrder ' +side)
             $scope.exchange.toFill = {
                 order: order,
+                portion: 1000,
                 side: side,
             }
             LxDialogService.open('fillOrder')

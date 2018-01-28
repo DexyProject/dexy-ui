@@ -4,11 +4,24 @@ lx-dialog(id='fillOrder', lx-escape-close='true', lx-auto-close='true')
             span.toolbar__label.tc-white.fs-title Fill order
 
     lx-dialog-content(class='p++')
-        //- Something
+        //- TODO: Validation here
+
         div Rate: {{exchange.toFill.order.rate}} ETH/{{exchange.symbol}}
+        
+        div 
+            | Fill %
+            input(ng-model='exchange.toFill.portion', type='range' min='0' max='1000', style='width: 400px')
+
         div Amount: {{exchange.toFill.order.amount}} {{exchange.symbol}}
-        div Total: {{exchange.toFill.order.amount * exchange.toFill.order.rate}} ETH
-        div <br/>Summary: {{exchange.toFill.side == 'SELL' ? 'Selling': 'Buying'}} {{exchange.toFill.order.amount}} {{exchange.symbol}} for {{exchange.toFill.order.amount * exchange.toFill.order.rate}} ETH
+
+        //-.inputRow
+            lx-text-field(lx-label='Amount', lx-fixed-label='true')
+                input(ng-model='exchange.toFill.order.amount',type='number')
+            //.label {{::exchange.symbol}}
+
+
+        div Total: {{(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)}} ETH
+        div <br/>Summary: {{exchange.toFill.side == 'SELL' ? 'Selling': 'Buying'}} {{ (exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3) }} {{exchange.symbol}} for {{(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)}} ETH
 
     lx-dialog-footer
         lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
