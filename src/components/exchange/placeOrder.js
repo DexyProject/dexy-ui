@@ -66,7 +66,7 @@
                 return
             }
 
-            var token = CONSTS.tokens[symbol]
+            var token = $scope.exchange.tokenInf
 
             var tokenUint = parseInt(order.amount * token[1])
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
@@ -79,7 +79,6 @@
             var tokenGet, amountGet, tokenGive, amountGive 
 
             var nonce = Date.now()
-            console.log(nonce)
 
             if (type === 'SELL') {
                 tokenGive = token[0]
