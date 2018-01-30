@@ -5,6 +5,7 @@ html(lang="en", ng-app="dexyApp", ng-class="{ nightMode: nightMode }")
         title DEXY Exchange
 
         meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+        meta(name='viewport', content='width=device-width', initial-scale='1')
 
         if (mode === 'production')
             link(rel='stylesheet', href='css/blob.css')
@@ -18,9 +19,7 @@ html(lang="en", ng-app="dexyApp", ng-class="{ nightMode: nightMode }")
     body
         //- Top bar
         include ./components/header/header
-
-        .divider.divider--dark
-
+            
         //- Main view
-        div.mainView(ui-view='main')
+        main.container-fluid.mb-3(ui-view='main')
 

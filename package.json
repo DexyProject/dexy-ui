@@ -14,10 +14,12 @@
   "dependencies": {
     "angular": "^1.5.11",
     "angular-ui-router": "^0.4.3",
+    "bootstrap": "^4.0.0",
     "ethereumjs-wallet": "^0.6.0",
     "gulp-babel-minify": "^0.2.0",
     "hdkey": "^0.7.1",
     "official-lumx": "^1.7.5",
+    "popper.js": "^1.12.9",
     "web3": "^1.0.0-beta.27"
   },
   "development": {

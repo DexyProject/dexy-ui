@@ -1,16 +1,42 @@
-#topBar.bgc-grey-100(flex-container='row', flex-column='12')
-    div#logo(flex-item='1', ui-sref='markets')
-        //- Logo here
+nav.navbar.navbar-expand-md.navbar-light.box-shadow
+    a#logo.navbar-brand(href='#')
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+    #navbarCollapse.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+            li.nav-item.active
+                a.nav-link(href='#') Markets
+        .nav-item.dropdown
+            a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                | Gas
+            .dropdown-menu(aria-labelledby='gas')
+                a.dropdown-item(href='#') Action
+                a.dropdown-item(href='#') Another action
+                a.dropdown-item(href='#') Something else here
+        .nav-item.dropdown
+            a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                | Account Shit
+            .dropdown-menu(aria-labelledby='account')
+                a.dropdown-item(href='#') Action
+                a.dropdown-item(href='#') Another action
+                a.dropdown-item(href='#') Something else here
+        .nav-item.d-none.d-lg-inline-block
+            button.btn.btn-light.mdi(ng-click='toggleFullscreen()' type='button' ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
 
-    div(flex-item='3')
-        // tabs
-        lx-tabs(lx-active-tab='activeTab', ng-click='updateRoute(activeTab)')
-            lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
 
-    div(flex-item='7')
-        //- those are view-specific indicators
-        div(ui-view='indicators')
-
-    div(flex-item='1')
-        //- Switches like night mode / fullscreen
-        include ./switches
+//#topBar.bgc-grey-100(flex-container='row', flex-column='12')
+//    div#logo(flex-item='1', ui-sref='markets')
+//        //- Logo here
+//
+//    div(flex-item='3')
+//        // tabs
+//        lx-tabs(lx-active-tab='activeTab', ng-click='updateRoute(activeTab)')
+//            lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
+//
+//    div(flex-item='7')
+//        //- those are view-specific indicators
+//        div(ui-view='indicators')
+//
+//    div(flex-item='1')
+//        //- Switches like night mode / fullscreen
+//        include ./switches
