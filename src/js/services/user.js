@@ -49,6 +49,22 @@
             })
         }
         $scope.setMetamask()
+        
+        // metamask ugly update interval
+        // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#ear-listening-for-selected-account-changes
+        setInterval(function() {
+            if (user.mode != 'metamask') return
+
+            web3.eth.getAccounts(function(err, accounts) {
+                // @ todo fix err handling
+                if (accounts[0] == user.publicAddr) return
+
+                user.publicAddr = accounts[0]
+
+                if (!$scope.$$phase) $scope.$apply()
+            })
+        }, 1000)
+
 
         // Eth bal
         user.ethBal = { }
