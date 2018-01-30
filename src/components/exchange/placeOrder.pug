@@ -43,14 +43,14 @@
 .form-group.row
     label.col-sm-2.col-form-label.text-right(for='price') Price
     .col-sm-7
-        input#price.form-control(type='text', placeholder='Price')
+        input#price.form-control(type='text', placeholder='Price', ng-model='orders.'+side+'.rate')
     .col-sm-3
         button.btn.btn-light.btn-outline-primary(type='button')
             | Best #{side==="SELL" ? "bid" : "ask"}
 .form-group.row
     label.col-sm-2.col-form-label.text-right(for='amount') Amount
     .col-sm-10
-        input#amount.form-control(type='text', placeholder='Amount')
+        input#amount.form-control(type='text', placeholder='Amount', ng-model='orders.'+side+'.amount')
 .row
     .col.mb-3.text-right
         .btn-group(role='group', aria-label='Percent')
@@ -69,7 +69,7 @@
 .form-group.row
     label.col-sm-2.col-form-label.text-right(for='amount') Total
     .col-sm-10
-        input#total.form-control(type='text', placeholder='Total')
+        input#total.form-control(type='text', placeholder='Total', ng-model='orders.'+side+'.total')
 .row
     .col.mb-3.text-right
-        button.btn(type='button' class=side==="SELL" ? 'btn-danger' : 'btn-success') #{side==='SELL' ? 'Sell' : 'Buy'}
+        button.btn(type='button',ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)',class=side==="SELL" ? 'btn-danger' : 'btn-success') #{side==='SELL' ? 'Sell' : 'Buy'}

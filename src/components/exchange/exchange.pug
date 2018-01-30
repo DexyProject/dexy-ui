@@ -66,14 +66,14 @@
                                             .col
                                                 h5 Exchange
                                                 .row
-                                                    .col-md-6 0.0 Token
-                                                    .col-md-6 12 ETH
+                                                    .col-md-6 {{exchange.onExchange.toFixed(3)}} {{exchange.symbol}}
+                                                    .col-md-6  {{exchange.user.ethBal.onExchange.toFixed(6)}} ETH
                                         .row.mt-3
                                             .col
                                                 h5 Wallet
                                                 .row
-                                                    .col-md-6 0.0 Token
-                                                    .col-md-6 12 ETH
+                                                    .col-md-6 {{exchange.onWallet.toFixed(3)}} {{exchange.symbol}}
+                                                    .col-md-6  {{exchange.user.ethBal.onWallet.toFixed(6)}} ETH
                                     .col-sm-6 B
                             #orders.tab-pane.fade.in
                             #trades.tab-pane.fade.in
