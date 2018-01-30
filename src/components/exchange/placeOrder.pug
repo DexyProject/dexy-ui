@@ -1,41 +1,75 @@
-h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
+//h4 #{side=='SELL' ? 'Sell' : 'Buy'} {{exchange.symbol}}
+//
+////- Usually exchanges use the order Price, Amount; sometimes they have amount after
+////- TODO show total available amnt
+////- TODO slider
+//
+//
+//.inputRow.rate
+//    lx-text-field(lx-label='Rate', lx-fixed-label='true')
+//        input(ng-model='orders.'+side+'.rate', step='0.000001')
+//    lx-button(lx-type='flat', lx-size='s') Best #{side=="SELL" ? "bid" : "ask"}
+//    .label {{::'ETH/'+exchange.symbol}}
+//
+//.inputRow
+//    lx-text-field(lx-label='Amount', lx-fixed-label='true')
+//        input(ng-model='orders.'+side+'.amount', step='0.1')
+//    .label {{::exchange.symbol}}
+//
+//
+//.inputRow.percentages(flex-container='row')
+//    div(flex-item='3')
+//        lx-button(lx-size='s', lx-type='flat') 25%
+//    div(flex-item='3')
+//        lx-button(lx-size='s', lx-type='flat') 50%
+//    div(flex-item='3')
+//        lx-button(lx-size='s', lx-type='flat') 75%
+//    div(flex-item='3')
+//        lx-button(lx-size='s', lx-type='flat') 100%
+//
+//.inputRow
+//    lx-text-field(lx-label='Total', lx-fixed-label='true')
+//        input(ng-model='orders.'+side+'.total')
+//    .label ETH
+//
+//lx-button.action(
+//        lx-color=side=="SELL" ? "red" : "green"
+//        lx-size='l'
+//        ng-disabled='!orders.'+side+'.valid'
+//        ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)'
+//        ) #{side=="SELL" ? "Sell" : "Buy"}
+//
 
-//- Usually exchanges use the order Price, Amount; sometimes they have amount after
-//- TODO show total available amnt
-//- TODO slider 
-
-
-.inputRow.rate
-    lx-text-field(lx-label='Rate', lx-fixed-label='true')
-        input(ng-model='orders.'+side+'.rate', step='0.000001')
-    lx-button(lx-type='flat', lx-size='s') Best #{side=="SELL" ? "bid" : "ask"}
-    .label {{::'ETH/'+exchange.symbol}}
-
-.inputRow
-    lx-text-field(lx-label='Amount', lx-fixed-label='true')
-        input(ng-model='orders.'+side+'.amount', step='0.1')
-    .label {{::exchange.symbol}}
-
-
-.inputRow.percentages(flex-container='row')
-    div(flex-item='3')
-        lx-button(lx-size='s', lx-type='flat') 25%
-    div(flex-item='3')
-        lx-button(lx-size='s', lx-type='flat') 50%
-    div(flex-item='3')
-        lx-button(lx-size='s', lx-type='flat') 75%
-    div(flex-item='3')
-        lx-button(lx-size='s', lx-type='flat') 100%
-
-.inputRow
-    lx-text-field(lx-label='Total', lx-fixed-label='true')
-        input(ng-model='orders.'+side+'.total')
-    .label ETH
-
-lx-button.action(
-        lx-color=side=="SELL" ? "red" : "green"
-        lx-size='l'
-        ng-disabled='!orders.'+side+'.valid'
-        ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)'
-        ) #{side=="SELL" ? "Sell" : "Buy"}
-
+.form-group.row
+    label.col-sm-2.col-form-label.text-right(for='price') Price
+    .col-sm-7
+        input#price.form-control(type='text', placeholder='Price')
+    .col-sm-3
+        button.btn.btn-light.btn-outline-primary(type='button')
+            | Best #{side==="SELL" ? "bid" : "ask"}
+.form-group.row
+    label.col-sm-2.col-form-label.text-right(for='amount') Amount
+    .col-sm-10
+        input#amount.form-control(type='text', placeholder='Amount')
+.row
+    .col.mb-3.text-right
+        .btn-group(role='group', aria-label='Percent')
+            button.btn.btn-light.btn-outline-primary(type='button')
+                | 25%
+            button.btn.btn-light.btn-outline-primary(type='button')
+                | 50%
+            button.btn.btn-light.btn-outline-primary(type='button')
+                | 75%
+            button.btn.btn-light.btn-outline-primary(type='button')
+                | 100%
+.row
+    .col.text-right
+        p.font-weight-light
+            small 0.00 Fee
+.form-group.row
+    label.col-sm-2.col-form-label.text-right(for='amount') Total
+    .col-sm-10
+        input#total.form-control(type='text', placeholder='Total')
+.row
+    .col.mb-3.text-right
+        button.btn.btn-success(type='button') #{side==='SELL' ? 'Sell' : 'Buy'}

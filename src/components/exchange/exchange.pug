@@ -1,34 +1,289 @@
-div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
-    //-h2(ng-bind='exchange.pair')
-    .exchangeLayout
-        .topLeft
-            #mainChart(height='100%')
-            //-iframe#tradingview(name='tradingview', src='/img/tv-chart.html', frameborder='0', allowtransparency='true', scrolling='no', allowfullscreen='', style='display: block; width: 100%; height: 100%;')
+//div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
+//    //-h2(ng-bind='exchange.pair')
+//    .exchangeLayout
+//        .topLeft
+//            #mainChart(height='100%')
+//            //-iframe#tradingview(name='tradingview', src='/img/tv-chart.html', frameborder='0', allowtransparency='true', scrolling='no', allowfullscreen='', style='display: block; width: 100%; height: 100%;')
+//
+//        .bottomLeft(class='p+')
+//            lx-tabs(lx-active-tab='activeTab')
+//                lx-tab(lx-label='Wallet')
+//                    include ./wallet
+//                lx-tab(lx-label='My Orders')
+//                lx-tab(lx-label='My Trades')
+//                lx-tab(lx-label='Last Trades')
+//
+//
+//        .topRight(ng-controller='orderbookCtrl')
+//            - var fillSide = 'SELL'
+//            .bids(class='p+')
+//                h3 Bids
+//                include ./orderbook
+//            - var fillSide = 'BUY'
+//            .asks(class='p+')
+//                h3 Asks
+//                include ./orderbook
+//        .bottomRight(ng-controller='placeOrderCtrl')
+//            - var side = 'SELL'
+//            .sell.placeOrder.p
+//                include ./placeOrder
+//            - var side = 'BUY'
+//            .buy.placeOrder.p
+//                include ./placeOrder
+//
+//    include ./fillOrderDialog
+.row(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
+    .col-xs-12.col-lg-9.col-xs-12
+        .row
+            .col-xs-12.col-lg-8.mt-3
+                .col.border
+                    #mainChart
+            .col-md-4.col-xs-4.mt-3
+                .col.border(style='max-height: 400px; overflow-y: scroll')
+                    .row
+                        table.table.table-hover.orderbook
+                            tbody.text-right
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr.orderbook-header
+                                    td Price
+                                    td Amount
+                                    td Total (ETH)
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+                                tr
+                                    td 0.0002323
+                                    td 23
+                                    td 0.005
+            .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
+                .col.border
+                    .row.navRow
+                        ul.nav.nav-tabs
+                            li.nav-item
+                                a.nav-link.active(data-toggle='tab', href='#wallet') Wallet
+                            li.nav-item
+                                a.nav-link(data-toggle='tab', href='#orders')
+                                    | My
+                                    | Orders
+                            li.nav-item
+                                a.nav-link(data-toggle='tab', href='#trades')
+                                    | My
+                                    | Trades
+                    .row.mt-3.mb-3
+                        .tab-content.col
+                            #wallet.tab-pane.fade.in.active.show
+                                .row
+                                    .col-sm-6
+                                        .row
+                                            .col
+                                                h5 Exchange
+                                                .row
+                                                    .col-md-6 0.0 Token
+                                                    .col-md-6 12 ETH
+                                        .row.mt-3
+                                            .col
+                                                h5 Wallet
+                                                .row
+                                                    .col-md-6 0.0 Token
+                                                    .col-md-6 12 ETH
+                                    .col-sm-6 B
+                            #orders.tab-pane.fade.in
+                            #trades.tab-pane.fade.in
+            .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
+                .col.border
+                    .row.navRow
+                        ul.nav.nav-tabs
+                            li.nav-item
+                                a.nav-link.active(data-toggle='tab', href='#buy') Buy
+                            li.nav-item
+                                a.nav-link(data-toggle='tab', href='#sell') Sell
+                    .row.mt-3.mb-3
+                        .tab-content.col
 
-        .bottomLeft(class='p+')
-            lx-tabs(lx-active-tab='activeTab')
-                lx-tab(lx-label='Wallet')
-                    include ./wallet
-                lx-tab(lx-label='My Orders')
-                lx-tab(lx-label='My Trades')
-                lx-tab(lx-label='Last Trades')
+                            - var side = 'BUY'
+                                #buy.tab-pane.fade.in.active.show
+                                    include ./placeOrder
+                            - var side = 'SELL'
+                                #sell.tab-pane.fade.in
+                                    include ./placeOrder
 
+    .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap
+        .col.border(style='overflow-y: scroll;')
+            .row(style='max-height: 778px;')
+                .col-lg-12
+                    table.table.table-hover
+                        thead
+                            tr
+                                th(scope='col') Amount
+                                th(scope='col') Price
+                                th(scope='col') Time
+                        tbody.text-right
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
+                            tr
+                                td 25.000
+                                td 0.0333
+                                td 12:35
 
-        .topRight(ng-controller='orderbookCtrl')
-            - var fillSide = 'SELL'
-            .bids(class='p+')
-                h3 Bids
-                include ./orderbook
-            - var fillSide = 'BUY'
-            .asks(class='p+')
-                h3 Asks
-                include ./orderbook
-        .bottomRight(ng-controller='placeOrderCtrl')
-            - var side = 'SELL'
-            .sell.placeOrder.p
-                include ./placeOrder
-            - var side = 'BUY'
-            .buy.placeOrder.p
-                include ./placeOrder
-
-    include ./fillOrderDialog

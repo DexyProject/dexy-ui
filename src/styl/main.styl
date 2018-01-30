@@ -1,44 +1,80 @@
 
 body
     font-family Arial
+    background-color #f5f5f5
 
 //- ng-cloak
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
 
-//- Required for fullscreen, otherwise things go dark
-.mainView, .exchangeLayout
-    background-color white
+////- Required for fullscreen, otherwise things go dark
+//.mainView, .exchangeLayout
+//    background-color white
+//
+//
+////- Night mode. Terrible
+//html.nightMode
+//    background-color rgb(64,64,64)
+//    color #eee
+//
+//    .mainView, .exchangeLayout
+//        background-color rgb(64,64,64)
+//
+//    #topBar
+//        background-color rgb(84, 84, 84) !important
+//
+//
+//.switch--accent .switch__input:checked+.switch__label:before {
+//    background-color: rgba(108, 84, 201, .5)
+//}
+//
+//.switch--accent .switch__input:checked+.switch__label:after {
+//    background-color: #6C54C9
+//}
+//
+//.tabs--theme-light.tabs--color-primary .tabs__link:not(.tabs__link--is-disabled).tabs__link--is-active, .tabs--theme-light.tabs--color-primary .tabs__link:not(.tabs__link--is-disabled):hover {
+//    color: #6C54C9
+//}
+//
+//.userDropdown .publicAddr
+//    width 200px
+//    text-overflow ellipsis
+//    white-space nowrap
+//    overflow hidden
+//    font-size 11px
 
+.col
+  background-color #fff
 
-//- Night mode. Terrible
-html.nightMode
-    background-color rgb(64,64,64)
-    color #eee
+.box-shadow
+  box-shadow 0 0.25rem 0.75rem rgba(0, 0, 0, .05)
 
-    .mainView, .exchangeLayout
-        background-color rgb(64,64,64)
+.navbar-light
+  background-color #FFF
 
-    #topBar
-        background-color rgb(84, 84, 84) !important
+th
+  color #888
 
+.navRow
+  background-color #f5f5f5
+  .nav-tabs
+    border 0px
+  .nav-link
+    border 0px
+    &:hover
+      border 0px
+  a
+    &.nav-link
+      color #888
 
-.switch--accent .switch__input:checked+.switch__label:before {
-    background-color: rgba(108, 84, 201, .5)
-}
+.table
+  thead
+    th
+      border 0
 
-.switch--accent .switch__input:checked+.switch__label:after {
-    background-color: #6C54C9
-}
+.orderbook
+  overflow-y scroll
 
-.tabs--theme-light.tabs--color-primary .tabs__link:not(.tabs__link--is-disabled).tabs__link--is-active, .tabs--theme-light.tabs--color-primary .tabs__link:not(.tabs__link--is-disabled):hover {
-    color: #6C54C9
-}
-
-.userDropdown .publicAddr
-    width 200px
-    text-overflow ellipsis
-    white-space nowrap
-    overflow hidden
-    font-size 11px
+.orderbook-header
+  background-color #f5f5f5
