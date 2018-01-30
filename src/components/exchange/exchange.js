@@ -20,7 +20,7 @@
 
         var lastPart = $stateParams.pair.split('/').pop()
 
-        if (web3.utils.isAddress(lastPart) && !$stateParams.token) 
+        if (web3.utils.isAddress(lastPart) && !$stateParams.token)
         {
             fetchCustomToken(lastPart, function(err, props) {
                 if (err) {
@@ -32,7 +32,7 @@
                 var multiplier = Math.pow(10, props.decimals)
                 var symbol = props.symbol
                 var token = [lastPart, multiplier, symbol]
-                
+
                 if (CONSTS.tokens[symbol] && CONSTS.tokens[symbol][0] === lastPart) {
                     $state.go('exchange', { pair: symbol }, { replace: true })
                 } else {
@@ -103,9 +103,9 @@
 
         var chartStyle = angular.copy(window.chartStyle)
         chartStyle.chart.events = { load: function() {
-            var chart = this 
+            var chart = this
 
-            $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0x2956356cd2a2bf3202f771f50d3d14a367b48070/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
+            $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
                 // Create the chart
 
                 var prices = [];
@@ -146,7 +146,7 @@
             if (res == '0x') return cb(new Error('unable to read decimals'))
 
             props.decimals = web3.utils.hexToNumber(res)
-           
+
             var token = new web3.eth.Contract(CONSTS.erc20ABI, addr)
             token.methods.symbol().call(function(err, res) {
                 if (err) return cb(err)

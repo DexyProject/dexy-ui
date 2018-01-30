@@ -56,7 +56,6 @@ window.chartStyle = {
         }
     },
     chart: {
-        height: '44%',
         panning: true,
     },
     credits: {
