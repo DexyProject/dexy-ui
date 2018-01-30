@@ -7,21 +7,21 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow
             li.nav-item.active
                 a.nav-link(href='#') Markets
         .nav-item.dropdown
-            a#navbarDropdownMenuLink.nav-link.dropdown-toggle(href='http://example.com', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+            a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                 | Gas
-            .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+            .dropdown-menu(aria-labelledby='gas')
                 a.dropdown-item(href='#') Action
-                a.dropdown-item(hr='', ef='#') Another action
+                a.dropdown-item(href='#') Another action
                 a.dropdown-item(href='#') Something else here
         .nav-item.dropdown
-            a#navbarDropdownMenuLink2.nav-link.dropdown-toggle(href='http://example.com', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+            a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                 | Account Shit
-            .dropdown-menu(aria-labelledby='navbarDropdownMenuLink2')
+            .dropdown-menu(aria-labelledby='account')
                 a.dropdown-item(href='#') Action
                 a.dropdown-item(href='#') Another action
                 a.dropdown-item(href='#') Something else here
         .nav-item.d-none.d-lg-inline-block
-            button(ng-click='toggleFullscreen()').btn.btn-light.btn-outline-primary(type='button').mdi(ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
+            button.btn.btn-light.mdi(ng-click='toggleFullscreen()' type='button' ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
 
 
 //#topBar.bgc-grey-100(flex-container='row', flex-column='12')

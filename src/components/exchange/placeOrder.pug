@@ -72,4 +72,4 @@
         input#total.form-control(type='text', placeholder='Total')
 .row
     .col.mb-3.text-right
-        button.btn.btn-success(type='button') #{side==='SELL' ? 'Sell' : 'Buy'}
+        button.btn(type='button' class=side==="SELL" ? 'btn-danger' : 'btn-success') #{side==='SELL' ? 'Sell' : 'Buy'}
