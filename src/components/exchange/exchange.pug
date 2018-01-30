@@ -1,37 +1,5 @@
-//div(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
-//    //-h2(ng-bind='exchange.pair')
-//    .exchangeLayout
-//        .topLeft
-//            #mainChart(height='100%')
-//            //-iframe#tradingview(name='tradingview', src='/img/tv-chart.html', frameborder='0', allowtransparency='true', scrolling='no', allowfullscreen='', style='display: block; width: 100%; height: 100%;')
-//
-//        .bottomLeft(class='p+')
-//            lx-tabs(lx-active-tab='activeTab')
-//                lx-tab(lx-label='Wallet')
-//                    include ./wallet
-//                lx-tab(lx-label='My Orders')
-//                lx-tab(lx-label='My Trades')
-//                lx-tab(lx-label='Last Trades')
-//
-//
-//        .topRight(ng-controller='orderbookCtrl')
-//            - var fillSide = 'SELL'
-//            .bids(class='p+')
-//                h3 Bids
-//                include ./orderbook
-//            - var fillSide = 'BUY'
-//            .asks(class='p+')
-//                h3 Asks
-//                include ./orderbook
-//        .bottomRight(ng-controller='placeOrderCtrl')
-//            - var side = 'SELL'
-//            .sell.placeOrder.p
-//                include ./placeOrder
-//            - var side = 'BUY'
-//            .buy.placeOrder.p
-//                include ./placeOrder
-//
 //    include ./fillOrderDialog
+
 .row(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
     .col-xs-12.col-lg-9.col-xs-12
         .row
@@ -40,7 +8,7 @@
                     #mainChart
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border(style='max-height: 400px; overflow-y: scroll')
-                    .row
+                    .row(ng-controller='orderbookCtrl')
                         .col-12
                             include ./orderbook
             .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
@@ -86,7 +54,7 @@
                             li.nav-item
                                 a.nav-link(data-toggle='tab', data-target='#sell') Sell
                     .row.mt-3.mb-3
-                        .tab-content.col
+                        .tab-content.col(ng-controller='placeOrderCtrl')
                             - var side = 'BUY'
                                 #buy.tab-pane.fade.in.active.show
                                     include ./placeOrder
