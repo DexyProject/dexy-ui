@@ -19,7 +19,7 @@ gulp.task('client-bundle-css', function(cb) {
 
 		var sheet = line.split('\'')[3]
 		if (sheet.match('.css')) {
-			if (sheet.match('css/')) {
+			if (sheet.indexOf'cssi/') == 0) {
 				var split = sheet.split('/').slice(1)
 				if (split.length === 1) split.unshift('src/styl') // if it's in the root, add src/styl/ in front
 				sheets.push(split.join('/').replace('.css', '.styl'))

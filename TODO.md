@@ -51,11 +51,11 @@
 * dialog to confirm placing order (or filling order)
 * open dialog to fill order when you click on order
 * eth addresses to be clickable and take to etherscan
+* slider+input on fill dialog
 
 # TODO
 
-* slider+input on fill dialog
-* sign a tx calling trade() 
+* sign a tx calling trade()
 * service for the API, orderbook state and price history
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * place order: slider, calculate total amount, show available amnt
