@@ -29,4 +29,4 @@
         label.col-form-label(for='total') Total
         input#total.form-control(type='text', placeholder='Price', ng-model='orders.' + side + '.total')
     .col-3.text-right
-        button.btn(type='button', ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)',class=side==="SELL" ? 'btn-danger' : 'btn-success') #{side==='SELL' ? 'Sell' : 'Buy'}
+        button.btn(type='button', ng-click='placeOrder(orders.'+side+', "'+side+'", exchange.symbol)', class=side==="SELL" ? 'btn-danger' : 'btn-success') #{side==='SELL' ? 'Sell' : 'Buy'}
