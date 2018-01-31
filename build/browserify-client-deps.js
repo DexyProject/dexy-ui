@@ -35,6 +35,8 @@ module.exports = function() {
 		'moment': 1,
 		'official-lumx': 1,
 		'velocity-animate': 1,
+		'popper.js': 1,
+		'bootstrap': 1,
 	}
 	
 
