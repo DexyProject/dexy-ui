@@ -70,6 +70,8 @@
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
+* sortable table row icons 
+
 ## mañana but important
 
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
@@ -81,7 +83,7 @@
 * Proper night mode
 
 ## mañana
-
+* graph should be zoomable by clicking price axis and zooming. See bittrex, bitfenix etc.
 * localization
 * consider DAI pairs
 * service worker 
