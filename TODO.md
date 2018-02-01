@@ -70,7 +70,8 @@
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-* sortable table row icons 
+* sortable table row icons
+* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
 
 ## mañana but important
 
