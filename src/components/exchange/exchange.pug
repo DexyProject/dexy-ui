@@ -8,6 +8,9 @@
                     #mainChart
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border(style='max-height: 400px; overflow-y: scroll')
+                    .row
+                        .col-12
+                            h3 Orders
                     .row(ng-controller='orderbookCtrl')
                         .col-12
                             include ./orderbook
@@ -64,6 +67,9 @@
 
     .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap
         .col.border(style='overflow-y: scroll;')
+            .row
+                .col-12
+                    h3 Orders
             .row(style='max-height: 778px;')
                 .col-lg-12
                     include ./tradeHistory
