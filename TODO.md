@@ -84,7 +84,7 @@
 * Proper night mode
 
 ## mañana
-* graph should be zoomable by clicking price axis and zooming. See bittrex, bitfenix etc.
+* graph should be zoomable by clicking price axis and zooming. See bittrex, bitfenix etc. (https://jsfiddle.net/highcharts/6etwu5b4/) Can be done with mapNavigation, has ugly functionality however
 * localization
 * consider DAI pairs
 * service worker 
