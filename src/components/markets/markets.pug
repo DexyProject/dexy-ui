@@ -33,7 +33,8 @@ div(ng-controller='MarketsController as vm', class='p+')
                         td(ng-bind='market.balance.toFixed(2)')
                         td
                             div(ng-bind='::(market.price.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.price)')
+                            div(class='label')
+                                small(ng-bind='fiatValue(market.price)')
                         td(ng-bind='market.change.toFixed(2)' ng-class='market.change >= 0 ? "positive" : "negative"')
                         td
                             div(ng-bind='::(market.vol.toFixed(8))')
