@@ -1,26 +1,26 @@
 div(ng-controller='UserCtrl', ng-cloak)
     lx-dropdown(lx-position='right',lx-width='250')
-            lx-dropdown-toggle
-                lx-button(lx-type='flat')
-                    span 
-                        i.mdi.mdi-account
-                        | {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
-            lx-dropdown-menu.userDropdown
-                div.p
-                    div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
-                    //-div.publicAddr {{user.publicAddr}}
-                    div.bal {{user.ethBal.onWallet.toFixed(6)}} ETH
+        lx-dropdown-toggle
+            lx-button(lx-type='flat')
+                span
+                    i.mdi.mdi-account
+                    | {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
+        lx-dropdown-menu.userDropdown
+            div.p
+                div {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
+                //-div.publicAddr {{user.publicAddr}}
+                div.bal {{user.ethBal.onWallet.toFixed(6)}} ETH
 
-                    //- Exchange is not visible from here, plus we already have that once in the page
-                    //-div.bal {{exchange.onWallet}} {{exchange.symbol}}
+                //- Exchange is not visible from here, plus we already have that once in the page
+                //-div.bal {{exchange.onWallet}} {{exchange.symbol}}
 
-                    ul
-                        li
-                            a(class='dropdown-link') Metamask
-                        li
-                            a(class='dropdown-link', ng-click='enableTrezor()') Trezor
-                        li
-                            a(class='dropdown-link', ng-click='enableLedger()') Ledger
+                ul
+                    li
+                        a(class='dropdown-link') Metamask
+                    li
+                        a(class='dropdown-link', ng-click='enableTrezor()') Trezor
+                    li
+                        a(class='dropdown-link', ng-click='enableLedger()') Ledger
 
     lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
         lx-dialog-header

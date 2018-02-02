@@ -1,5 +1,4 @@
-(function()
-{
+(function () {
     'use strict';
 
     angular
@@ -15,8 +14,7 @@
     var Buffer = require('buffer').Buffer
     var wallet = require('ethereumjs-wallet')
 
-    function UserService($scope, LxNotificationService)
-    {
+    function UserService($scope, LxNotificationService) {
         initWeb3()
 
         var user = this
@@ -35,8 +33,8 @@
         user.chainId = 1
 
         // Default: try metamask
-        $scope.setMetamask = function() {
-            web3.eth.getAccounts(function(err, accounts) {
+        $scope.setMetamask = function () {
+            web3.eth.getAccounts(function (err, accounts) {
                 if (err) {
                     user.handleWeb3Err(err)
                     return
@@ -49,13 +47,13 @@
             })
         }
         $scope.setMetamask()
-        
+
         // metamask ugly update interval
         // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#ear-listening-for-selected-account-changes
-        setInterval(function() {
+        setInterval(function () {
             if (user.mode != 'metamask') return
 
-            web3.eth.getAccounts(function(err, accounts) {
+            web3.eth.getAccounts(function (err, accounts) {
                 // @ todo fix err handling
                 if (accounts[0] == user.publicAddr) return
 
@@ -67,21 +65,23 @@
 
 
         // Eth bal
-        user.ethBal = { }
-        $scope.$watch(function() { return user.publicAddr }, function(addr) {
+        user.ethBal = {}
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function (addr) {
             if (!addr) return
 
-            console.log('Fetching ETH balances for '+addr)
+            console.log('Fetching ETH balances for ' + addr)
 
-            web3.eth.getBalance(addr).then(function(bal) {
+            web3.eth.getBalance(addr).then(function (bal) {
                 user.ethBal.onWallet = bal / 1000000000000000000
-                if (! $scope.$$phase) $scope.$apply()
+                if (!$scope.$$phase) $scope.$apply()
             })
 
             // TODO: get from exchange SC too
         })
 
-        web3.eth.net.getId(function(err, netId) {
+        web3.eth.net.getId(function (err, netId) {
             if (err) {
                 user.handleWeb3Err(err)
                 return
@@ -90,10 +90,9 @@
         })
         // TODO: https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#best-practices-bowtie
 
-        user.getTrezorAddresses = function(cb)
-        {
-            TrezorConnect.getXPubKey(user.TREZOR_HD_PATH, function(resp) {
-                if (! resp.success) {
+        user.getTrezorAddresses = function (cb) {
+            TrezorConnect.getXPubKey(user.TREZOR_HD_PATH, function (resp) {
+                if (!resp.success) {
                     user.handleTrezorErr(resp)
                     return
                 }
@@ -102,38 +101,36 @@
             })
         }
 
-        user.getLedgerAddresses = function(cb)
-        {
+        user.getLedgerAddresses = function (cb) {
             ledger.comm_u2f.create_async()
-            .then(function(comm) {
-                var eth = new ledger.eth(comm)
+                .then(function (comm) {
+                    var eth = new ledger.eth(comm)
 
-                eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
-                .then(function(resp) {
-                    cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                    eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
+                        .then(function (resp) {
+                            cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                        })
+                        .catch($scope.handleLedgerError)
                 })
                 .catch($scope.handleLedgerError)
-            })
-            .catch($scope.handleLedgerError)
         }
 
-        user.getAddrs = function(publicKey, chainCode)
-        {
+        user.getAddrs = function (publicKey, chainCode) {
             // we need resp.publicKey, resp.chainCode, user.HD_PATh
             var hdk = new HDKey()
             hdk.publicKey = new Buffer(publicKey, 'hex')
             hdk.chainCode = new Buffer(chainCode, 'hex')
 
             var all = []
-            for (var i = 0; i!=user.HWWALLET_ADDRESS_COUNT; i++) {
-                var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/'+i).publicExtendedKey)
-                all.push('0x'+wlt.getAddress().toString('hex'))
+            for (var i = 0; i != user.HWWALLET_ADDRESS_COUNT; i++) {
+                var wlt = wallet.fromExtendedPublicKey(hdk.derive('m/' + i).publicExtendedKey)
+                all.push('0x' + wlt.getAddress().toString('hex'))
             }
             return all
         }
-        user.onHDWalletAddr = function(address, type, idx)
-        {
-            LxNotificationService.success(( type === 'trezor' ? 'Trezor' : 'Ledger' ) + ': imported address');
+
+        user.onHDWalletAddr = function (address, type, idx) {
+            LxNotificationService.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address');
 
             user.publicAddr = address
             user.mode = type
@@ -142,91 +139,90 @@
             if (!$scope.$$phase) $scope.$apply()
         }
 
-        user.sendTx = function(tx)
-        {
+        user.sendTx = function (tx) {
             // TODO
             var GAS_LIM = 100 * 1000
 
             if (user.mode === 'trezor') {
-                web3.eth.getTransactionCount(user.publicAddr, function(err, count) {
+                web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
                     // TODO: handle err
                     console.log(count)
 
                     // TODO; estimate gas
                     TrezorConnect.ethereumSignTx(
-                    user.TREZOR_HD_PATH,
-                    '0'+count.toString(16),
-                    '0'+user.GAS_PRICE.toString(16), // gas price
-                    '0'+GAS_LIM.toString(16), // gas limit
-                    user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
-                    '00', // value TODO
-                    tx.encodeABI(), // data TODO
-                    user.chainId,
-                    function (response) {
-                        if (response.success) {
-                            console.log('Signature V (recovery parameter):', response.v); // number
-                            console.log('Signature R component:', response.r); // bytes
-                            console.log('Signature S component:', response.s); // bytes
-                        } else {
-                            user.handleTrezorErr(response)
-                        }
+                        user.TREZOR_HD_PATH,
+                        '0' + count.toString(16),
+                        '0' + user.GAS_PRICE.toString(16), // gas price
+                        '0' + GAS_LIM.toString(16), // gas limit
+                        user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
+                        '00', // value TODO
+                        tx.encodeABI(), // data TODO
+                        user.chainId,
+                        function (response) {
+                            if (response.success) {
+                                console.log('Signature V (recovery parameter):', response.v); // number
+                                console.log('Signature R component:', response.r); // bytes
+                                console.log('Signature S component:', response.s); // bytes
+                            } else {
+                                user.handleTrezorErr(response)
+                            }
 
-                    })
+                        })
                 })
             } else if (user.mode === 'ledger') {
 
                 ledger.comm_u2f.create_async()
-                .then(function(comm) {
-                    var eth = new ledger.eth(comm)
+                    .then(function (comm) {
+                        var eth = new ledger.eth(comm)
 
-                    var dPath = user.LEDGER_HD_PATH+'/'+user.hdWalletAddrIdx;
-                    console.log(dPath)
-                    eth.signTransaction_async(dPath, tx.encodeABI()).then(function(result) {
+                        var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
+                        console.log(dPath)
+                        eth.signTransaction_async(dPath, tx.encodeABI()).then(function (result) {
                             console.log('from signtx', result);
 
-                            eth.signPersonalMessage_async(dPath, Buffer.from("order pls").toString("hex")).then(function(result) {
+                            eth.signPersonalMessage_async(dPath, Buffer.from("order pls").toString("hex")).then(function (result) {
                                 var v = result['v'] - 27;
                                 v = v.toString(16);
                                 if (v.length < 2) {
-                                v = "0" + v;
+                                    v = "0" + v;
                                 }
                                 console.log("Signature 0x" + result['r'] + result['s'] + v);
 
-                            }).catch(function(ex) {console.log(ex);})
-                    }).catch(function(ex) {console.log(ex);});
+                            }).catch(function (ex) {
+                                console.log(ex);
+                            })
+                        }).catch(function (ex) {
+                            console.log(ex);
+                        });
 
-                })
+                    })
             } else {
                 // normal mode
-                tx.send({ from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE })
+                tx.send({from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE})
                 // TODO handle resuls
             }
 
         }
 
-        user.handleTrezorErr = function(resp)
-        {
-            LxNotificationService.error('Trezor Error: '+resp.error);
+        user.handleTrezorErr = function (resp) {
+            LxNotificationService.error('Trezor Error: ' + resp.error);
             console.error('Trezor Error:', resp.error); // error message
         }
 
-        user.handleLedgerError = function(err)
-        {
+        user.handleLedgerError = function (err) {
             console.error(err)
-            LxNotificationService.error('Ledger Error: '+(err.message || u2f.getErrorByCode(err.errorCode)));
+            LxNotificationService.error('Ledger Error: ' + (err.message || u2f.getErrorByCode(err.errorCode)));
         }
 
-        user.handleWeb3Err = function(err)
-        {
-            LxNotificationService.error('web3 error: '+err);
+        user.handleWeb3Err = function (err) {
+            LxNotificationService.error('web3 error: ' + err);
 
             // TODO: make this visual
             console.error(err)
         }
 
         // Init web3
-        function initWeb3()
-        {
+        function initWeb3() {
             var Web3 = require('web3')
 
             // Checking if Web3 has been injected by the browser (Mist/MetaMask)

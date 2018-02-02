@@ -166,20 +166,20 @@ window.chartStyle = {
         }
     },
         {
-        type: 'column',
-        name: 'Volume',
-        pointWidth: 10,
-        yAxis: 1,
-        zIndex: 1,
-        dataGrouping: {
-            enabled: true,
-            forced: true,
-            groupPixelWidth: 25,
+            type: 'column',
+            name: 'Volume',
+            pointWidth: 10,
+            yAxis: 1,
+            zIndex: 1,
+            dataGrouping: {
+                enabled: true,
+                forced: true,
+                groupPixelWidth: 25,
 
-            units: [
-                ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
-            ]
-        },
-        color: '#b9b9b9'
-    }]
+                units: [
+                    ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
+                ]
+            },
+            color: '#b9b9b9'
+        }]
 }

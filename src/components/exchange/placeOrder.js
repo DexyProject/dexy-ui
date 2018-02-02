@@ -16,15 +16,17 @@
 
     function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
         // Updating orderbook
-        fetch(endpoint+"/orders?token="+$scope.exchange.tokenInf[0])
-        .then(function(res) { return res.json() })
-        .then(function(ob) {
-            console.log(ob)
-        })
-        .catch(function(err) {
-            // TODO handle error
-            console.error(err)
-        })
+        fetch(endpoint + "/orders?token=" + $scope.exchange.tokenInf[0])
+            .then(function (res) {
+                return res.json()
+            })
+            .then(function (ob) {
+                console.log(ob)
+            })
+            .catch(function (err) {
+                // TODO handle error
+                console.error(err)
+            })
 
         // Orders
         $scope.orders = {
@@ -33,7 +35,7 @@
         }
 
         $scope.exchange.fillForOrder = function (side, order) {
-            console.log('fillForOrder ' +side)
+            console.log('fillForOrder ' + side)
             $scope.exchange.toFill = {
                 order: order,
                 portion: 1000,
@@ -53,8 +55,13 @@
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
 
-        $scope.$watch(function () { return $scope.orders.SELL }, refreshTotal, true)
-        $scope.$watch(function () { return $scope.orders.BUY }, refreshTotal, true)
+        $scope.$watch(function () {
+            return $scope.orders.SELL
+        }, refreshTotal, true)
+
+        $scope.$watch(function () {
+            return $scope.orders.BUY
+        }, refreshTotal, true)
 
         function refreshTotal(order) {
             if (order.valid) order.total = order.amount * order.rate
@@ -76,7 +83,7 @@
 
             var userAddr = user.publicAddr
 
-            var tokenGet, amountGet, tokenGive, amountGive 
+            var tokenGet, amountGet, tokenGive, amountGive
 
             var nonce = Date.now()
 
@@ -109,11 +116,11 @@
                 // strip the 0x
                 sig = sig.slice(2)
 
-                var r = '0x'+sig.substring(0, 64)
-                var s = '0x'+sig.substring(64, 128)
+                var r = '0x' + sig.substring(0, 64)
+                var s = '0x' + sig.substring(64, 128)
                 var v = parseInt(sig.substring(128, 130)) + 27
 
-                console.log(r,s,v)
+                console.log(r, s, v)
 
                 var body = {
                     get: {
@@ -128,14 +135,14 @@
                     nonce: nonce,
                     exchange: scAddr,
                     user: user.publicAddr,
-                    signature: { r: r, s: s, v: v }
+                    signature: {r: r, s: s, v: v}
                 }
-                fetch(endpoint+'/orders', {
+                fetch(endpoint + '/orders', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
                 })
-                
+
             })
 
         }
