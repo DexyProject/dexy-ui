@@ -31,21 +31,7 @@
                     .row.mt-3.mb-3
                         .tab-content.col
                             #wallet.tab-pane.fade.in.active.show
-                                .row
-                                    .col-sm-6
-                                        .row
-                                            .col
-                                                h5 Exchange
-                                                .row
-                                                    .col-md-6 {{exchange.onExchange.toFixed(3)}} {{exchange.symbol}}
-                                                    .col-md-6  {{exchange.user.ethBal.onExchange.toFixed(6)}} ETH
-                                        .row.mt-3
-                                            .col
-                                                h5 Wallet
-                                                .row
-                                                    .col-md-6 {{exchange.onWallet.toFixed(3)}} {{exchange.symbol}}
-                                                    .col-md-6  {{exchange.user.ethBal.onWallet.toFixed(6)}} ETH
-                                    .col-sm-6 B
+                                include ./wallet
                             #orders.tab-pane.fade.in
                             #trades.tab-pane.fade.in
             .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
