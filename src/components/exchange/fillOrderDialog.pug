@@ -23,8 +23,8 @@ lx-dialog(id='fillOrder', lx-escape-close='true', lx-auto-close='true')
             .row
                 .col
                     p.font-weight-light
-                        small Summary: {{exchange.toFill.side == 'BUY' ? 'Selling': 'Buying'}} {{ (exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3) }} {{exchange.symbol}} for {{(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)}} ETH
+                        small Summary: {{exchange.toFill.side == 'SELL' ? 'Selling': 'Buying'}} {{ (exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3) }} {{exchange.symbol}} for {{(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)}} ETH
         .modal-footer
             .row
                 .col.text-right
-                    button.btn.btn-primary(type='button') {{exchange.toFill.side === 'BUY' ? 'Sell' : 'Buy'}}
+                    button.btn.btn-primary(type='button') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
