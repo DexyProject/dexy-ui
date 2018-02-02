@@ -1,4 +1,4 @@
-.row#exchange(class='p+',ng-controller='exchangeCtrl as exchange',ng-show='exchange.token')
+.row#exchange(class='p+',ng-controller='exchangeCtrl as exchange', ng-show='exchange.token')
     include ./fillOrderDialog
 
     .col-xs-12.col-lg-9.col-xs-12
@@ -8,9 +8,9 @@
                     #mainChart
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border(style='max-height: 400px; overflow-y: scroll')
-                    .row
+                    .row.mt-3
                         .col-12
-                            h3 Orders
+                            h3 History
                     .row(ng-controller='orderbookCtrl')
                         .col-12
                             include ./orderbook
@@ -31,21 +31,7 @@
                     .row.mt-3.mb-3
                         .tab-content.col
                             #wallet.tab-pane.fade.in.active.show
-                                .row
-                                    .col-sm-6
-                                        .row
-                                            .col
-                                                h5 Exchange
-                                                .row
-                                                    .col-md-6 {{exchange.onExchange.toFixed(3)}} {{exchange.symbol}}
-                                                    .col-md-6  {{exchange.user.ethBal.onExchange.toFixed(6)}} ETH
-                                        .row.mt-3
-                                            .col
-                                                h5 Wallet
-                                                .row
-                                                    .col-md-6 {{exchange.onWallet.toFixed(3)}} {{exchange.symbol}}
-                                                    .col-md-6  {{exchange.user.ethBal.onWallet.toFixed(6)}} ETH
-                                    .col-sm-6 B
+                                include ./wallet
                             #orders.tab-pane.fade.in
                             #trades.tab-pane.fade.in
             .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
@@ -59,18 +45,18 @@
                     .row.mt-3.mb-3
                         .tab-content.col(ng-controller='placeOrderCtrl')
                             - var side = 'BUY'
-                                #buy.tab-pane.fade.in.active.show
-                                    include ./placeOrder
+                            #buy.tab-pane.fade.in.active.show
+                                include ./placeOrder
                             - var side = 'SELL'
-                                #sell.tab-pane.fade.in
-                                    include ./placeOrder
+                            #sell.tab-pane.fade.in
+                                include ./placeOrder
 
     .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap
-        .col.border(style='overflow-y: scroll;')
-            .row
+        .col.border(style='overflow-y: scroll; max-height: 805px;')
+            .row.mt-3
                 .col-12
                     h3 Orders
-            .row(style='max-height: 778px;')
+            .row
                 .col-lg-12
                     include ./tradeHistory
 

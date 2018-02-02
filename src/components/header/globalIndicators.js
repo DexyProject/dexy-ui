@@ -1,5 +1,4 @@
-(function()
-{
+(function () {
     'use strict';
 
     angular
@@ -8,8 +7,7 @@
 
     GlobalIndicatorsCtrl.$inject = ['$scope', '$state', 'cmc'];
 
-    function GlobalIndicatorsCtrl($scope, $state, cmc)
-    {
+    function GlobalIndicatorsCtrl($scope, $state, cmc) {
         $scope.cmc = cmc
     }
 })();

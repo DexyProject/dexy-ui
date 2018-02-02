@@ -20,21 +20,3 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                 include ./user
             li.nav-item.d-none.d-lg-inline-block
                 button.btn.btn-light.mdi(ng-click='toggleFullscreen()' type='button' ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
-
-
-//#topBar.bgc-grey-100(flex-container='row', flex-column='12')
-//    div#logo(flex-item='1', ui-sref='markets')
-//        //- Logo here
-//
-//    div(flex-item='3')
-//        // tabs
-//        lx-tabs(lx-active-tab='activeTab', ng-click='updateRoute(activeTab)')
-//            lx-tab(ng-repeat='tab in tabs track by tab.route', lx-label='{{::tab.name}}')
-//
-//    div(flex-item='7')
-//        //- those are view-specific indicators
-//        div(ui-view='indicators')
-//
-//    div(flex-item='1')
-//        //- Switches like night mode / fullscreen
-//        include ./switches
