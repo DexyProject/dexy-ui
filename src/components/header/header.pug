@@ -16,12 +16,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                 a.dropdown-item(href='#') Another action
                 a.dropdown-item(href='#') Something else here
         .nav-item.dropdown
-            a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                | Account Shit
-            .dropdown-menu(aria-labelledby='account')
-                a.dropdown-item(href='#') Action
-                a.dropdown-item(href='#') Another action
-                a.dropdown-item(href='#') Something else here
+            include ./user
         .nav-item.d-none.d-lg-inline-block
             button.btn.btn-light.mdi(ng-click='toggleFullscreen()' type='button' ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
 
