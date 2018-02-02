@@ -5,9 +5,9 @@ a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true',
     // @TODO add ropsten, kovan etc. if chain id is 1,2,3 or whatever is the correct stuff
     .dropdown-item {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
     .dropdown-item {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
-    a.dropdown-item Metamask
-    a.dropdown-item(ng-click='enableTrezor()') Trezor
-    a.dropdown-item(ng-click='enableLedger()') Ledger
+    .dropdown-item Metamask
+    .dropdown-item(ng-click='enableTrezor()') Trezor
+    .dropdown-item(ng-click='enableLedger()') Ledger
 
     // @todo figure out dropdown sir
     //lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
