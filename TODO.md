@@ -55,6 +55,8 @@
 * add header to orderbook and tradehistory
 
 # TODO
+
+* fix binding on dialog
 * sign a tx calling trade()
 * service for the API, orderbook state and price history
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
