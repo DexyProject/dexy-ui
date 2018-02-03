@@ -16,6 +16,9 @@
     function exchangeCtrl($scope, $stateParams, $state, user, LxNotificationService) {
         var exchange = this;
 
+        $scope.exchangeAddr = CONSTS.exchangeContract
+        $scope.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
+        
         // exchange page: loading state and error (404) state
 
         var lastPart = $stateParams.pair.split('/').pop()

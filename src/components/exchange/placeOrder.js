@@ -99,11 +99,8 @@
                 amountGet = tokenUint
             }
 
-            // TODO
-            var scAddr = '0x0000000000000000000000000000000000000000'
-
             //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
-            var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, scAddr)
+            var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, $scope.exchangeAddr)
 
             console.log('order hash', hash, web3.utils.toAscii(hash).length)
             // https://github.com/ethereum/web3.js/issues/392
@@ -133,7 +130,7 @@
                     },
                     expires: expires,
                     nonce: nonce,
-                    exchange: scAddr,
+                    exchange: $scope.exchangeAddr,
                     user: user.publicAddr,
                     signature: {r: r, s: s, v: v}
                 }
