@@ -17,9 +17,10 @@
             $http.get(URL)
                 .then(function (resp) {
 
-                    gas.prices.fast = (resp.data.fast.to / 10).toFixed(0)
-                    gas.prices.safeLow = (resp.data.safeLow.to / 10).toFixed(0)
-                    gas.prices.average = (resp.data.average.to / 10).toFixed(0)
+                    console.log(resp.data)
+                    gas.prices.fast = (resp.data.fast / 10).toFixed(0)
+                    gas.prices.safeLow = (resp.data.safeLow / 10).toFixed(0)
+                    gas.prices.average = (resp.data.average / 10).toFixed(0)
 
                 })
 
@@ -29,7 +30,7 @@
         }
 
         update()
-        $interval(update, REFRESH_INTVL)
+        // $interval(update, REFRESH_INTVL)
 
 
         return gas

@@ -20,6 +20,7 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
         return x.route
     })
 
+    $rootScope.gas = 'average';
     $rootScope.tabs = tabs
     $rootScope.persistingProp = persistingProp
 
@@ -60,6 +61,14 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
         isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
 
         if (!$rootScope.$$phase) $rootScope.$apply();
+    }
+
+    $rootScope.selectedGas = function() {
+        return $rootScope.gas
+    }
+
+    $rootScope.setSelectedGas = function (gas) {
+        $rootScope.gas = gas
     }
 }])
 
