@@ -14,11 +14,11 @@ lx-dialog(id='fillOrder', lx-escape-close='true', lx-auto-close='true')
             .form-row.align-items-end
                 .form-group.col
                     label.col-form-label Amount {{exchange.symbol}}
-                    input.form-control(type='text', placeholder='amount', ng-model='(exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3)', disabled='')
+                    input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3)', disabled='')
             .form-row.align-items-end
                 .form-group.col
                     label.col-form-label ETH
-                    input.form-control(type='text', placeholder='eth', ng-model='(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)', disabled='')
+                    input.form-control(type='text', placeholder='eth', ng-value='(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)', disabled='')
 
             .row
                 .col

@@ -10,9 +10,8 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header(ng-controller='Global
                 a.nav-link(href='#') Markets
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown
-                a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                    | {{'Gas price: ' + $root.gas + ' gwei'}}
-                .dropdown-menu.right(aria-labelledby='gas')
+                a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-bind="'Gas price: ' + $root.gas + ' gwei'")
+                .dropdown-menu.right(aria-labelledby='gas', ng-cloak)
                     .dropdown-item(
                         ng-repeat='level in ["safe", "average", "fast"]'
                         ng-click='$root.gas = gas.prices[level]'
