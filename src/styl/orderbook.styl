@@ -7,18 +7,24 @@
   tbody tr
     cursor pointer
 
-    &.buy
-      color #E57373
+    &.orderbook-header
+      border-left 3px solid #f5f5f5
+      background-color #f5f5f5
+      cursor auto
 
-    &.sell
-      color #4DB6AC
+      &:hover
+        background-color #f5f5f5
+
+    &.buy td:first-child
+        border-left 3px solid #E57373
+
+    &.sell td:first-child
+        border-left 3px solid #4DB6AC
 
   td
     padding-bottom 8px
     padding-top 8px
-
-.orderbook-header
-  background-color #f5f5f5
+    border 0
 
 .dropdown-menu.show
   opacity: 10;
