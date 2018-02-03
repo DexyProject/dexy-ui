@@ -1,5 +1,5 @@
 a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-controller='UserCtrl', ng-cloak)
-    | Account
+    | {{user.publicAddr ? user.publicAddr.slice(0, 6) : 'Select Account'}}
     // @todo potentially throw the addr into the header. See token.store
     .dropdown-menu.right(aria-labelledby='account')
         // @TODO add ropsten, kovan etc. if chain id is 1,2,3 or whatever is the correct stuff

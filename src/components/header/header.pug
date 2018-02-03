@@ -1,4 +1,4 @@
-nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
+nav.navbar.navbar-expand-md.navbar-light.box-shadow.header(ng-controller='GlobalIndicatorsCtrl')
     a.navbar-brand(href='#')
         img(src="img/dexy.png", height="30", alt="dexy")
 
@@ -11,11 +11,11 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown
                 a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                    | Gas
+                    | {{'Gas price: ' + gas.prices[selectedGas()] + ' gwei'}}
                 .dropdown-menu.right(aria-labelledby='gas')
-                    a.dropdown-item(href='#') Action
-                    a.dropdown-item(href='#') Another action
-                    a.dropdown-item(href='#') Something else here
+                    .dropdown-item(ng-click='setSelectedGas("safeLow")' ng-class='selectedGas() == "safeLow" ? "selected" : ""') {{gas.prices.safeLow + ' gwei (safe)'}}
+                    .dropdown-item(ng-click='setSelectedGas("average")' ng-class='selectedGas() == "average" ? "selected" : ""') {{gas.prices.average + ' gwei (average)'}}
+                    .dropdown-item(ng-click='setSelectedGas("fast")' ng-class='selectedGas() == "fast" ? "selected" : ""') {{gas.prices.fast + ' gwei (fast)'}}
             li.nav-item.dropdown
                 include ./user
             li.nav-item.d-none.d-lg-inline-block
