@@ -232,7 +232,7 @@
               console.log('PERSONAL SIGNED:' + result)
             })
             */
-            if (user.mode === 'metamask') {
+            if (false && user.mode === 'metamask') {
                 web3.currentProvider.sendAsync({
                     method: 'eth_signTypedData',
                     params: [ typed, userAddr ],
@@ -247,7 +247,10 @@
             }
 
             if (user.mode === 'trezor') {
-                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, web3.utils.toAscii(hash), function(resp) {
+                console.log(hash)
+                var buf = Buffer.from(hash.slice(2), 'hex')
+                console.log( buf.toString('hex'))
+                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, buf, function(resp) {
                     if (resp.success) cb(null, '0x'+resp.signature, true)
                     else cb(resp)
                 })
