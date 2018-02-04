@@ -220,7 +220,19 @@
               console.log('PERSONAL SIGNED:' + result)
             })
             */
-
+            if (user.mode === 'metamask' && typed) {
+                web3.currentProvider.sendAsync({ 
+                    method: 'eth_signTypedData',
+                    params: [ typed, userAddr ],
+                    from: userAddr
+                }, function(err, resp)
+                {
+                    if (err) return cb(err)
+                    if (resp.error) return cb(resp.error)
+                    cb(null, resp.result)
+                }) 
+                return
+            }
             // TODO: Trezor
             // TODO: Ledger
             // Fallback
