@@ -89,6 +89,8 @@
             [0.0002410, 3244],
             [0.0002501, 99],
             [0.0002802, 222],
+            [0.0002802, 222],
+            [0.0002802, 222],
         ].map(function (x, i) {
             return {idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0}
         })
