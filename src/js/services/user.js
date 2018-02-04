@@ -180,6 +180,7 @@
                         eth.signTransaction_async(dPath, tx.encodeABI()).then(function (result) {
                             console.log('from signtx', result);
 
+                            // TEMPORARY TEMPORARY TEMPORARY
                             eth.signPersonalMessage_async(dPath, Buffer.from("order pls").toString("hex")).then(function (result) {
                                 var v = result['v'] - 27;
                                 v = v.toString(16);
@@ -202,6 +203,28 @@
                 // TODO handle resuls
             }
 
+        }
+
+        user.signOrder = function(hash, typed, userAddr, cb)
+        {
+            // https://github.com/ethereum/web3.js/issues/392
+            // https://github.com/MetaMask/metamask-extension/issues/1530
+            // https://github.com/0xProject/0x.js/issues/162
+            //  personal_sign
+                    
+            /*  web3.eth.signTypedData not yet implemented!!!
+            *  We're going to have to assemble the tx manually!
+            *  This is what it would probably look like, though:
+            web3.eth.signTypedData(msg, from) function (err, result) {
+              if (err) return console.error(err)
+              console.log('PERSONAL SIGNED:' + result)
+            })
+            */
+
+            // TODO: Trezor
+            // TODO: Ledger
+            // Fallback
+            web3.eth.personal.sign(hash, userAddr, cb)
         }
 
         user.handleTrezorErr = function (resp) {

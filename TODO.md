@@ -53,10 +53,10 @@
 * eth addresses to be clickable and take to etherscan
 * slider+input on fill dialog
 * add header to orderbook and tradehistory
+* fix binding on dialog
 
 # TODO
 
-* fix binding on dialog
 * sign a tx calling trade()
 * service for the API, orderbook state and price history
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
@@ -75,6 +75,7 @@
 * sortable table row icons
 * Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
 
+
 ## mañana but important
 
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
@@ -86,6 +87,7 @@
 * Proper night mode
 
 ## mañana
+* User Trades UI with filters (whether you're maker/taker, token, date) with CSV export 
 * graph should be zoomable by clicking price axis and zooming. See bittrex, bitfenix etc. (https://jsfiddle.net/highcharts/6etwu5b4/) Can be done with mapNavigation, has ugly functionality however
 * localization
 * consider DAI pairs

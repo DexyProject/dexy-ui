@@ -80,13 +80,29 @@
             //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
             var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, $scope.exchangeAddr)
 
+            // DEBUG
             console.log('order hash', hash, web3.utils.toAscii(hash).length)
-            // https://github.com/ethereum/web3.js/issues/392
-            // https://github.com/MetaMask/metamask-extension/issues/1530
-            // https://github.com/0xProject/0x.js/issues/162
-            //  personal_sign
-            web3.eth.personal.sign(hash, userAddr, function (err, sig) {
-                // NOTE: TODO: shim fetch()?? safari?
+
+            var typed = [
+                { type: 'address', name: 'Token Get', value: tokenGet },
+                { type: 'uint', name: 'Amount Get', value: amountGet.toString() }, 
+                { type: 'address', name: 'Token Give', value: tokenGive },
+                { type: 'uint', name: 'Amount Give', value: amountGive.toString() },  // fails on this line
+
+                { type: 'uint', name: 'Expires', value: expires },
+                { type: 'uint', name: 'Nonce', value: nonce },
+                { type: 'address', name: 'User', value: userAddr },
+                { type: 'address', name: 'Exchange', value: $scope.exchangeAddr }
+            ]
+
+            user.signOrder(hash, typed, userAddr, function (err, sig) {
+                if (err) {
+                    console.error(err)
+                    LxNotificationService.error('Signing failed')
+                    return
+                }
+
+                console.log(sig)
 
                 // strip the 0x
                 sig = sig.slice(2)
