@@ -205,8 +205,20 @@
 
         }
 
-        user.signOrder = function(hash, typed, userAddr, cb)
+        user.signOrder = function(typed, userAddr, cb)
         {
+            var valuesHash = web3.utils.soliditySha3.apply(null, typed.map(function(entry) { return entry.value }))
+
+            var schema = typed.map(function(entry) { return entry.type+' '+entry.name })
+            var schemaHash = web3.utils.soliditySha3.apply(null, schema)
+
+
+            var hash = web3.utils.soliditySha3(schemaHash, valuesHash)
+
+            // DEBUG
+            console.log('schema hash',schemaHash)
+            console.log('order hash', hash)
+
             // https://github.com/ethereum/web3.js/issues/392
             // https://github.com/MetaMask/metamask-extension/issues/1530
             // https://github.com/0xProject/0x.js/issues/162
@@ -220,8 +232,8 @@
               console.log('PERSONAL SIGNED:' + result)
             })
             */
-            if (user.mode === 'metamask' && typed) {
-                web3.currentProvider.sendAsync({ 
+            if (user.mode === 'metamask') {
+                web3.currentProvider.sendAsync({
                     method: 'eth_signTypedData',
                     params: [ typed, userAddr ],
                     from: userAddr
@@ -233,6 +245,7 @@
                 }) 
                 return
             }
+
             // TODO: Trezor
             // TODO: Ledger
             // Fallback
