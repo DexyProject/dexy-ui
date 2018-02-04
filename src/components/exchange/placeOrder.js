@@ -57,7 +57,7 @@
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
-            var expires = 201600
+            var expires = Date.now() + 201600
 
             var userAddr = user.publicAddr
 
@@ -95,7 +95,7 @@
                 var s = '0x' + sig.substring(64, 128)
                 var v = parseInt(sig.substring(128, 130)) + 27
 
-                console.log(r, s, v)
+                //console.log(r, s, v)
 
                 var body = {
                     get: {
@@ -110,12 +110,20 @@
                     nonce: nonce,
                     exchange: $scope.exchangeAddr,
                     user: user.publicAddr,
-                    signature: {r: r, s: s, v: v}
+                    signature: { r: r, s: s, v: v }
                 }
-                fetch(endpoint + '/orders', {
+                fetch(CONSTS.endpoint + '/orders', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
+                })
+                .then(function() {
+                    // re-load order book
+                    $scope.exchange.loadOb()
+                })
+                .catch(function(err) {
+                    console.error(err)
+                    LxNotificationService.error('Error placing order')
                 })
 
             })

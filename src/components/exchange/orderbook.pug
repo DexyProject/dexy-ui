@@ -1,6 +1,6 @@
 table.table.table-hover.orderbook
     tbody.text-right
-        tr(ng-repeat='order in exchange.orderbook.asks track by order.idx', ng-click='exchange.fillForOrder("BUY", order)' class='buy')
+        tr(ng-repeat='order in exchange.orderbook.asks track by order.id', ng-click='exchange.fillForOrder("BUY", order)' class='buy')
             td(ng-bind='::order.rate.toFixed(8)')
             td(ng-bind='::order.amount')
             td(ng-bind='::(order.rate * order.amount).toFixed(3)')
@@ -8,7 +8,7 @@ table.table.table-hover.orderbook
             td Price
             td Amount
             td Total (ETH)
-        tr(ng-repeat='order in exchange.orderbook.bids track by order.idx', ng-click='exchange.fillForOrder("SELL", order)' class='sell')
+        tr(ng-repeat='order in exchange.orderbook.bids track by order.id', ng-click='exchange.fillForOrder("SELL", order)' class='sell')
             td(ng-bind='::order.rate.toFixed(8)')
             td(ng-bind='::order.amount')
             td(ng-bind='::(order.rate * order.amount).toFixed(3)')

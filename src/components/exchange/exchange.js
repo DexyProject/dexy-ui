@@ -86,28 +86,34 @@
 
         // TEMP test data
         // Updating orderbook
-        // TEMP
-        var endpoint = 'http://127.0.0.1:12312'
-        fetch(endpoint + "/orders?token=" + exchange.tokenInf[0])
-        .then(function (res) { return res.json() })
-        .then(function (ob) {
-            exchange.orderbook = {
-                bids: ob.bids.map(mapOrder),
-                asks: ob.asks.map(mapOrder),
-            }
-            if (!$scope.$$phase) $scope.$digest()
-        })
-        .catch(function (err) {
-            LxNotificationService.error('Error loading order book')
-            console.error(err)
-        })
+
+        exchange.loadOb = loadOb
+
+        loadOb()
+
+        function loadOb()
+        {
+                fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0])
+                .then(function (res) { return res.json() })
+                .then(function (ob) {
+                    exchange.orderbook = {
+                        bids: ob.bids.map(mapOrder),
+                        asks: ob.asks.map(mapOrder),
+                    }
+                    if (!$scope.$$phase) $scope.$digest()
+                })
+                .catch(function (err) {
+                    LxNotificationService.error('Error loading order book')
+                    console.error(err)
+                })
+        }
 
         function mapOrder(order, i)
         {
             // TODO: calc price from .give/.get, check whether it's the same as .price 
             return {
                 order: order,
-                idx: i,
+                id: order.hash,
                 rate: parseFloat(order.price)/1000000000000000000,
                 amount: (order.give.token === '0x0000000000000000000000000000000000000000' ? order.get : order.give).amount / exchange.tokenInf[1],
                 filled: 0, // TODO
@@ -164,6 +170,7 @@
 
 
     // Fetch custom token
+    // This fetches information about the custom token
     function fetchCustomToken(addr, cb) {
         var props = {}
         web3.eth.call({to: addr, data: web3.utils.sha3('decimals()')}, function (err, res) {
