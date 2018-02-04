@@ -109,7 +109,7 @@
 
                 var r = '0x' + sig.substring(0, 64)
                 var s = '0x' + sig.substring(64, 128)
-                var v = parseInt(sig.substring(128, 130)) + 27
+                var v = parseInt(sig.substring(128, 130), 10) + 27
 
                 //console.log(r, s, v)
 
