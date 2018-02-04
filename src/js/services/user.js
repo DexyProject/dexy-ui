@@ -241,12 +241,19 @@
                 {
                     if (err) return cb(err)
                     if (resp.error) return cb(resp.error)
-                    cb(null, resp.result)
+                    cb(null, resp.result, false)
                 }) 
                 return
             }
 
-            // TODO: Trezor
+            if (user.mode === 'trezor') {
+                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, hash, function(resp) {
+                    console.log(resp)
+                    if (resp.success) cb(null, '0x'+resp.signature, true)
+                    else cb(resp)
+                })
+                return
+            }
             // TODO: Ledger
             // Fallback
             web3.eth.personal.sign(hash, userAddr, cb)
