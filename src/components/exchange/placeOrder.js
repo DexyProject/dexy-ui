@@ -3,11 +3,6 @@
 
     // Place order ctrl
 
-    var Buffer = require('buffer').Buffer
-
-    // TEMP
-    var endpoint = 'http://127.0.0.1:12312'
-
     angular
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
@@ -15,19 +10,6 @@
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService', 'LxDialogService'];
 
     function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
-        // Updating orderbook
-        fetch(endpoint + "/orders?token=" + $scope.exchange.tokenInf[0])
-            .then(function (res) {
-                return res.json()
-            })
-            .then(function (ob) {
-                console.log(ob)
-            })
-            .catch(function (err) {
-                // TODO handle error
-                console.error(err)
-            })
-
         // Orders
         $scope.orders = {
             SELL: {},
@@ -55,13 +37,9 @@
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
 
-        $scope.$watch(function () {
-            return $scope.orders.SELL
-        }, refreshTotal, true)
+        $scope.$watch(function () { return $scope.orders.SELL }, refreshTotal, true)
 
-        $scope.$watch(function () {
-            return $scope.orders.BUY
-        }, refreshTotal, true)
+        $scope.$watch(function () { return $scope.orders.BUY }, refreshTotal, true)
 
         function refreshTotal(order) {
             if (order.valid) order.total = order.amount * order.rate

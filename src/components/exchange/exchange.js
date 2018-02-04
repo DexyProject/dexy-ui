@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-
     // XXX NOTE
     // Using a directive for charts considered harmful
     // We will have to update the charts often, and often just a small portion (e.g. inserting a new bar)
@@ -18,11 +17,12 @@
 
         $scope.exchangeAddr = CONSTS.exchangeContract
         $scope.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
-        
+
         // exchange page: loading state and error (404) state
 
         var lastPart = $stateParams.pair.split('/').pop()
 
+        // Handle custom tokens
         if (web3.utils.isAddress(lastPart) && !$stateParams.token) {
             fetchCustomToken(lastPart, function (err, props) {
                 if (err) {
@@ -36,9 +36,9 @@
                 var token = [lastPart, multiplier, symbol]
 
                 if (CONSTS.tokens[symbol] && CONSTS.tokens[symbol][0] === lastPart) {
-                    $state.go('exchange', {pair: symbol}, {replace: true})
+                    $state.go('exchange', { pair: symbol }, {replace: true})
                 } else {
-                    $state.go('exchange', {pair: $stateParams.pair, token: token}, {replace: true})
+                    $state.go('exchange', { pair: $stateParams.pair, token: token }, {replace: true})
                 }
                 // TODO warn user that they should be sure this is the token they should be trading
             })
@@ -85,16 +85,34 @@
 
 
         // TEMP test data
-        // TEMP until we hook up API
-        exchange.orderbook = [
-            [0.0002323, 23],
-            [0.0002324, 1000],
-            [0.0002410, 3244],
-            [0.0002501, 99],
-            [0.0002802, 222],
-        ].map(function (x, i) {
-            return {idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0}
+        // Updating orderbook
+        // TEMP
+        var endpoint = 'http://127.0.0.1:12312'
+        fetch(endpoint + "/orders?token=" + exchange.tokenInf[0])
+        .then(function (res) { return res.json() })
+        .then(function (ob) {
+            exchange.orderbook = {
+                bids: ob.bids.map(mapOrder),
+                asks: ob.asks.map(mapOrder),
+            }
+            if (!$scope.$$phase) $scope.$digest()
         })
+        .catch(function (err) {
+            LxNotificationService.error('Error loading order book')
+            console.error(err)
+        })
+
+        function mapOrder(order, i)
+        {
+            // TODO: calc price from .give/.get, check whether it's the same as .price 
+            return {
+                order: order,
+                idx: i,
+                rate: parseFloat(order.price)/1000000000000000000,
+                amount: (order.give.token === '0x0000000000000000000000000000000000000000' ? order.get : order.give).amount / exchange.tokenInf[1],
+                filled: 0, // TODO
+            }
+        }
 
         // Chart
         Highcharts.setOptions({
@@ -137,6 +155,11 @@
             }
         }
         Highcharts.stockChart('mainChart', chartStyle);
+
+        $scope.takeOrder = function(toFill)
+        {
+            console.log(toFill)
+        }
     }
 
 

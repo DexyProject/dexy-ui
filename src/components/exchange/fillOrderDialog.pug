@@ -27,4 +27,4 @@ lx-dialog(id='fillOrder', lx-escape-close='true', lx-auto-close='true')
         .modal-footer
             .row
                 .col.text-right
-                    button.btn.btn-primary(type='button') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
+                    button.btn.btn-primary(type='button', ng-click="takeOrder(exchange.toFill)") {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
