@@ -247,16 +247,20 @@
             }
 
             if (user.mode === 'trezor') {
-                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, hash, function(resp) {
-                    console.log(resp)
+                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, web3.utils.toAscii(hash), function(resp) {
                     if (resp.success) cb(null, '0x'+resp.signature, true)
                     else cb(resp)
                 })
                 return
             }
-            // TODO: Ledger
-            // Fallback
-            web3.eth.personal.sign(hash, userAddr, cb)
+
+            if (user.mode === 'ledger') {
+                // TODO
+            }
+
+            web3.eth.personal.sign(hash, userAddr, function(err, res) {
+                cb(err, res, true)
+            })
         }
 
         user.handleTrezorErr = function (resp) {
