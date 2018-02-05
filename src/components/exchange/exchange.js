@@ -97,8 +97,8 @@
                 .then(function (res) { return res.json() })
                 .then(function (ob) {
                     exchange.orderbook = {
-                        bids: ob.bids.map(mapOrder),
-                        asks: ob.asks.map(mapOrder),
+                        bids: (ob.bids || []).map(mapOrder),
+                        asks: (ob.asks || []).map(mapOrder),
                     }
                     if (!$scope.$$phase) $scope.$digest()
                 })
