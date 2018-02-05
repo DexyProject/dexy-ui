@@ -232,7 +232,7 @@
               console.log('PERSONAL SIGNED:' + result)
             })
             */
-            if (false && user.mode === 'metamask') {
+            if (user.mode === 'metamask') {
                 web3.currentProvider.sendAsync({
                     method: 'eth_signTypedData',
                     params: [ typed, userAddr ],

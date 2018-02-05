@@ -120,8 +120,7 @@
                     nonce: nonce,
                     exchange: $scope.exchangeAddr,
                     user: user.publicAddr,
-                    signature: { r: r, s: s, v: v },
-                    sigPrefixed: sigPrefixed,
+                    signature: { r: r, s: s, v: v, prefixed: sigPrefixed }
                 }
                 fetch(CONSTS.endpoint + '/orders', {
                     method: 'POST',
