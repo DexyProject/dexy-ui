@@ -5,6 +5,18 @@
         .row
             .col-xs-12.col-lg-8.mt-3
                 .col.border
+                    .meta
+                        span O&nbsp;
+                            span.data(ng-bind="meta.open")
+                        span H&nbsp;
+                            span.data(ng-bind="meta.high")
+                        span L&nbsp;
+                            span.data(ng-bind="meta.low")
+                        span C&nbsp;
+                            span.data(ng-bind="meta.close")
+                    .meta.mt-3
+                        span VOL&nbsp;
+                            span.data(ng-bind="meta.vol")
                     #mainChart
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border

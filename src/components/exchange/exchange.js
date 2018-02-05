@@ -49,6 +49,14 @@
             return
         }
 
+        $scope.meta = {
+            open: 0,
+            high: 0,
+            low: 0,
+            close: 0,
+            vol: 0
+        }
+
         exchange.pair = $stateParams.pair
         exchange.symbol = token[2] || lastPart
         exchange.user = user
