@@ -166,10 +166,10 @@ window.chartStyle = {
             var v = this.points.length ? this.points[1].point : undefined;
             var volume = (v.y / 10**18).toLocaleString(); // @todo proper decimals
             var $scope = angular.element('[id=exchange]').scope();
-            $scope.meta.open = c.open;
-            $scope.meta.high = c.high;
-            $scope.meta.low = c.low;
-            $scope.meta.close = c.close;
+            $scope.meta.open = c.open.toFixed(8);
+            $scope.meta.high = c.high.toFixed(8);
+            $scope.meta.low = c.low.toFixed(8);
+            $scope.meta.close = c.close.toFixed(8);
             $scope.meta.vol = volume;
             $scope.$apply()
             return ""
