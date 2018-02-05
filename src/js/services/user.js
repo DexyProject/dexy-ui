@@ -176,7 +176,7 @@
                         var eth = new ledger.eth(comm)
 
                         var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
-                        console.log(dPath)
+
                         eth.signTransaction_async(dPath, tx.encodeABI()).then(function (result) {
                             console.log('from signtx', result);
 
@@ -241,17 +241,15 @@
                 {
                     if (err) return cb(err)
                     if (resp.error) return cb(resp.error)
-                    cb(null, resp.result, false)
+                    cb(null, resp.result, CONSTS.SIGMODES.TYPED)
                 }) 
                 return
             }
 
             if (user.mode === 'trezor') {
-                console.log(hash)
                 var buf = Buffer.from(hash.slice(2), 'hex')
-                console.log( buf.toString('hex'))
                 TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, buf, function(resp) {
-                    if (resp.success) cb(null, '0x'+resp.signature, true)
+                    if (resp.success) cb(null, '0x'+resp.signature, CONSTS.SIGMODES.TREZOR)
                     else cb(resp)
                 })
                 return
@@ -262,7 +260,7 @@
             }
 
             web3.eth.personal.sign(hash, userAddr, function(err, res) {
-                cb(err, res, true)
+                cb(err, res, CONSTS.SIGMODES.GETH)
             })
         }
 

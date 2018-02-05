@@ -90,7 +90,7 @@
                 { type: 'address', name: 'Exchange', value: $scope.exchangeAddr }
             ]
 
-            user.signOrder(typed, userAddr, function (err, sig, sigPrefixed) {
+            user.signOrder(typed, userAddr, function (err, sig, sigMode) {
                 if (err) {
                     console.error(err)
                     LxNotificationService.error('Signing failed')
@@ -120,7 +120,7 @@
                     nonce: nonce,
                     exchange: $scope.exchangeAddr,
                     user: user.publicAddr,
-                    signature: { r: r, s: s, v: v, prefixed: sigPrefixed }
+                    signature: { r: r, s: s, v: v, sig_mode: sigMode }
                 }
                 fetch(CONSTS.endpoint + '/orders', {
                     method: 'POST',
