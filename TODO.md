@@ -54,13 +54,18 @@
 * slider+input on fill dialog
 * add header to orderbook and tradehistory
 * fix binding on dialog
+* new typed signing EIP
+* service for the API, orderbook state and price history
+* place order: 25%/50%..., calculate total amount, show available amnt
+* place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 
 # TODO
 
+* signing orders with trezor
 * sign a tx calling trade()
-* service for the API, orderbook state and price history
-* place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
-* place order: slider, calculate total amount, show available amnt
+* get price history from API
+
+* place order: make he 25/50/etc buttons work
 
 * Last Trades UI
 * My Orders UI

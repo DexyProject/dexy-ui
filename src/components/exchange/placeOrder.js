@@ -78,11 +78,6 @@
             }
 
             //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
-            var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, $scope.exchangeAddr)
-
-            // DEBUG
-            console.log('order hash', hash, web3.utils.toAscii(hash).length)
-
             var typed = [
                 { type: 'address', name: 'Token Get', value: tokenGet },
                 { type: 'uint', name: 'Amount Get', value: amountGet.toString() }, 
@@ -95,14 +90,12 @@
                 { type: 'address', name: 'Exchange', value: $scope.exchangeAddr }
             ]
 
-            user.signOrder(hash, typed, userAddr, function (err, sig) {
+            user.signOrder(typed, userAddr, function (err, sig, sigMode) {
                 if (err) {
                     console.error(err)
                     LxNotificationService.error('Signing failed')
                     return
                 }
-
-                console.log(sig)
 
                 // strip the 0x
                 sig = sig.slice(2)
@@ -111,6 +104,7 @@
                 var s = '0x' + sig.substring(64, 128)
                 var v = parseInt(sig.substring(128, 130), 16)
 
+                // TEMP
                 //console.log(r, s, v)
 
                 var body = {
@@ -126,7 +120,7 @@
                     nonce: nonce,
                     exchange: $scope.exchangeAddr,
                     user: user.publicAddr,
-                    signature: { r: r, s: s, v: v }
+                    signature: { r: r, s: s, v: v, sig_mode: sigMode }
                 }
                 fetch(CONSTS.endpoint + '/orders', {
                     method: 'POST',
