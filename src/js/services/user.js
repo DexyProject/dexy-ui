@@ -263,7 +263,7 @@
                     var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
                     var buf = Buffer.from(hash.slice(2), 'hex')
 
-                    eth.signPersonalMessage_async(dPath, buf).then(function (result) {
+                    eth.signPersonalMessage_async(dPath, buf.toString('hex')).then(function (result) {
                         var v = result['v'] - 27
                         v = v.toString(16)
                         if (v.length < 2) { v = '0' + v } // pad v
