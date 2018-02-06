@@ -273,6 +273,7 @@
                        cb(ex)
                     })
                 })
+                return
             }
 
             web3.eth.personal.sign(hash, userAddr, function(err, res) {
