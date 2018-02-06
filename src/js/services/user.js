@@ -264,7 +264,7 @@
                     var buf = Buffer.from(hash.slice(2), 'hex')
 
                     eth.signPersonalMessage_async(dPath, buf.toString('hex')).then(function (result) {
-                        var v = result['v'] - 27
+                        var v = result['v']
                         v = v.toString(16)
                         if (v.length < 2) { v = '0' + v } // pad v
 
