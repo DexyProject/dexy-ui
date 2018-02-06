@@ -25,7 +25,7 @@
     }
 
     // TEMP
-    consts.endpoint = 'http://127.0.0.1:12312'
+    consts.endpoint = 'http://192.168.30.12:12312'
 
     return consts
 })

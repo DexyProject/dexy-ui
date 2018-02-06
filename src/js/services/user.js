@@ -103,16 +103,16 @@
 
         user.getLedgerAddresses = function (cb) {
             ledger.comm_u2f.create_async()
-                .then(function (comm) {
-                    var eth = new ledger.eth(comm)
+            .then(function (comm) {
+                var eth = new ledger.eth(comm)
 
-                    eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
-                        .then(function (resp) {
-                            cb(user.getAddrs(resp.publicKey, resp.chainCode))
-                        })
-                        .catch($scope.handleLedgerError)
-                })
-                .catch($scope.handleLedgerError)
+                eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
+                    .then(function (resp) {
+                        cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                    })
+                    .catch($scope.handleLedgerError)
+            })
+            .catch($scope.handleLedgerError)
         }
 
         user.getAddrs = function (publicKey, chainCode) {
@@ -256,7 +256,23 @@
             }
 
             if (user.mode === 'ledger') {
-                // TODO
+                ledger.comm_u2f.create_async()
+                .then(function (comm) {
+                    var eth = new ledger.eth(comm)
+
+                    var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
+                    var buf = Buffer.from(hash.slice(2), 'hex')
+
+                    eth.signPersonalMessage_async(dPath, buf).then(function (result) {
+                        var v = result['v'] - 27
+                        v = v.toString(16)
+                        if (v.length < 2) { v = '0' + v } // pad v
+
+                        cb(null, '0x' + result['r'] + result['s'] + v, CONSTS.SIGMODES.GETH)
+                    }).catch(function (ex) {
+                       cb(ex)
+                    })
+                })
             }
 
             web3.eth.personal.sign(hash, userAddr, function(err, res) {
