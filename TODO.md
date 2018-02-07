@@ -61,6 +61,8 @@
 
 # TODO
 
+* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
+
 * signing orders with trezor
 * sign a tx calling trade()
 * get price history from API
