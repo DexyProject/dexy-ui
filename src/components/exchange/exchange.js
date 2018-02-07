@@ -164,7 +164,18 @@
 
         $scope.takeOrder = function(toFill)
         {
-            console.log(toFill)
+            var rawOrder = toFill.order.order
+
+            // TODO: construct exchange from the actual order ot throw an error if it's not the same
+
+            $scope.exchangeContract.methods.trade.call(
+            )
+            .then(function(resp) {
+                console.log(resp)
+            })
+            .catch(function(err) {
+                console.error(err)
+            })
         }
     }
 
