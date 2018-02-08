@@ -77,7 +77,7 @@
                 amountGet = tokenUint
             }
 
-            //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
+            // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
             var typed = [
                 { type: 'address', name: 'Token Get', value: tokenGet },
                 { type: 'uint', name: 'Amount Get', value: amountGet.toString() }, 

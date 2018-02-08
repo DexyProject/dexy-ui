@@ -168,8 +168,28 @@
 
             // TODO: construct exchange from the actual order ot throw an error if it's not the same
 
-            $scope.exchangeContract.methods.trade.call(
+            // call canTrade, remove order if invalid
+
+            // TODO: Trezor, Ledger, use the func in user.
+
+            $scope.exchangeContract.methods.trade(
+                // addresses - user, tokenGive, tokenGet
+                [rawOrder.user, rawOrder.give.token, rawOrder.get.token],
+
+                // values
+                // WARNING: .toString() because of max safe int; consider using bn :/
+                [rawOrder.give.amount.toString(), rawOrder.get.amount.toString(), rawOrder.expires.toString(), rawOrder.nonce.toString()],
+
+                // sig
+                rawOrder.signature.v, rawOrder.signature.r, rawOrder.signature.s,
+
+                // amount
+                Math.floor(toFill.order.amount * toFill.portion/1000).toString(),
+
+                // sig mode
+                rawOrder.signature.sig_mode
             )
+            .send({from: user.publicAddr, gasPrice: user.GAS_PRICE }) // GAS?
             .then(function(resp) {
                 console.log(resp)
             })
