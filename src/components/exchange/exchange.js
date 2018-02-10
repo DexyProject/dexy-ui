@@ -110,12 +110,24 @@
 
         function mapOrder(order, i)
         {
+            var getAmnt = parseInt(order.get.amount)
+            var giveAmnt = parseInt(order.give.amount)
+
+            var tokenBase = exchange.tokenInf[1]
+
+            var tokenAmount = (order.give.token === '0x0000000000000000000000000000000000000000' ? getAmnt : giveAmnt)
+
+            var ethAmount = (order.give.token === '0x0000000000000000000000000000000000000000' ? giveAmnt : getAmnt)
+            var ethBase = 1000000000000000000
+
+            var price = (ethAmount/ethBase) / (tokenAmount/tokenBase) // (ethAmount/ethMultiplier) / (tokenAmnt/tokenMultiplier)
+
             // TODO: calc price from .give/.get, check whether it's the same as .price 
             return {
                 order: order,
                 id: order.hash,
-                rate: parseFloat(order.price)/1000000000000000000,
-                amount: parseInt((order.give.token === '0x0000000000000000000000000000000000000000' ? order.get : order.give).amount) / exchange.tokenInf[1],
+                rate: price,
+                amount: tokenAmount / tokenBase,
                 filled: 0, // TODO
             }
         }
