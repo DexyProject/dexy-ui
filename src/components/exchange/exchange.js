@@ -115,7 +115,7 @@
                 order: order,
                 id: order.hash,
                 rate: parseFloat(order.price)/1000000000000000000,
-                amount: (order.give.token === '0x0000000000000000000000000000000000000000' ? order.get : order.give).amount / exchange.tokenInf[1],
+                amount: parseInt((order.give.token === '0x0000000000000000000000000000000000000000' ? order.get : order.give).amount) / exchange.tokenInf[1],
                 filled: 0, // TODO
             }
         }
