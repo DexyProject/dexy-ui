@@ -26,6 +26,7 @@ window.chartStyle = {
             style: {
                 color: '#b9b9b9',
                 textTransform: 'uppercase',
+                fontFamily: 'Arial',
             },
             states: {
                 hover: {
