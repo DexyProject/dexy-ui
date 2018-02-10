@@ -1,4 +1,4 @@
-.row#exchange(class='p+',ng-controller='exchangeCtrl as exchange', ng-show='exchange.token')
+.row#exchange(ng-controller='exchangeCtrl as exchange', ng-show='exchange.token')
     include ./fillOrderDialog
 
     .col-xs-12.col-lg-9.col-xs-12
@@ -7,12 +7,12 @@
                 .col.border
                     #mainChart
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
-                .col.border(style='max-height: 400px; overflow-y: scroll')
+                .col.border
                     .row.mt-3
                         .col-12
                             h3 Orders
                     .row(ng-controller='orderbookCtrl')
-                        .col-12
+                        .col-12(style='max-height: 340px; overflow-y: scroll')
                             include ./orderbook
             .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border
@@ -52,11 +52,11 @@
                                 include ./placeOrder
 
     .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap
-        .col.border(style='overflow-y: scroll; max-height: 805px;')
+        .col.border
             .row.mt-3
                 .col-12
                     h3 History
             .row
-                .col-lg-12
+                .col-lg-12(style='overflow-y: scroll; max-height: 745px;')
                     include ./tradeHistory
 
