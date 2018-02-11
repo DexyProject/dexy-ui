@@ -184,13 +184,12 @@
         {
             var rawOrder = toFill.order.order
 
-            // TODO: construct exchange from the actual order ot throw an error if it's not the same
-
+            // WARNING: check if the order.exchange address is the same as what we're currently operating with
+            // throw an error if not
+            
             // call canTrade, remove order if invalid
 
-            // TODO: Trezor, Ledger, use the func in user.
-
-            $scope.exchangeContract.methods.trade(
+            user.sendTx($scope.exchangeContract.methods.trade(
                 // addresses - user, tokenGive, tokenGet
                 [rawOrder.user, rawOrder.give.token, rawOrder.get.token],
 
@@ -206,13 +205,8 @@
 
                 // sig mode
                 rawOrder.signature.sig_mode
-            )
-            .send({from: user.publicAddr, gasPrice: user.GAS_PRICE }) // GAS?
-            .then(function(resp) {
-                console.log(resp)
-            })
-            .catch(function(err) {
-                console.error(err)
+            ), function(err, resp) {
+                console.log(err, resp)
             })
         }
     }

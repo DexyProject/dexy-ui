@@ -59,8 +59,11 @@
 * gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
 * place order: 25%/50%..., calculate total amount, show available amnt
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
+* auth (user) dialog should highlight the current auth type 
 
 # TODO
+
+
 
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 
@@ -73,9 +76,6 @@
 * signing orders with trezor & ledger
 
 * get price history from API
-
-* auth (user) dialog should  highlight the current auth type 
-* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 
 * deposit/withdraw to call the sc funcs
 
@@ -96,6 +96,7 @@
 * xss: no third-party scripts
 * xss: no third-party sources of data
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
+* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * TradingView license: also check if we can host `tv.js` on our servers
 * component for the top indicators that would flash green/red
 * Proper night mode

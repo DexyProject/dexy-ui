@@ -139,68 +139,63 @@
             if (!$scope.$$phase) $scope.$apply()
         }
 
-        user.sendTx = function (tx) {
-            // TODO
+        user.sendTx = function (tx, cb) {
+            // @TODO
             var GAS_LIM = 100 * 1000
 
+            // NOTE: The convention here is that if we get an err from a hardware wallet, we do 
+            // user.handleTrezorError/user.handleLedgerError and we STILL call the cb with an err
+
             if (user.mode === 'trezor') {
-                web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
-                    // TODO: handle err
-                    console.log(count)
+                // WARNING: trezor pop-up will be blocked if we do web3.eth.getTransaction count too and not signTx in the same
+                // tick as the click
+                /*web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
+                    if (err) {
+                        cb(err)
+                        return
+                    }
+                })*/
+                console.log(tx)
+                TrezorConnect.ethereumSignTx(
+                    user.TREZOR_HD_PATH,
+                    '0' + (0).toString(16),
+                    '0' + user.GAS_PRICE.toString(16), // gas price
+                    '0' + GAS_LIM.toString(16), // gas limit
+                    user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
+                    '0x0', // value TODO
+                    tx.encodeABI(), // data TODO
+                    user.chainId,
+                    function (response) {
+                        if (response.success) {
+                            console.log('Signature V (recovery parameter):', response.v); // number
+                            console.log('Signature R component:', response.r); // bytes
+                            console.log('Signature S component:', response.s); // bytes
+                        } else {
+                            user.handleTrezorErr(response)
+                            cb(response)
+                        }
 
-                    // TODO; estimate gas
-                    TrezorConnect.ethereumSignTx(
-                        user.TREZOR_HD_PATH,
-                        '0' + count.toString(16),
-                        '0' + user.GAS_PRICE.toString(16), // gas price
-                        '0' + GAS_LIM.toString(16), // gas limit
-                        user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
-                        '00', // value TODO
-                        tx.encodeABI(), // data TODO
-                        user.chainId,
-                        function (response) {
-                            if (response.success) {
-                                console.log('Signature V (recovery parameter):', response.v); // number
-                                console.log('Signature R component:', response.r); // bytes
-                                console.log('Signature S component:', response.s); // bytes
-                            } else {
-                                user.handleTrezorErr(response)
-                            }
-
-                        })
                 })
             } else if (user.mode === 'ledger') {
-
                 ledger.comm_u2f.create_async()
-                    .then(function (comm) {
-                        var eth = new ledger.eth(comm)
+                .then(function (comm) {
+                    var eth = new ledger.eth(comm)
 
-                        var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
+                    var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
 
-                        eth.signTransaction_async(dPath, tx.encodeABI()).then(function (result) {
-                            console.log('from signtx', result);
+                    eth.signTransaction_async(dPath, tx.encodeABI()).then(function (result) {
+                        console.log('from signtx', result);
 
-                            // TEMPORARY TEMPORARY TEMPORARY
-                            eth.signPersonalMessage_async(dPath, Buffer.from("order pls").toString("hex")).then(function (result) {
-                                var v = result['v'] - 27;
-                                v = v.toString(16);
-                                if (v.length < 2) {
-                                    v = "0" + v;
-                                }
-                                console.log("Signature 0x" + result['r'] + result['s'] + v);
-
-                            }).catch(function (ex) {
-                                console.log(ex);
-                            })
-                        }).catch(function (ex) {
-                            console.log(ex);
-                        });
-
+                        // TODO send to chain
+                    }).catch(function(err) {
+                        user.handleLedgerError(err)
+                        cb(err)
                     })
+                })
             } else {
-                // normal mode
                 tx.send({from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE})
-                // TODO handle resuls
+                .then(function(resp) { cb(null, resp) })
+                .catch(cb)
             }
 
         }
