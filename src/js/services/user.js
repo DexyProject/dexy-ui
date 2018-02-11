@@ -33,7 +33,7 @@
         user.chainId = 1
 
         // Default: try metamask
-        $scope.setMetamask = function () {
+        user.setMetamask = function () {
             web3.eth.getAccounts(function (err, accounts) {
                 if (err) {
                     user.handleWeb3Err(err)
@@ -46,7 +46,7 @@
                 if (!$scope.$$phase) $scope.$apply()
             })
         }
-        $scope.setMetamask()
+        user.setMetamask()
 
         // metamask ugly update interval
         // https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md#ear-listening-for-selected-account-changes

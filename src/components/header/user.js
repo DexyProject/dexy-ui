@@ -15,6 +15,9 @@
             hdWallet: '' // trezor or ledger
         }
 
+        $scope.enableMetamask = function() {
+            user.setMetamask()
+        }
 
         $scope.enableTrezor = function (accountIdx) {
             // NOTE: this callback will only be called on success

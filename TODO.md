@@ -56,6 +56,7 @@
 * fix binding on dialog
 * new typed signing EIP
 * service for the API, orderbook state and price history
+* gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
 * place order: 25%/50%..., calculate total amount, show available amnt
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 
@@ -63,19 +64,25 @@
 
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 
-* signing orders with trezor
 * sign a tx calling trade()
+
+* placing orders: validate (sufficient funds, etc)
+
+* place order: make the 25/50/etc buttons work
+
+* signing orders with trezor & ledger
+
 * get price history from API
 
-* place order: make he 25/50/etc buttons work
+* auth (user) dialog should  highlight the current auth type 
+* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
+
+* deposit/withdraw to call the sc funcs
 
 * Last Trades UI
 * My Orders UI
 
 * order book: show which orders are yours and which are pending
-* auth (user) dialog should show ETH balance, highlight the current auth type 
-* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
-* gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 

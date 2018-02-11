@@ -3,11 +3,11 @@ a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true',
     // @todo potentially throw the addr into the header. See token.store
     .dropdown-menu.right(aria-labelledby='account')
         // @TODO add ropsten, kovan etc. if chain id is 1,2,3 or whatever is the correct stuff
-        .dropdown-item {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
+        .dropdown-item {{user.chainId == 1 ? 'Ethereum Mainnet' : 'Not mainnet'}}
         .dropdown-item {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
-        .dropdown-item Metamask
-        .dropdown-item(ng-click='enableTrezor()') Trezor
-        .dropdown-item(ng-click='enableLedger()') Ledger
+        .dropdown-item(ng-class="{ selected: user.mode === 'metamask' }", ng-click="enableMetamask()") Metamask
+        .dropdown-item(ng-class="{ selected: user.mode === 'trezor' }", ng-click='enableTrezor()') Trezor
+        .dropdown-item(ng-class="{ selected: user.mode === 'ledger' }", ng-click='enableLedger()') Ledger
 
     // @todo figure out dropdown sir
     lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')

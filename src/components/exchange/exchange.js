@@ -83,8 +83,6 @@
         // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange;
         // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
 
-
-        // TEMP test data
         // Updating orderbook
 
         exchange.loadOb = loadOb
