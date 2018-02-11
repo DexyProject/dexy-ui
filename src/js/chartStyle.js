@@ -165,8 +165,8 @@ window.chartStyle = {
         formatter: function () {
             var c = this.points.length ? this.points[0].point : undefined;
             var v = this.points.length ? this.points[1].point : undefined;
-            var volume = (v.y / 10**18).toLocaleString(); // @todo proper decimals
             var $scope = angular.element('[id=exchange]').scope();
+            var volume = (v.y / $scope.exchange.tokenInf[1]).toLocaleString() + ' ' + $scope.exchange.symbol;
             $scope.meta.open = c.open.toFixed(8);
             $scope.meta.high = c.high.toFixed(8);
             $scope.meta.low = c.low.toFixed(8);
