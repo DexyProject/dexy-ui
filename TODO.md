@@ -60,14 +60,12 @@
 * place order: 25%/50%..., calculate total amount, show available amnt
 * place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
 * auth (user) dialog should highlight the current auth type 
+* deposit/withdraw - ether
+* wallet balances validation as number
 
 # TODO
 
 * deposit/withdraw - token
-
-* deposit/withdraw - ether
-
-* wallet balances validation as number
 
 * consider refresh balances event
 
