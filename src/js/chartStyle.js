@@ -2,6 +2,7 @@ window.chartStyle = {
     rangeSelector: {
         inputEnabled: false,
         selected: 1,
+        buttonSpacing: -5,
         buttons: [{
             type: 'hour',
             count: 1,
@@ -19,6 +20,11 @@ window.chartStyle = {
             count: 1,
             text: '1m'
         }],
+        buttonPosition: {
+            align: 'right',
+            x: 0,
+            y: 0
+        },
         buttonTheme: {
             fill: 'none',
             stroke: 'none',
@@ -150,7 +156,25 @@ window.chartStyle = {
         }
     }],
     tooltip: {
-        enabled: false
+        backgroundColor: 'transparent',
+        borderColor: 'transparent',
+        hideDelay: 1,
+        shadow: false,
+        useHTML: true,
+        shared: true,
+        formatter: function () {
+            var c = this.points.length ? this.points[0].point : undefined;
+            var v = this.points.length ? this.points[1].point : undefined;
+            var volume = (v.y / 10**18).toLocaleString(); // @todo proper decimals
+            var $scope = angular.element('[id=exchange]').scope();
+            $scope.meta.open = c.open.toFixed(8);
+            $scope.meta.high = c.high.toFixed(8);
+            $scope.meta.low = c.low.toFixed(8);
+            $scope.meta.close = c.close.toFixed(8);
+            $scope.meta.vol = volume;
+            $scope.$apply()
+            return ""
+        }
     },
     series: [{
         type: 'candlestick',
