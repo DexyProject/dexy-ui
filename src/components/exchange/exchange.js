@@ -105,7 +105,9 @@
             var amnt = parseFloat(amnt) * 1000000000000000000
             var p // the promise
 
-            if (isNaN(amnt)) return // TODO: how to handle this? we need validation on that input field
+            // TODO: how to handle this? we need validation on that input field
+            if (isNaN(amnt)) return
+
             if (direction === 'Deposit') {
                 p = user.exchangeContract.methods
                 .deposit(CONSTS.ZEROADDR, 0)
@@ -123,12 +125,9 @@
             })
         }
 
-        // How to test signing tx
-        // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange;
-        // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
-
+        //
         // Updating orderbook
-
+        //
         exchange.loadOb = loadOb
 
         loadOb()
