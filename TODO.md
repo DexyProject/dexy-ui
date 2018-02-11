@@ -67,6 +67,12 @@
 
 * deposit/withdraw - ether
 
+* wallet balances validation as number
+
+* consider refresh balances event
+
+* `.estimateGas()` ? 
+
 * sign a tx calling trade()
 
 * placing orders: validate (sufficient funds, etc)

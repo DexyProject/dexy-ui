@@ -94,6 +94,10 @@
             if (!addr) return
             fetchEthBal()
         })
+        // TEMP
+        setInterval(function() {
+            if (user.publicAddr) fetchEthBal()
+        }, 10 * 1000)
 
         // Chain ID
         web3.eth.net.getId(function (err, netId) {
@@ -208,7 +212,7 @@
                     })
                 })
             } else {
-                tx.send({from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE})
+                tx.send({from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE })
                 .then(function(resp) { cb(null, resp) })
                 .catch(cb)
             }

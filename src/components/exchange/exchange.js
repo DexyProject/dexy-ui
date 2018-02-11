@@ -95,6 +95,34 @@
         })
 
 
+        // Amounts to move (deposit/withdraw)
+        exchange.baseMove = { Deposit: 0, Withdraw: 0 }
+        exchange.quoteMove = { Deposit: 0, Withdraw: 0 }
+
+        // Move assets (deposit/withdraw)
+        $scope.ethMove = function(direction, amnt)
+        {
+            var amnt = parseFloat(amnt) * 1000000000000000000
+            var p // the promise
+
+            if (isNaN(amnt)) return // TODO: how to handle this? we need validation on that input field
+            if (direction === 'Deposit') {
+                p = user.exchangeContract.methods
+                .deposit(CONSTS.ZEROADDR, 0)
+                .send({ from: user.publicAddr, value: amnt, gas: 60000, gasPrice: user.GAS_PRICE })
+            } else if (direction === 'Withdraw') {
+                p = user.exchangeContract.methods
+                .withdraw(CONSTS.ZEROADDR, amnt)
+                .send({ from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE })
+            }
+
+            p.then(function(resp) { console.log(resp) })
+            .catch(function(err) {
+                // TODO
+                console.error(err)
+            })
+        }
+
         // How to test signing tx
         // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange;
         // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
@@ -145,7 +173,9 @@
             }
         }
 
+        // 
         // Chart
+        // TODO: clean this up and split it
         Highcharts.setOptions({
             lang: {
                 rangeSelectorZoom: ''
