@@ -63,9 +63,9 @@
 
 # TODO
 
+* deposit/withdraw - token
 
-
-* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
+* deposit/withdraw - ether
 
 * sign a tx calling trade()
 
@@ -75,23 +75,20 @@
 
 * signing orders with trezor & ledger
 
+* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
+
 * get price history from API
-
-* deposit/withdraw to call the sc funcs
-
-* Last Trades UI
-* My Orders UI
-
-* order book: show which orders are yours and which are pending
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-* sortable table row icons
-* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
-
-
 ## mañana but important
 
+
+* Last Trades UI
+* My Orders UI
+* order book: show which orders are yours and which are pending
+* sortable table row icons
+* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
 * xss: no third-party scripts
 * xss: no third-party sources of data

@@ -16,7 +16,7 @@
         var exchange = this;
 
         $scope.exchangeAddr = CONSTS.exchangeContract
-        $scope.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
+        $scope.exchangeContract = user.exchangeContract
 
         // exchange page: loading state and error (404) state
 
@@ -83,7 +83,15 @@
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })
-            // TODO: get from exchange SC too
+
+            user.exchangeContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
+                if (err) console.error(err)
+                else {
+                    var tokenBal = bal / token[1]
+                    exchange.onExchange = tokenBal
+                    if (!$scope.$$phase) $scope.$apply()
+                }
+            })
         })
 
 
@@ -121,14 +129,13 @@
 
             var tokenBase = exchange.tokenInf[1]
 
-            var tokenAmount = (order.give.token === '0x0000000000000000000000000000000000000000' ? getAmnt : giveAmnt)
+            var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
 
-            var ethAmount = (order.give.token === '0x0000000000000000000000000000000000000000' ? giveAmnt : getAmnt)
+            var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
             var ethBase = 1000000000000000000
 
-            var price = (ethAmount/ethBase) / (tokenAmount/tokenBase) // (ethAmount/ethMultiplier) / (tokenAmnt/tokenMultiplier)
+            var price = (ethAmount/ethBase) / (tokenAmount/tokenBase)
 
-            // TODO: calc price from .give/.get, check whether it's the same as .price 
             return {
                 order: order,
                 id: order.hash,
@@ -186,7 +193,7 @@
 
             // WARNING: check if the order.exchange address is the same as what we're currently operating with
             // throw an error if not
-            
+
             // call canTrade, remove order if invalid
 
             user.sendTx($scope.exchangeContract.methods.trade(
@@ -212,7 +219,7 @@
     }
 
 
-    // Fetch custom token
+    // HELPER: Fetch custom token
     // This fetches information about the custom token
     function fetchCustomToken(addr, cb) {
         var props = {}

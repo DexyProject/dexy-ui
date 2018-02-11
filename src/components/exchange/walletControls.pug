@@ -6,9 +6,9 @@
             .form-row.align-items-end
                 .form-group.col-7.mb-0
                     label.col-form-label(for='eth-deposit') ETH
-                    input#eth-deposit.form-control(type='text', placeholder='ETH')
+                    input#eth-deposit.form-control(ng-model='ethDepositAmount', type='text', placeholder='ETH')
                 .col-5.text-right
-                    button.btn.btn-light.btn-outline-primary(type='button') #{direction}
+                    button.btn.btn-light.btn-outline-primary(type='button' ng-click='ethDeposit()') #{direction}
         .col-sm-6.col-xs-12
             .form-row.align-items-end
                 .form-group.col-7.mb-0

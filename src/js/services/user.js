@@ -32,6 +32,9 @@
         // Mainnet by default
         user.chainId = 1
 
+        // Exchange smart contract
+        user.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
+
         // Default: try metamask
         user.setMetamask = function () {
             web3.eth.getAccounts(function (err, accounts) {
@@ -64,12 +67,12 @@
         }, 1000)
 
 
-        // Eth bal
-        user.ethBal = {}
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, function (addr) {
-            if (!addr) return
+        // Eth bal - on wallet and exchange
+        user.ethBal = { }
+
+        function fetchEthBal()
+        {
+            var addr = user.publicAddr
 
             console.log('Fetching ETH balances for ' + addr)
 
@@ -78,9 +81,21 @@
                 if (!$scope.$$phase) $scope.$apply()
             })
 
-            // TODO: get from exchange SC too
+            user.exchangeContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function(err, bal) {
+                if (err) console.error(err)
+                else {
+                    user.ethBal.onExchange = bal / 1000000000000000000
+                    if (!$scope.$$phase) $scope.$apply()
+                }
+            })
+        }
+
+        $scope.$watch(function () { return user.publicAddr }, function (addr) {
+            if (!addr) return
+            fetchEthBal()
         })
 
+        // Chain ID
         web3.eth.net.getId(function (err, netId) {
             if (err) {
                 user.handleWeb3Err(err)
@@ -162,8 +177,8 @@
                     '0' + user.GAS_PRICE.toString(16), // gas price
                     '0' + GAS_LIM.toString(16), // gas limit
                     user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
-                    '0x0', // value TODO
-                    tx.encodeABI(), // data TODO
+                    '00', // value TODO
+                    tx.encodeABI().slice(2), // data w/o the 0x prefix
                     user.chainId,
                     function (response) {
                         if (response.success) {
