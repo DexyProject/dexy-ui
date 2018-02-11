@@ -67,11 +67,11 @@
 
             if (type === 'SELL') {
                 tokenGive = token[0]
-                tokenGet = '0x0000000000000000000000000000000000000000'
+                tokenGet = CONSTS.ZEROADDR
                 amountGive = tokenUint
                 amountGet = weiUint
             } else {
-                tokenGive = '0x0000000000000000000000000000000000000000'
+                tokenGive = CONSTS.ZEROADDR
                 tokenGet = token[0]
                 amountGive = weiUint
                 amountGet = tokenUint
@@ -103,9 +103,6 @@
                 var r = '0x' + sig.substring(0, 64)
                 var s = '0x' + sig.substring(64, 128)
                 var v = parseInt(sig.substring(128, 130), 16)
-
-                // TEMP
-                //console.log(r, s, v)
 
                 var body = {
                     get: {

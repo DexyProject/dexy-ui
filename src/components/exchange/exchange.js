@@ -100,7 +100,7 @@
         exchange.quoteMove = { Deposit: 0, Withdraw: 0 }
 
         // Move assets (deposit/withdraw)
-        $scope.ethMove = function(direction, amnt)
+        exchange.ethMove = function(direction, amnt)
         {
             var amnt = parseFloat(amnt) * 1000000000000000000
             var p // the promise
@@ -123,6 +123,9 @@
                 // TODO
                 console.error(err)
             })
+        }
+        exchange.isValidAmnt = function(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
 
         //

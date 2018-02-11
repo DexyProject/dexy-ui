@@ -8,7 +8,7 @@
                     label.col-form-label(for='eth-deposit') ETH
                     input#eth-deposit.form-control(type='text', placeholder='ETH', ng-model="exchange.baseMove."+direction)
                 .col-5.text-right
-                    button.btn.btn-light.btn-outline-primary(type='button' ng-click='ethMove("'+direction+'", exchange.baseMove.'+direction+')') #{direction}
+                    button.btn.btn-light.btn-outline-primary(type='button', ng-disabled='!exchange.isValidAmnt(exchange.baseMove.'+direction+', "'+direction+'")', ng-click='exchange.ethMove("'+direction+'", exchange.baseMove.'+direction+')') #{direction}
         .col-sm-6.col-xs-12
             .form-row.align-items-end
                 .form-group.col-7.mb-0
