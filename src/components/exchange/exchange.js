@@ -145,6 +145,7 @@
                 sendFinal()
             }
 
+            // @TODO: fix this: VM20332 depsblob.js:36003 Warning: a promise was created in a handler but was not returned from it
             function sendFinal()
             {
                 call.send(args)
@@ -258,25 +259,35 @@
 
             // WARNING: check if the order.exchange address is the same as what we're currently operating with
             // throw an error if not
+            
+            // addresses - user, tokenGive, tokenGet
+            var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
+            var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
+            var amnt = Math.floor(toFill.order.amount * toFill.portion/1000).toString()
 
-            // call canTrade, remove order if invalid
+            var sig = rawOrder.signature
 
-            user.sendTx($scope.exchangeContract.methods.trade(
-                // addresses - user, tokenGive, tokenGet
-                [rawOrder.user, rawOrder.give.token, rawOrder.get.token],
+            // TODO: call canTrade, remove order if invalid
+            // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
+            user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
+            .call(function(err, resp)
+            {
+                console.log('canTrade', err, resp)
+            })
+            console.log(rawOrder)
+            user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
+            .call(function(err, resp)
+            {
+                console.log('didSign', err, resp)
+            })
 
-                // values
-                // WARNING: .toString() because of max safe int; consider using bn :/
-                [rawOrder.give.amount.toString(), rawOrder.get.amount.toString(), rawOrder.expires.toString(), rawOrder.nonce.toString()],
-
-                // sig
-                rawOrder.signature.v, rawOrder.signature.r, rawOrder.signature.s,
-
-                // amount
-                Math.floor(toFill.order.amount * toFill.portion/1000).toString(),
-
-                // sig mode
-                rawOrder.signature.sig_mode
+            // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
+            user.sendTx(user.exchangeContract.methods.trade(
+                addresses,
+                values,
+                sig.v, sig.r, sig.s,
+                amnt, // amount to trade
+                sig.sig_mode, // sig mode
             ), function(err, resp) {
                 console.log(err, resp)
             })
