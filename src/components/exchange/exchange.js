@@ -139,16 +139,15 @@
                         .then(function(resp) { return exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs) })
                     }
 
-                    p.then(function() { sendFinal() }).catch(onErr)
+                    wrapFinal(p.then(function() { return call.send(args) }))
                 })
             } else {
-                sendFinal()
+                wrapFinal(call.send(args))
             }
 
-            // @TODO: fix this: VM20332 depsblob.js:36003 Warning: a promise was created in a handler but was not returned from it
-            function sendFinal()
+            function wrapFinal(p)
             {
-                call.send(args)
+                return p
                 .then(function(resp) { console.log(resp) })
                 .catch(onErr)
             }
