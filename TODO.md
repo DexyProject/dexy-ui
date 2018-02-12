@@ -68,15 +68,15 @@
 
 # TODO
 
+* placing orders: validate (sufficient funds, etc)
+
+* place order: make the 25/50/etc buttons work
+
 * signing transactions with trezor & ledger; consider a provider, otherwise the mess will be large
 
 * consider refresh balances event; figure out tokens refresh balances
 
 * `.estimateGas()` ? 
-
-* placing orders: validate (sufficient funds, etc)
-
-* place order: make the 25/50/etc buttons work
 
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 
@@ -84,8 +84,8 @@
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-## mañana but important
 
+## mañana but important
 
 * Last Trades UI
 * My Orders UI
