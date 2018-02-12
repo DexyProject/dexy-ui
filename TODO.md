@@ -63,10 +63,11 @@
 * deposit/withdraw - ether
 * wallet balances validation as number
 * deposit/withdraw - token
+* sign a tx calling trade()
 
 # TODO
 
-* sign a tx calling trade()
+* make trade() work
 
 * consider refresh balances event; figure out tokens refresh balances
 
