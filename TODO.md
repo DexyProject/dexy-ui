@@ -84,6 +84,7 @@
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
+* cancel order
 
 ## mañana but important
 
