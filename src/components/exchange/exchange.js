@@ -262,7 +262,7 @@
             // addresses - user, tokenGive, tokenGet
             var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
             var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
-            var amnt = Math.floor(parseInt(rawOrder.give.amount) * toFill.portion/1000).toString()
+            var amnt = Math.floor(parseInt(rawOrder.get.amount) * toFill.portion/1000).toString()
 
             var sig = rawOrder.signature
 
@@ -279,6 +279,15 @@
             {
                 console.log('didSign', err, resp)
             })
+
+            // function getVolume(uint amountGet, address tokenGive, uint amountGive, address user, bytes32 hash) public view returns (uint) {
+            user.exchangeContract.methods.getVolume(rawOrder.get.amount, rawOrder.give.token, rawOrder.give.amount, rawOrder.user, rawOrder.hash)
+            .call(function(err, resp)
+            {
+                console.log('getVolume', err, resp, amnt)
+            })
+
+
 
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
             var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
