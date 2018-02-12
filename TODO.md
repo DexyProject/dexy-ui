@@ -67,11 +67,11 @@
 
 * deposit/withdraw - token
 
+* sign a tx calling trade()
+
 * consider refresh balances event
 
 * `.estimateGas()` ? 
-
-* sign a tx calling trade()
 
 * placing orders: validate (sufficient funds, etc)
 

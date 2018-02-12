@@ -100,29 +100,54 @@
         exchange.quoteMove = { Deposit: 0, Withdraw: 0 }
 
         // Move assets (deposit/withdraw)
-        exchange.ethMove = function(direction, amnt)
+        exchange.assetsMove = function(isBase, direction, amnt)
         {
-            var amnt = parseFloat(amnt) * 1000000000000000000
-            var p // the promise
+            var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
+            var amnt = parseInt(parseFloat(amnt) * (isBase ? 1000000000000000000 : exchange.tokenInf[1]))
+            
+            var call
+            var args
 
             // TODO: how to handle this? we need validation on that input field
             if (isNaN(amnt)) return
 
             if (direction === 'Deposit') {
-                p = user.exchangeContract.methods
-                .deposit(CONSTS.ZEROADDR, 0)
-                .send({ from: user.publicAddr, value: amnt, gas: 60000, gasPrice: user.GAS_PRICE })
+                call = user.exchangeContract.methods.deposit(addr, isBase ? 0 : amnt)
+                args = { 
+                    from: user.publicAddr,
+                    value: isBase ? amnt : 0, 
+                    gas: 80000, gasPrice: user.GAS_PRICE 
+                }
             } else if (direction === 'Withdraw') {
-                p = user.exchangeContract.methods
-                .withdraw(CONSTS.ZEROADDR, amnt)
-                .send({ from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE })
+                call = user.exchangeContract.methods.withdraw(addr, amnt)
+                args = { from: user.publicAddr, gas: 80000, gasPrice: user.GAS_PRICE }
             }
 
-            p.then(function(resp) { console.log(resp) })
-            .catch(function(err) {
+            if (direction === 'Deposit' && !isBase) {
+                // Approve 0 first?
+                // WARNING: we should check whether the approved amnt is 0 already
+                exchange.token.methods.approve(CONSTS.exchangeContract, 0)
+                .send({ from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE })
+                .then(function(resp) {
+                    return exchange.token.methods.approve(CONSTS.exchangeContract, amnt)
+                        .send({ from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE })
+                })
+                .then(function() {
+                    call.send(args)
+                    .then(function(resp) { console.log(resp) })
+                    .catch(onErr)
+                })
+                .catch(onErr)
+            } else {
+                call.send(args)
+                .then(function(resp) { console.log(resp) })
+                .catch(onErr)
+            }
+
+            function onErr(err) {
                 // TODO
                 console.error(err)
-            })
+            }
         }
         exchange.isValidAmnt = function(n) {
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
