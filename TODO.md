@@ -64,10 +64,9 @@
 * wallet balances validation as number
 * deposit/withdraw - token
 * sign a tx calling trade()
+* make trade() work
 
 # TODO
-
-* make trade() work
 
 * signing transactions with trezor & ledger; consider a provider, otherwise the mess will be large
 
