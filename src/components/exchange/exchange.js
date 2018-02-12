@@ -116,11 +116,11 @@
                 args = { 
                     from: user.publicAddr,
                     value: isBase ? amnt : 0, 
-                    gas: 80000, gasPrice: user.GAS_PRICE 
+                    gas: 130000, gasPrice: user.GAS_PRICE 
                 }
             } else if (direction === 'Withdraw') {
                 call = user.exchangeContract.methods.withdraw(addr, amnt)
-                args = { from: user.publicAddr, gas: 80000, gasPrice: user.GAS_PRICE }
+                args = { from: user.publicAddr, gas: 100000, gasPrice: user.GAS_PRICE }
             }
 
             if (direction === 'Deposit' && !isBase) {
@@ -162,19 +162,19 @@
 
         function loadOb()
         {
-                fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0])
-                .then(function (res) { return res.json() })
-                .then(function (ob) {
-                    exchange.orderbook = {
-                        bids: (ob.bids || []).map(mapOrder),
-                        asks: (ob.asks || []).map(mapOrder),
-                    }
-                    if (!$scope.$$phase) $scope.$digest()
-                })
-                .catch(function (err) {
-                    LxNotificationService.error('Error loading order book')
-                    console.error(err)
-                })
+            fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0])
+            .then(function (res) { return res.json() })
+            .then(function (ob) {
+                exchange.orderbook = {
+                    bids: (ob.bids || []).map(mapOrder),
+                    asks: (ob.asks || []).map(mapOrder),
+                }
+                if (!$scope.$$phase) $scope.$digest()
+            })
+            .catch(function (err) {
+                LxNotificationService.error('Error loading order book')
+                console.error(err)
+            })
         }
 
         function mapOrder(order, i)
