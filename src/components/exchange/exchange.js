@@ -124,21 +124,29 @@
             }
 
             if (direction === 'Deposit' && !isBase) {
-                // Approve 0 first?
-                // WARNING: we should check whether the approved amnt is 0 already
-                exchange.token.methods.approve(CONSTS.exchangeContract, 0)
-                .send({ from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE })
-                .then(function(resp) {
-                    return exchange.token.methods.approve(CONSTS.exchangeContract, amnt)
-                        .send({ from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE })
+                // We have to set the allowance first
+                exchange.token.methods.allowance(user.publicAddr, CONSTS.exchangeContract).call(function(err, resp) {
+                    if (err) return onErr(err)
+
+                    var p 
+                    var sendArgs = { from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE }
+                    if (resp == 0) {
+                        // Directly approve
+                        p = exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs)
+                    } else {
+                        // First zero, then approve
+                        p = exchange.token.methods.approve(CONSTS.exchangeContract, 0).send(sendArgs)
+                        .then(function(resp) { return exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs) })
+                    }
+
+                    p.then(function() { sendFinal() }).catch(onErr)
                 })
-                .then(function() {
-                    call.send(args)
-                    .then(function(resp) { console.log(resp) })
-                    .catch(onErr)
-                })
-                .catch(onErr)
             } else {
+                sendFinal()
+            }
+
+            function sendFinal()
+            {
                 call.send(args)
                 .then(function(resp) { console.log(resp) })
                 .catch(onErr)

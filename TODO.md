@@ -62,14 +62,13 @@
 * auth (user) dialog should highlight the current auth type 
 * deposit/withdraw - ether
 * wallet balances validation as number
+* deposit/withdraw - token
 
 # TODO
 
-* deposit/withdraw - token
-
 * sign a tx calling trade()
 
-* consider refresh balances event
+* consider refresh balances event; figure out tokens refresh balances
 
 * `.estimateGas()` ? 
 
