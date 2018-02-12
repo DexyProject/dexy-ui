@@ -160,7 +160,7 @@
 
         user.sendTx = function (tx, cb) {
             // @TODO
-            var GAS_LIM = 100 * 1000
+            var GAS_LIM = 300 * 1000
 
             // NOTE: The convention here is that if we get an err from a hardware wallet, we do 
             // user.handleTrezorError/user.handleLedgerError and we STILL call the cb with an err

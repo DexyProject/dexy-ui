@@ -262,7 +262,7 @@
             // addresses - user, tokenGive, tokenGet
             var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
             var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
-            var amnt = Math.floor(toFill.order.amount * toFill.portion/1000).toString()
+            var amnt = Math.floor(parseInt(rawOrder.give.amount) * toFill.portion/1000).toString()
 
             var sig = rawOrder.signature
 
@@ -273,7 +273,7 @@
             {
                 console.log('canTrade', err, resp)
             })
-            console.log(rawOrder)
+
             user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
             .call(function(err, resp)
             {
@@ -281,13 +281,8 @@
             })
 
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
-            user.sendTx(user.exchangeContract.methods.trade(
-                addresses,
-                values,
-                sig.v, sig.r, sig.s,
-                amnt, // amount to trade
-                sig.sig_mode, // sig mode
-            ), function(err, resp) {
+            var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
+            user.sendTx(tx, function(err, resp) {
                 console.log(err, resp)
             })
         }
