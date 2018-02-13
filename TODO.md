@@ -65,8 +65,10 @@
 * deposit/withdraw - token
 * sign a tx calling trade()
 * make trade() work
+* BUG: deposits/withdraws: when chaining two functions, `.send()` waits for the tx to be mined, which is wrong
 
 # TODO
+
 
 * placing orders: validate (sufficient funds, etc)
 

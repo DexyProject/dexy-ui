@@ -128,18 +128,22 @@
                 exchange.token.methods.allowance(user.publicAddr, CONSTS.exchangeContract).call(function(err, resp) {
                     if (err) return onErr(err)
 
-                    var p 
+                    // @TODO: NOTE: should we err handle here? and how?
+
                     var sendArgs = { from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE }
                     if (resp == 0) {
                         // Directly approve
-                        p = exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs)
+                        approveFinal()
                     } else {
                         // First zero, then approve
-                        p = exchange.token.methods.approve(CONSTS.exchangeContract, 0).send(sendArgs)
-                        .then(function(resp) { return exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs) })
+                        exchange.token.methods.approve(CONSTS.exchangeContract, 0).send(sendArgs, approveFinal)
                     }
 
-                    wrapFinal(p.then(function() { return call.send(args) }))
+                    function approveFinal() {
+                        exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs, function() {
+                            wrapFinal(call.send(args))
+                        })
+                    }
                 })
             } else {
                 wrapFinal(call.send(args))
@@ -148,7 +152,10 @@
             function wrapFinal(p)
             {
                 return p
-                .then(function(resp) { console.log(resp) })
+                .then(function(resp) {
+                    console.log(resp)
+                    // TX is mined; we can show a success message here
+                })
                 .catch(onErr)
             }
 
@@ -157,6 +164,7 @@
                 console.error(err)
             }
         }
+
         exchange.isValidAmnt = function(n) {
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
