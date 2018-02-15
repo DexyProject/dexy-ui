@@ -12,8 +12,8 @@
     function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
         // Orders
         $scope.orders = {
-            SELL: {},
-            BUY: {}
+            SELL: { type: 'SELL' },
+            BUY: { type: 'BUY' }
         }
 
         $scope.exchange.fillForOrder = function (side, order) {
@@ -24,6 +24,15 @@
                 side: side,
             }
             LxDialogService.open('fillOrder')
+        }
+
+        $scope.setAmount = function(order, part) {
+            console.log(order, part)
+            if (! order.rate) order.rate = 0.002; // TEMP, todo set to best ask/best bid
+            if (order.type === 'BUY') order.amount = $scope.exchange.user.ethBal.onExchange * order.rate * part // TODO decimals
+            else {
+                // TODO
+            }
         }
 
         $scope.$watch(function () {

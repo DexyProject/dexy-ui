@@ -88,6 +88,8 @@
 
 * cancel order
 
+* disable user select
+
 ## mañana but important
 
 * Last Trades UI
