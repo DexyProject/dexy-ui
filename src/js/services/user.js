@@ -323,7 +323,7 @@
             } else {
                 console.log('No web3? You should consider trying MetaMask!')
                 // fallback - use your fallback strategy
-                window.web3 = new Web3(new Web3.providers.HttpProvider(CONSTS.mainnetUrl));
+                window.web3 = new Web3(new Web3.providers.HttpProvider(CONSTS.ethUrl));
             }
         }
 
