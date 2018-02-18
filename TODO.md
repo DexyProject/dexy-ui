@@ -69,15 +69,13 @@
 * sign transactions/deposit/withdraw with trezor
 * get last allowance in advance so as to avoid Trezor window getting blocked
 * consider refresh balances event; figure out tokens refresh balances
+* BUG: Dialog shows 'Buying...' no matter which side you're on 
 
 # TODO
 
 * refresh order book properly
 
-
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
-
-* BUG: Dialog shows 'Buying...' no matter which side you're on 
 
 * solution for trezor popups getting blocked
 
