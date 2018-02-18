@@ -73,6 +73,7 @@
 
 
         // Nonce update
+        user.nonce = 0
         function nonceUpdate() {
             if (! user.publicAddr) return
             web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
