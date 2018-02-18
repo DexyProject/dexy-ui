@@ -81,7 +81,7 @@
                     return
                 }
 
-                user.nonce = count
+                user.nonce = Math.max(count, user.nonce)
             })
         }
         $scope.$watch(function () { return user.publicAddr }, function (addr) {
