@@ -87,6 +87,13 @@
                 }
             })
 
+            exchange.token.methods.allowance(user.publicAddr, CONSTS.exchangeContract).call(function (err, allowance) {
+                if (err) console.error(err)
+                else {
+                    exchange.rawAllowance = parseInt(allowance)
+                }
+            })
+
             user.exchangeContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
@@ -132,26 +139,23 @@
 
             if (direction === 'Deposit' && !isBase) {
                 // We have to set the allowance first
-                exchange.token.methods.allowance(user.publicAddr, CONSTS.exchangeContract).call(function(err, resp) {
+
+                var sendArgs = { from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE }
+                if (exchange.rawAllowance == 0) {
+                    // Directly approve
+                    approveFinal()
+                } else {
+                    // First zero, then approve
+                    user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, 0), sendArgs, approveFinal)
+                }
+
+                function approveFinal(err) {
                     if (err) return onErr(err)
 
-                    // @TODO: NOTE: should we err handle here? and how?
-
-                    var sendArgs = { from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE }
-                    if (resp == 0) {
-                        // Directly approve
-                        approveFinal()
-                    } else {
-                        // First zero, then approve
-                        user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, 0), sendArgs, approveFinal)
-                    }
-
-                    function approveFinal() {
-                        user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, amnt), sendArgs, function() {
-                            user.sendTx(call, args, finalCb)
-                        })
-                    }
-                })
+                    user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, amnt), sendArgs, function() {
+                        user.sendTx(call, args, finalCb)
+                    })
+                }
             } else {
                 user.sendTx(call, args, finalCb)
             }
@@ -159,11 +163,14 @@
             function finalCb(err, txid)
             {
                 console.log(err, txid)
+                if (err) return onErr(err)
+                if (txid) LxNotificationService.success('Successfully submitted transaction: '+txid)
             }
 
             function onErr(err) {
                 // TODO
                 console.error(err)
+                LxNotificationService.error('Deposit/withdraw failed')
             }
         }
 
@@ -301,7 +308,7 @@
 
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
             var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-            user.sendTx(tx, { from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE }, function(err, txid) {
+            user.sendTx(tx, { from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE }, function(err, txid) {
                 console.log(err, txid)
             })
         }

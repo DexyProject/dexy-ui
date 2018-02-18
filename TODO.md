@@ -66,12 +66,14 @@
 * sign a tx calling trade()
 * make trade() work
 * BUG: deposits/withdraws: when chaining two functions, `.send()` waits for the tx to be mined, which is wrong
+* sign transactions/deposit/withdraw with trezor
+* get last allowance in advance so as to avoid Trezor window getting blocked
 
 # TODO
 
-* signing transactions with trezor & ledger; consider a provider, otherwise the mess will be large
+* solution for trezor popups getting blocked
 
-* get last allowance in advance so as to avoid Trezor window getting blocked
+* sign transactions/deposit/withdraw with ledger
 
 * proper ropsten configs
 
@@ -117,6 +119,7 @@ TypeError: this.points[1] is undefined
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
 * xss: no third-party scripts
 * xss: no third-party sources of data
+* LxNotificationService sanitization
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * TradingView license: also check if we can host `tv.js` on our servers
