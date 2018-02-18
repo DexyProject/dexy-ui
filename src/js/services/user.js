@@ -64,14 +64,35 @@
 
                 if (!$scope.$$phase) $scope.$apply()
             })
-        }, 1000)
+        }, CONSTS.METAMASK_UPDATE_INTVL)
 
+
+        // Nonce update
+        function nonceUpdate() {
+            if (! user.publicAddr) return
+            web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+
+                user.nonce = count
+            })
+        }
+        $scope.$watch(function () { return user.publicAddr }, function (addr) {
+            if (!addr) return
+            nonceUpdate()
+        })
+        setInterval(nonceUpdate, CONSTS.NONCE_UPDATE_INTVL)
 
         // Eth bal - on wallet and exchange
         user.ethBal = { }
 
         function fetchEthBal()
         {
+            if (! user.publicAddr)
+                return
+
             var addr = user.publicAddr
 
             console.log('Fetching ETH balances for ' + addr)
@@ -90,14 +111,8 @@
             })
         }
 
-        $scope.$watch(function () { return user.publicAddr }, function (addr) {
-            if (!addr) return
-            fetchEthBal()
-        })
-        // TEMP
-        setInterval(function() {
-            if (user.publicAddr) fetchEthBal()
-        }, 10 * 1000)
+        $scope.$watch(function () { return user.publicAddr }, function (addr) { fetchEthBal() })
+        setInterval(function() { fetchEthBal() }, CONSTS.ETHBAL_UPDATE_INTVL)
 
         // Chain ID
         web3.eth.net.getId(function (err, netId) {
@@ -168,16 +183,10 @@
             if (user.mode === 'trezor') {
                 // WARNING: trezor pop-up will be blocked if we do web3.eth.getTransaction count too and not signTx in the same
                 // tick as the click
-                /*web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
-                    if (err) {
-                        cb(err)
-                        return
-                    }
-                })*/
                 console.log(tx)
                 TrezorConnect.ethereumSignTx(
                     user.TREZOR_HD_PATH,
-                    '0' + (0).toString(16),
+                    '0' + (0).toString(16), // nonce
                     '0' + user.GAS_PRICE.toString(16), // gas price
                     '0' + GAS_LIM.toString(16), // gas limit
                     user.publicAddr.slice(2), // to, w/o the 0x prefix TODO

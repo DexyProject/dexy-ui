@@ -49,5 +49,11 @@
         // markets
     }
 
+    // Intervals
+    consts.METAMASK_UPDATE_INTVL = 1000;
+    consts.ETHBAL_UPDATE_INTVL = 14 * 1000;
+    consts.FETCH_BALANCES_INTVL = 14 * 1000;
+    consts.NONCE_UPDATE_INTVL = 15 * 1000;
+
     return consts
 })

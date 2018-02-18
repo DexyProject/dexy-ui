@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', 'user', 'LxNotificationService'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService'];
 
-    function exchangeCtrl($scope, $stateParams, $state, user, LxNotificationService) {
+    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService) {
         var exchange = this;
 
         $scope.exchangeAddr = CONSTS.exchangeContract
@@ -67,9 +67,12 @@
         // Get wallet balance
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, function (addr) {
+
+        $scope.$watch(function () { return user.publicAddr }, fetchBalances)
+        $interval(fetchBalances, CONSTS.FETCH_BALANCES_INTVL)
+
+        function fetchBalances() {
+            var addr = user.publicAddr
             if (!addr) return
 
             console.log('Fetching ' + exchange.symbol + ' balances for ' + addr)
@@ -92,8 +95,7 @@
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })
-        })
-
+        }
 
         // Amounts to move (deposit/withdraw)
         exchange.baseMove = { Deposit: 0, Withdraw: 0 }

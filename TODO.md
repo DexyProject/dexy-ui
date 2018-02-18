@@ -69,12 +69,15 @@
 
 # TODO
 
+* signing transactions with trezor & ledger; consider a provider, otherwise the mess will be large
+
+* proper ropsten configs
+
+* show success notifications and go to etherscan when clicked
 
 * placing orders: validate (sufficient funds, etc)
 
 * place order: make the 25/50/etc buttons work
-
-* signing transactions with trezor & ledger; consider a provider, otherwise the mess will be large
 
 * consider refresh balances event; figure out tokens refresh balances
 
