@@ -90,6 +90,18 @@
 
 * disable user select
 
+## BUGS
+
+1. Points is undefined 
+```
+TypeError: this.points[1] is undefined
+[Learn More]
+```
+
+2. Sometimes it can't import a trezor addr (if doing it too quickly?)
+
+3. When you have 0 balances, placing a BUY order succeeds but a SELL order fails
+
 ## mañana but important
 
 * Last Trades UI
