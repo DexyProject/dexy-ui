@@ -13,6 +13,7 @@
     var HDKey = require('hdkey')
     var Buffer = require('buffer').Buffer
     var wallet = require('ethereumjs-wallet')
+    var ethTx = require('ethereumjs-tx')
 
     function UserService($scope, LxNotificationService) {
         initWeb3()
@@ -141,10 +142,10 @@
                 var eth = new ledger.eth(comm)
 
                 eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
-                    .then(function (resp) {
-                        cb(user.getAddrs(resp.publicKey, resp.chainCode))
-                    })
-                    .catch($scope.handleLedgerError)
+                .then(function (resp) {
+                    cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                })
+                .catch($scope.handleLedgerError)
             })
             .catch($scope.handleLedgerError)
         }
@@ -183,21 +184,41 @@
             if (user.mode === 'trezor') {
                 // WARNING: trezor pop-up will be blocked if we do web3.eth.getTransaction count too and not signTx in the same
                 // tick as the click
-                console.log(tx)
+                var rawTx = {
+                    nonce: sanitizeHex(user.nonce.toString(16)),
+                    gasPrice: sanitizeHex(opts.gasPrice.toString(16)),
+                    gasLimit: sanitizeHex(opts.gas.toString(16)),
+                    to: tx._parent._address,
+                    value: sanitizeHex((opts.value || 0).toString(16)),
+                    data: tx.encodeABI(),
+                    chainId: user.chainId,
+                }
+
                 TrezorConnect.ethereumSignTx(
-                    user.TREZOR_HD_PATH,
-                    '0' + (0).toString(16), // nonce
-                    '0' + user.GAS_PRICE.toString(16), // gas price
-                    '0' + GAS_LIM.toString(16), // gas limit
-                    user.publicAddr.slice(2), // to, w/o the 0x prefix TODO
-                    '00', // value TODO
-                    tx.encodeABI().slice(2), // data w/o the 0x prefix
-                    user.chainId,
+                    user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx,
+                    rawTx.nonce.slice(2),
+                    rawTx.gasPrice.slice(2),
+                    rawTx.gasLimit.slice(2),
+                    rawTx.to.slice(2),
+                    rawTx.value.slice(2),
+                    rawTx.data.slice(2),
+                    rawTx.chainId,
                     function (response) {
                         if (response.success) {
-                            console.log('Signature V (recovery parameter):', response.v); // number
-                            console.log('Signature R component:', response.r); // bytes
-                            console.log('Signature S component:', response.s); // bytes
+
+                            rawTx.v = '0x' + response.v.toString(16)
+                            rawTx.r = '0x' + response.r
+                            rawTx.s = '0x' + response.s
+                            var eTx = new ethTx(rawTx);
+                            var signedTx = '0x' + eTx.serialize().toString('hex')
+
+                            console.log(rawTx)
+                            console.log(signedTx)
+
+                            web3.eth.sendSignedTransaction(signedTx, function(err, resp) {
+                                if (resp) user.nonce++
+                                cb(err, resp)
+                            })
                         } else {
                             user.handleTrezorErr(response)
                             cb(response)
@@ -332,6 +353,17 @@
                 // fallback - use your fallback strategy
                 window.web3 = new Web3(new Web3.providers.HttpProvider(CONSTS.ethUrl));
             }
+        }
+
+        // Minor utils
+        function sanitizeHex(hex) {
+            hex = hex.substring(0, 2) == '0x' ? hex.substring(2) : hex
+            if (hex == "") return undefined
+            return '0x' + padLeftEven(hex)
+        }
+        function padLeftEven(hex) {
+            hex = hex.length % 2 != 0 ? '0' + hex : hex
+            return hex;
         }
 
         return user

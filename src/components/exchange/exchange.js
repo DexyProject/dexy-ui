@@ -104,6 +104,11 @@
         // Move assets (deposit/withdraw)
         exchange.assetsMove = function(isBase, direction, amnt)
         {
+            if (! user.publicAddr) {
+                LxNotificationService.error('Please authenticate with Metamask, Trezor or Ledger')
+                return
+            }
+
             var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
             var amnt = parseInt(parseFloat(amnt) * (isBase ? 1000000000000000000 : exchange.tokenInf[1]))
             
@@ -261,7 +266,7 @@
         {
             var rawOrder = toFill.order.order
 
-            // WARNING: check if the order.exchange address is the same as what we're currently operating with
+            // WARNING: check !the order.exchange address is the same as what we're currently operating with
             // throw an error if not
             
             // addresses - user, tokenGive, tokenGet

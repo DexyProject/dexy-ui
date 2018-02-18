@@ -71,6 +71,8 @@
 
 * signing transactions with trezor & ledger; consider a provider, otherwise the mess will be large
 
+* get last allowance in advance so as to avoid Trezor window getting blocked
+
 * proper ropsten configs
 
 * show success notifications and go to etherscan when clicked
