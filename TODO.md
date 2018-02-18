@@ -68,22 +68,27 @@
 * BUG: deposits/withdraws: when chaining two functions, `.send()` waits for the tx to be mined, which is wrong
 * sign transactions/deposit/withdraw with trezor
 * get last allowance in advance so as to avoid Trezor window getting blocked
+* consider refresh balances event; figure out tokens refresh balances
 
 # TODO
 
+* refresh order book properly
+
 * solution for trezor popups getting blocked
+
+* BUG: Dialog shows 'Buying...' no matter which side you're on 
 
 * sign transactions/deposit/withdraw with ledger
 
 * proper ropsten configs
 
-* show success notifications and go to etherscan when clicked
+* show success notifications, and go to etherscan when clicked
 
-* placing orders: validate (sufficient funds, etc)
+* placing orders: validate (sufficient funds, etc), show error if order can't be filled
+
+* placing orders: close modal once a tx is submitted, flag the order "in progress"
 
 * place order: make the 25/50/etc buttons work
-
-* consider refresh balances event; figure out tokens refresh balances
 
 * `.estimateGas()` ? 
 
