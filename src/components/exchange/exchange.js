@@ -69,7 +69,9 @@
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
         $scope.$watch(function () { return user.publicAddr }, fetchBalances)
-        $interval(fetchBalances, CONSTS.FETCH_BALANCES_INTVL)
+
+        var intvl = $interval(fetchBalances, CONSTS.FETCH_BALANCES_INTVL)
+        $scope.$on('$destroy', function() { $interval.cancel(intvl) })
 
         function fetchBalances() {
             var addr = user.publicAddr
