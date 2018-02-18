@@ -136,27 +136,22 @@
                         approveFinal()
                     } else {
                         // First zero, then approve
-                        exchange.token.methods.approve(CONSTS.exchangeContract, 0).send(sendArgs, approveFinal)
+                        user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, 0), sendArgs, approveFinal)
                     }
 
                     function approveFinal() {
-                        exchange.token.methods.approve(CONSTS.exchangeContract, amnt).send(sendArgs, function() {
-                            wrapFinal(call.send(args))
+                        user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, amnt), sendArgs, function() {
+                            user.sendTx(call, args, finalCb)
                         })
                     }
                 })
             } else {
-                wrapFinal(call.send(args))
+                user.sendTx(call, args, finalCb)
             }
 
-            function wrapFinal(p)
+            function finalCb(err, txid)
             {
-                return p
-                .then(function(resp) {
-                    console.log(resp)
-                    // TX is mined; we can show a success message here
-                })
-                .catch(onErr)
+                console.log(err, txid)
             }
 
             function onErr(err) {
@@ -288,19 +283,19 @@
                 console.log('didSign', err, resp)
             })
 
+            /*
             // function getVolume(uint amountGet, address tokenGive, uint amountGive, address user, bytes32 hash) public view returns (uint) {
             user.exchangeContract.methods.getVolume(rawOrder.get.amount, rawOrder.give.token, rawOrder.give.amount, rawOrder.user, rawOrder.hash)
             .call(function(err, resp)
             {
                 console.log('getVolume', err, resp, amnt)
             })
-
-
+            */
 
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
             var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-            user.sendTx(tx, function(err, resp) {
-                console.log(err, resp)
+            user.sendTx(tx, { from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE }, function(err, txid) {
+                console.log(err, txid)
             })
         }
     }

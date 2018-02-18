@@ -158,7 +158,7 @@
             if (!$scope.$$phase) $scope.$apply()
         }
 
-        user.sendTx = function (tx, cb) {
+        user.sendTx = function (tx, opts, cb) {
             // @TODO
             var GAS_LIM = 300 * 1000
 
@@ -212,9 +212,7 @@
                     })
                 })
             } else {
-                tx.send({from: user.publicAddr, gas: GAS_LIM, gasPrice: user.GAS_PRICE })
-                .then(function(resp) { cb(null, resp) })
-                .catch(cb)
+                tx.send(opts, cb)
             }
 
         }
