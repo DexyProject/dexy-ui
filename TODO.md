@@ -74,9 +74,12 @@
 
 * refresh order book properly
 
-* solution for trezor popups getting blocked
+
+* Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
 
 * BUG: Dialog shows 'Buying...' no matter which side you're on 
+
+* solution for trezor popups getting blocked
 
 * sign transactions/deposit/withdraw with ledger
 
@@ -110,9 +113,7 @@ TypeError: this.points[1] is undefined
 [Learn More]
 ```
 
-2. Sometimes it can't import a trezor addr (if doing it too quickly?)
-
-3. When you have 0 balances, placing a BUY order succeeds but a SELL order fails
+2. When you have 0 balances, placing a BUY order succeeds but a SELL order fails
 
 ## mañana but important
 
