@@ -185,18 +185,20 @@
             // NOTE: The convention here is that if we get an err from a hardware wallet, we do 
             // user.handleTrezorError/user.handleLedgerError and we STILL call the cb with an err
 
+            // will be used only with trezor/ledger
+            var rawTx = {
+                nonce: sanitizeHex(user.nonce.toString(16)),
+                gasPrice: sanitizeHex(opts.gasPrice.toString(16)),
+                gasLimit: sanitizeHex(opts.gas.toString(16)),
+                to: tx._parent._address,
+                value: sanitizeHex((opts.value || 0).toString(16)),
+                data: tx.encodeABI(),
+                chainId: user.chainId,
+            }
+
             if (user.mode === 'trezor') {
                 // WARNING: trezor pop-up will be blocked if we do web3.eth.getTransaction count too and not signTx in the same
                 // tick as the click
-                var rawTx = {
-                    nonce: sanitizeHex(user.nonce.toString(16)),
-                    gasPrice: sanitizeHex(opts.gasPrice.toString(16)),
-                    gasLimit: sanitizeHex(opts.gas.toString(16)),
-                    to: tx._parent._address,
-                    value: sanitizeHex((opts.value || 0).toString(16)),
-                    data: tx.encodeABI(),
-                    chainId: user.chainId,
-                }
 
                 TrezorConnect.ethereumSignTx(
                     user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx,
@@ -230,16 +232,37 @@
 
                 })
             } else if (user.mode === 'ledger') {
+                var eTx = new ethTx(rawTx)
+                eTx.raw[6] = Buffer.from([rawTx.chainId])
+                eTx.raw[7] = eTx.raw[8] = 0
+                var toHash = old ? eTx.raw.slice(0, 6) : eTx.raw
+                var txToSign = ethUtil.rlp.encode(toHash)
+
                 ledger.comm_u2f.create_async()
                 .then(function (comm) {
                     var eth = new ledger.eth(comm)
 
                     var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
 
-                    eth.signTransaction_async(dPath, tx.encodeABI()).then(function (result) {
-                        console.log('from signtx', result);
+                    eth.signTransaction_async(dPath, txToSign.toString('hex')).then(function (result) {
+                        console.log('from signtx', result)
 
-                        // TODO send to chain
+                        rawTx.v = '0x' + result['v']
+                        rawTx.r = '0x' + result['r']
+                        rawTx.s = '0x' + result['s']
+                        
+                        eTx = new ethUtil.Tx(rawTx)
+                        rawTx.rawTx = JSON.stringify(rawTx)
+                        
+                        var signedTx = '0x' + eTx.serialize().toString('hex')
+
+                        console.log(rawTx)
+                        console.log(signedTx)
+
+                        web3.eth.sendSignedTransaction(signedTx, function(err, resp) {
+                            if (resp) user.nonce++
+                            cb(err, resp)
+                        })
                     }).catch(function(err) {
                         user.handleLedgerError(err)
                         cb(err)
