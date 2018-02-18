@@ -312,6 +312,8 @@
             var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
             user.sendTx(tx, { from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE }, function(err, txid) {
                 console.log(err, txid)
+                
+                if (txid) LxNotificationService.success('Successfully submitted transaction: '+txid)
             })
         }
     }

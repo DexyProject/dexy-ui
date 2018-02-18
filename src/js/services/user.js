@@ -58,7 +58,11 @@
             if (user.mode != 'metamask') return
 
             web3.eth.getAccounts(function (err, accounts) {
-                // @ todo fix err handling
+                if (err) {
+                    console.error(err)
+                    return
+                }
+
                 if (accounts[0] == user.publicAddr) return
 
                 user.publicAddr = accounts[0]
