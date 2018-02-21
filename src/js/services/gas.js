@@ -20,7 +20,7 @@
                     gas.prices.safe = (resp.data.safeLow / 10).toFixed(0)
                     gas.prices.average = (resp.data.average / 10).toFixed(0)
 
-                    if (! $root.gas) $root.gas = gas.prices.average
+                    if (!$root.gas) $root.gas = gas.prices.average
                 })
         }
 
