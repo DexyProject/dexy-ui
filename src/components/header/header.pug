@@ -15,7 +15,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header(ng-controller='Global
                     .dropdown-item(
                         ng-repeat='level in ["safe", "average", "fast"]'
                         ng-click='$root.gas = gas.prices[level]'
-                        ng-class='$root.gas == gas.prices[level] ? "selected" : ""') {{gas.prices[level] + ' gwei ('+level+')'}}
+                        ng-class='$root.gas == gas.prices[level] && !(level != "average" && gas.prices[level] == gas.prices["average"]) ? "selected" : ""') {{gas.prices[level] + ' gwei ('+level+')'}}
             li.nav-item.dropdown
                 include ./user
             li.nav-item.d-none.d-lg-inline-block

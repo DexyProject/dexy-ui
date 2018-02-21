@@ -2,7 +2,8 @@
   border-color: #6c54c9;
   color: #6c54c9;
 
-  &:not(:disabled):hover, &:not(:disabled):active
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled):hover
     background-color: #6c54c9;
     border-color: #6c54c9;
 
@@ -14,6 +15,7 @@
   border-color: #6c54c9;
   background-color: #6c54c9;
 
-  &:not(:disabled):hover, &:not(:disabled):active
-    background-color: #5f4ab5;
-    border-color: #5f4ab5;
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled):hover
+    background-color: #6c54c9;
+    border-color: #6c54c9;
