@@ -1,0 +1,22 @@
+.row
+    .col-12
+        table.table
+            thead
+                tr
+                    th(scope='col') {{exchange.symbol}} / ETH
+                    th(scope='col') Filled
+                    th(scope='col') Available
+                    th(scope='col') Expires
+                    th(scope='col')
+            tbody
+                // @todo fix repeat + filter
+                // @todo formatting for order type
+                tr(ng-repeat='order in exchange.orderbook.asks track by order.id')
+                    td(ng-bind='::order.rate.toFixed(8)')
+                    // @todo format decimals
+                    td(ng-bind='::order.order.filled.toFixed(8)')
+                    td(ng-bind='::(order.rate * (order.amount - order.order.filled)).toFixed(3)')
+                    // @todo
+                    td(ng-bind='order.expires.toLocaleString()')
+                    td
+                        button.btn.btn-light.btn-outline-danger.btn-sm(type='button', ng-click='cancel(order.order)') Cancel

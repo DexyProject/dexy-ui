@@ -224,8 +224,9 @@
                 order: order,
                 id: order.hash,
                 rate: price,
-                amount: tokenAmount / tokenBase,
+                amount: tokenAmount / tokenBase, // @todo add filled?
                 filled: 0, // TODO
+                expires: new Date(order.expires)
             }
         }
 
@@ -272,6 +273,22 @@
             }
         }
         Highcharts.stockChart('mainChart', chartStyle);
+
+        $scope.cancel = function (order) {
+            console.log(order)
+
+            var addresses = [order.user, order.give.token, order.get.token]
+            var values = [order.give.amount, order.get.amount, order.expires, order.nonce]
+
+            var sig = order.signature
+
+            var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
+            user.sendTx(tx, {from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
+                console.log(err, txid)
+
+                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+            })
+        }
 
         $scope.takeOrder = function (toFill) {
             var rawOrder = toFill.order.order
