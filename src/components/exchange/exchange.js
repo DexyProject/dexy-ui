@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService', 'LxDialogService'];
 
-    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService) {
+    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService, LxDialogService) {
         var exchange = this;
 
         $scope.exchangeAddr = CONSTS.exchangeContract
@@ -287,7 +287,9 @@
 
             var sig = rawOrder.signature
 
-            // TODO: call canTrade, remove order if invalid
+            // @TODO: call canTrade, remove order if invalid
+            // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet"
+            //   same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
                 .call(function (err, resp) {
@@ -316,6 +318,38 @@
                 if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
             })
         }
+
+
+        // Vault approval (@TODO: vaultApproval.js)
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, checkVaultApproval)
+
+        function checkVaultApproval()
+        {
+            if (! user.publicAddr) return
+
+            user.vaultContract.methods.isApproved(user.publicAddr, CONSTS.exchangeContract)
+            .call(function(err, isApproved) {
+                if (err) console.error(err)
+
+                if (isApproved === false) LxDialogService.open('approveExchangeByVault')
+            })
+        }
+
+        exchange.approveExchangeByVault = function() {
+            var tx = user.vaultContract.methods.approve(CONSTS.exchangeContract)
+
+            // @TODO: saner gas limit
+            user.sendTx(tx, { from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
+                // @OTODO: handle errors
+                console.log(err, txid)
+
+                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+
+                LxDialogService.close('approveExchangeByVault')
+            })
+        }
     }
 
 
@@ -337,9 +371,6 @@
             })
         })
     }
-
-    // Vault approval (@TODO: vaultApproval.js)
-
 
     // Indicators ctrl (@TODO: indicators.js)
     angular
