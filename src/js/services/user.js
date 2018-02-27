@@ -75,8 +75,9 @@
 
         // Nonce update
         user.nonce = 0
+
         function nonceUpdate() {
-            if (! user.publicAddr) return
+            if (!user.publicAddr) return
             web3.eth.getTransactionCount(user.publicAddr, function (err, count) {
                 if (err) {
                     console.error(err)
@@ -86,7 +87,10 @@
                 user.nonce = Math.max(count, user.nonce)
             })
         }
-        $scope.$watch(function () { return user.publicAddr }, function (addr) {
+
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function (addr) {
             if (!addr) return
 
             user.nonce = 0
@@ -95,11 +99,10 @@
         setInterval(nonceUpdate, CONSTS.NONCE_UPDATE_INTVL)
 
         // Eth bal - on wallet and exchange
-        user.ethBal = { }
+        user.ethBal = {}
 
-        function fetchEthBal()
-        {
-            if (! user.publicAddr)
+        function fetchEthBal() {
+            if (!user.publicAddr)
                 return
 
             var addr = user.publicAddr
@@ -111,7 +114,7 @@
                 if (!$scope.$$phase) $scope.$apply()
             })
 
-            user.exchangeContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function(err, bal) {
+            user.exchangeContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
                     user.ethBal.onExchange = bal / 1000000000000000000
@@ -120,8 +123,14 @@
             })
         }
 
-        $scope.$watch(function () { return user.publicAddr }, function (addr) { fetchEthBal() })
-        setInterval(function() { fetchEthBal() }, CONSTS.ETHBAL_UPDATE_INTVL)
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function (addr) {
+            fetchEthBal()
+        })
+        setInterval(function () {
+            fetchEthBal()
+        }, CONSTS.ETHBAL_UPDATE_INTVL)
 
         // Chain ID
         web3.eth.net.getId(function (err, netId) {
@@ -146,16 +155,16 @@
 
         user.getLedgerAddresses = function (cb) {
             ledger.comm_u2f.create_async()
-            .then(function (comm) {
-                var eth = new ledger.eth(comm)
+                .then(function (comm) {
+                    var eth = new ledger.eth(comm)
 
-                eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
-                .then(function (resp) {
-                    cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                    eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
+                        .then(function (resp) {
+                            cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                        })
+                        .catch($scope.handleLedgerError)
                 })
                 .catch($scope.handleLedgerError)
-            })
-            .catch($scope.handleLedgerError)
         }
 
         user.getAddrs = function (publicKey, chainCode) {
@@ -225,7 +234,7 @@
                             console.log(rawTx)
                             console.log(signedTx)
 
-                            web3.eth.sendSignedTransaction(signedTx, function(err, resp) {
+                            web3.eth.sendSignedTransaction(signedTx, function (err, resp) {
                                 if (resp) user.nonce++
                                 cb(err, resp)
                             })
@@ -234,7 +243,7 @@
                             cb(response)
                         }
 
-                })
+                    })
             } else if (user.mode === 'ledger') {
                 var eTx = new ethTx(rawTx)
                 eTx.raw[6] = Buffer.from([rawTx.chainId])
@@ -243,60 +252,63 @@
                 var txToSign = rlp.encode(toHash)
 
                 ledger.comm_u2f.create_async()
-                .then(function (comm) {
-                    var eth = new ledger.eth(comm)
+                    .then(function (comm) {
+                        var eth = new ledger.eth(comm)
 
-                    var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
+                        var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
 
-                    eth.signTransaction_async(dPath, txToSign.toString('hex')).then(function (result) {
-                        //console.log('from signtx', result)
+                        eth.signTransaction_async(dPath, txToSign.toString('hex')).then(function (result) {
+                            console.log('from signtx', result)
 
-                        rawTx.v = '0x' + result['v']
-                        rawTx.r = '0x' + result['r']
-                        rawTx.s = '0x' + result['s']
-                        
-                        eTx = new ethTx(rawTx)
-                        rawTx.rawTx = JSON.stringify(rawTx)
-                        
-                        var signedTx = '0x' + eTx.serialize().toString('hex')
+                            rawTx.v = '0x' + result['v']
+                            rawTx.r = '0x' + result['r']
+                            rawTx.s = '0x' + result['s']
 
-                        console.log(rawTx)
-                        console.log(signedTx)
+                            eTx = new ethUtil.Tx(rawTx)
+                            rawTx.rawTx = JSON.stringify(rawTx)
 
-                        web3.eth.sendSignedTransaction(signedTx, function(err, resp) {
-                            if (resp) user.nonce++
-                            cb(err, resp)
+                            var signedTx = '0x' + eTx.serialize().toString('hex')
+
+                            console.log(rawTx)
+                            console.log(signedTx)
+
+                            web3.eth.sendSignedTransaction(signedTx, function (err, resp) {
+                                if (resp) user.nonce++
+                                cb(err, resp)
+                            })
+                        }).catch(function (err) {
+                            user.handleLedgerError(err)
+                            cb(err)
                         })
-                    }).catch(function(err) {
-                        user.handleLedgerError(err)
-                        cb(err)
                     })
-                })
             } else {
                 tx.send(opts, cb)
             }
 
         }
 
-        user.signOrder = function(typed, userAddr, cb)
-        {
-            var valuesHash = web3.utils.soliditySha3.apply(null, typed.map(function(entry) { return entry.value }))
+        user.signOrder = function (typed, userAddr, cb) {
+            var valuesHash = web3.utils.soliditySha3.apply(null, typed.map(function (entry) {
+                return entry.value
+            }))
 
-            var schema = typed.map(function(entry) { return entry.type+' '+entry.name })
+            var schema = typed.map(function (entry) {
+                return entry.type + ' ' + entry.name
+            })
             var schemaHash = web3.utils.soliditySha3.apply(null, schema)
 
 
             var hash = web3.utils.soliditySha3(schemaHash, valuesHash)
 
             // DEBUG
-            console.log('schema hash',schemaHash)
+            console.log('schema hash', schemaHash)
             console.log('order hash', hash)
 
             // https://github.com/ethereum/web3.js/issues/392
             // https://github.com/MetaMask/metamask-extension/issues/1530
             // https://github.com/0xProject/0x.js/issues/162
             //  personal_sign
-                    
+
             /*  web3.eth.signTypedData not yet implemented!!!
             *  We're going to have to assemble the tx manually!
             *  This is what it would probably look like, though:
@@ -308,21 +320,20 @@
             if (user.mode === 'metamask') {
                 web3.currentProvider.sendAsync({
                     method: 'eth_signTypedData',
-                    params: [ typed, userAddr ],
+                    params: [typed, userAddr],
                     from: userAddr
-                }, function(err, resp)
-                {
+                }, function (err, resp) {
                     if (err) return cb(err)
                     if (resp.error) return cb(resp.error)
                     cb(null, resp.result, CONSTS.SIGMODES.TYPED)
-                }) 
+                })
                 return
             }
 
             if (user.mode === 'trezor') {
                 var buf = Buffer.from(hash.slice(2), 'hex')
-                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, buf, function(resp) {
-                    if (resp.success) cb(null, '0x'+resp.signature, CONSTS.SIGMODES.TREZOR)
+                TrezorConnect.ethereumSignMessage(user.TREZOR_HD_PATH + '/' + user.hdWalletAddrIdx, buf, function (resp) {
+                    if (resp.success) cb(null, '0x' + resp.signature, CONSTS.SIGMODES.TREZOR)
                     else cb(resp)
                 })
                 return
@@ -330,26 +341,28 @@
 
             if (user.mode === 'ledger') {
                 ledger.comm_u2f.create_async()
-                .then(function (comm) {
-                    var eth = new ledger.eth(comm)
+                    .then(function (comm) {
+                        var eth = new ledger.eth(comm)
 
-                    var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
-                    var buf = Buffer.from(hash.slice(2), 'hex')
+                        var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
+                        var buf = Buffer.from(hash.slice(2), 'hex')
 
-                    eth.signPersonalMessage_async(dPath, buf.toString('hex')).then(function (result) {
-                        var v = result['v']
-                        v = v.toString(16)
-                        if (v.length < 2) { v = '0' + v } // pad v
+                        eth.signPersonalMessage_async(dPath, buf.toString('hex')).then(function (result) {
+                            var v = result['v']
+                            v = v.toString(16)
+                            if (v.length < 2) {
+                                v = '0' + v
+                            } // pad v
 
-                        cb(null, '0x' + result['r'] + result['s'] + v, CONSTS.SIGMODES.GETH)
-                    }).catch(function (ex) {
-                       cb(ex)
+                            cb(null, '0x' + result['r'] + result['s'] + v, CONSTS.SIGMODES.GETH)
+                        }).catch(function (ex) {
+                            cb(ex)
+                        })
                     })
-                })
                 return
             }
 
-            web3.eth.personal.sign(hash, userAddr, function(err, res) {
+            web3.eth.personal.sign(hash, userAddr, function (err, res) {
                 cb(err, res, CONSTS.SIGMODES.GETH)
             })
         }
@@ -392,6 +405,7 @@
             if (hex == "") return undefined
             return '0x' + padLeftEven(hex)
         }
+
         function padLeftEven(hex) {
             hex = hex.length % 2 != 0 ? '0' + hex : hex
             return hex;

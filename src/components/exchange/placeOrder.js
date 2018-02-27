@@ -12,8 +12,8 @@
     function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
         // Orders
         $scope.orders = {
-            SELL: { type: 'SELL' },
-            BUY: { type: 'BUY' }
+            SELL: {type: 'SELL'},
+            BUY: {type: 'BUY'}
         }
 
         $scope.exchange.fillForOrder = function (side, order) {
@@ -26,9 +26,9 @@
             LxDialogService.open('fillOrder')
         }
 
-        $scope.setAmount = function(order, part) {
+        $scope.setAmount = function (order, part) {
             console.log(order, part)
-            if (! order.rate) order.rate = 0.002; // TEMP, todo set to best ask/best bid
+            if (!order.rate) order.rate = 0.002; // TEMP, todo set to best ask/best bid
             if (order.type === 'BUY') order.amount = $scope.exchange.user.ethBal.onExchange * order.rate * part // TODO decimals
             else {
                 // TODO
@@ -46,9 +46,13 @@
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
 
-        $scope.$watch(function () { return $scope.orders.SELL }, refreshTotal, true)
+        $scope.$watch(function () {
+            return $scope.orders.SELL
+        }, refreshTotal, true)
 
-        $scope.$watch(function () { return $scope.orders.BUY }, refreshTotal, true)
+        $scope.$watch(function () {
+            return $scope.orders.BUY
+        }, refreshTotal, true)
 
         function refreshTotal(order) {
             if (order.valid) order.total = order.amount * order.rate
@@ -66,7 +70,7 @@
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
-            var expires = Date.now() + 201600
+            var expires = Math.floor((Date.now() + 201600) / 1000)
 
             var userAddr = user.publicAddr
 
@@ -88,15 +92,15 @@
 
             // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
             var typed = [
-                { type: 'address', name: 'Token Get', value: tokenGet },
-                { type: 'uint', name: 'Amount Get', value: amountGet.toString() }, 
-                { type: 'address', name: 'Token Give', value: tokenGive },
-                { type: 'uint', name: 'Amount Give', value: amountGive.toString() },  // fails on this line
+                {type: 'address', name: 'Token Get', value: tokenGet},
+                {type: 'uint', name: 'Amount Get', value: amountGet.toString()},
+                {type: 'address', name: 'Token Give', value: tokenGive},
+                {type: 'uint', name: 'Amount Give', value: amountGive.toString()},  // fails on this line
 
-                { type: 'uint', name: 'Expires', value: expires },
-                { type: 'uint', name: 'Nonce', value: nonce },
-                { type: 'address', name: 'User', value: userAddr },
-                { type: 'address', name: 'Exchange', value: $scope.exchangeAddr }
+                {type: 'uint', name: 'Expires', value: expires},
+                {type: 'uint', name: 'Nonce', value: nonce},
+                {type: 'address', name: 'User', value: userAddr},
+                {type: 'address', name: 'Exchange', value: $scope.exchangeAddr}
             ]
 
             user.signOrder(typed, userAddr, function (err, sig, sigMode) {
@@ -126,21 +130,21 @@
                     nonce: nonce,
                     exchange: $scope.exchangeAddr,
                     user: user.publicAddr,
-                    signature: { r: r, s: s, v: v, sig_mode: sigMode }
+                    signature: {r: r, s: s, v: v, sig_mode: sigMode}
                 }
                 fetch(CONSTS.endpoint + '/orders', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
                 })
-                .then(function() {
-                    // re-load order book
-                    $scope.exchange.loadOb()
-                })
-                .catch(function(err) {
-                    console.error(err)
-                    LxNotificationService.error('Error placing order')
-                })
+                    .then(function () {
+                        // re-load order book
+                        $scope.exchange.loadOb()
+                    })
+                    .catch(function (err) {
+                        console.error(err)
+                        LxNotificationService.error('Error placing order')
+                    })
 
             })
 

@@ -13,9 +13,9 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header(ng-controller='Global
                 a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-bind="'Gas price: ' + $root.gas + ' gwei'")
                 .dropdown-menu.right(aria-labelledby='gas', ng-cloak)
                     .dropdown-item(
-                        ng-repeat='level in ["safe", "average", "fast"]'
-                        ng-click='$root.gas = gas.prices[level]'
-                        ng-class='$root.gas == gas.prices[level] ? "selected" : ""') {{gas.prices[level] + ' gwei ('+level+')'}}
+                    ng-repeat='level in ["safe", "average", "fast"]'
+                    ng-click='$root.gas = gas.prices[level]'
+                    ng-class='$root.gas == gas.prices[level] && !(level != "average" && gas.prices[level] == gas.prices["average"]) ? "selected" : ""') {{gas.prices[level] + ' gwei ('+level+')'}}
             li.nav-item.dropdown
                 include ./user
             li.nav-item.d-none.d-lg-inline-block
