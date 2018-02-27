@@ -70,7 +70,7 @@
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
-            var expires = Date.now() + 201600
+            var expires = Math.floor((Date.now() / 1000) + 432000)
 
             var userAddr = user.publicAddr
 

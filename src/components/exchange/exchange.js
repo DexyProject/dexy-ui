@@ -166,7 +166,6 @@
             }
 
             function finalCb(err, txid) {
-                console.log(err, txid)
                 if (err) return onErr(err)
                 if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
             }
