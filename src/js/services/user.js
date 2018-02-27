@@ -14,6 +14,7 @@
     var Buffer = require('buffer').Buffer
     var wallet = require('ethereumjs-wallet')
     var ethTx = require('ethereumjs-tx')
+    var rlp = require('rlp')
 
     function UserService($scope, LxNotificationService) {
         initWeb3()
@@ -87,6 +88,8 @@
         }
         $scope.$watch(function () { return user.publicAddr }, function (addr) {
             if (!addr) return
+
+            user.nonce = 0
             nonceUpdate()
         })
         setInterval(nonceUpdate, CONSTS.NONCE_UPDATE_INTVL)
@@ -236,8 +239,8 @@
                 var eTx = new ethTx(rawTx)
                 eTx.raw[6] = Buffer.from([rawTx.chainId])
                 eTx.raw[7] = eTx.raw[8] = 0
-                var toHash = old ? eTx.raw.slice(0, 6) : eTx.raw
-                var txToSign = ethUtil.rlp.encode(toHash)
+                var toHash = eTx.raw // old ? eTx.raw.slice(0, 6) : eTx.raw
+                var txToSign = rlp.encode(toHash)
 
                 ledger.comm_u2f.create_async()
                 .then(function (comm) {
@@ -246,13 +249,13 @@
                     var dPath = user.LEDGER_HD_PATH + '/' + user.hdWalletAddrIdx;
 
                     eth.signTransaction_async(dPath, txToSign.toString('hex')).then(function (result) {
-                        console.log('from signtx', result)
+                        //console.log('from signtx', result)
 
                         rawTx.v = '0x' + result['v']
                         rawTx.r = '0x' + result['r']
                         rawTx.s = '0x' + result['s']
                         
-                        eTx = new ethUtil.Tx(rawTx)
+                        eTx = new ethTx(rawTx)
                         rawTx.rawTx = JSON.stringify(rawTx)
                         
                         var signedTx = '0x' + eTx.serialize().toString('hex')

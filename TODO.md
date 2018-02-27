@@ -73,11 +73,11 @@
 
 # TODO
 
+* solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
+
 * refresh order book properly
 
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
-
-* solution for trezor popups getting blocked
 
 * sign transactions/deposit/withdraw with ledger
 
