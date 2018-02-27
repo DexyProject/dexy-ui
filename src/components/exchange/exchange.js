@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService', 'LxDialogService'];
 
-    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService) {
+    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService, LxDialogService) {
         var exchange = this;
 
         $scope.exchangeAddr = CONSTS.exchangeContract
@@ -93,14 +93,14 @@
                 }
             })
 
-            exchange.token.methods.allowance(user.publicAddr, CONSTS.exchangeContract).call(function (err, allowance) {
+            exchange.token.methods.allowance(user.publicAddr, CONSTS.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
                     exchange.rawAllowance = parseInt(allowance)
                 }
             })
 
-            user.exchangeContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
+            user.vaultContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
                     var tokenBal = bal / token[1]
@@ -115,6 +115,7 @@
         exchange.quoteMove = {Deposit: 0, Withdraw: 0}
 
         // Move assets (deposit/withdraw)
+        // TODO: moveAssets.js
         exchange.assetsMove = function (isBase, direction, amnt) {
             if (!user.publicAddr) {
                 LxNotificationService.error('Please authenticate with Metamask, Trezor or Ledger')
@@ -131,14 +132,14 @@
             if (isNaN(amnt)) return
 
             if (direction === 'Deposit') {
-                call = user.exchangeContract.methods.deposit(addr, isBase ? 0 : amnt)
+                call = user.vaultContract.methods.deposit(addr, isBase ? 0 : amnt)
                 args = {
                     from: user.publicAddr,
                     value: isBase ? amnt : 0,
                     gas: 130000, gasPrice: user.GAS_PRICE
                 }
             } else if (direction === 'Withdraw') {
-                call = user.exchangeContract.methods.withdraw(addr, amnt)
+                call = user.vaultContract.methods.withdraw(addr, amnt)
                 args = {from: user.publicAddr, gas: 100000, gasPrice: user.GAS_PRICE}
             }
 
@@ -151,13 +152,13 @@
                     approveFinal()
                 } else {
                     // First zero, then approve
-                    user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, 0), sendArgs, approveFinal)
+                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, 0), sendArgs, approveFinal)
                 }
 
                 function approveFinal(err) {
                     if (err) return onErr(err)
 
-                    user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, amnt), sendArgs, function () {
+                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, amnt), sendArgs, function () {
                         user.sendTx(call, args, finalCb)
                     })
                 }
@@ -183,6 +184,7 @@
 
         //
         // Updating orderbook
+        // @TODO: orderbook.js 
         //
         exchange.loadOb = loadOb
 
@@ -285,7 +287,9 @@
 
             var sig = rawOrder.signature
 
-            // TODO: call canTrade, remove order if invalid
+            // @TODO: call canTrade, remove order if invalid
+            // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet"
+            //   same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
                 .call(function (err, resp) {
@@ -314,6 +318,38 @@
                 if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
             })
         }
+
+
+        // Vault approval (@TODO: vaultApproval.js)
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, checkVaultApproval)
+
+        function checkVaultApproval()
+        {
+            if (! user.publicAddr) return
+
+            user.vaultContract.methods.isApproved(user.publicAddr, CONSTS.exchangeContract)
+            .call(function(err, isApproved) {
+                if (err) console.error(err)
+
+                if (isApproved === false) LxDialogService.open('approveExchangeByVault')
+            })
+        }
+
+        exchange.approveExchangeByVault = function() {
+            var tx = user.vaultContract.methods.approve(CONSTS.exchangeContract)
+
+            // @TODO: saner gas limit
+            user.sendTx(tx, { from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
+                // @OTODO: handle errors
+                console.log(err, txid)
+
+                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+
+                LxDialogService.close('approveExchangeByVault')
+            })
+        }
     }
 
 
@@ -336,7 +372,7 @@
         })
     }
 
-    // Indicators ctrl
+    // Indicators ctrl (@TODO: indicators.js)
     angular
         .module('dexyApp')
         .controller('exchangeIndicatorsCtrl', exchangeIndicatorsCtrl);

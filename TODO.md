@@ -71,18 +71,29 @@
 * consider refresh balances event; figure out tokens refresh balances
 * BUG: Dialog shows 'Buying...' no matter which side you're on 
 * sign transactions/deposit/withdraw with ledger
+* vault
 
-# TODO
+# CLEANUP
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
-* vault
+* split exchange.
+
+* fillOrder should not be in placeOrder controller
+
+* split directory modals/
+
+* proper split file configs
+
+* `.estimateGas()` 
+
+* universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
+
+# TODO
 
 * refresh order book properly
 
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
-
-* proper ropsten configs
 
 * show success notifications, and go to etherscan when clicked
 
@@ -91,8 +102,6 @@
 * placing orders: close modal once a tx is submitted, flag the order "in progress"
 
 * place order: make the 25/50/etc buttons work
-
-* `.estimateGas()` ? 
 
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 
