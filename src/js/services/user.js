@@ -264,7 +264,7 @@
                             rawTx.r = '0x' + result['r']
                             rawTx.s = '0x' + result['s']
 
-                            eTx = new ethUtil.Tx(rawTx)
+                            eTx = new ethTx(rawTx)
                             rawTx.rawTx = JSON.stringify(rawTx)
 
                             var signedTx = '0x' + eTx.serialize().toString('hex')
