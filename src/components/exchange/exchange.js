@@ -115,6 +115,7 @@
         exchange.quoteMove = {Deposit: 0, Withdraw: 0}
 
         // Move assets (deposit/withdraw)
+        // TODO: moveAssets.js
         exchange.assetsMove = function (isBase, direction, amnt) {
             if (!user.publicAddr) {
                 LxNotificationService.error('Please authenticate with Metamask, Trezor or Ledger')
@@ -183,6 +184,7 @@
 
         //
         // Updating orderbook
+        // @TODO: orderbook.js 
         //
         exchange.loadOb = loadOb
 
@@ -336,7 +338,10 @@
         })
     }
 
-    // Indicators ctrl
+    // Vault approval (@TODO: vaultApproval.js)
+
+
+    // Indicators ctrl (@TODO: indicators.js)
     angular
         .module('dexyApp')
         .controller('exchangeIndicatorsCtrl', exchangeIndicatorsCtrl);
