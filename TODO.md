@@ -78,11 +78,11 @@
 
 * vault
 
+* proper split file configs
+
 * refresh order book properly
 
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
-
-* proper ropsten configs
 
 * show success notifications, and go to etherscan when clicked
 
