@@ -89,6 +89,8 @@
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
+
+
 # TODO
 
 * refresh order book properly
