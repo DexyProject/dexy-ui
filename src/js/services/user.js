@@ -36,6 +36,7 @@
 
         // Exchange smart contract
         user.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
+        user.vaultContract = new web3.eth.Contract(CONSTS.vaultABI, CONSTS.vaultContract)
 
         // Default: try metamask
         user.setMetamask = function () {
@@ -114,7 +115,7 @@
                 if (!$scope.$$phase) $scope.$apply()
             })
 
-            user.exchangeContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function (err, bal) {
+            user.vaultContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
                     user.ethBal.onExchange = bal / 1000000000000000000
