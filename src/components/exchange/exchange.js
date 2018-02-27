@@ -93,14 +93,14 @@
                 }
             })
 
-            exchange.token.methods.allowance(user.publicAddr, CONSTS.exchangeContract).call(function (err, allowance) {
+            exchange.token.methods.allowance(user.publicAddr, CONSTS.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
                     exchange.rawAllowance = parseInt(allowance)
                 }
             })
 
-            user.exchangeContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
+            user.vaultContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
                     var tokenBal = bal / token[1]
@@ -131,14 +131,14 @@
             if (isNaN(amnt)) return
 
             if (direction === 'Deposit') {
-                call = user.exchangeContract.methods.deposit(addr, isBase ? 0 : amnt)
+                call = user.vaultContract.methods.deposit(addr, isBase ? 0 : amnt)
                 args = {
                     from: user.publicAddr,
                     value: isBase ? amnt : 0,
                     gas: 130000, gasPrice: user.GAS_PRICE
                 }
             } else if (direction === 'Withdraw') {
-                call = user.exchangeContract.methods.withdraw(addr, amnt)
+                call = user.vaultContract.methods.withdraw(addr, amnt)
                 args = {from: user.publicAddr, gas: 100000, gasPrice: user.GAS_PRICE}
             }
 
@@ -151,13 +151,13 @@
                     approveFinal()
                 } else {
                     // First zero, then approve
-                    user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, 0), sendArgs, approveFinal)
+                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, 0), sendArgs, approveFinal)
                 }
 
                 function approveFinal(err) {
                     if (err) return onErr(err)
 
-                    user.sendTx(exchange.token.methods.approve(CONSTS.exchangeContract, amnt), sendArgs, function () {
+                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, amnt), sendArgs, function () {
                         user.sendTx(call, args, finalCb)
                     })
                 }

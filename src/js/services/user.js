@@ -36,6 +36,7 @@
 
         // Exchange smart contract
         user.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
+        user.vaultContract = new web3.eth.Contract(CONSTS.vaultABI, CONSTS.vaultContract)
 
         // Default: try metamask
         user.setMetamask = function () {
