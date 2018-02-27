@@ -35,7 +35,7 @@
     consts.ZEROADDR = '0x0000000000000000000000000000000000000000'
 
     // TEMP
-    consts.endpoint = 'http://127.0.0.1:12312'
+    consts.endpoint = 'http://127.0.0.1:9000'
 
 
     // mainnet id 1
