@@ -244,12 +244,15 @@
             var expires = new Date(1970, 0, 1);
             expires.setSeconds(order.expires);
 
+            var left = (ethAmount - order.filled) / ethBase
+
             return {
                 order: order,
                 id: order.hash,
                 rate: price,
-                amount: tokenAmount / tokenBase, // @todo add filled?
-                filled: 0, // TODO
+                amount: tokenAmount / tokenBase,
+                left: left,
+                filled: order.filled,
                 expires: expires
             }
         }
