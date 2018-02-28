@@ -268,14 +268,8 @@
 
         function mapTransaction(tx, i) {
 
-            var amount = 0;
-            var side = 'buy';
-            if (tx.give.token !== CONSTS.ZEROADDR) {
-                amount = tx.give.amount / exchange.tokenInf[1];
-                side = 'sell';
-            } else {
-                amount = tx.get.amount / exchange.tokenInf[1];
-            }
+            var amount = parseInt(tx.give.token === CONSTS.ZEROADDR ? tx.get.amount : tx.give.amount) / exchange.tokenInf[1];
+            var side = (tx.give.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
 
             var time = new Date(1970, 0, 1);
             time.setSeconds(tx.timestamp);
