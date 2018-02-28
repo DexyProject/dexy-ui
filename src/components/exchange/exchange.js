@@ -229,6 +229,12 @@
         }
 
         function mapOrder(order, i) {
+
+            var pair = {
+                quote: exchange.tokenInf,
+                base: [CONSTS.ZEROADDR, "1000000000000000000"]
+            };
+
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
