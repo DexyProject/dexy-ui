@@ -191,7 +191,7 @@
         loadOb()
 
         function loadOb() {
-            fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0])
+            fetch(CONSTS.endpoint + "/orderbook?token=" + exchange.tokenInf[0])
                 .then(function (res) {
                     return res.json()
                 })
