@@ -299,8 +299,6 @@
         Highcharts.stockChart('mainChart', chartStyle);
 
         $scope.cancel = function (order) {
-            console.log(order)
-
             var addresses = [order.user, order.give.token, order.get.token]
             var values = [order.give.amount, order.get.amount, order.expires, order.nonce]
 
