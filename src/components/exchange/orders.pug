@@ -13,6 +13,6 @@
                     td(ng-bind='::order.rate.toFixed(8)')
                     td(ng-bind='::order.order.filled.toFixed(8)')
                     td(ng-bind='::(order.rate * (order.amount - order.order.filled)).toFixed(3)')
-                    td(ng-bind='order.expires.toLocaleString()')
+                    td(ng-bind='::order.expires.toLocaleString()')
                     td
                         button.btn.btn-light.btn-outline-danger.btn-sm(type='button', ng-click='cancel(order.order)') Cancel
