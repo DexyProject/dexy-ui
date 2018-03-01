@@ -207,7 +207,6 @@
         // @TODO: orderbook.js 
         //
         exchange.loadOb = loadOb
-
         loadOb()
 
         function loadOb() {
@@ -228,6 +227,24 @@
                 })
         }
 
+        exchange.loadHistory = loadHistory
+        loadHistory()
+
+        function loadHistory() {
+            fetch(CONSTS.endpoint + "/trades?token=" + exchange.tokenInf[0])
+                .then(function (res) {
+                    return res.json()
+                })
+                .then(function (history) {
+                    exchange.trades = (history || []).map(mapTransaction)
+                    if (!$scope.$$phase) $scope.$digest()
+                })
+                .catch(function (err) {
+                    LxNotificationService.error('Error loading history')
+                    console.error(err)
+                })
+        }
+
         function mapOrder(order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
@@ -236,22 +253,49 @@
 
             var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
 
-            var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
-            var ethBase = 1000000000000000000
-
-            var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
-
             var expires = new Date(1970, 0, 1);
             expires.setSeconds(order.expires);
 
             return {
                 order: order,
                 id: order.hash,
-                rate: price,
+                rate: calculatePrice(order),
                 amount: tokenAmount / tokenBase, // @todo add filled?
                 filled: 0, // TODO
                 expires: expires
             }
+        }
+
+        function mapTransaction(tx, i) {
+
+            var amount = parseInt(tx.give.token === CONSTS.ZEROADDR ? tx.get.amount : tx.give.amount) / exchange.tokenInf[1];
+            var side = (tx.give.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
+
+            var time = new Date(1970, 0, 1);
+            time.setSeconds(tx.timestamp);
+
+            return {
+                idx: i,
+                tx: tx.tx,
+                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + time.getHours() + ':' + time.getMinutes(),
+                side: side,
+                amount: amount,
+                price: calculatePrice(tx)
+            }
+        }
+
+        function calculatePrice(o) {
+            var getAmnt = parseInt(o.get.amount)
+            var giveAmnt = parseInt(o.give.amount)
+
+            var tokenBase = exchange.tokenInf[1]
+
+            var tokenAmount = (o.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
+
+            var ethAmount = (o.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
+            var ethBase = 1000000000000000000
+
+            return (ethAmount / ethBase) / (tokenAmount / tokenBase)
         }
 
         // 
