@@ -75,9 +75,11 @@
 
 # CLEANUP
 
+* bootstrap-based modals
+
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
-* split exchange.
+* split exchange.js
 
 * fillOrder should not be in placeOrder controller
 
@@ -89,7 +91,7 @@
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
-
+* fix fonts/icons/images in prod
 
 # TODO
 
