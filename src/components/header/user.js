@@ -5,9 +5,9 @@
         .module('dexyApp')
         .controller('UserCtrl', UserCtrl);
 
-    UserCtrl.$inject = ['$scope', 'user', 'LxDialogService'];
+    UserCtrl.$inject = ['$scope', 'user'];
 
-    function UserCtrl($scope, user, LxDialogService) {
+    function UserCtrl($scope, user) {
         $scope.user = user
 
         $scope.selected = {
@@ -53,7 +53,7 @@
 
             batch.execute()
 
-            LxDialogService.open('trezorAccPick')
+            $('#hwWalletChooseAcc').modal('show')
         }
 
     }

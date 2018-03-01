@@ -77,7 +77,13 @@
 
 * bootstrap-based modals
 
+* remove lxnotificationservice
+
+* grep the source code for lx-, remove lumx
+
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
+
+* test trezor popup
 
 * split exchange.js
 

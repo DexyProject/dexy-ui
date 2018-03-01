@@ -7,9 +7,9 @@
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
 
-    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService', 'LxDialogService'];
+    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
 
-    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
+    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
         // Orders
         $scope.orders = {
             SELL: {type: 'SELL'},
@@ -23,7 +23,7 @@
                 portion: 1000,
                 side: side,
             }
-            LxDialogService.open('fillOrder')
+            $('#fillOrder').modal('show')
         }
 
         $scope.setAmount = function (order, part) {

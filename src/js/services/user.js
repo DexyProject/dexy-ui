@@ -183,6 +183,8 @@
         }
 
         user.onHDWalletAddr = function (address, type, idx) {
+            $('#hwWalletChooseAcc').modal('hide')
+            
             LxNotificationService.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address');
 
             user.publicAddr = address

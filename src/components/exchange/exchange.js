@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService', 'LxDialogService'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService'];
 
-    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService, LxDialogService) {
+    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService) {
         var exchange = this;
 
         $scope.exchangeAddr = CONSTS.exchangeContract
@@ -292,14 +292,14 @@
             //   same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-                .call(function (err, resp) {
-                    console.log('canTrade', err, resp)
-                })
+            .call(function (err, resp) {
+                console.log('canTrade', err, resp)
+            })
 
             user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
-                .call(function (err, resp) {
-                    console.log('didSign', err, resp)
-                })
+            .call(function (err, resp) {
+                console.log('didSign', err, resp)
+            })
 
             /*
             // function getVolume(uint amountGet, address tokenGive, uint amountGive, address user, bytes32 hash) public view returns (uint) {
@@ -315,6 +315,7 @@
             user.sendTx(tx, {from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
                 console.log(err, txid)
 
+                $('#fillOrder').modal('hide')
                 if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
             })
         }
@@ -333,7 +334,7 @@
             .call(function(err, isApproved) {
                 if (err) console.error(err)
 
-                if (isApproved === false) LxDialogService.open('approveExchangeByVault')
+                if (isApproved === false) $('#approveExchangeByVault').modal('show')
             })
         }
 
@@ -347,7 +348,7 @@
 
                 if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
 
-                LxDialogService.close('approveExchangeByVault')
+                $('#approveExchangeByVault').modal('hide')
             })
         }
     }
