@@ -78,10 +78,10 @@
 * grep the source code for lx-, remove lumx
 * test trezor popup
 * split directory dialogs/
+* fix fonts/icons/images in prod
+
 
 # CLEANUP
-
-* fix fonts/icons/images in prod
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
@@ -91,7 +91,7 @@
 
 * fillOrder should not be in placeOrder controller
 
-* fix global indicators
+* fix/remove global indicators
 
 * proper split file configs
 
