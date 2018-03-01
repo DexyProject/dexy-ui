@@ -83,6 +83,8 @@
 
 # CLEANUP
 
+scope ev not working
+
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
 * split exchange.js

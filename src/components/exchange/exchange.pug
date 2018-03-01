@@ -1,9 +1,9 @@
 .row#exchange(ng-controller='exchangeCtrl as exchange', ng-show='exchange.token')
-    include ./dialogs/fillOrder
 
     include ./dialogs/approveExchangeByVault
 
-    .col-xs-12.col-lg-9.col-xs-12
+    .col-xs-12.col-lg-9.col-xs-12(ng-controller='takeOrderCtrl')
+        include ./dialogs/takeOrder
         .row
             .col-xs-12.col-lg-8.mt-3
                 .col.border
@@ -20,7 +20,7 @@
                         span VOL&nbsp;
                             span.data(ng-bind="meta.vol")
                     #mainChart
-            .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
+            .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap(ng-controller='takeOrderCtrl')
                 .col.border
                     .row.mt-3
                         .col-12

@@ -68,14 +68,12 @@
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, fetchBalances)
+        $scope.$watch(function () { return user.publicAddr }, function() {
+            fetchBalances()
+            fetchOrders()
+        })
 
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, fetchOrders)
-
+        // @TODO: tick/pulse that would propagate down to all sub-controllers
         var intvl = $interval(fetchBalances, CONSTS.FETCH_BALANCES_INTVL)
         $scope.$on('$destroy', function () {
             $interval.cancel(intvl)
@@ -85,16 +83,16 @@
             if (!user.publicAddr) return
 
             fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0] + "&user=" + user.publicAddr)
-                .then(function (res) {
-                    return res.json()
-                })
-                .then(function (ob) {
-                    exchange.orders = (ob || []).map(mapOrder)
-                    if (!$scope.$$phase) $scope.$digest()
-                })
-                .catch(function (err) {
-                    console.error(err)
-                })
+            .then(function (res) {
+                return res.json()
+            })
+            .then(function (ob) {
+                exchange.orders = (ob || []).map(exchange.mapOrder)
+                if (!$scope.$$phase) $scope.$digest()
+            })
+            .catch(function (err) {
+                console.error(err)
+            })
         }
 
         function fetchBalances() {
@@ -116,6 +114,7 @@
             exchange.token.methods.allowance(user.publicAddr, CONSTS.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
+                    // used by placeeOrder
                     exchange.rawAllowance = parseInt(allowance)
                 }
             })
@@ -130,104 +129,6 @@
             })
         }
 
-        // Amounts to move (deposit/withdraw)
-        exchange.baseMove = {Deposit: 0, Withdraw: 0}
-        exchange.quoteMove = {Deposit: 0, Withdraw: 0}
-
-        // Move assets (deposit/withdraw)
-        // TODO: moveAssets.js
-        exchange.assetsMove = function (isBase, direction, amnt) {
-            if (!user.publicAddr) {
-                toastr.error('Please authenticate with Metamask, Trezor or Ledger')
-                return
-            }
-
-            var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
-            var amnt = parseInt(parseFloat(amnt) * (isBase ? 1000000000000000000 : exchange.tokenInf[1]))
-
-            var call
-            var args
-
-            // TODO: how to handle this? we need validation on that input field
-            if (isNaN(amnt)) return
-
-            if (direction === 'Deposit') {
-                call = user.vaultContract.methods.deposit(addr, isBase ? 0 : amnt)
-                args = {
-                    from: user.publicAddr,
-                    value: isBase ? amnt : 0,
-                    gas: 130000, gasPrice: user.GAS_PRICE
-                }
-            } else if (direction === 'Withdraw') {
-                call = user.vaultContract.methods.withdraw(addr, amnt)
-                args = {from: user.publicAddr, gas: 100000, gasPrice: user.GAS_PRICE}
-            }
-
-            if (direction === 'Deposit' && !isBase) {
-                // We have to set the allowance first
-
-                var sendArgs = {from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE}
-                if (exchange.rawAllowance == 0) {
-                    // Directly approve
-                    approveFinal()
-                } else {
-                    // First zero, then approve
-                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, 0), sendArgs, approveFinal)
-                }
-
-                function approveFinal(err) {
-                    if (err) return onErr(err)
-
-                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, amnt), sendArgs, function () {
-                        user.sendTx(call, args, finalCb)
-                    })
-                }
-            } else {
-                user.sendTx(call, args, finalCb)
-            }
-
-            function finalCb(err, txid) {
-                if (err) return onErr(err)
-                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
-            }
-
-            function onErr(err) {
-                // TODO
-                console.error(err)
-                toastr.error('Deposit/withdraw failed')
-            }
-        }
-
-        exchange.isValidAmnt = function (n) {
-            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
-        }
-
-        //
-        // Updating orderbook
-        // @TODO: orderbook.js 
-        //
-        exchange.loadOb = loadOb
-        loadOb()
-
-        function loadOb() {
-            fetch(CONSTS.endpoint + "/orderbook?token=" + exchange.tokenInf[0])
-                .then(function (res) {
-                    return res.json()
-                })
-                .then(function (ob) {
-                    exchange.orderbook = {
-                        bids: (ob.bids || []).map(mapOrder),
-                        asks: (ob.asks || []).map(mapOrder),
-                    }
-                    if (!$scope.$$phase) $scope.$digest()
-                })
-                .catch(function (err) {
-                    toastr.error('Error loading order book')
-                    console.error(err)
-                })
-        }
-
-        exchange.loadHistory = loadHistory
         loadHistory()
 
         function loadHistory() {
@@ -245,7 +146,7 @@
                 })
         }
 
-       function mapOrder(order, i) {
+       exchange.mapOrder = function(order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
@@ -357,59 +258,12 @@
             var sig = order.signature
 
             var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
-            user.sendTx(tx, {from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
+            user.sendTx(tx, { from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
                 console.log(err, txid)
 
                 if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
             })
         }
-
-        $scope.takeOrder = function (toFill) {
-            var rawOrder = toFill.order.order
-
-            // WARNING: check !the order.exchange address is the same as what we're currently operating with
-            // throw an error if not
-
-            // addresses - user, tokenGive, tokenGet
-            var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
-            var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
-            var amnt = Math.floor(parseInt(rawOrder.get.amount) * toFill.portion / 1000).toString()
-
-            var sig = rawOrder.signature
-
-            // @TODO: call canTrade, remove order if invalid
-            // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet"
-            //   same goes for filling
-            // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
-            user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-            .call(function (err, resp) {
-                console.log('canTrade', err, resp)
-            })
-
-            user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
-            .call(function (err, resp) {
-                console.log('didSign', err, resp)
-            })
-
-            /*
-            // function getVolume(uint amountGet, address tokenGive, uint amountGive, address user, bytes32 hash) public view returns (uint) {
-            user.exchangeContract.methods.getVolume(rawOrder.get.amount, rawOrder.give.token, rawOrder.give.amount, rawOrder.user, rawOrder.hash)
-            .call(function(err, resp)
-            {
-                console.log('getVolume', err, resp, amnt)
-            })
-            */
-
-            // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
-            var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-            user.sendTx(tx, {from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
-                console.log(err, txid)
-
-                $('#fillOrder').modal('hide')
-                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
-            })
-        }
-
 
         // Vault approval (@TODO: vaultApproval.js)
         $scope.$watch(function () {
@@ -461,21 +315,5 @@
                 cb(null, props)
             })
         })
-    }
-
-    // Indicators ctrl (@TODO: indicators.js)
-    angular
-        .module('dexyApp')
-        .controller('exchangeIndicatorsCtrl', exchangeIndicatorsCtrl);
-
-    exchangeIndicatorsCtrl.$inject = ['$scope', '$stateParams'];
-
-    function exchangeIndicatorsCtrl($scope, $stateParams) {
-        var exchange = this
-
-        exchange.pair = $stateParams.pair
-
-        var lastPart = $stateParams.pair.split('/').pop()
-        exchange.symbol = ($stateParams.token ? $stateParams.token[2] : null) || lastPart
     }
 })();

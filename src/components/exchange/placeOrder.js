@@ -16,16 +16,6 @@
             BUY: {type: 'BUY'}
         }
 
-        $scope.exchange.fillForOrder = function (side, order) {
-            console.log('fillForOrder ' + side)
-            $scope.exchange.toFill = {
-                order: order,
-                portion: 1000,
-                side: side,
-            }
-            $('#fillOrder').modal('show')
-        }
-
         $scope.setAmount = function (order, part) {
             console.log(order, part)
             if (!order.rate) order.rate = 0.002; // TEMP, todo set to best ask/best bid
@@ -137,14 +127,14 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
                 })
-                    .then(function () {
-                        // re-load order book
-                        $scope.exchange.loadOb()
-                    })
-                    .catch(function (err) {
-                        console.error(err)
-                        toastr.error('Error placing order')
-                    })
+                .then(function () {
+                    // re-load order book
+                    $scope.$root.$broadcast('reload-orders')
+                })
+                .catch(function (err) {
+                    console.error(err)
+                    toastr.error('Error placing order')
+                })
 
             })
 
