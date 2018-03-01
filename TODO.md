@@ -76,21 +76,22 @@
 * bootstrap-based modals
 * remove lxnotificationservice
 * grep the source code for lx-, remove lumx
+* test trezor popup
+* split directory dialogs/
 
 # CLEANUP
 
-
-* fix global indicators
+* fix fonts/icons/images in prod
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
-* test trezor popup
-
 * split exchange.js
+
+* clean-up math in exchange.js
 
 * fillOrder should not be in placeOrder controller
 
-* split directory modals/
+* fix global indicators
 
 * proper split file configs
 
@@ -98,7 +99,6 @@
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
-* fix fonts/icons/images in prod
 
 # TODO
 
