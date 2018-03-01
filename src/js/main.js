@@ -5,7 +5,7 @@ require('babel-polyfill');
 window.TREZOR_POPUP_ORIGIN = 'https://connect.trezor.io';
 
 // Define the main angular module
-var app = angular.module('dexyApp', ['lumx', 'ui.router'])
+var app = angular.module('dexyApp', ['ui.router'])
 
 // Constants
 app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {

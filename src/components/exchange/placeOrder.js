@@ -7,9 +7,9 @@
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
 
-    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService'];
+    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user'];
 
-    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService) {
+    function placeOrderCtrl($scope, $stateParams, user) {
         // Orders
         $scope.orders = {
             SELL: {type: 'SELL'},
@@ -60,7 +60,7 @@
 
         $scope.placeOrder = function (order, type, symbol) {
             if (!user.publicAddr) {
-                LxNotificationService.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
+                toastr.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
                 return
             }
 
@@ -106,7 +106,7 @@
             user.signOrder(typed, userAddr, function (err, sig, sigMode) {
                 if (err) {
                     console.error(err)
-                    LxNotificationService.error('Signing failed')
+                    toastr.error('Signing failed')
                     return
                 }
 
@@ -143,7 +143,7 @@
                     })
                     .catch(function (err) {
                         console.error(err)
-                        LxNotificationService.error('Error placing order')
+                        toastr.error('Error placing order')
                     })
 
             })

@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user', 'LxNotificationService'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user'];
 
-    function exchangeCtrl($scope, $stateParams, $state, $interval, user, LxNotificationService) {
+    function exchangeCtrl($scope, $stateParams, $state, $interval, user) {
         var exchange = this;
 
         $scope.exchangeAddr = CONSTS.exchangeContract
@@ -26,7 +26,7 @@
         if (web3.utils.isAddress(lastPart) && !$stateParams.token) {
             fetchCustomToken(lastPart, function (err, props) {
                 if (err) {
-                    LxNotificationService.error('Invalid ERC20 token address')
+                    toastr.error('Invalid ERC20 token address')
                     console.error(err)
                     return
                 }
@@ -118,7 +118,7 @@
         // TODO: moveAssets.js
         exchange.assetsMove = function (isBase, direction, amnt) {
             if (!user.publicAddr) {
-                LxNotificationService.error('Please authenticate with Metamask, Trezor or Ledger')
+                toastr.error('Please authenticate with Metamask, Trezor or Ledger')
                 return
             }
 
@@ -168,13 +168,13 @@
 
             function finalCb(err, txid) {
                 if (err) return onErr(err)
-                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
             }
 
             function onErr(err) {
                 // TODO
                 console.error(err)
-                LxNotificationService.error('Deposit/withdraw failed')
+                toastr.error('Deposit/withdraw failed')
             }
         }
 
@@ -203,7 +203,7 @@
                     if (!$scope.$$phase) $scope.$digest()
                 })
                 .catch(function (err) {
-                    LxNotificationService.error('Error loading order book')
+                    toastr.error('Error loading order book')
                     console.error(err)
                 })
         }
@@ -316,7 +316,7 @@
                 console.log(err, txid)
 
                 $('#fillOrder').modal('hide')
-                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
             })
         }
 
@@ -346,7 +346,7 @@
                 // @OTODO: handle errors
                 console.log(err, txid)
 
-                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
 
                 $('#approveExchangeByVault').modal('hide')
             })

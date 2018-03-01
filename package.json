@@ -19,9 +19,9 @@
     "ethereumjs-wallet": "^0.6.0",
     "gulp-babel-minify": "^0.2.0",
     "hdkey": "^0.7.1",
-    "official-lumx": "^1.7.5",
     "popper.js": "^1.12.9",
     "rlp": "^2.0.0",
+    "toastr": "^2.1.4",
     "web3": "^1.0.0-beta.27"
   },
   "development": {

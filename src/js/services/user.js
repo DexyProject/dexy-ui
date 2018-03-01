@@ -5,7 +5,7 @@
         .module('dexyApp')
         .service('user', UserService)
 
-    UserService.$inject = ['$rootScope', 'LxNotificationService']
+    UserService.$inject = ['$rootScope']
 
     // NOTE: regarding authentication, this helps a lot:
     // https://github.com/kvhnuke/etherwallet/blob/bd1bcb499f84dabecf133ef9f2e6c684d769ae23/app/scripts/controllers/decryptWalletCtrl.js
@@ -16,7 +16,7 @@
     var ethTx = require('ethereumjs-tx')
     var rlp = require('rlp')
 
-    function UserService($scope, LxNotificationService) {
+    function UserService($scope) {
         initWeb3()
 
         var user = this
@@ -183,10 +183,6 @@
         }
 
         user.onHDWalletAddr = function (address, type, idx) {
-            $('#hwWalletChooseAcc').modal('hide')
-            
-            LxNotificationService.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address');
-
             user.publicAddr = address
             user.mode = type
             user.hdWalletAddrIdx = idx
@@ -371,17 +367,17 @@
         }
 
         user.handleTrezorErr = function (resp) {
-            LxNotificationService.error('Trezor Error: ' + resp.error);
+            toastr.error('Trezor Error: ' + resp.error);
             console.error('Trezor Error:', resp.error); // error message
         }
 
         user.handleLedgerError = function (err) {
             console.error(err)
-            LxNotificationService.error('Ledger Error: ' + (err.message || u2f.getErrorByCode(err.errorCode)));
+            toastr.error('Ledger Error: ' + (err.message || u2f.getErrorByCode(err.errorCode)));
         }
 
         user.handleWeb3Err = function (err) {
-            LxNotificationService.error('web3 error: ' + err);
+            toastr.error('web3 error: ' + err);
 
             // TODO: make this visual
             console.error(err)

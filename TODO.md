@@ -73,13 +73,14 @@
 * sign transactions/deposit/withdraw with ledger
 * vault
 
+* bootstrap-based modals
+* remove lxnotificationservice
+* grep the source code for lx-, remove lumx
+
 # CLEANUP
 
-* bootstrap-based modals
 
-* remove lxnotificationservice
-
-* grep the source code for lx-, remove lumx
+* fix global indicators
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
