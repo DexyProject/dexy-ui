@@ -72,7 +72,7 @@
 * BUG: Dialog shows 'Buying...' no matter which side you're on 
 * sign transactions/deposit/withdraw with ledger
 * vault
-
+* cancel order
 * bootstrap-based modals
 * remove lxnotificationservice
 * grep the source code for lx-, remove lumx
@@ -80,28 +80,26 @@
 * split directory dialogs/
 * fix fonts/icons/images in prod
 * split exchange.js
+* fillOrder should not be in placeOrder controller
 
 
 # CLEANUP
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
+* proper split file configs
+
 * clean-up math in exchange.js
 
-* fillOrder should not be in placeOrder controller
-
 * fix/remove global indicators
-
-* proper split file configs
 
 * `.estimateGas()` 
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
+* refresh order book properly
 
 # TODO
-
-* refresh order book properly
 
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
 
@@ -118,8 +116,6 @@
 * get price history from API
 
 * Spificator (or similar 'in progress'): include to improve TX UX
-
-* cancel order
 
 * disable user select
 
