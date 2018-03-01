@@ -245,7 +245,7 @@
                 })
         }
 
-        function mapOrder(order, i) {
+       function mapOrder(order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
@@ -253,15 +253,23 @@
 
             var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
 
+            var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
+            var ethBase = 1000000000000000000
+
+            var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
+
             var expires = new Date(1970, 0, 1);
             expires.setSeconds(order.expires);
+
+            var left = (ethAmount - order.filled) / ethBase
 
             return {
                 order: order,
                 id: order.hash,
-                rate: calculatePrice(order),
-                amount: tokenAmount / tokenBase, // @todo add filled?
-                filled: 0, // TODO
+                rate: price,
+                amount: tokenAmount / tokenBase,
+                left: left,
+                filled: order.filled,
                 expires: expires
             }
         }
