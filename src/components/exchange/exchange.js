@@ -72,10 +72,30 @@
             return user.publicAddr
         }, fetchBalances)
 
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, fetchOrders)
+
         var intvl = $interval(fetchBalances, CONSTS.FETCH_BALANCES_INTVL)
         $scope.$on('$destroy', function () {
             $interval.cancel(intvl)
         })
+
+        function fetchOrders() {
+            if (!user.publicAddr) return
+
+            fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0] + "&user=" + user.publicAddr)
+                .then(function (res) {
+                    return res.json()
+                })
+                .then(function (ob) {
+                    exchange.orders = (ob || []).map(mapOrder)
+                    if (!$scope.$$phase) $scope.$digest()
+                })
+                .catch(function (err) {
+                    console.error(err)
+                })
+        }
 
         function fetchBalances() {
             var addr = user.publicAddr
@@ -221,12 +241,16 @@
 
             var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
 
+            var expires = new Date(1970, 0, 1);
+            expires.setSeconds(order.expires);
+
             return {
                 order: order,
                 id: order.hash,
                 rate: price,
-                amount: tokenAmount / tokenBase,
+                amount: tokenAmount / tokenBase, // @todo add filled?
                 filled: 0, // TODO
+                expires: expires
             }
         }
 
@@ -273,6 +297,20 @@
             }
         }
         Highcharts.stockChart('mainChart', chartStyle);
+
+        $scope.cancel = function (order) {
+            var addresses = [order.user, order.give.token, order.get.token]
+            var values = [order.give.amount, order.get.amount, order.expires, order.nonce]
+
+            var sig = order.signature
+
+            var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
+            user.sendTx(tx, {from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
+                console.log(err, txid)
+
+                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
+            })
+        }
 
         $scope.takeOrder = function (toFill) {
             var rawOrder = toFill.order.order
@@ -326,23 +364,23 @@
             return user.publicAddr
         }, checkVaultApproval)
 
-        function checkVaultApproval()
-        {
-            if (! user.publicAddr) return
+        function checkVaultApproval() {
+            if (!user.publicAddr) return
 
             user.vaultContract.methods.isApproved(user.publicAddr, CONSTS.exchangeContract)
-            .call(function(err, isApproved) {
+            .call(function (err, isApproved) {
                 if (err) console.error(err)
 
                 if (isApproved === false) $('#approveExchangeByVault').modal('show')
             })
+
         }
 
-        exchange.approveExchangeByVault = function() {
+        exchange.approveExchangeByVault = function () {
             var tx = user.vaultContract.methods.approve(CONSTS.exchangeContract)
 
             // @TODO: saner gas limit
-            user.sendTx(tx, { from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
+            user.sendTx(tx, {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
                 // @OTODO: handle errors
                 console.log(err, txid)
 
