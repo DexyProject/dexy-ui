@@ -1,6 +1,7 @@
 .row#exchange(ng-controller='exchangeCtrl as exchange', ng-show='exchange.token')
 
-    include ./dialogs/approveExchangeByVault
+    div(ng-controller='vaultApprovalCtrl')
+        include ./dialogs/approveExchangeByVault
 
     .col-xs-12.col-lg-9.col-xs-12(ng-controller='takeOrderCtrl')
         include ./dialogs/takeOrder
@@ -19,7 +20,7 @@
                     .meta.mt-3
                         span VOL&nbsp;
                             span.data(ng-bind="meta.vol")
-                    #mainChart
+                    #mainChart(ng-controller="chartCtrl")
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap(ng-controller='takeOrderCtrl')
                 .col.border
                     .row.mt-3
@@ -47,7 +48,7 @@
                             #wallet.tab-pane.fade.in.active.show
                                 include ./wallet
                             #orders.tab-pane.fade.in
-                                include ./orders
+                                include ./myorders
                             #trades.tab-pane.fade.in
             .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border
@@ -66,7 +67,7 @@
                             #sell.tab-pane.fade.in
                                 include ./placeOrder
 
-    .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap
+    .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap(ng-controller='tradeHistoryCtrl')
         .col.border
             .row.mt-3
                 .col-12

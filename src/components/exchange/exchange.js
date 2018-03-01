@@ -64,36 +64,17 @@
         exchange.symbol = token[2] || lastPart
         exchange.user = user
 
-        // Get wallet balance
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
-        $scope.$watch(function () { return user.publicAddr }, function() {
-            fetchBalances()
-            fetchOrders()
-        })
-
         // @TODO: tick/pulse that would propagate down to all sub-controllers
-        var intvl = $interval(fetchBalances, CONSTS.FETCH_BALANCES_INTVL)
+        var intvl = $interval(function() {
+            fetchBalances()
+            // consider firing reload-orders
+        }, CONSTS.FETCH_BALANCES_INTVL)
         $scope.$on('$destroy', function () {
             $interval.cancel(intvl)
         })
-
-        function fetchOrders() {
-            if (!user.publicAddr) return
-
-            fetch(CONSTS.endpoint + "/orders?token=" + exchange.tokenInf[0] + "&user=" + user.publicAddr)
-            .then(function (res) {
-                return res.json()
-            })
-            .then(function (ob) {
-                exchange.orders = (ob || []).map(exchange.mapOrder)
-                if (!$scope.$$phase) $scope.$digest()
-            })
-            .catch(function (err) {
-                console.error(err)
-            })
-        }
 
         function fetchBalances() {
             var addr = user.publicAddr
@@ -129,23 +110,6 @@
             })
         }
 
-        loadHistory()
-
-        function loadHistory() {
-            fetch(CONSTS.endpoint + "/trades?token=" + exchange.tokenInf[0])
-                .then(function (res) {
-                    return res.json()
-                })
-                .then(function (history) {
-                    exchange.trades = (history || []).map(mapTransaction)
-                    if (!$scope.$$phase) $scope.$digest()
-                })
-                .catch(function (err) {
-                    LxNotificationService.error('Error loading history')
-                    console.error(err)
-                })
-        }
-
        exchange.mapOrder = function(order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
@@ -174,129 +138,7 @@
                 expires: expires
             }
         }
-
-        function mapTransaction(tx, i) {
-
-            var amount = parseInt(tx.give.token === CONSTS.ZEROADDR ? tx.get.amount : tx.give.amount) / exchange.tokenInf[1];
-            var side = (tx.give.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
-
-            var time = new Date(1970, 0, 1);
-            time.setSeconds(tx.timestamp);
-
-            return {
-                idx: i,
-                tx: tx.tx,
-                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + time.getHours() + ':' + time.getMinutes(),
-                side: side,
-                amount: amount,
-                price: calculatePrice(tx)
-            }
-        }
-
-        function calculatePrice(o) {
-            var getAmnt = parseInt(o.get.amount)
-            var giveAmnt = parseInt(o.give.amount)
-
-            var tokenBase = exchange.tokenInf[1]
-
-            var tokenAmount = (o.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
-
-            var ethAmount = (o.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
-            var ethBase = 1000000000000000000
-
-            return (ethAmount / ethBase) / (tokenAmount / tokenBase)
-        }
-
-        // 
-        // Chart
-        // TODO: clean this up and split it
-        Highcharts.setOptions({
-            lang: {
-                rangeSelectorZoom: ''
-            }
-        });
-
-        var chartStyle = angular.copy(window.chartStyle)
-        chartStyle.chart.events = {
-            load: function () {
-                var chart = this
-
-                $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
-                    // Create the chart
-
-                    var prices = [];
-                    var volume = [];
-                    data.forEach(function (data) {
-                        prices.push([
-                            data.startBlockTimestamp * 1000,
-                            Number(data.open),
-                            Number(data.high),
-                            Number(data.low),
-                            Number(data.close)
-                        ])
-
-                        volume.push([
-                            data.startBlockTimestamp * 1000,
-                            Number(data.takerTokenVolume)
-                        ])
-                    });
-
-                    prices.reverse()
-                    volume.reverse()
-
-                    chart.series[0].setData(prices)
-                    chart.series[1].setData(volume)
-                });
-            }
-        }
-        Highcharts.stockChart('mainChart', chartStyle);
-
-        $scope.cancel = function (order) {
-            var addresses = [order.user, order.give.token, order.get.token]
-            var values = [order.give.amount, order.get.amount, order.expires, order.nonce]
-
-            var sig = order.signature
-
-            var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
-            user.sendTx(tx, { from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
-                console.log(err, txid)
-
-                if (txid) LxNotificationService.success('Successfully submitted transaction: ' + txid)
-            })
-        }
-
-        // Vault approval (@TODO: vaultApproval.js)
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, checkVaultApproval)
-
-        function checkVaultApproval() {
-            if (!user.publicAddr) return
-
-            user.vaultContract.methods.isApproved(user.publicAddr, CONSTS.exchangeContract)
-            .call(function (err, isApproved) {
-                if (err) console.error(err)
-
-                if (isApproved === false) $('#approveExchangeByVault').modal('show')
-            })
-
-        }
-
-        exchange.approveExchangeByVault = function () {
-            var tx = user.vaultContract.methods.approve(CONSTS.exchangeContract)
-
-            // @TODO: saner gas limit
-            user.sendTx(tx, {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
-                // @OTODO: handle errors
-                console.log(err, txid)
-
-                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
-
-                $('#approveExchangeByVault').modal('hide')
-            })
-        }
     }
-
 
     // HELPER: Fetch custom token
     // This fetches information about the custom token

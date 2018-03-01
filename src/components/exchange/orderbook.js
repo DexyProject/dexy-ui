@@ -9,6 +9,8 @@
     orderbookCtrl.$inject = ['$scope', '$stateParams'];
 
     function orderbookCtrl($scope, $stateParams) {
+        // @TODO: update tick
+
         var exchange = $scope.exchange
 
         loadOb()
@@ -32,7 +34,6 @@
         }
 
         $scope.$on('reload-orders', function() {
-            console.log('reload-orders triggered')
             loadOb()
         })
     }
