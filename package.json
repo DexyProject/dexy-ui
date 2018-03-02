@@ -15,11 +15,13 @@
     "angular": "^1.5.11",
     "angular-ui-router": "^0.4.3",
     "bootstrap": "^4.0.0",
+    "ethereumjs-tx": "^1.3.3",
     "ethereumjs-wallet": "^0.6.0",
     "gulp-babel-minify": "^0.2.0",
     "hdkey": "^0.7.1",
-    "official-lumx": "^1.7.5",
     "popper.js": "^1.12.9",
+    "rlp": "^2.0.0",
+    "toastr": "^2.1.4",
     "web3": "^1.0.0-beta.27"
   },
   "development": {
@@ -30,6 +32,7 @@
     "babel-core": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-latest": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^15.0.0",

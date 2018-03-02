@@ -5,9 +5,9 @@
         .module('dexyApp')
         .controller('UserCtrl', UserCtrl);
 
-    UserCtrl.$inject = ['$scope', 'user', 'LxDialogService'];
+    UserCtrl.$inject = ['$scope', 'user'];
 
-    function UserCtrl($scope, user, LxDialogService) {
+    function UserCtrl($scope, user) {
         $scope.user = user
 
         $scope.selected = {
@@ -15,6 +15,9 @@
             hdWallet: '' // trezor or ledger
         }
 
+        $scope.enableMetamask = function () {
+            user.setMetamask()
+        }
 
         $scope.enableTrezor = function (accountIdx) {
             // NOTE: this callback will only be called on success
@@ -50,8 +53,14 @@
 
             batch.execute()
 
-            LxDialogService.open('trezorAccPick')
+            $('#hwWalletChooseAcc').modal('show')
         }
 
+        $scope.onHDWalletAddr = function (address, type, idx) {
+            $('#hwWalletChooseAcc').modal('hide')
+            toastr.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address')
+
+            user.onHDWalletAddr(address, type, idx)
+        }
     }
 })();

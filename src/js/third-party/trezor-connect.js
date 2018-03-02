@@ -6,7 +6,7 @@
 var TREZOR_CONNECT_VERSION = 4;
 
 if (!Array.isArray) {
-    Array.isArray = function(arg) {
+    Array.isArray = function (arg) {
         return Object.prototype.toString.call(arg) === '[object Array]';
     };
 }
@@ -82,28 +82,34 @@ this.TrezorConnect = (function () {
         /**
          * Close the opened popup, if any.
          */
-        this.close = function () { manager.close(); };
+        this.close = function () {
+            manager.close();
+        };
 
         /**
          * Enable or disable closing the opened popup after a successful call.
          * @param {boolean} value
          */
-        this.closeAfterSuccess = function (value) { manager.closeAfterSuccess = value; };
+        this.closeAfterSuccess = function (value) {
+            manager.closeAfterSuccess = value;
+        };
 
         /**
          * Enable or disable closing the opened popup after a failed call.
          * @param {boolean} value
          */
-        this.closeAfterFailure = function (value) { manager.closeAfterFailure = value; };
+        this.closeAfterFailure = function (value) {
+            manager.closeAfterFailure = value;
+        };
 
         /**
          * Set bitcore server
          * @param {string|Array<string>} value
          */
-        this.setBitcoreURLS = function(value) {
+        this.setBitcoreURLS = function (value) {
             if (typeof value === 'string') {
-                manager.bitcoreURLS = [ value ];
-            }else if (value instanceof Array) {
+                manager.bitcoreURLS = [value];
+            } else if (value instanceof Array) {
                 manager.bitcoreURLS = value;
             }
         }
@@ -112,7 +118,7 @@ this.TrezorConnect = (function () {
          * Set currency. Human readable coin name
          * @param {string|Array<string>} value
          */
-        this.setCurrency = function(value) {
+        this.setCurrency = function (value) {
             if (typeof value === 'string') {
                 manager.currency = value;
             }
@@ -122,7 +128,7 @@ this.TrezorConnect = (function () {
          * Set currency units (mBTC, BTC)
          * @param {string|Array<string>} value
          */
-        this.setCurrencyUnits = function(value) {
+        this.setCurrencyUnits = function (value) {
             if (typeof value === 'string') {
                 manager.currencyUnits = value;
             }
@@ -132,7 +138,7 @@ this.TrezorConnect = (function () {
          * Set coin info json url
          * @param {string|Array<string>} value
          */
-        this.setCoinInfoURL = function(value) {
+        this.setCoinInfoURL = function (value) {
             if (typeof value === 'string') {
                 manager.coinInfoURL = value;
             }
@@ -142,8 +148,8 @@ this.TrezorConnect = (function () {
          * Set max. limit for account discovery
          * @param {number} value
          */
-        this.setAccountDiscoveryLimit = function(value) {
-            if(!isNaN(value))
+        this.setAccountDiscoveryLimit = function (value) {
+            if (!isNaN(value))
                 manager.accountDiscoveryLimit = value;
         }
 
@@ -151,8 +157,8 @@ this.TrezorConnect = (function () {
          * Set max. gap for account discovery
          * @param {number} value
          */
-        this.setAccountDiscoveryGapLength = function(value) {
-            if(!isNaN(value))
+        this.setAccountDiscoveryGapLength = function (value) {
+            if (!isNaN(value))
                 manager.accountDiscoveryGapLength = value;
         }
 
@@ -160,8 +166,8 @@ this.TrezorConnect = (function () {
          * Set discovery BIP44 coin type
          * @param {number} value
          */
-        this.setAccountDiscoveryBip44CoinType = function(value) {
-            if(!isNaN(value))
+        this.setAccountDiscoveryBip44CoinType = function (value) {
+            if (!isNaN(value))
                 manager.accountDiscoveryBip44CoinType = value;
         }
 
@@ -215,18 +221,18 @@ this.TrezorConnect = (function () {
                     type: 'accountinfo',
                     description: input
                 }, requiredFirmware), callback);
-            } catch(e) {
+            } catch (e) {
                 callback({success: false, error: e});
             }
         }
 
-        this.getAllAccountsInfo = function(callback, requiredFirmware){
+        this.getAllAccountsInfo = function (callback, requiredFirmware) {
             try {
                 manager.sendWithChannel(_fwStrFix({
                     type: 'allaccountsinfo',
                     description: 'all'
                 }, requiredFirmware), callback);
-            } catch(e) {
+            } catch (e) {
                 callback({success: false, error: e});
             }
         }
@@ -266,23 +272,21 @@ this.TrezorConnect = (function () {
         };
 
         // new implementation with ethereum at beginnig
-        this.ethereumSignTx = function() {
+        this.ethereumSignTx = function () {
             this.signEthereumTx.apply(this, arguments);
         }
 
         // old fallback
-        this.signEthereumTx = function (
-            address_n,
-            nonce,
-            gas_price,
-            gas_limit,
-            to,
-            value,
-            data,
-            chain_id,
-            callback,
-            requiredFirmware
-        ) {
+        this.signEthereumTx = function (address_n,
+                                        nonce,
+                                        gas_price,
+                                        gas_limit,
+                                        to,
+                                        value,
+                                        data,
+                                        chain_id,
+                                        callback,
+                                        requiredFirmware) {
             if (requiredFirmware == null) {
                 requiredFirmware = '1.4.0'; // first firmware that supports ethereum
             }
@@ -344,13 +348,11 @@ this.TrezorConnect = (function () {
          *
          * @see https://github.com/trezor/trezor-common/blob/master/protob/messages.proto
          */
-        this.requestLogin = function (
-            hosticon,
-            challenge_hidden,
-            challenge_visual,
-            callback,
-            requiredFirmware
-        ) {
+        this.requestLogin = function (hosticon,
+                                      challenge_hidden,
+                                      challenge_visual,
+                                      callback,
+                                      requiredFirmware) {
             if (typeof callback === 'string') {
                 // special case for a login through <trezor:login> button.
                 // `callback` is name of global var
@@ -378,20 +380,18 @@ this.TrezorConnect = (function () {
         /**
          * Sign a message
          *
-         * @param {string|array} path  
+         * @param {string|array} path
          * @param {string} message to sign (ascii)
          * @param {string|function(SignMessageResult)} callback
          * @param {?string} opt_coin - (optional) name of coin (default Bitcoin)
          * @param {?(string|array<number>)} requiredFirmware
          *
          */
-        this.signMessage = function (
-            path,
-            message,
-            callback,
-            opt_coin,
-            requiredFirmware
-        ) {
+        this.signMessage = function (path,
+                                     message,
+                                     callback,
+                                     opt_coin,
+                                     requiredFirmware) {
             if (typeof path === 'string') {
                 path = parseHDPath(path);
             }
@@ -418,12 +418,10 @@ this.TrezorConnect = (function () {
          * @param {?(string|array<number>)} requiredFirmware
          *
          */
-        this.ethereumSignMessage = function (
-            path,
-            message,
-            callback,
-            requiredFirmware
-        ) {
+        this.ethereumSignMessage = function (path,
+                                             message,
+                                             callback,
+                                             requiredFirmware) {
             if (typeof path === 'string') {
                 path = parseHDPath(path);
             }
@@ -448,14 +446,12 @@ this.TrezorConnect = (function () {
          * @param {?(string|array<number>)} requiredFirmware
          *
          */
-        this.verifyMessage = function (
-            address,
-            signature,
-            message,
-            callback,
-            opt_coin,
-            requiredFirmware
-        ) {
+        this.verifyMessage = function (address,
+                                       signature,
+                                       message,
+                                       callback,
+                                       opt_coin,
+                                       requiredFirmware) {
             if (!opt_coin) {
                 opt_coin = 'Bitcoin';
             }
@@ -481,13 +477,11 @@ this.TrezorConnect = (function () {
          * @param {?(string|array<number>)} requiredFirmware
          *
          */
-        this.ethereumVerifyMessage = function (
-            address,
-            signature,
-            message,
-            callback,
-            requiredFirmware
-        ) {
+        this.ethereumVerifyMessage = function (address,
+                                               signature,
+                                               message,
+                                               callback,
+                                               requiredFirmware) {
             if (!callback) {
                 throw new TypeError('TrezorConnect: callback not found');
             }
@@ -512,16 +506,14 @@ this.TrezorConnect = (function () {
          * @param {?(string|array<number>)} requiredFirmware
          *
          */
-        this.cipherKeyValue = function (
-            path,
-            key,
-            value,
-            encrypt,
-            ask_on_encrypt,
-            ask_on_decrypt,
-            callback,
-            requiredFirmware
-        ) {
+        this.cipherKeyValue = function (path,
+                                        key,
+                                        value,
+                                        encrypt,
+                                        ask_on_encrypt,
+                                        ask_on_decrypt,
+                                        callback,
+                                        requiredFirmware) {
             if (typeof path === 'string') {
                 path = parseHDPath(path);
             }
@@ -549,12 +541,10 @@ this.TrezorConnect = (function () {
             }, requiredFirmware), callback);
         };
 
-        this.nemGetAddress = function (
-          address_n,
-          network,
-          callback,
-          requiredFirmware
-        ) {
+        this.nemGetAddress = function (address_n,
+                                       network,
+                                       callback,
+                                       requiredFirmware) {
             if (requiredFirmware == null) {
                 requiredFirmware = '1.6.0'; // first firmware that supports NEM
             }
@@ -568,12 +558,10 @@ this.TrezorConnect = (function () {
             }, requiredFirmware), callback);
         }
 
-        this.nemSignTx = function (
-          address_n,
-          transaction,
-          callback,
-          requiredFirmware
-        ) {
+        this.nemSignTx = function (address_n,
+                                   transaction,
+                                   callback,
+                                   requiredFirmware) {
             if (requiredFirmware == null) {
                 requiredFirmware = '1.6.0'; // first firmware that supports NEM
             }
@@ -587,10 +575,8 @@ this.TrezorConnect = (function () {
             }, requiredFirmware), callback);
         }
 
-        this.pushTransaction = function (
-          rawTx,
-          callback
-        ) {
+        this.pushTransaction = function (rawTx,
+                                         callback) {
             if (!(/^[0-9A-Fa-f]*$/.test(rawTx))) {
                 throw new TypeError('TrezorConnect: Transaction must be hexadecimal');
             }
@@ -608,7 +594,7 @@ this.TrezorConnect = (function () {
          * Display address on device
          *
          * @param {array} address
-         * @param {string} coin 
+         * @param {string} coin
          * @param {boolean} segwit
          * @param {?(string|array<number>)} requiredFirmware
          *
@@ -687,12 +673,12 @@ this.TrezorConnect = (function () {
                 text = text.replace('TREZOR', '<strong>TREZOR</strong>');
                 e.outerHTML =
                     (LOGIN_CSS + LOGIN_HTML)
-                    .replace('@text@', text)
-                    .replace('@callback@', callback)
-                    .replace('@hosticon@', hosticon)
-                    .replace('@challenge_hidden@', challenge_hidden)
-                    .replace('@challenge_visual@', challenge_visual)
-                    .replace('@connect_path@', POPUP_PATH);
+                        .replace('@text@', text)
+                        .replace('@callback@', callback)
+                        .replace('@hosticon@', hosticon)
+                        .replace('@challenge_hidden@', challenge_hidden)
+                        .replace('@challenge_visual@', challenge_visual)
+                        .replace('@connect_path@', POPUP_PATH);
             }
         };
     }
@@ -705,7 +691,9 @@ this.TrezorConnect = (function () {
         return string
             .toLowerCase()
             .split('/')
-            .filter(function (p) { return p !== 'm'; })
+            .filter(function (p) {
+                return p !== 'm';
+            })
             .map(function (p) {
                 var hardened = false;
                 if (p[p.length - 1] === "'") {
@@ -713,7 +701,7 @@ this.TrezorConnect = (function () {
                     p = p.substr(0, p.length - 1);
                 }
                 if (isNaN(p)) {
-                   throw new Error('Not a valid path.');
+                    throw new Error('Not a valid path.');
                 }
                 var n = parseInt(p);
                 if (hardened) { // hardened index
@@ -992,7 +980,7 @@ this.TrezorConnect = (function () {
             var onresponse = function (response) {
                 if (response instanceof Error) {
                     var error = response;
-                    respond({ success: false, error: error.message });
+                    respond({success: false, error: error.message});
                 } else {
                     respond(response);
                 }
@@ -1001,7 +989,7 @@ this.TrezorConnect = (function () {
             var onchannel = function (channel) {
                 if (channel instanceof Error) {
                     var error = channel;
-                    respond({ success: false, error: error.message });
+                    respond({success: false, error: error.message});
                 } else {
                     channel.send(message, onresponse);
                 }

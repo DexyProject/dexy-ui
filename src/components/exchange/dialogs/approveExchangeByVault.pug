@@ -1,0 +1,13 @@
+//- data-backdrop='static' if we don't want this to be closable
+.modal.fade(id='approveExchangeByVault', tabindex='-1', role='dialog', aria-labelledby='Approve Exchange', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5.modal-title Approve Exchange Contract
+
+            .modal-body
+                span Some text about how you need to approve the exchange smart contract because it prob upgrade
+            .modal-footer
+                .row
+                    .col.text-right
+                        button.btn.btn-primary(type='button', ng-click='exchange.approveExchangeByVault()') Approve

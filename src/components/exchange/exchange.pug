@@ -1,10 +1,24 @@
 .row#exchange(ng-controller='exchangeCtrl as exchange', ng-show='exchange.token')
-    include ./fillOrderDialog
+    include ./dialogs/fillOrder
+
+    include ./dialogs/approveExchangeByVault
 
     .col-xs-12.col-lg-9.col-xs-12
         .row
             .col-xs-12.col-lg-8.mt-3
                 .col.border
+                    .meta
+                        span O&nbsp;
+                            span.data(ng-bind="meta.open")
+                        span H&nbsp;
+                            span.data(ng-bind="meta.high")
+                        span L&nbsp;
+                            span.data(ng-bind="meta.low")
+                        span C&nbsp;
+                            span.data(ng-bind="meta.close")
+                    .meta.mt-3
+                        span VOL&nbsp;
+                            span.data(ng-bind="meta.vol")
                     #mainChart
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border
@@ -15,7 +29,7 @@
                         .col-12(style='max-height: 340px; overflow-y: scroll')
                             include ./orderbook
             .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
-                .col.border
+                .col.border(style='max-height: 386px; overflow-y: scroll')
                     .row.navRow
                         ul.nav.nav-tabs
                             li.nav-item
@@ -33,6 +47,7 @@
                             #wallet.tab-pane.fade.in.active.show
                                 include ./wallet
                             #orders.tab-pane.fade.in
+                                include ./orders
                             #trades.tab-pane.fade.in
             .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border

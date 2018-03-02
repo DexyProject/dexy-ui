@@ -53,37 +53,108 @@
 * eth addresses to be clickable and take to etherscan
 * slider+input on fill dialog
 * add header to orderbook and tradehistory
+* fix binding on dialog
+* new typed signing EIP
+* service for the API, orderbook state and price history
+* gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
+* place order: 25%/50%..., calculate total amount, show available amnt
+* place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
+* auth (user) dialog should highlight the current auth type 
+* deposit/withdraw - ether
+* wallet balances validation as number
+* deposit/withdraw - token
+* sign a tx calling trade()
+* make trade() work
+* BUG: deposits/withdraws: when chaining two functions, `.send()` waits for the tx to be mined, which is wrong
+* sign transactions/deposit/withdraw with trezor
+* get last allowance in advance so as to avoid Trezor window getting blocked
+* consider refresh balances event; figure out tokens refresh balances
+* BUG: Dialog shows 'Buying...' no matter which side you're on 
+* sign transactions/deposit/withdraw with ledger
+* vault
+
+* bootstrap-based modals
+* remove lxnotificationservice
+* grep the source code for lx-, remove lumx
+* test trezor popup
+* split directory dialogs/
+* fix fonts/icons/images in prod
+* take filled into account when displaying the amount. Users should only be able to take amount - filled
+
+
+# CLEANUP
+
+* solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
+
+* split exchange.js
+
+* clean-up math in exchange.js
+
+* fillOrder should not be in placeOrder controller
+
+* fix/remove global indicators
+
+* proper split file configs
+
+* `.estimateGas()` 
+
+* universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
 # TODO
-* sign a tx calling trade()
-* service for the API, orderbook state and price history
-* place order: input number vs text; TEXT: kucoin, binance, bittrex, radar, bitstamp ;  NUMBER: IDEX
-* place order: slider, calculate total amount, show available amnt
 
-* Last Trades UI
-* My Orders UI
+* refresh order book properly
 
-* order book: show which orders are yours and which are pending
-* auth (user) dialog should show ETH balance, highlight the current auth type 
-* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
-* gas price controls in the UI (get data from https://ethgasstation.info/) https://ethgasstation.info/json/ethgasAPI.json
+* Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
+
+* show success notifications, and go to etherscan when clicked
+
+* placing orders: validate (sufficient funds, etc), show error if order can't be filled
+
+* placing orders: close modal once a tx is submitted, flag the order "in progress"
+
+* place order: make the 25/50/etc buttons work
+
+* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
+
+* get price history from API
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-* sortable table row icons
-* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
+* cancel order
+
+* disable user select
+
+* ensure user has enough tokens to place or take orders
+
+## BUGS
+
+1. Points is undefined 
+```
+TypeError: this.points[1] is undefined
+[Learn More]
+```
+
+2. When you have 0 balances, placing a BUY order succeeds but a SELL order fails
 
 ## mañana but important
 
+* Last Trades UI
+* My Orders UI
+* order book: show which orders are yours and which are pending
+* sortable table row icons
+* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
 * xss: no third-party scripts
 * xss: no third-party sources of data
+* LxNotificationService sanitization
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
+* authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * TradingView license: also check if we can host `tv.js` on our servers
 * component for the top indicators that would flash green/red
 * Proper night mode
 
 ## mañana
+* User Trades UI with filters (whether you're maker/taker, token, date) with CSV export 
 * graph should be zoomable by clicking price axis and zooming. See bittrex, bitfenix etc. (https://jsfiddle.net/highcharts/6etwu5b4/) Can be done with mapNavigation, has ugly functionality however
 * localization
 * consider DAI pairs
