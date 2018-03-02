@@ -250,13 +250,11 @@
             var giveAmnt = parseInt(order.give.amount)
 
             var tokenBase = exchange.tokenInf[1]
-
             var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
 
-            var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
             var ethBase = 1000000000000000000
 
-            var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
+            var price = calculatePrice(order);
 
             var expires = new Date(1970, 0, 1);
             expires.setSeconds(order.expires);
@@ -269,8 +267,6 @@
                 id: order.hash,
                 rate: price,
                 amount: (tokenAmount / tokenBase) - (left * price), // @todo amount should take filled into account
-                left: left,
-                filled: left,
                 expires: expires
             }
         }
