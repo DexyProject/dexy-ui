@@ -79,6 +79,7 @@
 * test trezor popup
 * split directory dialogs/
 * fix fonts/icons/images in prod
+* take filled into account when displaying the amount. Users should only be able to take amount - filled
 
 
 # CLEANUP
@@ -98,7 +99,6 @@
 * `.estimateGas()` 
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
-
 
 # TODO
 
@@ -125,8 +125,6 @@
 * disable user select
 
 * ensure user has enough tokens to place or take orders
-
-* take filled into account when displaying the amount. Users should only be able to take amount - filled
 
 ## BUGS
 
