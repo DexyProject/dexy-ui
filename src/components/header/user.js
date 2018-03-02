@@ -56,8 +56,7 @@
             $('#hwWalletChooseAcc').modal('show')
         }
 
-        $scope.onHDWalletAddr = function(address, type, idx) 
-        {
+        $scope.onHDWalletAddr = function (address, type, idx) {
             $('#hwWalletChooseAcc').modal('hide')
             toastr.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address')
 

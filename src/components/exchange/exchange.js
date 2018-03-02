@@ -245,7 +245,7 @@
                 })
         }
 
-       function mapOrder(order, i) {
+        function mapOrder(order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
@@ -261,15 +261,16 @@
             var expires = new Date(1970, 0, 1);
             expires.setSeconds(order.expires);
 
-            var left = (ethAmount - order.filled) / ethBase
+            // @todo fix this
+            var left = (getAmnt - parseInt(order.filled)) / ethBase;
 
             return {
                 order: order,
                 id: order.hash,
                 rate: price,
-                amount: tokenAmount / tokenBase,
+                amount: (tokenAmount / tokenBase) - (left * price), // @todo amount should take filled into account
                 left: left,
-                filled: order.filled,
+                filled: left,
                 expires: expires
             }
         }
@@ -285,7 +286,7 @@
             return {
                 idx: i,
                 tx: tx.tx,
-                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + time.getHours() + ':' + time.getMinutes(),
+                time: time.getDate() + '/' + (time.getMonth() + 1) + ' ' + time.getHours() + ':' + time.getMinutes(),
                 side: side,
                 amount: amount,
                 price: calculatePrice(tx)
@@ -382,14 +383,14 @@
             //   same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-            .call(function (err, resp) {
-                console.log('canTrade', err, resp)
-            })
+                .call(function (err, resp) {
+                    console.log('canTrade', err, resp)
+                })
 
             user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
-            .call(function (err, resp) {
-                console.log('didSign', err, resp)
-            })
+                .call(function (err, resp) {
+                    console.log('didSign', err, resp)
+                })
 
             /*
             // function getVolume(uint amountGet, address tokenGive, uint amountGive, address user, bytes32 hash) public view returns (uint) {
@@ -420,11 +421,11 @@
             if (!user.publicAddr) return
 
             user.vaultContract.methods.isApproved(user.publicAddr, CONSTS.exchangeContract)
-            .call(function (err, isApproved) {
-                if (err) console.error(err)
+                .call(function (err, isApproved) {
+                    if (err) console.error(err)
 
-                if (isApproved === false) $('#approveExchangeByVault').modal('show')
-            })
+                    if (isApproved === false) $('#approveExchangeByVault').modal('show')
+                })
 
         }
 
