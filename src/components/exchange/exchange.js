@@ -133,11 +133,14 @@
             var left = getAmnt - parseInt(order.filled, 10)
 
             // alternative way to write that logic: get.token == ZEROADDR ? convert(left) : left
-            var filledInToken = order.give.token === CONSTS.ZEROADDR ? order.filled : order.filled / price
-            var filledInETH = order.give.token === CONSTS.ZEROADDR ? order.filled * price : order.filled
+            // filled is in amntGet
+
+            var proportion = order.filled / getAmnt
+            var filledInToken = order.get.token === CONSTS.ZEROADDR ? proportion * giveAmnt : order.filled
+            var filledInETH = order.get.token === CONSTS.ZEROADDR ? order.filled : proportion * giveAmnt
 
             var leftInEth = (ethAmount - filledInETH) / ethBase
-            var leftInToken = (tokenAmount /*- filledInToken*/) / tokenBase
+            var leftInToken = (tokenAmount - filledInToken) / tokenBase
 
             return {
                 order: order,
