@@ -43,6 +43,7 @@
     "gulp-pug": "^3.3.0",
     "gulp-sourcemaps": "^2.6.3",
     "gulp-stylus": "^2.7.0",
+    "minimist": "^1.2.0",
     "nib": "^1.1.2",
     "pug": "^2.0.0-rc.4",
     "require-dir": "^0.3.2",

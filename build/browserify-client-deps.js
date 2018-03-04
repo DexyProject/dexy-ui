@@ -6,9 +6,7 @@ var babelify = require('babelify')
 var Readable = require('stream').Readable
 var pkg = require('../package')
 
-// NOTE: should we replace this by webpack?
-
-module.exports = function() {
+module.exports = function(config) {
 	var opts = { 
 		insertGlobalVars: true,
 		basedir: process.cwd(),
@@ -56,8 +54,7 @@ module.exports = function() {
 	b.require('querystring');
 	b.require('buffer');
 
-	// TODO: configurable
-	b.require('./configs/ropsten.js', { expose: 'dexy-config' })
+	b.require(config || './configs/ropsten.js', { expose: 'dexy-config' })
 
 	for (dep in require('../package').dependencies) {
 		if (!ignoreList[dep]) { 

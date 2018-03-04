@@ -89,7 +89,7 @@
 
 # TODO
 
-* deploy to ipfs, deploy scripts, different build modes
+* deploy to ipfs, deploy scripts, different build modes; figure out cache invalidation
 
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 fix .tokens/.markets mess

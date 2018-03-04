@@ -4,6 +4,8 @@
 
 `npm start`: this will run `build/dev-server.js`, which is a basic script that compiles Pug, Stylus and JS deps (browserify)
 
+To run with the mainnet config, do `node build/dev-server.js --mainnet`
+
 ## Running in production
 
 TODO
