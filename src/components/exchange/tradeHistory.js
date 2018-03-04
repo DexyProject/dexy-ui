@@ -14,7 +14,7 @@
         loadHistory()
 
         function loadHistory() {
-            fetch(CONSTS.endpoint + '/trades?token=' + exchange.tokenInf[0])
+            fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0])
             .then(function (res) {
                 return res.json()
             })

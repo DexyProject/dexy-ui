@@ -14,7 +14,8 @@
         function checkVaultApproval() {
             if (!user.publicAddr) return
 
-            user.vaultContract.methods.isApproved(user.publicAddr, CONSTS.exchangeContract)
+            console.log(user.publicAddr, cfg.exchangeContract)
+            user.vaultContract.methods.isApproved(user.publicAddr, cfg.exchangeContract)
             .call(function (err, isApproved) {
                 if (err) console.error(err)
 
@@ -23,7 +24,7 @@
         }
 
         exchange.approveExchangeByVault = function () {
-            var tx = user.vaultContract.methods.approve(CONSTS.exchangeContract)
+            var tx = user.vaultContract.methods.approve(cfg.exchangeContract)
 
             // @TODO: saner gas limit
             user.sendTx(tx, {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {

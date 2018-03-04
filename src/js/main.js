@@ -4,6 +4,8 @@ require('babel-polyfill');
 // By default this is set to the same origin if we're opening from localhost; doesn't make sense for us
 window.TREZOR_POPUP_ORIGIN = 'https://connect.trezor.io';
 
+window.cfg = require('dexy-config')
+
 // Define the main angular module
 var app = angular.module('dexyApp', ['ui.router'])
 

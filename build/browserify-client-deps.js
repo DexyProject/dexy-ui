@@ -56,6 +56,9 @@ module.exports = function() {
 	b.require('querystring');
 	b.require('buffer');
 
+	// TODO: configurable
+	b.require('./configs/ropsten.js', { expose: 'dexy-config' })
+
 	for (dep in require('../package').dependencies) {
 		if (!ignoreList[dep]) { 
 			//console.log('including '+dep)

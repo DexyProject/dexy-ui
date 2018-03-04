@@ -31,13 +31,13 @@
         // Configurable things
         user.GAS_PRICE = 30099515020 // 30 gwei
 
-        // Mainnet by default
-        user.chainId = 1
+        user.chainId = cfg.chainId
 
         // Exchange smart contract
-        user.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, CONSTS.exchangeContract)
-        user.vaultContract = new web3.eth.Contract(CONSTS.vaultABI, CONSTS.vaultContract)
+        user.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, cfg.exchangeContract)
+        user.vaultContract = new web3.eth.Contract(CONSTS.vaultABI, cfg.vaultContract)
 
+        console.log(cfg, cfg.vaultContract)
         // Default: try metamask
         user.setMetamask = function () {
             web3.eth.getAccounts(function (err, accounts) {
@@ -140,6 +140,9 @@
             if (err) {
                 user.handleWeb3Err(err)
                 return
+            }
+            if (netId !== user.chainId) {
+                toastr.warning('Warning: you are connected to an unsupported network. '+cfg.warningMsg)
             }
             user.chainId = netId
         })
@@ -396,7 +399,7 @@
             } else {
                 console.log('No web3? You should consider trying MetaMask!')
                 // fallback - use your fallback strategy
-                window.web3 = new Web3(new Web3.providers.HttpProvider(CONSTS.ethUrl));
+                window.web3 = new Web3(new Web3.providers.HttpProvider(cfg.ethUrl));
             }
         }
 

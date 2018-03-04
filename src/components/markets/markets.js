@@ -20,9 +20,8 @@
 
 
         // Fill in vol, price_eth, price_fiat
-        //vm.dataTableTbody = angular.copy(CONSTS.markets);
         // ugly but works
-        $scope.markets = angular.copy(CONSTS.markets)
+        $scope.markets = angular.copy(cfg.markets)
         $scope.markets.forEach(function (x) {
             // TEMP TMP TEMP
             x.price = Math.random()
@@ -32,7 +31,7 @@
             x.change = 0.4 * (Math.random() - 0.5)
             x.balance = 0
 
-            x.token = CONSTS.tokens[x.symbol]
+            x.token = cfg.tokens[x.symbol]
         })
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract

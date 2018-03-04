@@ -90,7 +90,7 @@
                 {type: 'uint', name: 'Expires', value: expires},
                 {type: 'uint', name: 'Nonce', value: nonce},
                 {type: 'address', name: 'User', value: userAddr},
-                {type: 'address', name: 'Exchange', value: $scope.exchangeAddr}
+                {type: 'address', name: 'Exchange', value: cfg.exchangeContract }
             ]
 
             user.signOrder(typed, userAddr, function (err, sig, sigMode) {
@@ -118,11 +118,11 @@
                     },
                     expires: expires,
                     nonce: nonce,
-                    exchange: $scope.exchangeAddr,
+                    exchange: cfg.exchangeContract,
                     user: user.publicAddr,
                     signature: {r: r, s: s, v: v, sig_mode: sigMode}
                 }
-                fetch(CONSTS.endpoint + '/orders', {
+                fetch(cfg.endpoint + '/orders', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),

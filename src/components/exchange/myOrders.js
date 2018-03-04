@@ -17,7 +17,7 @@
         function fetchOrders() {
             if (!user.publicAddr) return
 
-            fetch(CONSTS.endpoint + '/orders?token=' + exchange.tokenInf[0] + '&user=' + user.publicAddr)
+            fetch(cfg.endpoint + '/orders?token=' + exchange.tokenInf[0] + '&user=' + user.publicAddr)
             .then(function (res) {
                 return res.json()
             })

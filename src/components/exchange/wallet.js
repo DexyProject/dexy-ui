@@ -53,13 +53,13 @@
                     approveFinal()
                 } else {
                     // First zero, then approve
-                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, 0), sendArgs, approveFinal)
+                    user.sendTx(exchange.token.methods.approve(cfg.vaultContract, 0), sendArgs, approveFinal)
                 }
 
                 function approveFinal(err) {
                     if (err) return onErr(err)
 
-                    user.sendTx(exchange.token.methods.approve(CONSTS.vaultContract, amnt), sendArgs, function () {
+                    user.sendTx(exchange.token.methods.approve(cfg.vaultContract, amnt), sendArgs, function () {
                         user.sendTx(call, args, finalCb)
                     })
                 }

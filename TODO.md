@@ -84,13 +84,15 @@
 * My Orders UI
 * Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race (presumed fixed with `7820ed4f1e92bd61e6eb6c140e56acc7c3a29e17`)
+* properly split configs
+* warning in the UI if connected to the wrong net
 
 # TODO
 
-* properly split configs
-deploy to ipfs
-deploy scripts
-warning in the UI if connected to the wrong net
+* deploy to ipfs, deploy scripts, different build modes
+
+* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
+fix .tokens/.markets mess
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
@@ -104,7 +106,7 @@ warning in the UI if connected to the wrong net
 
 * `.estimateGas()` 
 
-* refresh order book properly
+* refresh order book properly (time interval; also after user addr change)
 
 
 * show success notifications, and go to etherscan when clicked
@@ -114,8 +116,6 @@ warning in the UI if connected to the wrong net
 * placing orders: close modal once a tx is submitted, flag the order "in progress"
 
 * place order: make the 25/50/etc buttons work
-
-* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 
 * get price history from API
 

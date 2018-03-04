@@ -15,7 +15,6 @@
     function exchangeCtrl($scope, $stateParams, $state, $interval, user) {
         var exchange = this;
 
-        $scope.exchangeAddr = CONSTS.exchangeContract
         $scope.exchangeContract = user.exchangeContract
 
         // exchange page: loading state and error (404) state
@@ -35,7 +34,7 @@
                 var symbol = props.symbol
                 var token = [lastPart, multiplier, symbol]
 
-                if (CONSTS.tokens[symbol] && CONSTS.tokens[symbol][0] === lastPart) {
+                if (cfg.tokens[symbol] && cfg.tokens[symbol][0] === lastPart) {
                     $state.go('exchange', {pair: symbol}, {replace: true})
                 } else {
                     $state.go('exchange', {pair: $stateParams.pair, token: token}, {replace: true})
@@ -45,7 +44,7 @@
             return
         }
 
-        var token = $stateParams.token || CONSTS.tokens[lastPart]
+        var token = $stateParams.token || cfg.tokens[lastPart]
 
         if (!token) {
             // TODO 404
@@ -92,7 +91,7 @@
                 }
             })
 
-            exchange.token.methods.allowance(user.publicAddr, CONSTS.vaultContract).call(function (err, allowance) {
+            exchange.token.methods.allowance(user.publicAddr, cfg.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
                     // used by placeeOrder
