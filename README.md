@@ -53,3 +53,12 @@ ipfs add -r dist
 Ropsten:
 
 `QmWTcmUG3cjBqvQ9bhZQDPeg8qyYSpYeKNA6zaBzx4evuL` - commit hash `d4f4c99f046a2ee784e274a1b288ce7821d9a702`
+
+
+### Regular Maintenance
+
+Update tokens list:
+
+```
+./scripts/genTokensList.js > ./configs/tokens/index.json
+```

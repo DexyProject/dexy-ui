@@ -86,10 +86,9 @@
 * Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race (presumed fixed with `7820ed4f1e92bd61e6eb6c140e56acc7c3a29e17`)
 * properly split configs
 * warning in the UI if connected to the wrong net
+* deploy to ipfs, deploy scripts, different build modes; figure out cache invalidation
 
 # TODO
-
-* deploy to ipfs, deploy scripts, different build modes; figure out cache invalidation
 
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 fix .tokens/.markets mess
