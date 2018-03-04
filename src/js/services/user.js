@@ -60,6 +60,8 @@
             if (user.mode != 'metamask') return
 
             web3.eth.getAccounts(function (err, accounts) {
+                if (user.mode != 'metamask') return
+                
                 if (err) {
                     console.error(err)
                     return
@@ -156,16 +158,16 @@
 
         user.getLedgerAddresses = function (cb) {
             ledger.comm_u2f.create_async()
-                .then(function (comm) {
-                    var eth = new ledger.eth(comm)
+            .then(function (comm) {
+                var eth = new ledger.eth(comm)
 
-                    eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
-                        .then(function (resp) {
-                            cb(user.getAddrs(resp.publicKey, resp.chainCode))
-                        })
-                        .catch($scope.handleLedgerError)
+                eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
+                .then(function (resp) {
+                    cb(user.getAddrs(resp.publicKey, resp.chainCode))
                 })
                 .catch($scope.handleLedgerError)
+            })
+            .catch($scope.handleLedgerError)
         }
 
         user.getAddrs = function (publicKey, chainCode) {
