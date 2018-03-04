@@ -13,8 +13,6 @@
 
         var exchange = $scope.exchange
 
-        loadOb()
-
         function loadOb() {
             fetch(cfg.endpoint + "/orderbook?token=" + exchange.tokenInf[0])
             .then(function (res) {

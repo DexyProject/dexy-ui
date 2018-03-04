@@ -90,6 +90,7 @@
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 * merge filled and clean-up math in exchange.js
 * take filled into account when displaying the amount. Users should only be able to take amount - filled
+* refresh order book properly (time interval; also after user addr change)
 
 # TODO
 
@@ -98,8 +99,6 @@
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
 * `.estimateGas()` 
-
-* refresh order book properly (time interval; also after user addr change)
 
 * show success notifications, and go to etherscan when clicked
 

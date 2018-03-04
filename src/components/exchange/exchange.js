@@ -66,7 +66,6 @@
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
-        // @TODO: tick/pulse that would propagate down to all sub-controllers
         var intvl = $interval(function() {
             fetchBalances()
             $scope.$root.$broadcast('reload-orders')
@@ -77,6 +76,7 @@
 
         $scope.$watch(function() { return user.publicAddr }, function() {
             fetchBalances()
+            $scope.$root.$broadcast('reload-orders')
         })
 
         function fetchBalances() {
