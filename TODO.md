@@ -81,27 +81,31 @@
 * fix fonts/icons/images in prod
 * split exchange.js
 * fillOrder should not be in placeOrder controller
-
-
-# CLEANUP
-
-* solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
-
-* proper split file configs
-
-* clean-up math in exchange.js
-
-* fix/remove global indicators
-
-* `.estimateGas()` 
-
-* universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
-
-* refresh order book properly
+* My Orders UI
+* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
+* Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race (presumed fixed with `7820ed4f1e92bd61e6eb6c140e56acc7c3a29e17`)
 
 # TODO
 
-* Sometimes it can't import a trezor addr (if doing it too quickly?); seems like a race
+* properly split configs
+deploy to ipfs
+deploy scripts
+warning in the UI if connected to the wrong net
+
+* solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
+
+* merge filled and clean-up math in exchange.js
+
+* take filled into account when displaying the amount. Users should only be able to take amount - filled
+
+* fix/remove global indicators
+
+* universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
+
+* `.estimateGas()` 
+
+* refresh order book properly
+
 
 * show success notifications, and go to etherscan when clicked
 
@@ -117,11 +121,9 @@
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-* disable user select
+* css: disable user-select
 
-* ensure user has enough tokens to place or take orders
 
-* take filled into account when displaying the amount. Users should only be able to take amount - filled
 
 ## BUGS
 
@@ -135,15 +137,14 @@ TypeError: this.points[1] is undefined
 
 ## mañana but important
 
+* toastr `toastr.options.escapeHtml = true;` sanitization
+
 * Last Trades UI
-* My Orders UI
 * order book: show which orders are yours and which are pending
 * sortable table row icons
-* Remove lumx for popup handling (https://github.com/Ivshti/dexy-ui/blob/master/src/components/exchange/fillOrderDialog.pug#L1) Can be done with bootstrap and angular alone
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
 * xss: no third-party scripts
 * xss: no third-party sources of data
-* LxNotificationService sanitization
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
 * TradingView license: also check if we can host `tv.js` on our servers

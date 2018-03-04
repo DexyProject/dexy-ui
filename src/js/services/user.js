@@ -61,7 +61,7 @@
 
             web3.eth.getAccounts(function (err, accounts) {
                 if (user.mode != 'metamask') return
-                
+
                 if (err) {
                     console.error(err)
                     return
