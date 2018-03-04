@@ -69,7 +69,7 @@
         // @TODO: tick/pulse that would propagate down to all sub-controllers
         var intvl = $interval(function() {
             fetchBalances()
-            // consider firing reload-orders
+            $scope.$root.$broadcast('reload-orders')
         }, CONSTS.FETCH_BALANCES_INTVL)
         $scope.$on('$destroy', function () {
             $interval.cancel(intvl)

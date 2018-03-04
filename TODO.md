@@ -93,6 +93,8 @@
 
 # TODO
 
+* taking orders does not seem to work properly for partial amounts
+
 * fix/remove global indicators
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
@@ -102,6 +104,8 @@
 * refresh order book properly (time interval; also after user addr change)
 
 * show success notifications, and go to etherscan when clicked
+
+* filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 
 * placing orders: validate (sufficient funds, etc), show error if order can't be filled
 
