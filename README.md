@@ -27,8 +27,21 @@ As of commit hash `49a3ccf9fe716d63f955795941a76bda9f19bed3` the size of all dep
 
 ### Deploying
 
+Before deploying, please ensure
+
+* To bump the version
+* Make sure you're deploying the right configuration (Mainnet vs ropsten)
+
+#### Mainnet
+
 ```
-git checkout deploy
-git merge master
- npm run build && git add -f dist/* && git commit -m 'update' && git subtree push --prefix dist origin gh-pages
+gulp --mainnet
+ipfs add -r dist
  ```
+
+#### Ropsten
+
+```
+gulp --ropsten
+ipfs add -r dist
+```
