@@ -17,10 +17,14 @@ fetch('https://api.coinmarketcap.com/v1/ticker/?limit=200')
 
         all.push(x.symbol)
 
+        /*
         fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
         .then(function(res) {
-            res.body.pipe(fs.createWriteStream('./img/markets/'+x.symbol+'-ETH.png'))
-        })
+            var p = './img/markets/'+x.symbol+'-ETH.png'
+            if (res.statusCode === 200 && ! fs.existsSync(p))
+                res.body.pipe(fs.createWriteStream(p))
+        })*/
+        //does not work as of 04.03.2018
     })
 
     console.log(JSON.stringify(all))
