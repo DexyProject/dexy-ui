@@ -52,7 +52,7 @@ ipfs add -r dist
 
 Ropsten:
 
-`QmZeLx3GmPAaJgb6D6GPxHXmfAyhxFUD5vRAe9eufhQooX` - commit hash `d4f4c99f046a2ee784e274a1b288ce7821d9a702`
+`QmQsuFoxmCnoTraVse4WkUhzgDgSVenSX2uT7tuqSEzxAG` - commit hash `ca03a49b848271ff1f0db6b7e64f35a9d8291e58`
 
 
 ### Regular Maintenance
