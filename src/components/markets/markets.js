@@ -35,6 +35,9 @@
             x.balance = 0
 
             x.token = cfg.tokens[x.symbol]
+
+            if (! x.token)
+                console.log('WARNING: no token for '+x.symbol)
         })
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract

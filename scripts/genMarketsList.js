@@ -7,7 +7,7 @@ var tokens = require('../configs/tokens')
 
 var excludes = { BTC: true, ETH: true }
 var all = []
-fetch('https://api.coinmarketcap.com/v1/ticker/?limit=150')
+fetch('https://api.coinmarketcap.com/v1/ticker/?limit=200')
 .then(function(res) { return res.json() })
 .then(function(res) {
     res.forEach(function(x) {
@@ -15,12 +15,7 @@ fetch('https://api.coinmarketcap.com/v1/ticker/?limit=150')
         if (!tokens[x.symbol]) return
 
 
-        all.push({
-            name: x.name,
-            symbol: x.symbol,
-            erc20: tokens[x.symbol]
-        })
-
+        all.push(x.symbol)
 
         fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
         .then(function(res) {
@@ -29,4 +24,8 @@ fetch('https://api.coinmarketcap.com/v1/ticker/?limit=150')
     })
 
     console.log(JSON.stringify(all))
+
+    setTimeout(function() {
+        process.exit()
+    }, 10000)
 })
