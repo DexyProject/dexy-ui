@@ -117,9 +117,10 @@
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
-            var tokenBase = exchange.tokenInf[1]
+            // assert that order.give.token or order.get.token is ZEROADDR ?
 
             var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
+            var tokenBase = exchange.tokenInf[1]
 
             var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
             var ethBase = 1000000000000000000
@@ -129,15 +130,21 @@
             var expires = new Date(1970, 0, 1);
             expires.setSeconds(order.expires);
 
-            var left = (ethAmount - order.filled) / ethBase
+            var left = getAmnt - parseInt(order.filled, 10)
+
+            // alternative way to write that logic: get.token == ZEROADDR ? convert(left) : left
+            var filledInToken = order.give.token === CONSTS.ZEROADDR ? order.filled : order.filled / price
+            var filledInETH = order.give.token === CONSTS.ZEROADDR ? order.filled * price : order.filled
+
+            var leftInEth = (ethAmount - filledInETH) / ethBase
+            var leftInToken = (tokenAmount /*- filledInToken*/) / tokenBase
 
             return {
                 order: order,
                 id: order.hash,
                 rate: price,
-                amount: tokenAmount / tokenBase,
-                left: left,
-                filled: order.filled,
+                amount: leftInToken,
+                leftInEth: leftInEth,
                 expires: expires
             }
         }

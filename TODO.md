@@ -91,8 +91,6 @@
 
 # TODO
 
-* solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
-
 * merge filled and clean-up math in exchange.js
 
 * take filled into account when displaying the amount. Users should only be able to take amount - filled
@@ -104,8 +102,6 @@
 * `.estimateGas()` 
 
 * refresh order book properly (time interval; also after user addr change)
-
-* find a token DB with icons and integrate that
 
 * show success notifications, and go to etherscan when clicked
 
@@ -121,6 +117,7 @@
 
 * css: disable user-select
 
+* find a token DB with icons and integrate that
 
 
 ## BUGS
@@ -158,3 +155,4 @@ TypeError: this.points[1] is undefined
 * modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
 * order book depth
 * optimize angular watchers: https://medium.com/@kentcdodds/counting-angularjs-watchers-11c5134dc2ef
+* solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action (collect user feedback here; may be easier for people to just allow the popup)

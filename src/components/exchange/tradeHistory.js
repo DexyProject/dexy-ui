@@ -51,9 +51,8 @@
             var getAmnt = parseInt(o.get.amount)
             var giveAmnt = parseInt(o.give.amount)
 
-            var tokenBase = exchange.tokenInf[1]
-
             var tokenAmount = (o.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
+            var tokenBase = exchange.tokenInf[1]
 
             var ethAmount = (o.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
             var ethBase = 1000000000000000000
