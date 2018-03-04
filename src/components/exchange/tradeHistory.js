@@ -33,13 +33,13 @@
             var amount = parseInt(tx.give.token === CONSTS.ZEROADDR ? tx.get.amount : tx.give.amount) / exchange.tokenInf[1];
             var side = (tx.give.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
 
-            var time = new Date(1970, 0, 1);
-            time.setSeconds(tx.timestamp);
+            var time = new Date(tx.timestamp * 1000)
 
+            var pad = function(x) { return ('00'+x).slice(-2) } 
             return {
                 idx: i,
                 tx: tx.tx,
-                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + time.getHours() + ':' + time.getMinutes(),
+                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + pad(time.getHours()) + ':' + pad(time.getMinutes()),
                 side: side,
                 amount: amount,
                 price: calculatePrice(tx)
