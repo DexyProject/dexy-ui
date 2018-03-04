@@ -162,6 +162,7 @@
                 rate: price,
                 amount: leftInToken,
                 leftInEth: leftInEth,
+                isMine: order.user.toLowerCase() == user.publicAddr.toLowerCase(),
                 expires: expires
             }
         }

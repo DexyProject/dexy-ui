@@ -93,8 +93,6 @@
 
 # TODO
 
-* taking orders does not seem to work properly for partial amounts
-
 * fix/remove global indicators
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx

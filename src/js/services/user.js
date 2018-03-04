@@ -47,6 +47,7 @@
 
                 user.mode = 'metamask'
                 user.publicAddr = accounts[0]
+                if (user.publicAddr) user.publicAddr = user.publicAddr.toLowerCase()
 
                 if (!$scope.$$phase) $scope.$apply()
             })
