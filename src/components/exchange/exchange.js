@@ -75,6 +75,10 @@
             $interval.cancel(intvl)
         })
 
+        $scope.$watch(function() { return user.publicAddr }, function() {
+            fetchBalances()
+        })
+
         function fetchBalances() {
             var addr = user.publicAddr
             if (!addr) return
