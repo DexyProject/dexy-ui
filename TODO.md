@@ -87,11 +87,9 @@
 * properly split configs
 * warning in the UI if connected to the wrong net
 * deploy to ipfs, deploy scripts, different build modes; figure out cache invalidation
+* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
 
 # TODO
-
-* integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
-fix .tokens/.markets mess
 
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action
 
@@ -107,6 +105,7 @@ fix .tokens/.markets mess
 
 * refresh order book properly (time interval; also after user addr change)
 
+* find a token DB with icons and integrate that
 
 * show success notifications, and go to etherscan when clicked
 
