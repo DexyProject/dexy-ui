@@ -88,12 +88,10 @@
 * warning in the UI if connected to the wrong net
 * deploy to ipfs, deploy scripts, different build modes; figure out cache invalidation
 * integrate https://github.com/MyEtherWallet/ethereum-lists/blob/master/tokens/tokens-eth.json or/and https://github.com/forkdelta/tokenbase 
+* merge filled and clean-up math in exchange.js
+* take filled into account when displaying the amount. Users should only be able to take amount - filled
 
 # TODO
-
-* merge filled and clean-up math in exchange.js
-
-* take filled into account when displaying the amount. Users should only be able to take amount - filled
 
 * fix/remove global indicators
 

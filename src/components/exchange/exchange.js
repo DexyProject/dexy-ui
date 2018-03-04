@@ -133,19 +133,24 @@
 
             var left = getAmnt - parseInt(order.filled, 10)
 
-            // filled is in amntGet
+            // filled is in getAmnt
+            var getFilled = order.filled
+
+            //
             // since order.filled (from the back-end) always comes in getAmnt, we need to convert it to eth and in token
-
+            //
             // we take what % it is of the getAmnt; essentially this is what % the order is filled at
-            var proportion = order.filled / getAmnt
+            var proportion = getFilled / getAmnt
 
-            // if the get token is ETH, that means we need to convert filled (which is always the get amount)
-            // we do that by multiplying the proportion by the give amount, which is in the token
-            var filledInToken = order.get.token === CONSTS.ZEROADDR ? proportion * giveAmnt : order.filled
+            // this is the filled converted to the giveAmnt
+            var giveFilled = proportion * giveAmnt
+
+            // if the get token is ETH, that means we need to convert filled - we use the converted giveFilled value
+            var filledInToken = order.get.token === CONSTS.ZEROADDR ? giveFilled : getFilled
 
             // if the get token is in ETH, then there's no need to convert
-            // otherwise, we convert it by multilying it to the giveAmnt
-            var filledInETH = order.get.token === CONSTS.ZEROADDR ? order.filled : proportion * giveAmnt
+            // otherwise, we use the converted value - giveFilled
+            var filledInETH = order.get.token === CONSTS.ZEROADDR ? getFilled : giveFilled
 
             // Divide the leftover amount by the bases
             var leftInEth = (ethAmount - filledInETH) / ethBase
