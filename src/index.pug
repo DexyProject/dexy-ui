@@ -9,9 +9,9 @@ html(lang="en", ng-app="dexyApp", ng-class="{ nightMode: nightMode }")
 
         if (mode === 'production')
             link(rel='stylesheet', href='css/blob.css')
-            script(type='text/javascript', src='blob.js')
+            script(type='text/javascript', src='blob.js?cacheBreak='+pkg.version)
         else
-            script(type='text/javascript', src='depsblob.js')
+            script(type='text/javascript', src='depsblob.js?cacheBreak='+pkg.version)
             include ./resources.pug
 
         include ./templates.pug
