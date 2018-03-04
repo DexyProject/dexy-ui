@@ -21,7 +21,10 @@
 
         // Fill in vol, price_eth, price_fiat
         // ugly but works
-        $scope.markets = angular.copy(cfg.markets)
+        $scope.markets = cfg.markets.map(function(x) {
+            // TEMP
+            return { name: x, symbol: x }
+        })
         $scope.markets.forEach(function (x) {
             // TEMP TMP TEMP
             x.price = Math.random()
