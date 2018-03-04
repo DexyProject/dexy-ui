@@ -161,6 +161,7 @@
                 id: order.hash,
                 rate: price,
                 amount: leftInToken,
+                filledInToken: filledInToken / tokenBase,
                 leftInEth: leftInEth,
                 isMine: user.publicAddr && order.user.toLowerCase() == user.publicAddr.toLowerCase(),
                 expires: expires
