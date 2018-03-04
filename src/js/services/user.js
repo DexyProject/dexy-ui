@@ -37,7 +37,6 @@
         user.exchangeContract = new web3.eth.Contract(CONSTS.exchangeABI, cfg.exchangeContract)
         user.vaultContract = new web3.eth.Contract(CONSTS.vaultABI, cfg.vaultContract)
 
-        console.log(cfg, cfg.vaultContract)
         // Default: try metamask
         user.setMetamask = function () {
             web3.eth.getAccounts(function (err, accounts) {
