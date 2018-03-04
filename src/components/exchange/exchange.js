@@ -125,6 +125,7 @@
             var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
             var ethBase = 1000000000000000000
 
+            // Essentially divide ETH/tokens, but divide by bases first in order to convert the uints to floats
             var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
 
             var expires = new Date(1970, 0, 1);
@@ -132,13 +133,21 @@
 
             var left = getAmnt - parseInt(order.filled, 10)
 
-            // alternative way to write that logic: get.token == ZEROADDR ? convert(left) : left
             // filled is in amntGet
+            // since order.filled (from the back-end) always comes in getAmnt, we need to convert it to eth and in token
 
+            // we take what % it is of the getAmnt; essentially this is what % the order is filled at
             var proportion = order.filled / getAmnt
+
+            // if the get token is ETH, that means we need to convert filled (which is always the get amount)
+            // we do that by multiplying the proportion by the give amount, which is in the token
             var filledInToken = order.get.token === CONSTS.ZEROADDR ? proportion * giveAmnt : order.filled
+
+            // if the get token is in ETH, then there's no need to convert
+            // otherwise, we convert it by multilying it to the giveAmnt
             var filledInETH = order.get.token === CONSTS.ZEROADDR ? order.filled : proportion * giveAmnt
 
+            // Divide the leftover amount by the bases
             var leftInEth = (ethAmount - filledInETH) / ethBase
             var leftInToken = (tokenAmount - filledInToken) / tokenBase
 
