@@ -73,12 +73,12 @@ Currently, the way we update data is pretty messy
 
 `src/js/services/user`: deals with `user.ethBal`, which is split in `onWallet` and `onExchange` - respectively how much ETH we have on our wallet and on the exchange's vault
 
-`src/js/controllers/exchange`: deals with `exchange.onWallet` and `exchange.onExchange`, which is the current selected token balance on wallet and on the exchange's vault
+`src/components/exchange/exchange.js`: deals with `exchange.onWallet` and `exchange.onExchange`, which is the current selected token balance on wallet and on the exchange's vault
 
 Also emits the event `reload-orders`, which triggers a reload of `orderbook`, `myOrders` and `tradeHistory` controllers
 
-`src/js/controllers/myOrders`: loads user's orders and updates `exchange.onOrders`, which are the ETH/token balances reserved on orders
+`src/components/exchange/myOrders`: loads user's orders and updates `exchange.onOrders`, which are the ETH/token balances reserved on orders
 
-`src/js/controllers/orderbook`: loads the entire orderbook
+`src/components/exchange/orderbook`: loads the entire orderbook
 
-`src/js/controllers/tradehistory`: loads the entire trade history
+`src/components/exchange/tradehistory`: loads the entire trade history
