@@ -6,9 +6,9 @@
         .module('dexyApp')
         .controller('tradeHistoryCtrl', tradeHistoryCtrl);
 
-    tradeHistoryCtrl.$inject = ['$scope', 'user'];
+    tradeHistoryCtrl.$inject = ['$scope', 'user', '$window'];
 
-    function tradeHistoryCtrl($scope, user) {
+    function tradeHistoryCtrl($scope, user, $window) {
         var exchange = $scope.exchange
 
         loadHistory()
@@ -58,6 +58,10 @@
             var ethBase = 1000000000000000000
 
             return (ethAmount / ethBase) / (tokenAmount / tokenBase)
+        }
+
+        $scope.openTransaction = function(tx) {
+            $window.open(cfg.etherscan + "/tx/" + tx, '_blank');
         }
 
         $scope.$on('reload-orders', function() {
