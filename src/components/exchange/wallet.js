@@ -59,7 +59,8 @@
                 function approveFinal(err) {
                     if (err) return onErr(err)
 
-                    user.sendTx(exchange.token.methods.approve(cfg.vaultContract, amnt), sendArgs, function () {
+                    user.sendTx(exchange.token.methods.approve(cfg.vaultContract, amnt), sendArgs, function (err) {
+                        if (err) return onErr(err)
                         user.sendTx(call, args, finalCb)
                     })
                 }
@@ -73,8 +74,7 @@
             }
 
             function onErr(err) {
-                console.error(err)
-                toastr.error('Deposit/withdraw failed')
+                exchange.txError('Deposit/withdraw failed', err)
             }
         }
 

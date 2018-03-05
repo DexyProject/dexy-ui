@@ -129,7 +129,7 @@
             var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
 
             var expires = new Date(order.expires * 1000)
-            
+
             var left = getAmnt - parseInt(order.filled, 10)
 
             // filled is in getAmnt
@@ -166,6 +166,15 @@
                 type: order.get.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
                 expires: expires
             }
+        }
+
+        exchange.txError = function(msg, err) 
+        {
+            console.error(err)
+            // @TODO: show the error itself?
+
+            var append = typeof(err.message) === 'string' ? ': '+err.message.split('\n')[0] : ''
+            toastr.error(msg+append)
         }
     }
 

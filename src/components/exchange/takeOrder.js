@@ -59,7 +59,7 @@
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
             var tx = user.exchangeContract.methods.trade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
             user.sendTx(tx, {from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
-                console.log(err, txid)
+                if (err) return $scope.exchange.txError('Error taking order', err)
 
                 $('#takeOrder').modal('hide')
                 if (txid) toastr.success('Successfully submitted transaction: ' + txid)

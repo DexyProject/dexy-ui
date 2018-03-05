@@ -42,7 +42,7 @@
 
             var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
             user.sendTx(tx, { from: user.publicAddr, gas: 200 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
-                console.log(err, txid)
+                if (err) return $scope.exchange.txError('Error canceling order', err)
 
                 if (txid) toastr.success('Successfully submitted transaction: ' + txid)
             })

@@ -29,8 +29,7 @@
 
             // @TODO: saner gas limit
             user.sendTx(tx, {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
-                // @OTODO: handle errors
-                console.log(err, txid)
+                if (err) return $scope.exchange.txError('Vault approval failed', err)
 
                 if (txid) toastr.success('Successfully submitted transaction: ' + txid)
 

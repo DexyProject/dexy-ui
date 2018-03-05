@@ -101,8 +101,11 @@
 
 * `.estimateGas()` 
 
+
 * show success notifications, and go to etherscan when clicked
 etherscan url in config
+
+* toastr `toastr.options.escapeHtml = true;` sanitization
 
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
@@ -123,8 +126,6 @@ etherscan url in config
 
 
 ## mañana but important
-
-* toastr `toastr.options.escapeHtml = true;` sanitization
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
