@@ -176,6 +176,15 @@
             var append = typeof(err.message) === 'string' ? ': '+err.message.split('\n')[0] : ''
             toastr.error(msg+append)
         }
+
+        exchange.txSuccess = function(txid)
+        {
+             toastr.success(
+                '<a style="color: white; text-decoration: underline;" href="'+cfg.etherscan+'/tx/'+txid+'" target="_blank">'+txid+'</a>', 
+                'Successfully submitted transaction',
+                { escapeHtml: false }
+            )
+        }
     }
 
     // HELPER: Fetch custom token

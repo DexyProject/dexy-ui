@@ -57,11 +57,13 @@
                     user.sendTx(exchange.token.methods.approve(cfg.vaultContract, 0), sendArgs, approveFinal)
                 }
 
-                function approveFinal(err) {
+                function approveFinal(err, txid) {
                     if (err) return onErr(err)
+                    if (txid) exchange.txSuccess(txid)
 
-                    user.sendTx(exchange.token.methods.approve(cfg.vaultContract, amnt), sendArgs, function (err) {
+                    user.sendTx(exchange.token.methods.approve(cfg.vaultContract, amnt), sendArgs, function (err, txid) {
                         if (err) return onErr(err)
+                        if (txid) exchange.txSuccess(txid)
                         user.sendTx(call, args, finalCb)
                     })
                 }
@@ -71,7 +73,7 @@
 
             function finalCb(err, txid) {
                 if (err) return onErr(err)
-                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
+                if (txid) exchange.txSuccess(txid)
             }
 
             function onErr(err) {

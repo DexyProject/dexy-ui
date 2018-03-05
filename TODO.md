@@ -95,19 +95,15 @@
 * fix/remove global indicators
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 * fullscreen icon
+* `.estimateGas()` 
+* toastr `toastr.options.escapeHtml = true;` sanitization
+* show success notifications, and go to etherscan when clicked; etherscan url in config
 
 # TODO
 
-
-* `.estimateGas()` 
-
-* show success notifications, and go to etherscan when clicked
-etherscan url in config
-
-* toastr `toastr.options.escapeHtml = true;` sanitization
-
-
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
+
+* filling orders: validate whether canTrade, show notification if not
 
 * placing orders: validate (sufficient funds, etc), show error if order can't be filled
 

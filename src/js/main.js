@@ -6,6 +6,9 @@ window.TREZOR_POPUP_ORIGIN = 'https://connect.trezor.io';
 
 window.cfg = require('dexy-config')
 
+// Important sanitization
+toastr.options.escapeHtml = true
+
 // Define the main angular module
 var app = angular.module('dexyApp', ['ui.router'])
 

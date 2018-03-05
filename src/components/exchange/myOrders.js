@@ -44,7 +44,7 @@
             user.sendTx(tx, { from: user.publicAddr, gas: 70 * 1000, gasPrice: user.GAS_PRICE }, function (err, txid) {
                 if (err) return $scope.exchange.txError('Error canceling order', err)
 
-                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
+                if (txid) $scope.exchange.txSuccess(txid)
             })
         }
     }

@@ -62,7 +62,7 @@
                 if (err) return $scope.exchange.txError('Error taking order', err)
 
                 $('#takeOrder').modal('hide')
-                if (txid) toastr.success('Successfully submitted transaction: ' + txid)
+                if (txid) $scope.exchange.txSuccess(txid)
             })
         }
     }
