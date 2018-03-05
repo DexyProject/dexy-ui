@@ -92,10 +92,9 @@
 * take filled into account when displaying the amount. Users should only be able to take amount - filled
 * refresh order book properly (time interval; also after user addr change)
 * implement 'On Orders'
+* fix/remove global indicators
 
 # TODO
-
-* fix/remove global indicators
 
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
@@ -106,8 +105,6 @@
 etherscan url in config
 
 
-
-
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 
 * placing orders: validate (sufficient funds, etc), show error if order can't be filled
@@ -116,28 +113,20 @@ etherscan url in config
 
 * place order: make the 25/50/etc buttons work
 
-* get price history from API
+* markets to load proper data
 
-* Spificator (or similar 'in progress'): include to improve TX UX
+* get price history from API
 
 * css: disable user-select
 
 * find a token DB with icons and integrate that
 
 
-## BUGS
-
-1. Points is undefined 
-```
-TypeError: this.points[1] is undefined
-[Learn More]
-```
-
-2. When you have 0 balances, placing a BUY order succeeds but a SELL order fails
-
 ## mañana but important
 
 * toastr `toastr.options.escapeHtml = true;` sanitization
+
+* Spificator (or similar 'in progress'): include to improve TX UX
 
 * Last Trades UI
 * order book: show which orders are yours and which are pending
