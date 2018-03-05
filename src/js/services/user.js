@@ -196,8 +196,24 @@
         }
 
         user.sendTx = function (tx, opts, cb) {
-            // @TODO
-            var GAS_LIM = 300 * 1000
+
+            // Do not do it on the Trezor, since it will try to open the popup in a
+            // non-user-triggered tick, and the browser will block it
+            // WARNING: this block of code cannot be used, because of the nonce thing when depositing/withdrawing
+            // before the tx is actually confirmed, estimateGas will always think it will fail
+            /*
+            var shouldCalcGas = user.mode === 'ledger' || user.mode === 'metamask'
+            if (shouldCalcGas && !opts.hasOwnProperty('calculatedGas')) {
+                tx.estimateGas(function(err, resp) {
+                    if (err) return cb(err)
+
+                    opts.calculatedGas = resp
+                    opts.gas = resp
+                    user.sendTx(tx, opts, cb)
+                })
+                return
+            }
+            */
 
             // NOTE: The convention here is that if we get an err from a hardware wallet, we do 
             // user.handleTrezorError/user.handleLedgerError and we STILL call the cb with an err

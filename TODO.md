@@ -149,4 +149,10 @@ etherscan url in config
 * modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
 * order book depth
 * optimize angular watchers: https://medium.com/@kentcdodds/counting-angularjs-watchers-11c5134dc2ef
+
+
+## Potential issues
+
 * solution for trezor popups getting blocked: before every trezor operation, show a UI popup if its not a direct result of user action (collect user feedback here; may be easier for people to just allow the popup)
+
+* to avoid the trezor issue as much as possible, we don't do `estimateGas()` before Trezor transactions and just use a hardcoded limit; this may cause out of gas or unnecessarily expensive tx fees when using Trezor
