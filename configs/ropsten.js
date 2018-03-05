@@ -6,7 +6,7 @@ module.exports = {
     chainId: 3,
     ethUrl: 'https://ropsten.infura.io/W0a3PCAj1UfQZxo5AIrv',
 
-    etherscan: 'https://ropsten.etherscan.io/',
+    etherscan: 'https://ropsten.etherscan.io',
 
     warningMsg: 'Exchange is configured for Ropsten, please switch to Ropsten.',
 

@@ -96,12 +96,17 @@
 
 * fix/remove global indicators
 
+
+
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
 * `.estimateGas()` 
 
 * show success notifications, and go to etherscan when clicked
 etherscan url in config
+
+
+
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 

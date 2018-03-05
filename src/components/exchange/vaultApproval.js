@@ -20,6 +20,7 @@
                 if (err) console.error(err)
 
                 if (isApproved === false) $('#approveExchangeByVault').modal('show')
+                if (isApproved === true) $('#approveExchangeByVault').modal('hide')
             })
         }
 

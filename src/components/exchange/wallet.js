@@ -73,7 +73,6 @@
             }
 
             function onErr(err) {
-                // TODO
                 console.error(err)
                 toastr.error('Deposit/withdraw failed')
             }
