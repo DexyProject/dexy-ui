@@ -11,18 +11,6 @@ var app = angular.module('dexyApp', ['ui.router'])
 
 // Constants
 app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
-    var tabs = [
-        {name: 'Markets', route: 'markets'},
-        //{ name: 'Transactions', route: 'transactions' }, // alternatively those will be shown on 'trans'
-        // OR 'order history'
-        {name: 'Help', route: 'help'},
-    ]
-
-    var routes = tabs.map(function (x) {
-        return x.route
-    })
-
-    $rootScope.tabs = tabs
     $rootScope.persistingProp = persistingProp
 
     // Persistant properties
@@ -30,12 +18,6 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
     $rootScope.useEUR = false
     persistingProp($rootScope, 'nightMode')
     persistingProp($rootScope, 'useEUR')
-
-    // Ugly sync between lx-tabs and ui-router
-    $rootScope.updateRoute = function (t) {
-        if (!tabs[t]) return
-        $state.go(tabs[t].route)
-    }
 
     // Ugliness
     $rootScope.isFullscreen = function () {
