@@ -37,11 +37,12 @@
                 args = {
                     from: user.publicAddr,
                     value: isBase ? amnt : 0,
-                    gas: 130000, gasPrice: user.GAS_PRICE
+                    gas: 100 * 1000,
+                    gasPrice: user.GAS_PRICE
                 }
             } else if (direction === 'Withdraw') {
                 call = user.vaultContract.methods.withdraw(addr, amnt)
-                args = {from: user.publicAddr, gas: 100000, gasPrice: user.GAS_PRICE}
+                args = {from: user.publicAddr, gas: 110 * 1000, gasPrice: user.GAS_PRICE}
             }
 
             if (direction === 'Deposit' && !isBase) {
