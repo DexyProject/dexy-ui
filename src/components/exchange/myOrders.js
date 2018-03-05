@@ -23,6 +23,10 @@
             })
             .then(function (ob) {
                 exchange.orders = (ob || []).map(exchange.mapOrder)
+                exchange.onOrders = {
+                    eth: exchange.calculateOnOrders(exchange.orders, true),
+                    tokens: exchange.calculateOnOrders(exchange.orders, false)
+                }
                 if (!$scope.$$phase) $scope.$digest()
             })
             .catch(function (err) {

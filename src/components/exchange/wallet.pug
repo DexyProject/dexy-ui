@@ -14,8 +14,8 @@
             .col-4
                 h5 On orders
                 .row
-                    .col-md-12 {{exchange.calculateOnOrders(exchange.orders, false).toFixed(3)}} {{exchange.symbol}}
-                    .col-md-12  {{exchange.calculateOnOrders(exchange.orders, true).toFixed(3)}} ETH
+                    .col-md-12 {{exchange.onOrders.tokens.toFixed(3)}} {{exchange.symbol}}
+                    .col-md-12  {{exchange.onOrders.eth.toFixed(3)}} ETH
     - var direction = 'Deposit'
     include walletControls
     - var direction = 'Withdraw'

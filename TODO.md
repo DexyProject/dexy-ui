@@ -91,12 +91,12 @@
 * merge filled and clean-up math in exchange.js
 * take filled into account when displaying the amount. Users should only be able to take amount - filled
 * refresh order book properly (time interval; also after user addr change)
+* implement 'On Orders'
 
 # TODO
 
 * fix/remove global indicators
 
-* implement 'On Orders'
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 

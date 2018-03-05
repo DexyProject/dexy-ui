@@ -83,9 +83,23 @@
         }
 
         // orders is usually exchange.orders, which is populated in myorders.js
-        exchange.calculateOnOrders = function(orders, getEth)
+        exchange.calculateOnOrders = function(orders, ethOrToken)
         {
-            
+            if (! Array.isArray(orders))
+                return
+
+            var total = orders.filter(function(x) {
+                var givingEth = x.order.give.token === CONSTS.ZEROADDR
+                return ethOrToken ? givingEth : !givingEth
+            })
+            .map(function(x) {
+                return ethOrToken ? x.leftInEth : x.amount
+            })
+            .reduce(function(a, b) { 
+                return a + b
+            }, 0)
+
+            return total
         }
     }
 })();
