@@ -3,8 +3,7 @@ div(ng-controller='UserCtrl', ng-cloak)
         | {{user.publicAddr ? user.publicAddr.slice(0, 6) : 'Select Account'}}
         // @todo potentially throw the addr into the header. See token.store
         .dropdown-menu.right(aria-labelledby='account')
-            // @TODO add ropsten, kovan etc. if chain id is 1,2,3 or whatever is the correct stuff
-            .dropdown-item {{user.chainId == 1 ? 'Ethereum Mainnet' : 'Not mainnet'}}
+            .dropdown-item {{getNetworkName(user.chainId)}}
             .dropdown-item {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
             .dropdown-item(ng-class="{ selected: user.mode === 'metamask' }", ng-click="enableMetamask()") Metamask
             .dropdown-item(ng-class="{ selected: user.mode === 'trezor' }", ng-click='enableTrezor()') Trezor

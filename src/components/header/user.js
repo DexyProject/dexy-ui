@@ -63,5 +63,18 @@
 
             user.onHDWalletAddr(address, type, idx)
         }
+
+        // https://github.com/kvhnuke/etherwallet/blob/904d7a0e702c756bbbd8594381c8980f05ed3d5d/app/scripts/nodes.js
+        $scope.getNetworkName = function(chainId)
+        {
+            if (chainId == 1) return 'Ethereum Mainnet'
+            if (chainId == 61) return 'Ethereum Classic'
+            if (chainId === 3) return 'Ethereum Ropsten'
+            if (chainId == 42) return 'Ethereum Kovan'
+            if (chainId == 4) return 'Ethereum Rinkeby'
+            if (chainId == 2) return 'Expanse'
+            if (chainId == 8) return 'Ubiq'
+            // no RSK
+        }
     }
 })();
