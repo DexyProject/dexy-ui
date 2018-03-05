@@ -6,6 +6,8 @@ module.exports = {
     chainId: 1,
     ethUrl: 'https://mainnet.infura.io/W0a3PCAj1UfQZxo5AIrv',
 
+    etherscan: "https://etherscan.io",
+
     warningMsg: 'Exchange is configured for Ethereum mainnet, please switch to mainnet.',
 
     tokens: require('./tokens/index'),
