@@ -81,5 +81,11 @@
         exchange.isValidAmnt = function (n) {
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
         }
+
+        // orders is usually exchange.orders, which is populated in myorders.js
+        exchange.calculateOnOrders = function(orders, getEth)
+        {
+            
+        }
     }
 })();

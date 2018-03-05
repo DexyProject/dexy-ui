@@ -96,7 +96,7 @@
 
 * fix/remove global indicators
 
-
+* implement 'On Orders'
 
 * universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 

@@ -164,6 +164,7 @@
                 filledInToken: filledInToken / tokenBase,
                 leftInEth: leftInEth,
                 isMine: user.publicAddr && order.user.toLowerCase() == user.publicAddr.toLowerCase(),
+                type: order.get.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
                 expires: expires
             }
         }
