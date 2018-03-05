@@ -7,7 +7,7 @@ angular.module('dexyApp')
             url: '/markets',
             views: {
                 main: {templateUrl: 'marketsTpl'},
-                indicators: {templateUrl: 'globalIndicatorsTpl'}
+                //indicators: {templateUrl: 'globalIndicatorsTpl'}
             }
         })
 
@@ -20,7 +20,7 @@ angular.module('dexyApp')
             },
             views: {
                 main: {templateUrl: 'exchangeTpl'},
-                indicators: {templateUrl: 'exchangeIndicatorsTpl'}
+                //indicators: {templateUrl: 'exchangeIndicatorsTpl'}
             }
         });
 
