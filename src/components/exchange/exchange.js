@@ -128,9 +128,8 @@
             // Essentially divide ETH/tokens, but divide by bases first in order to convert the uints to floats
             var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
 
-            var expires = new Date(1970, 0, 1);
-            expires.setSeconds(order.expires);
-
+            var expires = new Date(order.expires * 1000)
+            
             var left = getAmnt - parseInt(order.filled, 10)
 
             // filled is in getAmnt
