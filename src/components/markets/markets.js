@@ -11,8 +11,12 @@
         $scope.orderByField = 'vol';
         $scope.reverseSort = true;
         $scope.searchKeyword = '';
+
         $scope.hideZeroBal = false;
         $scope.persistingProp($scope, 'hideZeroBal');
+
+        $scope.useEUR = false
+        $scope.persistingProp($scope, 'useEUR')
 
         $scope.openExchange = function (symbol) {
             $state.go('exchange', {pair: symbol})

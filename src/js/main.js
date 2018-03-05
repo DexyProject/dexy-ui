@@ -14,10 +14,8 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
     $rootScope.persistingProp = persistingProp
 
     // Persistant properties
-    $rootScope.nightMode = false
-    $rootScope.useEUR = false
-    persistingProp($rootScope, 'nightMode')
-    persistingProp($rootScope, 'useEUR')
+    //$rootScope.nightMode = false
+    //persistingProp($rootScope, 'nightMode')
 
     // Ugliness
     $rootScope.isFullscreen = function () {
