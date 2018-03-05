@@ -101,6 +101,7 @@
 * `.estimateGas()` 
 
 * show success notifications, and go to etherscan when clicked
+etherscan url in config
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 
