@@ -168,9 +168,9 @@
                 .then(function (resp) {
                     cb(user.getAddrs(resp.publicKey, resp.chainCode))
                 })
-                .catch($scope.handleLedgerError)
+                .catch(user.handleLedgerError)
             })
-            .catch($scope.handleLedgerError)
+            .catch(user.handleLedgerError)
         }
 
         user.getAddrs = function (publicKey, chainCode) {

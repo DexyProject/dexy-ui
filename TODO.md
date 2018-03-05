@@ -93,14 +93,12 @@
 * refresh order book properly (time interval; also after user addr change)
 * implement 'On Orders'
 * fix/remove global indicators
+* universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
 
 # TODO
 
 
-* universal handling of sendTx errors all over exchange.js; consider moving hw wallet errors to just errors from sendTx
-
 * `.estimateGas()` 
-
 
 * show success notifications, and go to etherscan when clicked
 etherscan url in config
