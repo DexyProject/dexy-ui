@@ -81,4 +81,4 @@ Also emits the event `reload-orders`, which triggers a reload of `orderbook`, `m
 
 `src/components/exchange/orderbook`: loads the entire orderbook
 
-`src/components/exchange/tradehistory`: loads the entire trade history
+`src/components/exchange/tradeHistory`: loads the entire trade history

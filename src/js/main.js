@@ -37,11 +37,6 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
         $state.go(tabs[t].route)
     }
 
-    $rootScope.$on('$stateChangeSuccess', function () {
-        var idx = routes.indexOf($state.current.name === 'exchange' ? 'markets' : $state.current.name)
-        if (idx > -1) $rootScope.activeTab = idx
-    })
-
     // Ugliness
     $rootScope.isFullscreen = function () {
         return document.webkitIsFullScreen || document.mozFullScreen || false
