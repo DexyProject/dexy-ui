@@ -97,6 +97,7 @@
 
 # TODO
 
+* fullscreen icon
 
 * `.estimateGas()` 
 

@@ -19,4 +19,4 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
             li.nav-item.dropdown
                 include ./user
             li.nav-item.d-none.d-lg-inline-block
-                button.btn.btn-light.mdi(ng-click='toggleFullscreen()' type='button' ng-class='isFullscreen() ? { "mdi-fullscreen-exit": 1 } : { "mdi-fullscreen": 1 }')
+                button.btn.btn-light(ng-click='toggleFullscreen()' type='button')
