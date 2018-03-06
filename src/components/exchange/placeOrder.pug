@@ -3,7 +3,7 @@
         label.col-form-label(for='price') Price
         input#price.form-control(type='text', placeholder='Price', ng-model='orders.' + side + '.rate')
     .col-5.text-right
-        button.btn.btn-light.btn-outline-primary(type='button')
+        button.btn.btn-light.btn-outline-primary(type='button', ng-click='setToBest("'+side+'", orders.' + side+')')
             | Best #{side === "SELL" ? "bid" : "ask"}
 .form-row.align-items-end.mt-1
     .form-group.col
@@ -12,13 +12,13 @@
 .row
     .col.mb-3.text-center
         .btn-group(role='group', aria-label='Percent')
-            button.btn.btn-light.btn-outline-primary(type='button')
+            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 0.25)')
                 | 25%
-            button.btn.btn-light.btn-outline-primary(type='button')
+            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 0.50)')
                 | 50%
-            button.btn.btn-light.btn-outline-primary(type='button')
+            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 0.75)')
                 | 75%
-            button.btn.btn-light.btn-outline-primary(type='button')
+            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 1.00)')
                 | 100%
 .row
     .col.text-right
@@ -26,7 +26,7 @@
             small 0.00 Fee
 .form-row.align-items-end
     .form-group.col-9.mb-0
-        label.col-form-label(for='total') Total
+        label.col-form-label(for='total') Total ETH
         input#total.form-control(type='text', placeholder='Price', ng-model='orders.' + side + '.total')
     .col-3.text-right
-        button.btn(type='button', ng-click='placeOrder(orders.' + side + ', "' + side + '", exchange.symbol)', class=side === "SELL" ? 'btn-danger' : 'btn-success') #{side === 'SELL' ? 'Sell' : 'Buy'}
+        button.btn(type='button', ng-disabled='!orders.' + side + '.valid', ng-click='placeOrder(orders.' + side + ', "' + side + '", exchange.symbol)', class=side === "SELL" ? 'btn-danger' : 'btn-success') #{side === 'SELL' ? 'Sell' : 'Buy'}

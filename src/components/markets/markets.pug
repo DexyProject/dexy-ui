@@ -9,6 +9,9 @@ div(ng-controller='MarketsController as vm')
             .form-check.form-check-inline
                 input.form-check-input(type="checkbox" name="hidezero" id="hidezero" value="hide" ng-model='hideZeroBal')
                 label.form-check-label(for="hidezero") Hide zero balances
+            .form-check.form-check-inline
+                input.form-check-input(type="checkbox" name="hidezero" id="useEUR" value="hide" ng-model='useEUR')
+                label.form-check-label(for="useEUR") Denominate in EUR
 
     .row.mt-3
         .col-12

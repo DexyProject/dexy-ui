@@ -1,25 +1,12 @@
-a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-controller='UserCtrl', ng-cloak)
-    | {{user.publicAddr ? user.publicAddr.slice(0, 6) : 'Select Account'}}
-    // @todo potentially throw the addr into the header. See token.store
-    .dropdown-menu.right(aria-labelledby='account')
-        // @TODO add ropsten, kovan etc. if chain id is 1,2,3 or whatever is the correct stuff
-        .dropdown-item {{user.chainId == 1 ? 'Ethereum Mainnet' : 'other'}}
-        .dropdown-item {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
-        .dropdown-item Metamask
-        .dropdown-item(ng-click='enableTrezor()') Trezor
-        .dropdown-item(ng-click='enableLedger()') Ledger
+div(ng-controller='UserCtrl', ng-cloak)
+    a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+        | {{user.publicAddr ? user.publicAddr.slice(0, 6) : 'Select Account'}}
+        // @todo potentially throw the addr into the header. See token.store
+        .dropdown-menu.right(aria-labelledby='account')
+            .dropdown-item {{getNetworkName(user.chainId)}}
+            .dropdown-item {{user.publicAddr ? user.publicAddr.slice(0, 6)+'...' : ''}}
+            .dropdown-item(ng-class="{ selected: user.mode === 'metamask' }", ng-click="enableMetamask()") Metamask
+            .dropdown-item(ng-class="{ selected: user.mode === 'trezor' }", ng-click='enableTrezor()') Trezor
+            .dropdown-item(ng-class="{ selected: user.mode === 'ledger' }", ng-click='enableLedger()') Ledger
 
-    // @todo figure out dropdown sir
-    lx-dialog(id='trezorAccPick', lx-escape-close='true', lx-auto-close='true')
-        lx-dialog-header
-            .toolbar.bgc-primary(class='pl++')
-                span.toolbar__label.tc-white.fs-title Choose account
-    
-        lx-dialog-content(class='p++')
-            lx-radio-button(ng-name='address', ng-repeat='x in addresses track by x.addr', ng-value='x.idx', ng-model='selected.idx')
-                lx-radio-button-label {{x.addr}}
-                lx-radio-button-help {{x.bal.toFixed(6)}} ETH
-    
-        lx-dialog-footer
-            lx-button(lx-color='black', lx-type='flat', lx-dialog-close='') Cancel
-            lx-button(lx-type='flat', lx-dialog-close='', ng-click='user.onHDWalletAddr(addresses[selected.idx].addr, selected.hdWallet, selected.idx)') Ok
+    include ../dialogs/hwWalletChooseAcc

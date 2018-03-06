@@ -4,42 +4,21 @@ require('babel-polyfill');
 // By default this is set to the same origin if we're opening from localhost; doesn't make sense for us
 window.TREZOR_POPUP_ORIGIN = 'https://connect.trezor.io';
 
+window.cfg = require('dexy-config')
+
+// Important sanitization
+toastr.options.escapeHtml = true
+
 // Define the main angular module
-var app = angular.module('dexyApp', ['lumx', 'ui.router'])
+var app = angular.module('dexyApp', ['ui.router'])
 
 // Constants
 app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
-    var tabs = [
-        {name: 'Markets', route: 'markets'},
-        //{ name: 'Transactions', route: 'transactions' }, // alternatively those will be shown on 'trans'
-        // OR 'order history'
-        {name: 'Help', route: 'help'},
-    ]
-
-    var routes = tabs.map(function (x) {
-        return x.route
-    })
-
-    $rootScope.gas = 'average';
-    $rootScope.tabs = tabs
     $rootScope.persistingProp = persistingProp
 
     // Persistant properties
-    $rootScope.nightMode = false
-    $rootScope.useEUR = false
-    persistingProp($rootScope, 'nightMode')
-    persistingProp($rootScope, 'useEUR')
-
-    // Ugly sync between lx-tabs and ui-router
-    $rootScope.updateRoute = function (t) {
-        if (!tabs[t]) return
-        $state.go(tabs[t].route)
-    }
-
-    $rootScope.$on('$stateChangeSuccess', function () {
-        var idx = routes.indexOf($state.current.name === 'exchange' ? 'markets' : $state.current.name)
-        if (idx > -1) $rootScope.activeTab = idx
-    })
+    //$rootScope.nightMode = false
+    //persistingProp($rootScope, 'nightMode')
 
     // Ugliness
     $rootScope.isFullscreen = function () {
@@ -61,14 +40,6 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
         isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
 
         if (!$rootScope.$$phase) $rootScope.$apply();
-    }
-
-    $rootScope.selectedGas = function() {
-        return $rootScope.gas
-    }
-
-    $rootScope.setSelectedGas = function (gas) {
-        $rootScope.gas = gas
     }
 }])
 

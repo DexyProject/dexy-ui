@@ -3,30 +3,15 @@
 var fetch = require('node-fetch')
 var fs = require('fs')
 
-var tokens = require('./tokens')
+var tokens = { }
 
-var excludes = { BTC: true, ETH: true }
 var all = []
-fetch('https://api.coinmarketcap.com/v1/ticker/?limit=150')
+fetch('https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/master/tokens/tokens-eth.json')
 .then(function(res) { return res.json() })
 .then(function(res) {
-    res.forEach(function(x) {
-        if (excludes[x.symbol]) return
-        if (!tokens[x.symbol]) return
+	res.forEach(function(token) {
+		tokens[token.symbol] = [token.address, Math.pow(10, parseInt(token.decimals, 10))]
+	})
 
-
-        all.push({
-            name: x.name,
-            symbol: x.symbol,
-            erc20: tokens[x.symbol]
-        })
-
-
-        fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
-        .then(function(res) {
-            res.body.pipe(fs.createWriteStream('./img/markets/'+x.symbol+'-ETH.png'))
-        })
-    })
-
-    console.log(JSON.stringify(all))
+	console.log(JSON.stringify(tokens))
 })

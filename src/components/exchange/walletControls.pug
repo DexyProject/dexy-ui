@@ -6,13 +6,13 @@
             .form-row.align-items-end
                 .form-group.col-7.mb-0
                     label.col-form-label(for='eth-deposit') ETH
-                    input#eth-deposit.form-control(type='text', placeholder='ETH')
+                    input#eth-deposit.form-control(type='text', placeholder='ETH', ng-model="exchange.baseMove." + direction)
                 .col-5.text-right
-                    button.btn.btn-light.btn-outline-primary(type='button') #{direction}
+                    button.btn.btn-light.btn-outline-primary(type='button', ng-disabled='!exchange.isValidAmnt(exchange.baseMove.' + direction + ', "' + direction + '")', ng-click='exchange.assetsMove(true, "' + direction + '", exchange.baseMove.' + direction + ')') #{direction}
         .col-sm-6.col-xs-12
             .form-row.align-items-end
                 .form-group.col-7.mb-0
                     label.col-form-label(for='token-deposit') {{::exchange.symbol}}
-                    input#token-deposit.form-control(type='text', placeholder='{{::exchange.symbol}}')
+                    input#token-deposit.form-control(type='text', placeholder='{{::exchange.symbol}}', ng-model="exchange.quoteMove." + direction)
                 .col-5.text-right
-                    button.btn.btn-light.btn-outline-primary(type='button') #{direction}
+                    button.btn.btn-light.btn-outline-primary(type='button', ng-disabled='!exchange.isValidAmnt(exchange.quoteMove.' + direction + ', "' + direction + '")', ng-click='exchange.assetsMove(false, "' + direction + '", exchange.quoteMove.' + direction + ')') #{direction}

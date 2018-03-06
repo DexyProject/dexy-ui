@@ -1,0 +1,13 @@
+.modal.fade(id='hwWalletChooseAcc', tabindex='-1', role='dialog', aria-labelledby='Choose account', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5.modal-title Choose account
+            .modal-body.form-group
+                .form-check(ng-repeat='x in addresses track by x.addr', ng-click='selected.idx = x.idx')
+                    input.form-check-input(type='radio', name='{{x.addr}}', ng-value='x.idx', ng-model='selected.idx', required)
+                    .form-check-label {{x.addr}}
+                    .form-check-label {{x.bal.toFixed(6)}} ETH
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-dismiss='modal', aria-label='Close') Close
+                button.btn.btn-primary(type='button', ng-click='onHDWalletAddr(addresses[selected.idx].addr, selected.hdWallet, selected.idx)') Ok

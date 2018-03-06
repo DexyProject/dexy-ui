@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-
     // XXX NOTE
     // Using a directive for charts considered harmful
     // We will have to update the charts often, and often just a small portion (e.g. inserting a new bar)
@@ -11,19 +10,22 @@
         .module('dexyApp')
         .controller('exchangeCtrl', exchangeCtrl);
 
-    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', 'user', 'LxNotificationService'];
+    exchangeCtrl.$inject = ['$scope', '$stateParams', '$state', '$interval', 'user'];
 
-    function exchangeCtrl($scope, $stateParams, $state, user, LxNotificationService) {
+    function exchangeCtrl($scope, $stateParams, $state, $interval, user) {
         var exchange = this;
+
+        $scope.exchangeContract = user.exchangeContract
 
         // exchange page: loading state and error (404) state
 
         var lastPart = $stateParams.pair.split('/').pop()
 
+        // Handle custom tokens
         if (web3.utils.isAddress(lastPart) && !$stateParams.token) {
             fetchCustomToken(lastPart, function (err, props) {
                 if (err) {
-                    LxNotificationService.error('Invalid ERC20 token address')
+                    toastr.error('Invalid ERC20 token address')
                     console.error(err)
                     return
                 }
@@ -32,7 +34,7 @@
                 var symbol = props.symbol
                 var token = [lastPart, multiplier, symbol]
 
-                if (CONSTS.tokens[symbol] && CONSTS.tokens[symbol][0] === lastPart) {
+                if (cfg.tokens[symbol] && cfg.tokens[symbol][0] === lastPart) {
                     $state.go('exchange', {pair: symbol}, {replace: true})
                 } else {
                     $state.go('exchange', {pair: $stateParams.pair, token: token}, {replace: true})
@@ -42,27 +44,43 @@
             return
         }
 
-        var token = $stateParams.token || CONSTS.tokens[lastPart]
+        var token = $stateParams.token || cfg.tokens[lastPart]
 
         if (!token) {
             // TODO 404
             return
         }
 
+        $scope.meta = {
+            open: 0,
+            high: 0,
+            low: 0,
+            close: 0,
+            vol: 0
+        }
+
         exchange.pair = $stateParams.pair
         exchange.symbol = token[2] || lastPart
         exchange.user = user
 
-        // Get wallet balance
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
-        exchange.onWallet = 0.0
-        exchange.onOrders = 0.0
+        var intvl = $interval(function() {
+            fetchBalances()
+            $scope.$root.$broadcast('reload-orders')
+        }, CONSTS.FETCH_BALANCES_INTVL)
+        $scope.$on('$destroy', function () {
+            $interval.cancel(intvl)
+        })
 
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, function (addr) {
+        $scope.$watch(function() { return user.publicAddr }, function() {
+            fetchBalances()
+            $scope.$root.$broadcast('reload-orders')
+        })
+
+        function fetchBalances() {
+            var addr = user.publicAddr
             if (!addr) return
 
             console.log('Fetching ' + exchange.symbol + ' balances for ' + addr)
@@ -76,74 +94,101 @@
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })
-            // TODO: get from exchange SC too
-        })
 
+            exchange.token.methods.allowance(user.publicAddr, cfg.vaultContract).call(function (err, allowance) {
+                if (err) console.error(err)
+                else {
+                    // used by placeeOrder
+                    exchange.rawAllowance = parseInt(allowance)
+                }
+            })
 
-        // How to test signing tx
-        // var user = angular.element(document).injector().get('user'); var exchange = angular.element('.exchangeLayout').scope().exchange;
-        // user.sendTx(exchange.token.methods.transfer('0x7a15866aFfD2149189Aa52EB8B40a8F9166441D9', 10000))
+            user.vaultContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
+                if (err) console.error(err)
+                else {
+                    var tokenBal = bal / token[1]
+                    exchange.onExchange = tokenBal
+                    if (!$scope.$$phase) $scope.$apply()
+                }
+            })
+        }
 
+       exchange.mapOrder = function(order, i) {
+            var getAmnt = parseInt(order.get.amount)
+            var giveAmnt = parseInt(order.give.amount)
 
-        // TEMP test data
-        // TEMP until we hook up API
-        exchange.orderbook = [
-            [0.0002323, 23],
-            [0.0002324, 1000],
-            [0.0002410, 3244],
-            [0.0002501, 99],
-            [0.0002802, 222],
-            [0.0002802, 222],
-            [0.0002802, 222],
-        ].map(function (x, i) {
-            return {idx: i, rate: parseFloat(x[0].toFixed(8)), amount: x[1], filled: 0}
-        })
+            // assert that order.give.token or order.get.token is ZEROADDR ?
 
-        // Chart
-        Highcharts.setOptions({
-            lang: {
-                rangeSelectorZoom: ''
-            }
-        });
+            var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
+            var tokenBase = exchange.tokenInf[1]
 
-        var chartStyle = angular.copy(window.chartStyle)
-        chartStyle.chart.events = {
-            load: function () {
-                var chart = this
+            var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
+            var ethBase = 1000000000000000000
 
-                $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
-                    // Create the chart
+            // Essentially divide ETH/tokens, but divide by bases first in order to convert the uints to floats
+            var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
 
-                    var prices = [];
-                    var volume = [];
-                    data.forEach(function (data) {
-                        prices.push([
-                            data.startBlockTimestamp * 1000,
-                            Number(data.open),
-                            Number(data.high),
-                            Number(data.low),
-                            Number(data.close)
-                        ])
+            var expires = new Date(order.expires * 1000)
 
-                        volume.push([
-                            data.startBlockTimestamp * 1000,
-                            Number(data.takerTokenVolume)
-                        ])
-                    });
+            var left = getAmnt - parseInt(order.filled, 10)
 
-                    prices.reverse()
-                    volume.reverse()
+            // filled is in getAmnt
+            var getFilled = order.filled
 
-                    chart.series[0].setData(prices)
-                    chart.series[1].setData(volume)
-                });
+            //
+            // since order.filled (from the back-end) always comes in getAmnt, we need to convert it to eth and in token
+            //
+            // we take what % it is of the getAmnt; essentially this is what % the order is filled at
+            var proportion = getFilled / getAmnt
+
+            // this is the filled converted to the giveAmnt
+            var giveFilled = proportion * giveAmnt
+
+            // if the get token is ETH, that means we need to convert filled - we use the converted giveFilled value
+            var filledInToken = order.get.token === CONSTS.ZEROADDR ? giveFilled : getFilled
+
+            // if the get token is in ETH, then there's no need to convert
+            // otherwise, we use the converted value - giveFilled
+            var filledInETH = order.get.token === CONSTS.ZEROADDR ? getFilled : giveFilled
+
+            // Divide the leftover amount by the bases
+            var leftInEth = (ethAmount - filledInETH) / ethBase
+            var leftInToken = (tokenAmount - filledInToken) / tokenBase
+
+            return {
+                order: order,
+                id: order.hash,
+                rate: price,
+                amount: leftInToken,
+                filledInToken: filledInToken / tokenBase,
+                leftInEth: leftInEth,
+                isMine: user.publicAddr && order.user.toLowerCase() == user.publicAddr.toLowerCase(),
+                type: order.get.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
+                expires: expires
             }
         }
-        Highcharts.stockChart('mainChart', chartStyle);
+
+        exchange.txError = function(msg, err) 
+        {
+            console.error(err)
+            // @TODO: show the error itself?
+
+            var append = typeof(err.message) === 'string' ? ': '+err.message.split('\n')[0] : ''
+            toastr.error(msg+append)
+        }
+
+        exchange.txSuccess = function(txid)
+        {
+             toastr.success(
+                '<a style="color: white; text-decoration: underline;" href="'+cfg.etherscan+'/tx/'+txid+'" target="_blank">'+txid+'</a>', 
+                'Successfully submitted transaction',
+                { escapeHtml: false }
+            )
+        }
     }
 
-
-    // Fetch custom token
+    // HELPER: Fetch custom token
+    // This fetches information about the custom token
     function fetchCustomToken(addr, cb) {
         var props = {}
         web3.eth.call({to: addr, data: web3.utils.sha3('decimals()')}, function (err, res) {
@@ -159,21 +204,5 @@
                 cb(null, props)
             })
         })
-    }
-
-    // Indicators ctrl
-    angular
-        .module('dexyApp')
-        .controller('exchangeIndicatorsCtrl', exchangeIndicatorsCtrl);
-
-    exchangeIndicatorsCtrl.$inject = ['$scope', '$stateParams'];
-
-    function exchangeIndicatorsCtrl($scope, $stateParams) {
-        var exchange = this
-
-        exchange.pair = $stateParams.pair
-
-        var lastPart = $stateParams.pair.split('/').pop()
-        exchange.symbol = ($stateParams.token ? $stateParams.token[2] : null) || lastPart
     }
 })();

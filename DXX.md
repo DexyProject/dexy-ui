@@ -2,8 +2,8 @@
 
 - denominated in EUR or USD via an oracle
 
-- 20% DAI
-- 40% ETH
+- 30% DAI and DGX
+- 30% ETH
 - rest diversified between the top N assets by liquidity, filtered manually to evaluate their potential
 
 ### Assets

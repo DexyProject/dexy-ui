@@ -5,9 +5,9 @@
         .module('dexyApp')
         .controller('UserCtrl', UserCtrl);
 
-    UserCtrl.$inject = ['$scope', 'user', 'LxDialogService'];
+    UserCtrl.$inject = ['$scope', 'user'];
 
-    function UserCtrl($scope, user, LxDialogService) {
+    function UserCtrl($scope, user) {
         $scope.user = user
 
         $scope.selected = {
@@ -15,6 +15,9 @@
             hdWallet: '' // trezor or ledger
         }
 
+        $scope.enableMetamask = function () {
+            user.setMetamask()
+        }
 
         $scope.enableTrezor = function (accountIdx) {
             // NOTE: this callback will only be called on success
@@ -50,8 +53,28 @@
 
             batch.execute()
 
-            LxDialogService.open('trezorAccPick')
+            $('#hwWalletChooseAcc').modal('show')
         }
 
+        $scope.onHDWalletAddr = function(address, type, idx) 
+        {
+            $('#hwWalletChooseAcc').modal('hide')
+            toastr.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address')
+
+            user.onHDWalletAddr(address, type, idx)
+        }
+
+        // https://github.com/kvhnuke/etherwallet/blob/904d7a0e702c756bbbd8594381c8980f05ed3d5d/app/scripts/nodes.js
+        $scope.getNetworkName = function(chainId)
+        {
+            if (chainId == 1) return 'Ethereum Mainnet'
+            if (chainId == 61) return 'Ethereum Classic'
+            if (chainId === 3) return 'Ethereum Ropsten'
+            if (chainId == 42) return 'Ethereum Kovan'
+            if (chainId == 4) return 'Ethereum Rinkeby'
+            if (chainId == 2) return 'Expanse'
+            if (chainId == 8) return 'Ubiq'
+            // no RSK
+        }
     }
 })();

@@ -3,45 +3,51 @@
 
     // Place order ctrl
 
-    var Buffer = require('buffer').Buffer
-
-    // TEMP
-    var endpoint = 'http://127.0.0.1:12312'
-
     angular
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
 
-    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user', 'LxNotificationService', 'LxDialogService'];
+    placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user'];
 
-    function placeOrderCtrl($scope, $stateParams, user, LxNotificationService, LxDialogService) {
-        // Updating orderbook
-        fetch(endpoint + "/orders?token=" + $scope.exchange.tokenInf[0])
-            .then(function (res) {
-                return res.json()
-            })
-            .then(function (ob) {
-                console.log(ob)
-            })
-            .catch(function (err) {
-                // TODO handle error
-                console.error(err)
-            })
-
+    function placeOrderCtrl($scope, $stateParams, user) {
         // Orders
+        var exchange = $scope.exchange
+
         $scope.orders = {
-            SELL: {},
-            BUY: {}
+            SELL: {type: 'SELL'},
+            BUY: {type: 'BUY'}
         }
 
-        $scope.exchange.fillForOrder = function (side, order) {
-            console.log('fillForOrder ' + side)
-            $scope.exchange.toFill = {
-                order: order,
-                portion: 1000,
-                side: side,
+        // @TODO: @NOTE: these two functions can perhaps be refactored into one with a bit more thought
+        $scope.setToBest = function(side, order)
+        {
+            // @TODO: @NOTE: should we assume asks/bids is sorted here
+            var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
+            var bestBid = exchange.orderbook.bids[0]
+
+            if (side === 'BUY' && bestAsk) {
+                order.rate = bestAsk.rate
+            } 
+            if (side === 'SELL' && bestBid) {
+                order.rate = bestBid.rate
             }
-            LxDialogService.open('fillOrder')
+        }
+
+        $scope.setAmount = function (order, part) {
+            // @TODO: @NOTE: should we assume asks/bids is sorted here
+            var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
+            var bestBid = exchange.orderbook.bids[0]
+
+            if (order.type === 'BUY') {
+                order.rate = order.rate || (bestAsk && bestAsk.rate)
+                order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / order.rate) * part
+            } else {
+                order.rate = order.rate || (bestBid && bestBid.rate)
+                order.amount = (exchange.onExchange - exchange.onOrders.token) * part
+            }
+
+            // @TODO: @NOTE: should move these fixed points to consts (e.g. 4)
+            order.amount = parseFloat(order.amount.toFixed(4))
         }
 
         $scope.$watch(function () {
@@ -64,22 +70,22 @@
         }, refreshTotal, true)
 
         function refreshTotal(order) {
-            if (order.valid) order.total = order.amount * order.rate
+            if (order.valid) order.total = parseFloat((order.amount * order.rate).toFixed(6))
         }
 
         $scope.placeOrder = function (order, type, symbol) {
             if (!user.publicAddr) {
-                LxNotificationService.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
+                toastr.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
                 return
             }
 
-            var token = $scope.exchange.tokenInf
+            var token = exchange.tokenInf
 
             var tokenUint = parseInt(order.amount * token[1])
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
-            var expires = 201600
+            var expires = Math.floor((Date.now() / 1000) + 432000)
 
             var userAddr = user.publicAddr
 
@@ -89,38 +95,42 @@
 
             if (type === 'SELL') {
                 tokenGive = token[0]
-                tokenGet = '0x0000000000000000000000000000000000000000'
+                tokenGet = CONSTS.ZEROADDR
                 amountGive = tokenUint
                 amountGet = weiUint
             } else {
-                tokenGive = '0x0000000000000000000000000000000000000000'
+                tokenGive = CONSTS.ZEROADDR
                 tokenGet = token[0]
                 amountGive = weiUint
                 amountGet = tokenUint
             }
 
-            // TODO
-            var scAddr = '0x0000000000000000000000000000000000000000'
+            // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
+            var typed = [
+                {type: 'address', name: 'Token Get', value: tokenGet},
+                {type: 'uint', name: 'Amount Get', value: amountGet.toString()},
+                {type: 'address', name: 'Token Give', value: tokenGive},
+                {type: 'uint', name: 'Amount Give', value: amountGive.toString()},  // fails on this line
 
-            //bytes32 hash = keccak256(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, this);
-            var hash = web3.utils.soliditySha3(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, userAddr, scAddr)
+                {type: 'uint', name: 'Expires', value: expires},
+                {type: 'uint', name: 'Nonce', value: nonce},
+                {type: 'address', name: 'User', value: userAddr},
+                {type: 'address', name: 'Exchange', value: cfg.exchangeContract }
+            ]
 
-            console.log('order hash', hash, web3.utils.toAscii(hash).length)
-            // https://github.com/ethereum/web3.js/issues/392
-            // https://github.com/MetaMask/metamask-extension/issues/1530
-            // https://github.com/0xProject/0x.js/issues/162
-            //  personal_sign
-            web3.eth.personal.sign(hash, userAddr, function (err, sig) {
-                // NOTE: TODO: shim fetch()?? safari?
+            user.signOrder(typed, userAddr, function (err, sig, sigMode) {
+                if (err) {
+                    console.error(err)
+                    toastr.error('Signing failed')
+                    return
+                }
 
                 // strip the 0x
                 sig = sig.slice(2)
 
                 var r = '0x' + sig.substring(0, 64)
                 var s = '0x' + sig.substring(64, 128)
-                var v = parseInt(sig.substring(128, 130)) + 27
-
-                console.log(r, s, v)
+                var v = parseInt(sig.substring(128, 130), 16)
 
                 var body = {
                     get: {
@@ -133,14 +143,22 @@
                     },
                     expires: expires,
                     nonce: nonce,
-                    exchange: scAddr,
+                    exchange: cfg.exchangeContract,
                     user: user.publicAddr,
-                    signature: {r: r, s: s, v: v}
+                    signature: {r: r, s: s, v: v, sig_mode: sigMode}
                 }
-                fetch(endpoint + '/orders', {
+                fetch(cfg.endpoint + '/orders', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
+                })
+                .then(function () {
+                    // re-load order book
+                    $scope.$root.$broadcast('reload-orders')
+                })
+                .catch(function (err) {
+                    console.error(err)
+                    toastr.error('Error placing order')
                 })
 
             })

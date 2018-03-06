@@ -12,6 +12,8 @@ var fs = require('fs')
 var browserify = require('browserify')
 var minify = require('gulp-babel-minify')
 
+var configPath = require('../build/get-config-path')
+
 gulp.task('client-bundle-js', function(cb) {
 	// Take the normal deps blob, uglify it, add the rest of the JS files to it
 
@@ -38,7 +40,7 @@ gulp.task('client-bundle-js', function(cb) {
 	}
 
 	// WARNING: is there a more elegant way to make this work? it's using 4 plug-ins
-	var blobPipe = depsBlob().bundle().pipe(source('blob.js')).pipe(buffer())
+	var blobPipe = depsBlob(configPath).bundle().pipe(source('blob.js')).pipe(buffer())
 	.pipe(addsrc.append(scripts))
 	.on('error', createErrorHandler('addsrc'))
 	.pipe(sourcemaps.init())

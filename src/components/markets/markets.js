@@ -11,8 +11,12 @@
         $scope.orderByField = 'vol';
         $scope.reverseSort = true;
         $scope.searchKeyword = '';
+
         $scope.hideZeroBal = false;
         $scope.persistingProp($scope, 'hideZeroBal');
+
+        $scope.useEUR = false
+        $scope.persistingProp($scope, 'useEUR')
 
         $scope.openExchange = function (symbol) {
             $state.go('exchange', {pair: symbol})
@@ -20,9 +24,11 @@
 
 
         // Fill in vol, price_eth, price_fiat
-        //vm.dataTableTbody = angular.copy(CONSTS.markets);
         // ugly but works
-        $scope.markets = angular.copy(CONSTS.markets)
+        $scope.markets = cfg.markets.map(function(x) {
+            // TEMP
+            return { name: x, symbol: x }
+        })
         $scope.markets.forEach(function (x) {
             // TEMP TMP TEMP
             x.price = Math.random()
@@ -32,7 +38,10 @@
             x.change = 0.4 * (Math.random() - 0.5)
             x.balance = 0
 
-            x.token = CONSTS.tokens[x.symbol]
+            x.token = cfg.tokens[x.symbol]
+
+            if (! x.token)
+                console.log('WARNING: no token for '+x.symbol)
         })
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract

@@ -13,6 +13,8 @@ var url = require('url')
 var depsBlob = require('./browserify-client-deps')
 var router = express.Router()
 
+var configPath = require('./get-config-path')
+
 router.get('/', function(req, res) {
     var u = url.parse(req.url, true);
     fs.readFile('./src/index.pug', function(err, template) {
@@ -37,7 +39,7 @@ function serveCss(req, res, err, stylesheets) {
 }
 
 router.get('/depsblob.js', function(req, res) {
-    depsBlob().bundle().pipe(res);
+    depsBlob(configPath).bundle().pipe(res);
 });
 
 router.use(require('serve-static')('./'));

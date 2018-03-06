@@ -1,0 +1,19 @@
+.row(ng-controller='myOrdersCtrl')
+    .col-12
+        table.table
+            thead
+                tr
+                    th(scope='col') {{exchange.symbol}} / ETH
+                    th(scope='col') Filled
+                    th(scope='col') Available
+                    th(scope='col') Expires
+                    th(scope='col') Type
+            tbody
+                tr(ng-repeat='order in exchange.orders track by order.id')
+                    td(ng-bind='::order.rate.toFixed(8)')
+                    td(ng-bind='::order.filledInToken.toFixed(4)')
+                    td(ng-bind='::order.amount.toFixed(4)')
+                    td(ng-bind='::order.expires.toLocaleString()')
+                    td(ng-bind='::order.type')
+                    td
+                        button.btn.btn-light.btn-outline-danger.btn-sm(type='button', ng-click='cancel(order.order)') Cancel
