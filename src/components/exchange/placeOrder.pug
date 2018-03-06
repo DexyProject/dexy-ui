@@ -3,7 +3,7 @@
         label.col-form-label(for='price') Price
         input#price.form-control(type='text', placeholder='Price', ng-model='orders.' + side + '.rate')
     .col-5.text-right
-        button.btn.btn-light.btn-outline-primary(type='button', ng-click='setPrice( )')
+        button.btn.btn-light.btn-outline-primary(type='button', ng-click='setToBest("'+side+'", orders.' + side+')')
             | Best #{side === "SELL" ? "bid" : "ask"}
 .form-row.align-items-end.mt-1
     .form-group.col

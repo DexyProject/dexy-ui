@@ -18,6 +18,21 @@
             BUY: {type: 'BUY'}
         }
 
+        // @TODO: @NOTE: these two functions can perhaps be refactored into one with a bit more thought
+        $scope.setToBest = function(side, order)
+        {
+            // @TODO: @NOTE: should we assume asks/bids is sorted here
+            var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
+            var bestBid = exchange.orderbook.bids[0]
+
+            if (side === 'BUY' && bestAsk) {
+                order.rate = bestAsk.rate
+            } 
+            if (side === 'SELL' && bestBid) {
+                order.rate = bestBid.rate
+            }
+        }
+
         $scope.setAmount = function (order, part) {
             // @TODO: @NOTE: should we assume asks/bids is sorted here
             var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
