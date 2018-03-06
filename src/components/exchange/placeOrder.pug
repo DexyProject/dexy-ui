@@ -26,7 +26,7 @@
             small 0.00 Fee
 .form-row.align-items-end
     .form-group.col-9.mb-0
-        label.col-form-label(for='total') Total
+        label.col-form-label(for='total') Total ETH
         input#total.form-control(type='text', placeholder='Price', ng-model='orders.' + side + '.total')
     .col-3.text-right
         button.btn(type='button', ng-disabled='!orders.' + side + '.valid', ng-click='placeOrder(orders.' + side + ', "' + side + '", exchange.symbol)', class=side === "SELL" ? 'btn-danger' : 'btn-success') #{side === 'SELL' ? 'Sell' : 'Buy'}
