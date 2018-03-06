@@ -11,18 +11,28 @@
 
     function placeOrderCtrl($scope, $stateParams, user) {
         // Orders
+        var exchange = $scope.exchange
+
         $scope.orders = {
             SELL: {type: 'SELL'},
             BUY: {type: 'BUY'}
         }
 
         $scope.setAmount = function (order, part) {
-            console.log(order, part)
-            if (!order.rate) order.rate = 0.002; // TEMP, todo set to best ask/best bid
-            if (order.type === 'BUY') order.amount = $scope.exchange.user.ethBal.onExchange * order.rate * part // TODO decimals
-            else {
-                // TODO
+            // @TODO: @NOTE: should we assume asks/bids is sorted here
+            var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
+            var bestBid = exchange.orderbook.bids[0]
+
+            if (order.type === 'BUY') {
+                order.rate = order.rate || (bestAsk && bestAsk.rate)
+                order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / order.rate) * part
+            } else {
+                order.rate = order.rate || (bestBid && bestBid.rate)
+                order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
+
+            // @TODO: @NOTE: should move these fixed points to consts (e.g. 4)
+            order.amount = parseFloat(order.amount.toFixed(4))
         }
 
         $scope.$watch(function () {
@@ -45,7 +55,7 @@
         }, refreshTotal, true)
 
         function refreshTotal(order) {
-            if (order.valid) order.total = order.amount * order.rate
+            if (order.valid) order.total = parseFloat((order.amount * order.rate).toFixed(6))
         }
 
         $scope.placeOrder = function (order, type, symbol) {
@@ -54,7 +64,7 @@
                 return
             }
 
-            var token = $scope.exchange.tokenInf
+            var token = exchange.tokenInf
 
             var tokenUint = parseInt(order.amount * token[1])
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
