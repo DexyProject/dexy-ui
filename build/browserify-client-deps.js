@@ -55,6 +55,10 @@ module.exports = function(config) {
 	b.require('buffer');
 
 	b.require(config || './configs/ropsten.js', { expose: 'dexy-config' })
+	
+	b.require('./src/js/abis/erc20.json', { expose: 'dexy-abi-erc20' })
+	b.require('./src/js/abis/exchange.json', { expose: 'dexy-abi-exchange' })
+	b.require('./src/js/abis/vault.json', { expose: 'dexy-abi-vault' })
 
 	for (dep in require('../package').dependencies) {
 		if (!ignoreList[dep]) { 
