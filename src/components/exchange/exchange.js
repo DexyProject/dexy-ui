@@ -66,7 +66,7 @@
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
-        var intvl = $interval(function() {
+        var intvl = $interval(function () {
             fetchBalances()
             $scope.$root.$broadcast('reload-orders')
         }, CONSTS.FETCH_BALANCES_INTVL)
@@ -74,7 +74,9 @@
             $interval.cancel(intvl)
         })
 
-        $scope.$watch(function() { return user.publicAddr }, function() {
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function () {
             fetchBalances()
             $scope.$root.$broadcast('reload-orders')
         })
@@ -113,7 +115,7 @@
             })
         }
 
-       exchange.mapOrder = function(order, i) {
+        exchange.mapOrder = function (order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
@@ -168,18 +170,20 @@
             }
         }
 
-        exchange.mapTransaction = function(tx, i) {
+        exchange.mapTransaction = function (tx, i) {
 
             var amount = parseInt(tx.give.token === CONSTS.ZEROADDR ? tx.get.amount : tx.give.amount) / exchange.tokenInf[1];
             var side = (tx.give.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
 
             var time = new Date(tx.timestamp * 1000)
 
-            var pad = function(x) { return ('00'+x).slice(-2) }
+            var pad = function (x) {
+                return ('00' + x).slice(-2)
+            }
             return {
                 idx: i,
                 tx: tx.tx,
-                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + pad(time.getHours()) + ':' + pad(time.getMinutes()),
+                time: time.getDate() + '/' + (time.getMonth() + 1) + ' ' + pad(time.getHours()) + ':' + pad(time.getMinutes()),
                 side: side,
                 amount: amount,
                 price: calculatePrice(tx)
@@ -200,21 +204,19 @@
             return (ethAmount / ethBase) / (tokenAmount / tokenBase)
         }
 
-        exchange.txError = function(msg, err) 
-        {
+        exchange.txError = function (msg, err) {
             console.error(err)
             // @TODO: show the error itself?
 
-            var append = typeof(err.message) === 'string' ? ': '+err.message.split('\n')[0] : ''
-            toastr.error(msg+append)
+            var append = typeof(err.message) === 'string' ? ': ' + err.message.split('\n')[0] : ''
+            toastr.error(msg + append)
         }
 
-        exchange.txSuccess = function(txid)
-        {
-             toastr.success(
-                '<a style="color: white; text-decoration: underline;" href="'+cfg.etherscan+'/tx/'+txid+'" target="_blank">'+txid+'</a>', 
+        exchange.txSuccess = function (txid) {
+            toastr.success(
+                '<a style="color: white; text-decoration: underline;" href="' + cfg.etherscan + '/tx/' + txid + '" target="_blank">' + txid + '</a>',
                 'Successfully submitted transaction',
-                { escapeHtml: false }
+                {escapeHtml: false}
             )
         }
     }

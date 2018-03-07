@@ -12,7 +12,9 @@
 
         var exchange = $scope.exchange
 
-        $scope.$watch(function() { return user.publicAddr }, fetchTrades)
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, fetchTrades)
         $scope.$on('reload-orders', fetchTrades)
 
         function fetchTrades() {

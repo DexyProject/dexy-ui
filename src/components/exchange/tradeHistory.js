@@ -15,24 +15,24 @@
 
         function loadHistory() {
             fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0])
-            .then(function (res) {
-                return res.json()
-            })
-            .then(function (history) {
-                exchange.trades = (history || []).map(exchange.mapTransaction)
-                if (!$scope.$$phase) $scope.$digest()
-            })
-            .catch(function (err) {
-                toastr.error('Error loading history')
-                console.error(err)
-            })
+                .then(function (res) {
+                    return res.json()
+                })
+                .then(function (history) {
+                    exchange.trades = (history || []).map(exchange.mapTransaction)
+                    if (!$scope.$$phase) $scope.$digest()
+                })
+                .catch(function (err) {
+                    toastr.error('Error loading history')
+                    console.error(err)
+                })
         }
 
-        $scope.openTransaction = function(tx) {
+        $scope.openTransaction = function (tx) {
             $window.open(cfg.etherscan + "/tx/" + tx, '_blank');
         }
 
-        $scope.$on('reload-orders', function() {
+        $scope.$on('reload-orders', function () {
             loadHistory()
         })
     }

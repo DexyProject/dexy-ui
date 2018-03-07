@@ -19,15 +19,14 @@
         }
 
         // @TODO: @NOTE: these two functions can perhaps be refactored into one with a bit more thought
-        $scope.setToBest = function(side, order)
-        {
+        $scope.setToBest = function (side, order) {
             // @TODO: @NOTE: should we assume asks/bids is sorted here
             var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
             var bestBid = exchange.orderbook.bids[0]
 
             if (side === 'BUY' && bestAsk) {
                 order.rate = bestAsk.rate
-            } 
+            }
             if (side === 'SELL' && bestBid) {
                 order.rate = bestBid.rate
             }
@@ -115,7 +114,7 @@
                 {type: 'uint', name: 'Expires', value: expires},
                 {type: 'uint', name: 'Nonce', value: nonce},
                 {type: 'address', name: 'User', value: userAddr},
-                {type: 'address', name: 'Exchange', value: cfg.exchangeContract }
+                {type: 'address', name: 'Exchange', value: cfg.exchangeContract}
             ]
 
             user.signOrder(typed, userAddr, function (err, sig, sigMode) {
@@ -152,14 +151,14 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
                 })
-                .then(function () {
-                    // re-load order book
-                    $scope.$root.$broadcast('reload-orders')
-                })
-                .catch(function (err) {
-                    console.error(err)
-                    toastr.error('Error placing order')
-                })
+                    .then(function () {
+                        // re-load order book
+                        $scope.$root.$broadcast('reload-orders')
+                    })
+                    .catch(function (err) {
+                        console.error(err)
+                        toastr.error('Error placing order')
+                    })
 
             })
 
