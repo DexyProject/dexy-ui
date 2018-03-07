@@ -38,14 +38,14 @@
             //   same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             user.exchangeContract.methods.canTrade(addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode)
-            .call(function (err, resp) {
-                console.log('canTrade', err, resp)
-            })
+                .call(function (err, resp) {
+                    console.log('canTrade', err, resp)
+                })
 
             user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
-            .call(function (err, resp) {
-                console.log('didSign', err, resp)
-            })
+                .call(function (err, resp) {
+                    console.log('didSign', err, resp)
+                })
 
             /*
             // function getVolume(uint amountGet, address tokenGive, uint amountGive, address user, bytes32 hash) public view returns (uint) {

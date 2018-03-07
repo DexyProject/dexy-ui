@@ -15,17 +15,17 @@
 
         function loadHistory() {
             fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0])
-            .then(function (res) {
-                return res.json()
-            })
-            .then(function (history) {
-                exchange.trades = (history || []).map(mapTransaction)
-                if (!$scope.$$phase) $scope.$digest()
-            })
-            .catch(function (err) {
-                toastr.error('Error loading history')
-                console.error(err)
-            })
+                .then(function (res) {
+                    return res.json()
+                })
+                .then(function (history) {
+                    exchange.trades = (history || []).map(mapTransaction)
+                    if (!$scope.$$phase) $scope.$digest()
+                })
+                .catch(function (err) {
+                    toastr.error('Error loading history')
+                    console.error(err)
+                })
         }
 
         function mapTransaction(tx, i) {
@@ -35,11 +35,13 @@
 
             var time = new Date(tx.timestamp * 1000)
 
-            var pad = function(x) { return ('00'+x).slice(-2) } 
+            var pad = function (x) {
+                return ('00' + x).slice(-2)
+            }
             return {
                 idx: i,
                 tx: tx.tx,
-                time: time.getDate() + '/' + (time.getMonth()+1) + ' ' + pad(time.getHours()) + ':' + pad(time.getMinutes()),
+                time: time.getDate() + '/' + (time.getMonth() + 1) + ' ' + pad(time.getHours()) + ':' + pad(time.getMinutes()),
                 side: side,
                 amount: amount,
                 price: calculatePrice(tx)
@@ -60,11 +62,11 @@
             return (ethAmount / ethBase) / (tokenAmount / tokenBase)
         }
 
-        $scope.openTransaction = function(tx) {
+        $scope.openTransaction = function (tx) {
             $window.open(cfg.etherscan + "/tx/" + tx, '_blank');
         }
 
-        $scope.$on('reload-orders', function() {
+        $scope.$on('reload-orders', function () {
             loadHistory()
         })
     }

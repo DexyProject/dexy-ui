@@ -9,19 +9,21 @@
     vaultApprovalCtrl.$inject = ['$scope', 'user'];
 
     function vaultApprovalCtrl($scope, user) {
-        $scope.$watch(function () { return user.publicAddr }, checkVaultApproval)
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, checkVaultApproval)
 
         function checkVaultApproval() {
             if (!user.publicAddr) return
 
             console.log(user.publicAddr, cfg.exchangeContract)
             user.vaultContract.methods.isApproved(user.publicAddr, cfg.exchangeContract)
-            .call(function (err, isApproved) {
-                if (err) console.error(err)
+                .call(function (err, isApproved) {
+                    if (err) console.error(err)
 
-                if (isApproved === false) $('#approveExchangeByVault').modal('show')
-                if (isApproved === true) $('#approveExchangeByVault').modal('hide')
-            })
+                    if (isApproved === false) $('#approveExchangeByVault').modal('show')
+                    if (isApproved === true) $('#approveExchangeByVault').modal('hide')
+                })
         }
 
         exchange.approveExchangeByVault = function () {

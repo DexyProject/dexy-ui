@@ -25,9 +25,9 @@
 
         // Fill in vol, price_eth, price_fiat
         // ugly but works
-        $scope.markets = cfg.markets.map(function(x) {
+        $scope.markets = cfg.markets.map(function (x) {
             // TEMP
-            return { name: x, symbol: x }
+            return {name: x, symbol: x}
         })
         $scope.markets.forEach(function (x) {
             // TEMP TMP TEMP
@@ -40,8 +40,8 @@
 
             x.token = cfg.tokens[x.symbol]
 
-            if (! x.token)
-                console.log('WARNING: no token for '+x.symbol)
+            if (!x.token)
+                console.log('WARNING: no token for ' + x.symbol)
         })
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract

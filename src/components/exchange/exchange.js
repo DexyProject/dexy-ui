@@ -66,7 +66,7 @@
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 
-        var intvl = $interval(function() {
+        var intvl = $interval(function () {
             fetchBalances()
             $scope.$root.$broadcast('reload-orders')
         }, CONSTS.FETCH_BALANCES_INTVL)
@@ -74,7 +74,9 @@
             $interval.cancel(intvl)
         })
 
-        $scope.$watch(function() { return user.publicAddr }, function() {
+        $scope.$watch(function () {
+            return user.publicAddr
+        }, function () {
             fetchBalances()
             $scope.$root.$broadcast('reload-orders')
         })
@@ -113,7 +115,7 @@
             })
         }
 
-       exchange.mapOrder = function(order, i) {
+        exchange.mapOrder = function (order, i) {
             var getAmnt = parseInt(order.get.amount)
             var giveAmnt = parseInt(order.give.amount)
 
@@ -168,21 +170,19 @@
             }
         }
 
-        exchange.txError = function(msg, err) 
-        {
+        exchange.txError = function (msg, err) {
             console.error(err)
             // @TODO: show the error itself?
 
-            var append = typeof(err.message) === 'string' ? ': '+err.message.split('\n')[0] : ''
-            toastr.error(msg+append)
+            var append = typeof(err.message) === 'string' ? ': ' + err.message.split('\n')[0] : ''
+            toastr.error(msg + append)
         }
 
-        exchange.txSuccess = function(txid)
-        {
-             toastr.success(
-                '<a style="color: white; text-decoration: underline;" href="'+cfg.etherscan+'/tx/'+txid+'" target="_blank">'+txid+'</a>', 
+        exchange.txSuccess = function (txid) {
+            toastr.success(
+                '<a style="color: white; text-decoration: underline;" href="' + cfg.etherscan + '/tx/' + txid + '" target="_blank">' + txid + '</a>',
                 'Successfully submitted transaction',
-                { escapeHtml: false }
+                {escapeHtml: false}
             )
         }
     }
