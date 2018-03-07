@@ -119,6 +119,8 @@
 
 * find a token DB with icons and integrate that
 
+* search bar in header, this should allow users to search for a symbol. If an address is inserted, it should show a dropdown go to blah blah. When clicked a user goes on the trading page for said address, this is to allow custom tokens. Consider using typeahead.js
+
 
 ## mañana but important
 
