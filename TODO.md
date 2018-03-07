@@ -99,18 +99,18 @@
 * toastr `toastr.options.escapeHtml = true;` sanitization
 * show success notifications, and go to etherscan when clicked; etherscan url in config
 * find a token DB with icons and integrate that: back to using CMC
+* place order: make the 25/50/etc buttons work
+* xss: no third-party scripts
 
 # TODO
+
+* placing orders: validate (sufficient funds, etc), show error if order can't be filled
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 
 * filling orders: validate whether canTrade, show notification if not
 
-* placing orders: validate (sufficient funds, etc), show error if order can't be filled
-
-* placing orders: close modal once a tx is submitted, flag the order "in progress"
-
-* place order: make the 25/50/etc buttons work
+* filling orders: close modal once a tx is submitted, flag the order "in progress"
 
 * markets to load proper data
 
@@ -129,7 +129,6 @@
 * order book: show which orders are yours and which are pending
 * sortable table row icons
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
-* xss: no third-party scripts
 * xss: no third-party sources of data
 * xss: custom (user) data cannot override existing symbols (e.g. mock some existing token)
 * authentication: save last mode, prompt for re-authentication upon refresh (trezor/ledger)
@@ -144,7 +143,7 @@
 * consider DAI pairs
 * service worker 
 * modal dialog explaining you should use Metamask or Trezor - show on buy/sell attempt
-* order book depth
+* order book depth graph
 * optimize angular watchers: https://medium.com/@kentcdodds/counting-angularjs-watchers-11c5134dc2ef
 
 
