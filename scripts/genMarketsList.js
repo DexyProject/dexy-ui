@@ -17,14 +17,19 @@ fetch('https://api.coinmarketcap.com/v1/ticker/?limit=200')
 
         all.push(x.symbol)
 
-        /*
-        fetch('https://files.coinmarketcap.com/static/img/coins/64x64/'+x.id+'.png')
-        .then(function(res) {
-            var p = './img/markets/'+x.symbol+'-ETH.png'
-            if (res.statusCode === 200 && ! fs.existsSync(p))
+        var p = './img/markets/'+x.symbol+'-ETH.png'
+        if (! fs.existsSync(p)) {
+            var url = 'https://files.coinmarketcap.com/static/widget/coins_legacy/64x64/'+x.id+'.png'
+            fetch(url)
+            .then(function(res) {
+                if (res.status !== 200) {
+                    console.log('WARNING: no icon for '+url+' '+res.status)
+                    return
+                }
                 res.body.pipe(fs.createWriteStream(p))
-        })*/
-        //does not work as of 04.03.2018
+            })
+        }
+
     })
 
     console.log(JSON.stringify(all))
