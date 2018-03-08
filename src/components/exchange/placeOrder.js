@@ -98,8 +98,6 @@
                 tokenGet = CONSTS.ZEROADDR
                 amountGive = tokenUint
                 amountGet = weiUint
-
-                console.log(exchange.onExchange, exchange.onOrders.token)
                 availableAmnt = (exchange.onExchange - exchange.onOrders.token) * exchange.tokenInf[1]
             } else {
                 tokenGive = CONSTS.ZEROADDR
@@ -109,9 +107,10 @@
                 availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) * CONSTS.ETH_MUL
             }
 
-            //console.log(amountGive, availableAmnt)
-
-            // amountGive must be available
+            if (amountGive > availableAmnt) {
+                toastr.error('Insufficient balance to place order')
+                return
+            }
 
             // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
             var typed = [
