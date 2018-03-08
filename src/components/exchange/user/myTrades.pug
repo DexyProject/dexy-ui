@@ -7,7 +7,7 @@
                     th(scope='col') Price
                     th(scope='col') Time
             tbody.text-right
-                tr(ng-repeat='trade in exchange.userTrades', ng-class='::trade.side', ng-click="openTransaction(trade.tx)")
+                tr(ng-repeat='trade in exchange.myTrades', ng-class='::trade.side', ng-click="openTransaction(trade.tx)")
                     td(ng-bind='::trade.amount')
                     td(ng-bind='::trade.price.toFixed(8)')
                     td(ng-bind='::trade.time.toLocaleString()')
