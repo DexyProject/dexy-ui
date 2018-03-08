@@ -1,0 +1,14 @@
+//- data-backdrop='static' if we don't want this to be closable
+.modal.fade(id='placeOrderConfirm', tabindex='-1', role='dialog', aria-labelledby='Place Order', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5.modal-title Place Order - Confirm
+
+            .modal-body
+                span The order you're trying to place has a price which is more than 20% different from the market price. Are you sure you want to proceed?
+            .modal-footer
+                .row
+                    .col.text-right
+                        button.ml-1.btn.btn-primary(type='button', ng-click='placeOrderConfirm()') Confirm
+                        button.ml-1.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
