@@ -115,12 +115,10 @@
 
 * get price history from API
 
-* css: disable user-select
-
-* search bar in header, this should allow users to search for a symbol. If an address is inserted, it should show a dropdown go to blah blah. When clicked a user goes on the trading page for said address, this is to allow custom tokens. Consider using typeahead.js
-
 
 ## mañana but important
+
+* search bar in header, this should allow users to search for a symbol. If an address is inserted, it should show a dropdown go to blah blah. When clicked a user goes on the trading page for said address, this is to allow custom tokens. Consider using typeahead.js
 
 * Spificator (or similar 'in progress'): include to improve TX UX; we can just set an inProgress[] map when sendTx is completed
 
@@ -134,6 +132,7 @@
 * component for the top indicators that would flash green/red
 * Proper night mode
 * Optimize updating /trades, /orders and etc. - it's called too many times
+* css: disable user-select
 
 ## mañana
 * User Trades UI with filters (whether you're maker/taker, token, date) with CSV export 

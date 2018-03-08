@@ -18,7 +18,6 @@
                 : (user.ethBal.onExchange - exchange.onOrders.eth) / order.rate
 
             $scope.exchange.toFill = {
-                //amount: order.amount,
                 amount: Math.min(maxAmnt, order.amount),
                 order: order,
                 portion: 1000,
@@ -36,6 +35,8 @@
             var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
             var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
             var portion = toFill.portion / 1000
+
+            // @TODO: sync with .amount
             var amnt = Math.floor(parseInt(rawOrder.get.amount) * portion).toString()
 
             var sig = rawOrder.signature
@@ -52,7 +53,7 @@
 
         // will only get triggered when the reference to the object changes
         // which essentially means it won't double-trigger once we set toFill.canTrade
-        /*
+        
         $scope.$watch(function() { return $scope.exchange.toFill }, function(toFill) {
             if (! toFill) return
             if (! toFill.order) return
@@ -86,7 +87,7 @@
             //         console.log('didSign', err, resp)
             //     })
         })
-        */
+        
     }
 
 })();
