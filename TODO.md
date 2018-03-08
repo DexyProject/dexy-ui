@@ -108,6 +108,9 @@
 # TODO
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
+prepvalues
+all the stupid strings in the pug
+takeorder twice
 
 * filling orders: validate whether canTrade, show notification if not
 
