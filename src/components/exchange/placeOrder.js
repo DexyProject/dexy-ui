@@ -126,7 +126,7 @@
             }
 
             if (amountGive > availableAmnt) {
-                toastr.error('Insufficient balance to place order')
+                toastr.error('Insufficient funds to place order')
                 return
             }
 
