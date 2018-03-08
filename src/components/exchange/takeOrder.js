@@ -110,7 +110,7 @@
 
             var p = exchange.toFill.portion/1000
             var amnt = exchange.toFill.maxCanFillInToken * p
-
+            
             return (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
             + amnt.toFixed(4) + ' ' 
             + exchange.symbol + ' for ' + (amnt * exchange.toFill.order.rate).toFixed(6) + ' ETH'
