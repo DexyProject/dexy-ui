@@ -88,7 +88,19 @@
             //         console.log('didSign', err, resp)
             //     })
         })
-        */   
+        */
+
+        $scope.getSummary = function()
+        {
+            if (! exchange.toFill) return
+                
+            var p = exchange.toFill.portion/1000
+            var amnt = exchange.toFill.order.amount * p
+
+            return (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
+            + amnt.toFixed(3) + ' ' 
+            + exchange.symbol + ' for ' + (amnt * exchange.toFill.order.rate).toFixed(4) + ' ETH'
+        }   
     }
 
 })();

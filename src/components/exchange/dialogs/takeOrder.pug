@@ -23,7 +23,7 @@
 
                 .row
                     .col
-                        p.font-weight-light(ng-bind="'Summary: ' + (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' + (exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3) + ' ' + exchange.symbol + ' for ' + (exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4) + ' ETH'")
+                        p.font-weight-light(ng-bind="'Summary: ' + getSummary()")
             .modal-footer
                 .row
                     .col.text-right
