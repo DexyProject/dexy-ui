@@ -6,7 +6,7 @@
 
             .modal-body
                 h5 Order&nbsp;
-                    small.text-muted {{exchange.toFill.order.amount}} {{exchange.symbol}} for {{exchange.toFill.order.rate}} ETH/{{exchange.symbol}}
+                    small.text-muted {{exchange.toFill.amount}} {{exchange.symbol}} for {{exchange.toFill.order.rate}} ETH/{{exchange.symbol}}
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label Fill %
@@ -15,16 +15,16 @@
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label Amount {{exchange.symbol}}
-                        input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3)', disabled='')
+                        input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.amount * (exchange.toFill.portion/1000)).toFixed(3)', disabled='')
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label ETH
-                        input.form-control(type='text', placeholder='eth', ng-value='(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)', disabled='')
+                        input.form-control(type='text', placeholder='eth', ng-value='(exchange.toFill.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)', disabled='')
 
                 .row
                     .col
-                        p.font-weight-light(ng-bind="'Summary: ' + (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' + (exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3) + ' ' + exchange.symbol + ' for ' + (exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4) + ' ETH'")
+                        p.font-weight-light(ng-bind="'Summary: ' + (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' + (exchange.toFill.amount * (exchange.toFill.portion/1000)).toFixed(3) + ' ' + exchange.symbol + ' for ' + (exchange.toFill.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4) + ' ETH'")
             .modal-footer
                 .row
                     .col.text-right
-                        button.btn.btn-primary(type='button', ng-click="takeOrder(exchange.toFill)") {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
+                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='!exchange.toFill.canTrade') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}

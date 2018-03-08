@@ -102,16 +102,14 @@
 * place order: make the 25/50/etc buttons work
 * xss: no third-party scripts
 * Last Trades UI
+* placing orders: validate (sufficient funds, etc)
+* filling orders: close modal once a tx is submitted
 
 # TODO
-
-* placing orders: validate (sufficient funds, etc)
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 
 * filling orders: validate whether canTrade, show notification if not
-
-* filling orders: close modal once a tx is submitted, flag the order "in progress"
 
 * markets to load proper data
 
@@ -124,7 +122,7 @@
 
 ## mañana but important
 
-* Spificator (or similar 'in progress'): include to improve TX UX
+* Spificator (or similar 'in progress'): include to improve TX UX; we can just set an inProgress[] map when sendTx is completed
 
 * order book: show which orders are yours and which are pending
 * sortable table row icons
