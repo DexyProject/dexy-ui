@@ -71,7 +71,7 @@
             if (order.valid) order.total = parseFloat((order.amount * order.rate).toFixed(6))
         }
 
-        $scope.placeOrder = function (order, type, symbol) {
+        $scope.placeOrder = function (order, type) {
             if (!user.publicAddr) {
                 toastr.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
                 return
