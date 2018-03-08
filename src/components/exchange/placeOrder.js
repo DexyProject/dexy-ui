@@ -45,8 +45,7 @@
                 order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
 
-            // @TODO: @NOTE: should move these fixed points to consts (e.g. 4)
-            order.amount = parseFloat(order.amount.toFixed(4))
+            order.amount = parseInt(order.amount * 10000) / 10000
         }
 
         $scope.$watch(function () {
