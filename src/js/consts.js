@@ -27,5 +27,8 @@
 
     consts.CAN_TRADE_DEBOUNCE = 150
 
+    consts.SELL_WARN_THRESHOLD = 0.9
+    consts.BUY_WARN_THRESHOLD = 1.1
+
     return consts
 })

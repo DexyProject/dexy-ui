@@ -81,9 +81,11 @@
                 return
             }
 
-
-            var shouldWarnUser = false
-
+            // Warn the user if the the order is not much in the user's benefit
+            var best = $scope.getBest()
+            var shouldWarnUser = 
+                (order.type === 'SELL' && best.ask && order.rate/best.ask.rate < CONSTS.SELL_WARN_THRESHOLD)
+                || (order.type === 'BUY' && best.bid && order.rate/best.bid.rate > CONSTS.BUY_WARN_THRESHOLD)
 
             if (shouldWarnUser && !noConfirm) {
                 $('#placeOrderConfirm').modal('show')
@@ -95,6 +97,7 @@
                 return
             }
 
+            // Calculate all the values needed to place the order
             var token = exchange.tokenInf
 
             var tokenUint = parseInt(order.amount * token[1])
