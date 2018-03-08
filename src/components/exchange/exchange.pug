@@ -61,6 +61,8 @@
                                 a.nav-link(data-toggle='tab', data-target='#sell') Sell
                     .row.mt-3.mb-3
                         .tab-content.col(ng-controller='placeOrderCtrl')
+                            include ./dialogs/placeOrderConfirm
+
                             - var side = 'BUY'
                             #buy.tab-pane.fade.in.active.show
                                 include ./placeOrder

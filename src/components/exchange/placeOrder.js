@@ -18,30 +18,34 @@
             BUY: {type: 'BUY'}
         }
 
-        // @TODO: @NOTE: these two functions can perhaps be refactored into one with a bit more thought
-        $scope.setToBest = function (side, order) {
+        $scope.getBest = function() {
             // @TODO: @NOTE: should we assume asks/bids is sorted here
-            var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
-            var bestBid = exchange.orderbook.bids[0]
 
-            if (side === 'BUY' && bestAsk) {
-                order.rate = bestAsk.rate
+            return {
+                ask: exchange.orderbook.asks[exchange.orderbook.asks.length - 1],
+                bid:  exchange.orderbook.bids[0]
             }
-            if (side === 'SELL' && bestBid) {
-                order.rate = bestBid.rate
+        }
+
+        $scope.setToBest = function (side, order) {
+            var best = $scope.getBest()
+
+            if (side === 'BUY' && best.ask) {
+                order.rate = best.ask.rate
+            }
+            if (side === 'SELL' && best.bid) {
+                order.rate = best.bid.rate
             }
         }
 
         $scope.setAmount = function (order, part) {
-            // @TODO: @NOTE: should we assume asks/bids is sorted here
-            var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
-            var bestBid = exchange.orderbook.bids[0]
+            var best = $scope.getBest()
 
             if (order.type === 'BUY') {
-                order.rate = order.rate || (bestAsk && bestAsk.rate)
+                order.rate = order.rate || (best.ask && best.ask.rate)
                 order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / order.rate) * part
             } else {
-                order.rate = order.rate || (bestBid && bestBid.rate)
+                order.rate = order.rate || (best.bid && best.bid.rate)
                 order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
 
@@ -71,9 +75,23 @@
             if (order.valid) order.total = parseFloat((order.amount * order.rate).toFixed(6))
         }
 
-        $scope.placeOrder = function (order, type) {
+        $scope.placeOrder = function (order, noConfirm) {
             if (!user.publicAddr) {
                 toastr.error('Please use Metamask, Trezor or Ledger to interact with Ethereum');
+                return
+            }
+
+
+            var shouldWarnUser = false
+
+
+            if (shouldWarnUser && !noConfirm) {
+                $('#placeOrderConfirm').modal('show')
+
+                $scope.placeOrderConfirm = function() {
+                    $('#placeOrderConfirm').modal('hide')
+                    $scope.placeOrder(order, true)
+                }
                 return
             }
 
@@ -92,7 +110,7 @@
 
             var nonce = Date.now()
 
-            if (type === 'SELL') {
+            if (order.type === 'SELL') {
                 tokenGive = token[0]
                 tokenGet = CONSTS.ZEROADDR
                 amountGive = tokenUint
