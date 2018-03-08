@@ -32,5 +32,7 @@
 
     consts.DEFAULT_ORDER_LIFETIME = 30 * 24 * 60 * 60
 
+    consts.CHART_UPDATE_TIME = 16 * 1000
+
     return consts
 })

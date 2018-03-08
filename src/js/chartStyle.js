@@ -3,7 +3,15 @@ window.chartStyle = {
         inputEnabled: false,
         selected: 1,
         buttonSpacing: -5,
-        buttons: [{
+        buttons: [
+        /*
+        {
+            type: 'minute',
+            count: 5,
+            text: '5m'
+        },
+        */
+        {
             type: 'hour',
             count: 1,
             text: '1h'
