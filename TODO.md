@@ -101,10 +101,11 @@
 * find a token DB with icons and integrate that: back to using CMC
 * place order: make the 25/50/etc buttons work
 * xss: no third-party scripts
+* Last Trades UI
 
 # TODO
 
-* placing orders: validate (sufficient funds, etc), show error if order can't be filled
+* placing orders: validate (sufficient funds, etc)
 
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 
@@ -125,7 +126,6 @@
 
 * Spificator (or similar 'in progress'): include to improve TX UX
 
-* Last Trades UI
 * order book: show which orders are yours and which are pending
 * sortable table row icons
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)

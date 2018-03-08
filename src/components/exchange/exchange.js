@@ -62,6 +62,8 @@
         exchange.pair = $stateParams.pair
         exchange.symbol = token[2] || lastPart
         exchange.user = user
+        
+        exchange.onOrders = { eth: 0, token: 0 }
 
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])

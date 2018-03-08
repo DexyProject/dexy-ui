@@ -88,7 +88,7 @@
 
             var userAddr = user.publicAddr
 
-            var tokenGet, amountGet, tokenGive, amountGive
+            var tokenGet, amountGet, tokenGive, amountGive, availableAmnt
 
             var nonce = Date.now()
 
@@ -97,12 +97,21 @@
                 tokenGet = CONSTS.ZEROADDR
                 amountGive = tokenUint
                 amountGet = weiUint
+
+                console.log(exchange.onExchange, exchange.onOrders.token)
+                availableAmnt = (exchange.onExchange - exchange.onOrders.token) * exchange.tokenInf[1]
             } else {
                 tokenGive = CONSTS.ZEROADDR
                 tokenGet = token[0]
                 amountGive = weiUint
                 amountGet = tokenUint
+                availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) *  1000000000000000000
             }
+
+            //console.log(amountGive, availableAmnt)
+            //return
+
+            // amountGive must be available
 
             // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
             var typed = [

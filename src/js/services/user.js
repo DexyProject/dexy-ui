@@ -75,7 +75,6 @@
             })
         }, CONSTS.METAMASK_UPDATE_INTVL)
 
-
         // Nonce update
         user.nonce = 0
 
