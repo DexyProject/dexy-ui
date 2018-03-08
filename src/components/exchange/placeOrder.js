@@ -19,15 +19,14 @@
         }
 
         // @TODO: @NOTE: these two functions can perhaps be refactored into one with a bit more thought
-        $scope.setToBest = function(side, order)
-        {
+        $scope.setToBest = function (side, order) {
             // @TODO: @NOTE: should we assume asks/bids is sorted here
             var bestAsk = exchange.orderbook.asks[exchange.orderbook.asks.length - 1]
             var bestBid = exchange.orderbook.bids[0]
 
             if (side === 'BUY' && bestAsk) {
                 order.rate = bestAsk.rate
-            } 
+            }
             if (side === 'SELL' && bestBid) {
                 order.rate = bestBid.rate
             }
@@ -46,8 +45,7 @@
                 order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
 
-            // @TODO: @NOTE: should move these fixed points to consts (e.g. 4)
-            order.amount = parseFloat(order.amount.toFixed(4))
+            order.amount = parseInt(order.amount * 10000) / 10000
         }
 
         $scope.$watch(function () {
@@ -85,11 +83,12 @@
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
+            // 5 days
             var expires = Math.floor((Date.now() / 1000) + 432000)
 
             var userAddr = user.publicAddr
 
-            var tokenGet, amountGet, tokenGive, amountGive
+            var tokenGet, amountGet, tokenGive, amountGive, availableAmnt
 
             var nonce = Date.now()
 
@@ -98,11 +97,18 @@
                 tokenGet = CONSTS.ZEROADDR
                 amountGive = tokenUint
                 amountGet = weiUint
+                availableAmnt = (exchange.onExchange - exchange.onOrders.token) * exchange.tokenInf[1]
             } else {
                 tokenGive = CONSTS.ZEROADDR
                 tokenGet = token[0]
                 amountGive = weiUint
                 amountGet = tokenUint
+                availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) * CONSTS.ETH_MUL
+            }
+
+            if (amountGive > availableAmnt) {
+                toastr.error('Insufficient balance to place order')
+                return
             }
 
             // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
@@ -115,7 +121,7 @@
                 {type: 'uint', name: 'Expires', value: expires},
                 {type: 'uint', name: 'Nonce', value: nonce},
                 {type: 'address', name: 'User', value: userAddr},
-                {type: 'address', name: 'Exchange', value: cfg.exchangeContract }
+                {type: 'address', name: 'Exchange', value: cfg.exchangeContract}
             ]
 
             user.signOrder(typed, userAddr, function (err, sig, sigMode) {
@@ -152,14 +158,14 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(body),
                 })
-                .then(function () {
-                    // re-load order book
-                    $scope.$root.$broadcast('reload-orders')
-                })
-                .catch(function (err) {
-                    console.error(err)
-                    toastr.error('Error placing order')
-                })
+                    .then(function () {
+                        // re-load order book
+                        $scope.$root.$broadcast('reload-orders')
+                    })
+                    .catch(function (err) {
+                        console.error(err)
+                        toastr.error('Error placing order')
+                    })
 
             })
 

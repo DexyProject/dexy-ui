@@ -75,7 +75,6 @@
             })
         }, CONSTS.METAMASK_UPDATE_INTVL)
 
-
         // Nonce update
         user.nonce = 0
 
@@ -113,14 +112,14 @@
             console.log('Fetching ETH balances for ' + addr)
 
             web3.eth.getBalance(addr).then(function (bal) {
-                user.ethBal.onWallet = bal / 1000000000000000000
+                user.ethBal.onWallet = bal / CONSTS.ETH_MUL
                 if (!$scope.$$phase) $scope.$apply()
             })
 
             user.vaultContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    user.ethBal.onExchange = bal / 1000000000000000000
+                    user.ethBal.onExchange = bal / CONSTS.ETH_MUL
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })
@@ -142,7 +141,7 @@
                 return
             }
             if (netId !== user.chainId) {
-                toastr.warning('Warning: you are connected to an unsupported network. '+cfg.warningMsg)
+                toastr.warning('Warning: you are connected to an unsupported network. ' + cfg.warningMsg)
             }
             user.chainId = netId
         })
@@ -161,16 +160,16 @@
 
         user.getLedgerAddresses = function (cb) {
             ledger.comm_u2f.create_async()
-            .then(function (comm) {
-                var eth = new ledger.eth(comm)
+                .then(function (comm) {
+                    var eth = new ledger.eth(comm)
 
-                eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
-                .then(function (resp) {
-                    cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                    eth.getAddress_async(user.LEDGER_HD_PATH, false, true)
+                        .then(function (resp) {
+                            cb(user.getAddrs(resp.publicKey, resp.chainCode))
+                        })
+                        .catch(user.handleLedgerError)
                 })
                 .catch(user.handleLedgerError)
-            })
-            .catch(user.handleLedgerError)
         }
 
         user.getAddrs = function (publicKey, chainCode) {

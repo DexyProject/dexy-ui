@@ -36,11 +36,11 @@
             $scope.selected.hdWallet = hdWallet
 
             $scope.addresses = addresses.map(function (x, i) {
-                return {addr: x, idx: i, bal: '...'}
+                return { addr: x, idx: i, bal: '...' }
             })
 
             // refresh balances
-            var multiplier = 1000000000000000000 // 10**18
+            var multiplier = CONSTS.ETH_MUL
 
             var batch = new web3.eth.BatchRequest()
 
@@ -56,8 +56,7 @@
             $('#hwWalletChooseAcc').modal('show')
         }
 
-        $scope.onHDWalletAddr = function(address, type, idx) 
-        {
+        $scope.onHDWalletAddr = function (address, type, idx) {
             $('#hwWalletChooseAcc').modal('hide')
             toastr.success((type === 'trezor' ? 'Trezor' : 'Ledger') + ': imported address')
 
@@ -65,8 +64,7 @@
         }
 
         // https://github.com/kvhnuke/etherwallet/blob/904d7a0e702c756bbbd8594381c8980f05ed3d5d/app/scripts/nodes.js
-        $scope.getNetworkName = function(chainId)
-        {
+        $scope.getNetworkName = function (chainId) {
             if (chainId == 1) return 'Ethereum Mainnet'
             if (chainId == 61) return 'Ethereum Classic'
             if (chainId === 3) return 'Ethereum Ropsten'

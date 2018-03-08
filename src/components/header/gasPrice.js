@@ -10,9 +10,9 @@
     function GasPriceCtrl($scope, gas) {
         $scope.gas = gas
 
-        $scope.isSelected = function(level) {
-        	return $scope.$root.gas == gas.prices[level] 
-        		&& !(level != 'average' && gas.prices[level] == gas.prices['average'])
+        $scope.isSelected = function (level) {
+            return $scope.$root.gas == gas.prices[level]
+                && !(level != 'average' && gas.prices[level] == gas.prices['average'])
         }
     }
 })();
