@@ -32,8 +32,7 @@
 
                 updateChart(chart)
 
-                // TEMP disabled
-                //updateIntvl = $interval(updateChart.bind(null, chart), CONSTS.CHART_UPDATE_TIME)
+                updateIntvl = $interval(updateChart.bind(null, chart), CONSTS.CHART_UPDATE_TIME)
             }
         }
         Highcharts.stockChart('mainChart', chartStyle);
@@ -42,7 +41,9 @@
         {
             console.log('update')
 
-            $.getJSON(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0], function (data) {
+            fetch(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0])
+            .then(function(resp) { return resp.json() })
+            .then(function (data) {
                 // Create the chart
                 // in a charty way on a charty day 
 
@@ -63,12 +64,16 @@
                     ])
                 });
 
-                prices.reverse()
-                volume.reverse()
+                prices = prices.sort(function(a, b) { return a[0] - b[0] })
+                volume = volume.sort(function(a, b) { return a[0] - b[0] })
 
                 chart.series[0].setData(prices)
                 chart.series[1].setData(volume)
-            });
+            })
+            .catch(function(err) {
+                toastr.error('Error loading trading history')
+                console.error(err)
+            })
         }
     }
 })();
