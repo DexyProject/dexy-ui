@@ -23,14 +23,16 @@
             load: function () {
                 var chart = this
 
-                $.getJSON('https://ingress.api.radarrelay.com/v1/info/chart/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/0xe41d2489571d322189246dafa5ebde1f4699f498', function (data) {
+                var exchange = $scope.exchange
+
+                $.getJSON(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0], function (data) {
                     // Create the chart
 
                     var prices = [];
                     var volume = [];
                     data.forEach(function (data) {
                         prices.push([
-                            data.startBlockTimestamp * 1000,
+                            data.timestamp * 1000,
                             Number(data.open),
                             Number(data.high),
                             Number(data.low),
@@ -38,8 +40,8 @@
                         ])
 
                         volume.push([
-                            data.startBlockTimestamp * 1000,
-                            Number(data.takerTokenVolume)
+                            data.timestamp * 1000,
+                            Number(data.volume)
                         ])
                     });
 
