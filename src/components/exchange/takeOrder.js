@@ -23,6 +23,11 @@
                 (exchange.onExchange - exchange.onOrders.token)
                 : (user.ethBal.onExchange - exchange.onOrders.eth) / order.rate
 
+            if (maxUserAmnt <= 0) {
+                toastr.error('Insufficient funds to take order')
+                return
+            }
+
             var tokenAmount = order.filledInToken + order.amount
             var maxCanFillInToken = Math.min(maxUserAmnt, order.amount)
             var maxPortion = Math.floor(maxCanFillInToken / tokenAmount * 1000)

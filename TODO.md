@@ -116,11 +116,11 @@
 
 * get price history from API
 
-* expiration: should it be 5 days?
-
 * Terraform for infra
 
 * IPFS infra: make sure we have our own node & pinning
+
+* expiration: should it be 5 days?
 
 ## mañana but important
 
