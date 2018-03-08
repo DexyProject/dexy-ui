@@ -102,7 +102,7 @@
             exchange.token.methods.allowance(user.publicAddr, cfg.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
-                    // used by placeeOrder
+                    // used by placeOrder
                     exchange.rawAllowance = parseInt(allowance)
                 }
             })

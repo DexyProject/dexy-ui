@@ -19,14 +19,14 @@ div(ng-controller='MarketsController as markets')
                 thead
                     tr
                         th(scope='col')
-                        th(scope='col' ng-click="orderByField='symbol'; reverseSort = !reverseSort") Market
-                        th(scope='col' ng-click="orderByField='name'; reverseSort = !reverseSort") Name
-                        th(scope='col' ng-click="orderByField='balance'; reverseSort = !reverseSort") Balance
-                        th(scope='col' ng-click="orderByField='price'; reverseSort = !reverseSort") Price
-                        th(scope='col' ng-click="orderByField='change'; reverseSort = !reverseSort") % Change
-                        th(scope='col' ng-click="orderByField='vol'; reverseSort = !reverseSort") 24h Volume
-                        th(scope='col' ng-click="orderByField='high'; reverseSort = !reverseSort") 24h High
-                        th(scope='col' ng-click="orderByField='low'; reverseSort = !reverseSort") 24h Low
+                        th(scope='col' ng-click="setOrderBy('symbol')") Market
+                        th(scope='col' ng-click="setOrderBy('name')") Name
+                        th(scope='col' ng-click="setOrderBy('balance')") Balance
+                        th(scope='col' ng-click="setOrderBy('price')") Price
+                        th(scope='col' ng-click="setOrderBy('change')") % Change
+                        th(scope='col' ng-click="setOrderBy('vol')") 24h Volume
+                        th(scope='col' ng-click="setOrderBy('high')") 24h High
+                        th(scope='col' ng-click="setOrderBy('low')") 24h Low
                 tbody
                     tr(ng-repeat='market in markets | orderBy:orderByField:reverseSort | filter: searchKeyword', ng-click='openExchange(market.symbol)', ng-hide='hideZeroBal && market.balance <= 0')
                         td

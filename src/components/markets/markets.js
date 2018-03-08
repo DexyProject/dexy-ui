@@ -19,7 +19,7 @@
         $scope.persistingProp($scope, 'useEUR')
 
         $scope.openExchange = function (symbol) {
-            $state.go('exchange', {pair: symbol})
+            $state.go('exchange', { pair: symbol })
         };
 
 
@@ -27,7 +27,7 @@
         // ugly but works
         $scope.markets = cfg.markets.map(function (x) {
             // TEMP
-            return {name: x, symbol: x}
+            return { name: x, symbol: x }
         })
         $scope.markets.forEach(function (x) {
             // TEMP TMP TEMP
@@ -75,6 +75,14 @@
 
         $scope.fiatValue = function (value) {
             return $scope.useEUR ? '€' + (value * cmc.pairs.ETHEUR).toFixed(2) : '$' + (value * cmc.pairs.ETHUSD).toFixed(2)
+        }
+
+        $scope.setOrderBy = function (keyName) {
+            if ($scope.orderByField === keyName) {
+                $scope.reverseSort = !$scope.reverseSort
+                return
+            }
+            $scope.orderByField = keyName
         }
     }
 })();
