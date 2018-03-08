@@ -25,5 +25,7 @@
     consts.FETCH_BALANCES_INTVL = 14 * 1000
     consts.NONCE_UPDATE_INTVL = 15 * 1000
 
+    consts.CAN_TRADE_DEBOUNCE = 150
+
     return consts
 })

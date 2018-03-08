@@ -7,9 +7,9 @@
         .module('dexyApp')
         .controller('takeOrderCtrl', takeOrderCtrl);
 
-    takeOrderCtrl.$inject = ['$scope', 'user'];
+    takeOrderCtrl.$inject = ['$scope', '$timeout', 'user'];
 
-    function takeOrderCtrl($scope, user) {
+    function takeOrderCtrl($scope, $timeout, user) {
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
@@ -71,10 +71,16 @@
 
         // will only get triggered when the reference to the object changes
         // which essentially means it won't double-trigger once we set toFill.canTrade
+        var debouncedUpdate
         $scope.$watchCollection(function() { 
             if (! $scope.exchange.toFill) return null
             return [$scope.exchange.toFill, $scope.exchange.toFill.portion] 
         }, function() {
+            if (debouncedUpdate) $timeout.cancel(debouncedUpdate)
+            debouncedUpdate = $timeout($scope.updateCanTrade, CONSTS.CAN_TRADE_DEBOUNCE)
+        })
+        
+        $scope.updateCanTrade = function() {
             if (! $scope.exchange.toFill) return
 
             // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet", same goes for filling
@@ -101,8 +107,7 @@
             //     .call(function (err, resp) {
             //         console.log('didSign', err, resp)
             //     })
-        })
-        
+        }
 
         $scope.getSummary = function()
         {
@@ -110,7 +115,7 @@
 
             var p = exchange.toFill.portion/1000
             var amnt = exchange.toFill.maxCanFillInToken * p
-            
+
             return (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
             + amnt.toFixed(4) + ' ' 
             + exchange.symbol + ' for ' + (amnt * exchange.toFill.order.rate).toFixed(6) + ' ETH'

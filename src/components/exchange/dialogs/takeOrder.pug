@@ -26,7 +26,7 @@
                 .row
                     .col
                         p.font-weight-bold(ng-if='exchange.toFill.canTrade === false' ng-bind="'This order for '+amnt.toFixed(4)+' '+exchange.symbol+' cannot be traded. It may be expired or underfunded.'")
-                        p.font-weight-light(ng-if='exchange.toFill.canTrade === true' ng-bind="'Summary: ' + getSummary()")
+                        p.font-weight-light(ng-if='exchange.toFill.canTrade !== false' ng-bind="'Summary: ' + getSummary()")
             .modal-footer
                 .row
                     .col.text-right

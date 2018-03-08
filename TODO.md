@@ -105,11 +105,9 @@
 * placing orders: validate (sufficient funds, etc)
 * filling orders: close modal once a tx is submitted
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
+* filling orders: validate whether canTrade, show notification if not
 
 # TODO
-
-
-* filling orders: validate whether canTrade, show notification if not
 
 * markets to load proper data
 
