@@ -101,31 +101,30 @@
 * find a token DB with icons and integrate that: back to using CMC
 * place order: make the 25/50/etc buttons work
 * xss: no third-party scripts
+* Last Trades UI
+* placing orders: validate (sufficient funds, etc)
+* filling orders: close modal once a tx is submitted
 
 # TODO
 
-* placing orders: validate (sufficient funds, etc), show error if order can't be filled
-
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
+prepvalues
+all the stupid strings in the pug
+takeorder twice
 
 * filling orders: validate whether canTrade, show notification if not
-
-* filling orders: close modal once a tx is submitted, flag the order "in progress"
 
 * markets to load proper data
 
 * get price history from API
 
-* css: disable user-select
-
-* search bar in header, this should allow users to search for a symbol. If an address is inserted, it should show a dropdown go to blah blah. When clicked a user goes on the trading page for said address, this is to allow custom tokens. Consider using typeahead.js
-
 
 ## mañana but important
 
-* Spificator (or similar 'in progress'): include to improve TX UX
+* search bar in header, this should allow users to search for a symbol. If an address is inserted, it should show a dropdown go to blah blah. When clicked a user goes on the trading page for said address, this is to allow custom tokens. Consider using typeahead.js
 
-* Last Trades UI
+* Spificator (or similar 'in progress'): include to improve TX UX; we can just set an inProgress[] map when sendTx is completed
+
 * order book: show which orders are yours and which are pending
 * sortable table row icons
 * xss: check `ng-bind` ( esp `<a>` and `onclick`)
@@ -136,6 +135,7 @@
 * component for the top indicators that would flash green/red
 * Proper night mode
 * Optimize updating /trades, /orders and etc. - it's called too many times
+* css: disable user-select
 
 ## mañana
 * User Trades UI with filters (whether you're maker/taker, token, date) with CSV export 

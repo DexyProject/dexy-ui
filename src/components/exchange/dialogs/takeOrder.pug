@@ -10,7 +10,7 @@
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label Fill %
-                        input.form-control(type='range' min='0' max='1000', ng-model='exchange.toFill.portion')
+                        input.form-control(type='range' min='0' max='{{exchange.toFill.maxPortion}}', ng-model='exchange.toFill.portion')
 
                 .form-row.align-items-end
                     .form-group.col
@@ -23,8 +23,8 @@
 
                 .row
                     .col
-                        p.font-weight-light(ng-bind="'Summary: ' + (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' + (exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3) + ' ' + exchange.symbol + ' for ' + (exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4) + ' ETH'")
+                        p.font-weight-light(ng-bind="'Summary: ' + getSummary()")
             .modal-footer
                 .row
                     .col.text-right
-                        button.btn.btn-primary(type='button', ng-click="takeOrder(exchange.toFill)") {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
+                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='!exchange.toFill.canTrade') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}

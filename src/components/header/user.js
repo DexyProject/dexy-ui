@@ -36,11 +36,11 @@
             $scope.selected.hdWallet = hdWallet
 
             $scope.addresses = addresses.map(function (x, i) {
-                return {addr: x, idx: i, bal: '...'}
+                return { addr: x, idx: i, bal: '...' }
             })
 
             // refresh balances
-            var multiplier = 1000000000000000000 // 10**18
+            var multiplier = CONSTS.ETH_MUL
 
             var batch = new web3.eth.BatchRequest()
 
