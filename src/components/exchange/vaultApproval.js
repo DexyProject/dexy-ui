@@ -16,7 +16,6 @@
         function checkVaultApproval() {
             if (!user.publicAddr) return
 
-            console.log(user.publicAddr, cfg.exchangeContract)
             user.vaultContract.methods.isApproved(user.publicAddr, cfg.exchangeContract)
                 .call(function (err, isApproved) {
                     if (err) console.error(err)

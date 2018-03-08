@@ -13,6 +13,11 @@
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
+            if (order.order.exchange !== cfg.exchangeContract) {
+                toastr.error('Order exchange address different than ours')
+                return
+            }
+
             // order.amount is how much is left in token
             var maxUserAmnt = side === 'SELL' ?
                 (exchange.onExchange - exchange.onOrders.token)
@@ -21,6 +26,7 @@
             var tokenAmount = order.filledInToken + order.amount
             var maxCanFillInToken = Math.min(maxUserAmnt, order.amount)
             var maxPortion = Math.floor(maxCanFillInToken / tokenAmount * 1000)
+
 
             $scope.exchange.toFill = {
                 order: order,
@@ -34,9 +40,6 @@
 
         $scope.takeOrder = function (toFill) {
             var rawOrder = toFill.order.order
-
-            // WARNING: check !the order.exchange address is the same as what we're currently operating with
-            // throw an error if not
 
             // addresses - user, tokenGive, tokenGet
             var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
