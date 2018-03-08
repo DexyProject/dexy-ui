@@ -25,7 +25,7 @@
 
                 var exchange = $scope.exchange
 
-                $.getJSON(cfg.endpoint + '/ticks?token=' + exchange.token[0], function (data) {
+                $.getJSON(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0], function (data) {
                     // Create the chart
 
                     var prices = [];
