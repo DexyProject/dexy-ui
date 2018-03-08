@@ -109,10 +109,11 @@
 * show a warning if you try to place an order that's away from the spread
 * Bug: order book is not properly sorted
 * Fee calculator should be working
+* get price history from API
 
 # TODO
 
-* get price history from API
+* charts need to refresh
 
 * markets to load proper data
 
