@@ -84,6 +84,7 @@
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
+            // 5 days
             var expires = Math.floor((Date.now() / 1000) + 432000)
 
             var userAddr = user.publicAddr
@@ -105,11 +106,10 @@
                 tokenGet = token[0]
                 amountGive = weiUint
                 amountGet = tokenUint
-                availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) *  1000000000000000000
+                availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) * CONSTS.ETH_MUL
             }
 
             //console.log(amountGive, availableAmnt)
-            //return
 
             // amountGive must be available
 

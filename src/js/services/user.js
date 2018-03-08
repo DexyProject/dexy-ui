@@ -112,14 +112,14 @@
             console.log('Fetching ETH balances for ' + addr)
 
             web3.eth.getBalance(addr).then(function (bal) {
-                user.ethBal.onWallet = bal / 1000000000000000000
+                user.ethBal.onWallet = bal / CONSTS.ETH_MUL
                 if (!$scope.$$phase) $scope.$apply()
             })
 
             user.vaultContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    user.ethBal.onExchange = bal / 1000000000000000000
+                    user.ethBal.onExchange = bal / CONSTS.ETH_MUL
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })

@@ -62,7 +62,7 @@
         exchange.pair = $stateParams.pair
         exchange.symbol = token[2] || lastPart
         exchange.user = user
-        
+
         exchange.onOrders = { eth: 0, token: 0 }
 
         exchange.tokenInf = token
@@ -127,7 +127,7 @@
             var tokenBase = exchange.tokenInf[1]
 
             var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
-            var ethBase = 1000000000000000000
+            var ethBase = CONSTS.ETH_MUL
 
             // Essentially divide ETH/tokens, but divide by bases first in order to convert the uints to floats
             var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
@@ -201,7 +201,7 @@
             var tokenBase = exchange.tokenInf[1]
 
             var ethAmount = (o.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
-            var ethBase = 1000000000000000000
+            var ethBase = CONSTS.ETH_MUL
 
             return (ethAmount / ethBase) / (tokenAmount / tokenBase)
         }
