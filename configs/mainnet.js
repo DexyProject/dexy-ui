@@ -3,6 +3,8 @@ module.exports = {
     vaultContract: '',
     endpoint: 'https://mainnet.dexy.exchange',
 
+    exchangeFee: 0.0,
+
     chainId: 1,
     ethUrl: 'https://mainnet.infura.io/W0a3PCAj1UfQZxo5AIrv',
 

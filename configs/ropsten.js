@@ -3,6 +3,8 @@ module.exports = {
     vaultContract: '0xe2d89219fbab5b09fee646a4c5efeb0b702c9630',
     endpoint: 'https://testnet.dexy.exchange',
 
+    exchangeFee: 0.25,
+
     chainId: 3,
     ethUrl: 'https://ropsten.infura.io/W0a3PCAj1UfQZxo5AIrv',
 

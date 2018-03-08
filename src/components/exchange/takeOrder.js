@@ -27,7 +27,6 @@
             var maxCanFillInToken = Math.min(maxUserAmnt, order.amount)
             var maxPortion = Math.floor(maxCanFillInToken / tokenAmount * 1000)
 
-
             $scope.exchange.toFill = {
                 order: order,
                 maxCanFillInToken: maxCanFillInToken,
@@ -115,11 +114,25 @@
 
             var p = exchange.toFill.portion/1000
             var amnt = exchange.toFill.maxCanFillInToken * p
+            var ethAmount  = amnt * exchange.toFill.order.rate
+            var feePortion = cfg.exchangeFee/100
 
-            return (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
+            if (feePortion) {
+                if (exchange.toFill.side === 'SELL') ethAmount -= ethAmount * feePortion
+                else amnt -= amnt * feePortion
+            }
+
+            var summary = (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
             + amnt.toFixed(4) + ' ' 
-            + exchange.symbol + ' for ' + (amnt * exchange.toFill.order.rate).toFixed(6) + ' ETH'
-        }   
+            + exchange.symbol + ' for ' + ethAmount.toFixed(6) + ' ETH'
+            + '\n(Fee: '+
+                (exchange.toFill.side == 'SELL' 
+                    ? (ethAmount*feePortion.toFixed(8))+' ETH'
+                    : (amnt * feePortion).toFixed(6)+' '+exchange.symbol
+                )+')'
+
+            return summary
+        }
     }
 
 })();
