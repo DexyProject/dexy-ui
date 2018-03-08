@@ -27,10 +27,10 @@
                         .col-12
                             h3 Orders
                     .row(ng-controller='orderbookCtrl')
-                        .col-12(style='max-height: 340px; overflow-y: scroll')
+                        .col-12(style='max-height: 340px; overflow-y: auto')
                             include ./orderbook
             .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
-                .col.border(style='max-height: 386px; overflow-y: scroll')
+                .col.border
                     .row.navRow
                         ul.nav.nav-tabs
                             li.nav-item
@@ -44,7 +44,7 @@
                                     | My
                                     | Trades
                     .row.mt-3.mb-3
-                        .tab-content.col
+                        .tab-content.col(style='max-height: 386px; overflow-y: auto')
                             #wallet.tab-pane.fade.in.active.show
                                 include ./user/wallet
                             #orders.tab-pane.fade.in
@@ -74,6 +74,6 @@
                 .col-12
                     h3 History
             .row
-                .col-lg-12(style='overflow-y: scroll; max-height: 745px;')
+                .col-lg-12(style='overflow-y: auto; max-height: 745px;')
                     include ./tradeHistory
 
