@@ -21,30 +21,27 @@ div(ng-controller='MarketsController as markets')
                         th(scope='col')
                         th(scope='col' ng-click="setOrderBy('symbol')") Market
                         th(scope='col' ng-click="setOrderBy('name')") Name
-                        th(scope='col' ng-click="setOrderBy('balance')") Balance
-                        th(scope='col' ng-click="setOrderBy('price')") Price
-                        th(scope='col' ng-click="setOrderBy('change')") % Change
+                        th(scope='col' ng-click="setOrderBy('balanceWallet')") Balance On Wallet
+                        th(scope='col' ng-click="setOrderBy('balanceExchange')") Balance On Exchange
+                        th(scope='col' ng-click="setOrderBy('bic')") Bid
+                        th(scope='col' ng-click="setOrderBy('ask')") Ask
                         th(scope='col' ng-click="setOrderBy('vol')") 24h Volume
-                        th(scope='col' ng-click="setOrderBy('high')") 24h High
-                        th(scope='col' ng-click="setOrderBy('low')") 24h Low
+
                 tbody
                     tr(ng-repeat='market in markets | orderBy:orderByField:reverseSort | filter: searchKeyword', ng-click='openExchange(market.symbol)', ng-hide='hideZeroBal && market.balance <= 0')
                         td
                             img(ng-src='img/markets/{{market.symbol}}-ETH.png' width='30')
                         td(ng-bind='market.symbol')
                         td(ng-bind='market.name')
-                        td(ng-bind='market.balance.toFixed(2)')
+                        td(ng-bind='market.balanceWallet.toFixed(2)')
+                        td(ng-bind='market.balanceExchange.toFixed(2)')
+                        //-td(ng-bind='market.change.toFixed(2)' ng-class='market.change >= 0 ? "positive" : "negative"')
                         td
-                            div(ng-bind='::market.price.toFixed(8)')
-                            div(class='label')
-                                small(ng-bind='fiatValue(market.price)')
-                        td(ng-bind='market.change.toFixed(2)' ng-class='market.change >= 0 ? "positive" : "negative"')
+                            div(ng-bind='::(market.bid.toFixed(8))')
+                            div(class='label', ng-bind='fiatValue(market.bid)')
+                        td
+                            div(ng-bind='::(market.ask.toFixed(8))')
+                            div(class='label', ng-bind='fiatValue(market.ask)')
                         td
                             div(ng-bind='::(market.vol.toFixed(8))')
                             div(class='label', ng-bind='fiatValue(market.vol)')
-                        td
-                            div(ng-bind='::(market.high.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.high)')
-                        td
-                            div(ng-bind='::(market.low.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.low)')

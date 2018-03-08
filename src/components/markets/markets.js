@@ -23,6 +23,8 @@
         };
 
 
+        // omWallet, onExchange, bid, ask, vol
+
         // Fill in vol, price_eth, price_fiat
         // ugly but works
         $scope.markets = cfg.markets.map(function (x) {
@@ -30,13 +32,11 @@
             return { name: x, symbol: x }
         })
         $scope.markets.forEach(function (x) {
-            // TEMP TMP TEMP
-            x.price = Math.random()
-            x.high = x.price + Math.random() * 0.2
-            x.low = x.price - Math.random() * 0.2
+            x.ask = x.price + Math.random() * 0.2
+            x.bid = x.price - Math.random() * 0.2
             x.vol = 200 * Math.random()
-            x.change = 0.4 * (Math.random() - 0.5)
-            x.balance = 0
+            x.balanceWallet = 0
+            x.balanceExchange = 0
 
             x.token = cfg.tokens[x.symbol]
 
@@ -63,9 +63,8 @@
                 batch.add(contract.methods.balanceOf(addr).call.request(function (err, bal) {
                     if (err) console.error(err)
                     else {
-                        x.balance = bal / x.token[1]
-                        if (!$scope.$$phase) $scope.$apply(function () {
-                        })
+                        x.balanceWallet = bal / x.token[1]
+                        if (!$scope.$$phase) $scope.$apply()
                     }
                 }))
             })

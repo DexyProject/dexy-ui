@@ -112,9 +112,9 @@
 
 # TODO
 
-* markets to load proper data
-
 * get price history from API
+
+* markets to load proper data
 
 * Terraform for infra
 
