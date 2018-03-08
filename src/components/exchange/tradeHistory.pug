@@ -6,6 +6,6 @@ table.table.table-hover.tradehistory
             th(scope='col') Time
     tbody.text-right
         tr(ng-repeat='trade in exchange.trades', ng-class='::trade.side', ng-click="openTransaction(trade.tx)")
-            td(ng-bind='::trade.amount')
+            td(ng-bind='::trade.amount.toFixed(4)')
             td(ng-bind='::trade.price.toFixed(8)')
             td(ng-bind='::trade.time.toLocaleString()')
