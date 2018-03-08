@@ -28,7 +28,7 @@ div(ng-controller='MarketsController as markets')
                         th(scope='col' ng-click="setOrderBy('vol')") 24h Volume
 
                 tbody
-                    tr(ng-repeat='market in markets | orderBy:orderByField:reverseSort | filter: searchKeyword', ng-click='openExchange(market.symbol)', ng-hide='hideZeroBal && market.balance <= 0')
+                    tr(ng-repeat='market in markets | orderBy:orderByField:reverseSort | filter:searchKeyword track by market.symbol', ng-click='openExchange(market.symbol)', ng-hide='hideZeroBal && market.balanceExchange <= 0')
                         td
                             img(ng-src='img/markets/{{market.symbol}}-ETH.png' width='30')
                         td(ng-bind='market.symbol')

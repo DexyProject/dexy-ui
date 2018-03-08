@@ -35,6 +35,7 @@
             x.ask = x.price + Math.random() * 0.2
             x.bid = x.price - Math.random() * 0.2
             x.vol = 200 * Math.random()
+            
             x.balanceWallet = 0
             x.balanceExchange = 0
 
