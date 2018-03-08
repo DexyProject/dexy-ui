@@ -30,7 +30,7 @@
                         .col-12(style='max-height: 340px; overflow-y: scroll')
                             include ./orderbook
             .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
-                .col.border(style='max-height: 386px; overflow-y: scroll')
+                .col.border
                     .row.navRow
                         ul.nav.nav-tabs
                             li.nav-item
@@ -44,7 +44,7 @@
                                     | My
                                     | Trades
                     .row.mt-3.mb-3
-                        .tab-content.col
+                        .tab-content.col(style='max-height: 386px; overflow-y: scroll')
                             #wallet.tab-pane.fade.in.active.show
                                 include ./user/wallet
                             #orders.tab-pane.fade.in
