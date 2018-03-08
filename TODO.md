@@ -135,6 +135,7 @@
 * TradingView license: also check if we can host `tv.js` on our servers
 * component for the top indicators that would flash green/red
 * Proper night mode
+* Optimize updating /trades, /orders and etc. - it's called too many times
 
 ## mañana
 * User Trades UI with filters (whether you're maker/taker, token, date) with CSV export 
