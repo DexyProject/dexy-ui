@@ -110,10 +110,10 @@
 * Bug: order book is not properly sorted
 * Fee calculator should be working
 * get price history from API
+* expiration: should it be 5 days?
+* charts need to refresh
 
 # TODO
-
-* charts need to refresh
 
 * markets to load proper data
 
@@ -121,7 +121,6 @@
 
 * IPFS infra: make sure we have our own node & pinning
 
-* expiration: should it be 5 days?
 
 ## mañana but important
 

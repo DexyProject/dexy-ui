@@ -1,16 +1,14 @@
 window.chartStyle = {
     rangeSelector: {
         inputEnabled: false,
-        selected: 1,
+        selected: 0,
         buttonSpacing: -5,
         buttons: [
-        /*
         {
             type: 'minute',
-            count: 5,
-            text: '5m'
+            count: 10,
+            text: '10m'
         },
-        */
         {
             type: 'hour',
             count: 1,
@@ -19,14 +17,6 @@ window.chartStyle = {
             type: 'day',
             count: 1,
             text: '1d'
-        }, {
-            type: 'week',
-            count: 1,
-            text: '1w'
-        }, {
-            type: 'month',
-            count: 1,
-            text: '1m'
         }],
         buttonPosition: {
             align: 'right',
@@ -195,7 +185,9 @@ window.chartStyle = {
             groupPixelWidth: 25,
 
             units: [
-                ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
+                ['minute', [1]],
+                ['hour', [1]],
+                ['day', [1]],
             ]
         }
     },
@@ -211,7 +203,9 @@ window.chartStyle = {
                 groupPixelWidth: 25,
 
                 units: [
-                    ['hour', [1, 2, 3, 4, 6, 8, 12, 24, 48]]
+                    ['minute', [1]],
+                    ['hour', [1]],
+                    ['day', [1]],
                 ]
             },
             color: '#b9b9b9'
