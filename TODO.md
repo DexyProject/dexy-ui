@@ -109,10 +109,11 @@
 
 # TODO
 
+* show a warning if you try to place an order that's away from the spread
+
 * markets to load proper data
 
 * get price history from API
-
 
 ## mañana but important
 

@@ -163,6 +163,7 @@ window.chartStyle = {
         useHTML: true,
         shared: true,
         formatter: function () {
+            // @TODO: @WARNING: performance
             var c = this.points.length ? this.points[0].point : undefined;
             var v = this.points.length ? this.points[1].point : undefined;
             var $scope = angular.element('[id=exchange]').scope();
