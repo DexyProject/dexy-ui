@@ -102,8 +102,7 @@
             var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
-            // 5 days
-            var expires = Math.floor((Date.now() / 1000) + 432000)
+            var expires = Math.floor((Date.now() / 1000) + CONSTS.DEFAULT_ORDER_LIFETIME)
 
             var userAddr = user.publicAddr
 

@@ -6,9 +6,9 @@
         .module('dexyApp')
         .controller('chartCtrl', chartCtrl);
 
-    chartCtrl.$inject = ['$scope', 'user'];
+    chartCtrl.$inject = ['$scope', 'user', '$interval'];
 
-    function chartCtrl($scope, user) {
+    function chartCtrl($scope, user, $interval) {
 
         // 
         // Chart

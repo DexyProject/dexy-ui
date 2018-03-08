@@ -30,5 +30,7 @@
     consts.SELL_WARN_THRESHOLD = 0.9
     consts.BUY_WARN_THRESHOLD = 1.1
 
+    consts.DEFAULT_ORDER_LIFETIME = 30 * 24 * 60 * 60
+
     return consts
 })
