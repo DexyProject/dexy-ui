@@ -5,21 +5,23 @@
                 h5.modal-title Fill Order
 
             .modal-body
+                //- This describes the WHOLE order
                 h5 Order&nbsp;
                     small.text-muted {{exchange.toFill.order.amount}} {{exchange.symbol}} for {{exchange.toFill.order.rate}} ETH/{{exchange.symbol}}
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label Fill %
-                        input.form-control(type='range' min='0' max='{{exchange.toFill.maxPortion}}', ng-model='exchange.toFill.portion')
+                        input.form-control(type='range' min='0' max='1000' ng-model='exchange.toFill.portion')
 
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label Amount {{exchange.symbol}}
-                        input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.order.amount * (exchange.toFill.portion/1000)).toFixed(3)', disabled='')
+                        //- This is supposed to describe the token amount, in terms of what will be filled by the user
+                        input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.maxCanFillInToken * (exchange.toFill.portion/1000)).toFixed(4)', disabled='')
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label ETH
-                        input.form-control(type='text', placeholder='eth', ng-value='(exchange.toFill.order.amount * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(4)', disabled='')
+                        input.form-control(type='text', placeholder='eth', ng-value='(exchange.toFill.maxCanFillInToken * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(6)', disabled='')
 
                 .row
                     .col
@@ -27,4 +29,5 @@
             .modal-footer
                 .row
                     .col.text-right
-                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='!exchange.toFill.canTrade') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
+                        //- !exchange.toFill.canTrade
+                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='false') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}

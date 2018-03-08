@@ -13,20 +13,25 @@
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
-            var maxAmnt = side === 'SELL' ?
+            // order.amount is how much is left in token
+            var maxUserAmnt = side === 'SELL' ?
                 (exchange.onExchange - exchange.onOrders.token)
                 : (user.ethBal.onExchange - exchange.onOrders.eth) / order.rate
 
-            var maxPortion = Math.floor(maxAmnt / order.amount * 1000)
+            var tokenAmount = order.filledInToken + order.amount
+            var maxCanFillInToken = Math.min(maxUserAmnt, order.amount)
+            var maxPortion = Math.floor(maxCanFillInToken / tokenAmount * 1000)
 
             $scope.exchange.toFill = {
                 order: order,
-                maxPortion: maxPortion,
-                portion: Math.min(maxPortion, 1000),
+                maxCanFillInToken: maxCanFillInToken,
+                tokenAmount: tokenAmount,
+                portion: 1000,
                 side: side,
             }
             $('#takeOrder').modal('show')
         }
+
         $scope.takeOrder = function (toFill) {
             var rawOrder = toFill.order.order
 
@@ -36,9 +41,13 @@
             // addresses - user, tokenGive, tokenGet
             var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
             var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
+
+            // portion is calculated in terms of portion from what CAN be filled
+            // maxCanFillInToken is used in the UI to calculate it
             var portion = toFill.portion / 1000
 
-            var amnt = Math.floor(parseInt(rawOrder.get.amount) * portion).toString()
+            var totalCanTake = parseInt(rawOrder.get.amount, 10) * toFill.maxCanFillInToken / toFill.tokenAmount
+            var amnt = Math.floor(portion * totalCanTake).toString()
 
             var sig = rawOrder.signature
 
@@ -93,13 +102,13 @@
         $scope.getSummary = function()
         {
             if (! exchange.toFill) return
-                
+
             var p = exchange.toFill.portion/1000
-            var amnt = exchange.toFill.order.amount * p
+            var amnt = exchange.toFill.maxCanFillInToken * p
 
             return (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
-            + amnt.toFixed(3) + ' ' 
-            + exchange.symbol + ' for ' + (amnt * exchange.toFill.order.rate).toFixed(4) + ' ETH'
+            + amnt.toFixed(4) + ' ' 
+            + exchange.symbol + ' for ' + (amnt * exchange.toFill.order.rate).toFixed(6) + ' ETH'
         }   
     }
 

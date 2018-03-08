@@ -156,16 +156,16 @@
             var filledInETH = order.get.token === CONSTS.ZEROADDR ? getFilled : giveFilled
 
             // Divide the leftover amount by the bases
-            var leftInEth = (ethAmount - filledInETH) / ethBase
-            var leftInToken = (tokenAmount - filledInToken) / tokenBase
+            var leftInEth = ethAmount - filledInETH
+            var leftInToken = tokenAmount - filledInToken
 
             return {
                 order: order,
                 id: order.hash,
                 rate: price,
-                amount: leftInToken,
+                amount: leftInToken / tokenBase,
                 filledInToken: filledInToken / tokenBase,
-                leftInEth: leftInEth,
+                leftInEth: leftInEth / ethBase,
                 isMine: user.publicAddr && order.user.toLowerCase() == user.publicAddr.toLowerCase(),
                 type: order.get.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
                 expires: expires
