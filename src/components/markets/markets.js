@@ -67,6 +67,14 @@
                         if (!$scope.$$phase) $scope.$apply()
                     }
                 }))
+
+                batch.add(user.vaultContract.methods.balanceOf(x.token[0], addr).call.request(function(err, bal) {
+                    if (err) console.error(err)
+                    else {
+                        x.balanceExchange = bal / x.token[1]
+                        if (!$scope.$$phase) $scope.$apply()
+                    }
+                }))
             })
 
             batch.execute()
