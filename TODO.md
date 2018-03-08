@@ -107,10 +107,9 @@
 * filling orders: cap to the maximum of what you have (e.g. cant sell more tokens than you have)
 * filling orders: validate whether canTrade, show notification if not
 * show a warning if you try to place an order that's away from the spread
+* Bug: order book is not properly sorted
 
 # TODO
-
-* Bug: order book is not properly sorted
 
 * markets to load proper data
 
