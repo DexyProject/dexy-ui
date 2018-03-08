@@ -134,6 +134,8 @@
 * component for the top indicators that would flash green/red
 * Proper night mode
 * Optimize updating /trades, /orders and etc. - it's called too many times
+* Optimize by making a debounced scope update function
+* Optimize by ensuring one-time binding is used
 * css: disable user-select
 
 ## mañana

@@ -20,8 +20,8 @@
                 })
                 .then(function (ob) {
                     exchange.orderbook = {
-                        bids: (ob.bids || []).map(exchange.mapOrder),
-                        asks: (ob.asks || []).map(exchange.mapOrder),
+                        asks: (ob.asks || []).map(exchange.mapOrder).sort(lowestToHighest),
+                        bids: (ob.bids || []).map(exchange.mapOrder).sort(highestToLowest),
                     }
                     if (!$scope.$$phase) $scope.$digest()
                 })
@@ -29,6 +29,15 @@
                     toastr.error('Error loading order book')
                     console.error(err)
                 })
+        }
+
+        function lowestToHighest(a, b){
+            return a.rate - b.rate
+        }
+
+        function highestToLowest(a, b) 
+        {
+            return b.rate - a.rate
         }
 
         $scope.$on('reload-orders', function () {

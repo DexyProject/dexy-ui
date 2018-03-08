@@ -19,10 +19,8 @@
         }
 
         $scope.getBest = function() {
-            // @TODO: @NOTE: should we assume asks/bids is sorted here
-
             return {
-                ask: exchange.orderbook.asks[exchange.orderbook.asks.length - 1],
+                ask: exchange.orderbook.asks[0],
                 bid:  exchange.orderbook.bids[0]
             }
         }
