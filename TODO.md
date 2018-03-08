@@ -108,6 +108,7 @@
 * filling orders: validate whether canTrade, show notification if not
 * show a warning if you try to place an order that's away from the spread
 * Bug: order book is not properly sorted
+* Fee calculator should be working
 
 # TODO
 
@@ -120,8 +121,6 @@
 * Terraform for infra
 
 * IPFS infra: make sure we have our own node & pinning
-
-* Fee calculator should be working
 
 ## mañana but important
 
