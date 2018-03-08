@@ -29,5 +29,4 @@
             .modal-footer
                 .row
                     .col.text-right
-                        //- !exchange.toFill.canTrade
-                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='false') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
+                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='!exchange.toFill.canTrade') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
