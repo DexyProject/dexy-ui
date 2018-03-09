@@ -17,14 +17,6 @@
             $interval.cancel(updateIntvl)
         })
 
-        // 
-        // Chart
-        Highcharts.setOptions({
-            lang: {
-                rangeSelectorZoom: ''
-            }
-        });
-
         var chartStyle = angular.copy(window.chartStyle)
         chartStyle.chart.events = {
             load: function () {
