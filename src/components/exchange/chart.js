@@ -17,6 +17,14 @@
             $interval.cancel(updateIntvl)
         })
 
+        // 
+        // Chart
+        Highcharts.setOptions({
+            lang: {
+                rangeSelectorZoom: ''
+            }
+        });
+
         var chartStyle = angular.copy(window.chartStyle)
         chartStyle.chart.events = {
             load: function () {
@@ -31,8 +39,6 @@
 
         function updateChart(chart)
         {
-            console.log('update')
-
             fetch(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0])
             .then(function(resp) { return resp.json() })
             .then(function (data) {

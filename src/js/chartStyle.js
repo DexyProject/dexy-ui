@@ -1,9 +1,6 @@
 window.chartStyle = (function() {
 
     var chartStyle = {
-        lang: {
-            rangeSelectorZoom: ''
-        },
         rangeSelector: {
             inputEnabled: false,
             selected: 0,
@@ -156,7 +153,8 @@ window.chartStyle = (function() {
                 style: {
                     color: '#b9b9b9'
                 }
-            }
+            },
+            minRange: 60 * 1000,
         }],
         tooltip: {
             backgroundColor: 'transparent',
@@ -167,8 +165,8 @@ window.chartStyle = (function() {
             shared: true,
             formatter: function () {
                 // @TODO: @WARNING: performance
-                var c = this.points.length ? this.points[0].point : undefined;
-                var v = this.points.length ? this.points[1].point : undefined;
+                var c = this.points[0] ? this.points[0].point : undefined;
+                var v = this.points[1] ? this.points[1].point : undefined;
                 var $scope = angular.element('[id=exchange]').scope();
                 var volume = (v.y / CONSTS.ETH_MUL).toLocaleString() + ' ETH';
                 $scope.meta.open = c.open.toFixed(8);
@@ -185,6 +183,8 @@ window.chartStyle = (function() {
             name: 'Price',
             zIndex: 2,
             dataGrouping: {
+                enabled: true,
+                forced: true,
                 groupPixelWidth: 25,
             }
         },
@@ -195,6 +195,8 @@ window.chartStyle = (function() {
             yAxis: 1,
             zIndex: 1,
             dataGrouping: {
+                enabled: true,
+                forced: true,
                 groupPixelWidth: 25,
             },
             color: '#b9b9b9'
