@@ -64,6 +64,8 @@
         exchange.user = user
 
         exchange.onOrders = { eth: 0, token: 0 }
+        exchange.onExchange = 0
+        exchange.onWallet = 0
 
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])

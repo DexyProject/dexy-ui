@@ -101,7 +101,7 @@
         setInterval(nonceUpdate, CONSTS.NONCE_UPDATE_INTVL)
 
         // Eth bal - on wallet and exchange
-        user.ethBal = {}
+        user.ethBal = { onExchange: 0, onWallet: 0 }
 
         function fetchEthBal() {
             if (!user.publicAddr)
