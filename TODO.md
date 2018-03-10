@@ -118,9 +118,13 @@
 * markets to load proper data
 
 * Terraform for infra
+	* multiple servers, connected
+	* firewall
+	* go API, MongoDB
 
 * IPFS infra: make sure we have our own node & pinning
 
+* deploy msig and such
 
 ## mañana but important
 

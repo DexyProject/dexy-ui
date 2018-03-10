@@ -132,7 +132,7 @@
             + exchange.symbol + ' for ' + ethAmount.toFixed(6) + ' ETH'
             + '\n(Fee: '+
                 (exchange.toFill.side == 'SELL' 
-                    ? (ethAmount*feePortion.toFixed(8))+' ETH'
+                    ? (ethAmount*feePortion.toFixed(12))+' ETH'
                     : (amnt * feePortion).toFixed(6)+' '+exchange.symbol
                 )+')'
 
