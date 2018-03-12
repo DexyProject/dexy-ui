@@ -97,13 +97,23 @@
                         return
                     }
 
+                    // Note: the cantrade value will be reflected in the modal, but also we close the modal
+                    // and show a toastr
+                    // This is only kept for data consistency (since we have a .canTrade prop there)
+
                     $scope.exchange.toFill.canTrade = resp
+
+                    !$scope.$$phase && $scope.$digest()
 
                     if (resp === false) {
                         console.log('Cannot trade order', $scope.exchange.toFill.order, args)
-                    }
 
-                    !$scope.$$phase && $scope.$digest()
+                        // WARNING: this is a problem with bootstrap, we need to wait the animation time before we can remove...
+                        setTimeout(function() {
+                            $('#takeOrder').modal('hide')
+                        }, 300)
+                        toastr.error('Cannot trade order: it is expired, filled or the signature is invalid')
+                    }
                 })
 
             // For debugging purposes
