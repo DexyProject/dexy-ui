@@ -112,15 +112,26 @@
 * get price history from API
 * expiration: should it be 5 days?
 * charts need to refresh
+* terraform: basics - go, nginx, etc.
+* terraform: firewall
 
 # TODO
 
 * markets to load proper data
 
-* Terraform for infra
-	* multiple servers, connected
-	* firewall
-	* go API, MongoDB
+* UX: errors in order form to stand out
+
+* UX: your orders to be more understandable visually
+
+* UX: asset name to be obvious (probably in the header)
+
+* UX: in the top dropdown, addr and network should not be selectable
+
+* terraform: supervisord
+
+* Terraform: mongodb
+
+* Terraform: multiple servers
 
 * IPFS infra: make sure we have our own node & pinning
 
