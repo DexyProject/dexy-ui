@@ -108,10 +108,6 @@
                     if (resp === false) {
                         console.log('Cannot trade order', $scope.exchange.toFill.order, args)
 
-                        // WARNING: this is a problem with bootstrap, we need to wait the animation time before we can remove...
-                        setTimeout(function() {
-                            $('#takeOrder').modal('hide')
-                        }, 300)
                         toastr.error('Cannot trade order: it is expired, filled or the signature is invalid')
                     }
                 })
