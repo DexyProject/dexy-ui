@@ -58,7 +58,7 @@
 
             var sig = rawOrder.signature
 
-            return [addresses, values, sig.v, sig.r, sig.s, amnt, sig.sig_mode]
+            return [addresses, values, amnt, sig.v, sig.r, sig.s, sig.sig_mode]
         }
 
         $scope.takeOrder = function (toFill) {

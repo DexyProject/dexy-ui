@@ -117,6 +117,8 @@
 
 # TODO
 
+* new canTrade/trade arg order
+
 * markets to load proper data
 
 * UX: errors in order form to stand out
