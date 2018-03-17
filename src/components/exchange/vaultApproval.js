@@ -25,16 +25,15 @@
                 })
         }
 
-        exchange.approveExchangeByVault = function () {
+        $scope.approveExchangeByVault = function () {
             var tx = user.vaultContract.methods.approve(cfg.exchangeContract)
 
+             $('#approveExchangeByVault').modal('hide')
             // @TODO: saner gas limit
             user.sendTx(tx, {from: user.publicAddr, gas: 60 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
                 if (err) return $scope.exchange.txError('Vault approval failed', err)
 
                 if (txid) $scope.exchange.txSuccess(txid)
-
-                $('#approveExchangeByVault').modal('hide')
             })
         }
     }
