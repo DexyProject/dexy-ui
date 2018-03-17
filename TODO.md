@@ -114,10 +114,10 @@
 * charts need to refresh
 * terraform: basics - go, nginx, etc.
 * terraform: firewall
+* new canTrade/trade arg order
+* UX: in the top dropdown, addr and network should not be selectable
 
 # TODO
-
-* new canTrade/trade arg order
 
 * markets to load proper data
 
@@ -126,8 +126,6 @@
 * UX: your orders to be more understandable visually
 
 * UX: asset name to be obvious (probably in the header)
-
-* UX: in the top dropdown, addr and network should not be selectable
 
 * terraform: supervisord
 
