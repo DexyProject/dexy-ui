@@ -117,16 +117,15 @@
 * new canTrade/trade arg order
 * UX: in the top dropdown, addr and network should not be selectable
 * UX: errors in order form to stand out
+* markets to load proper data
+* UX: show total available balance in "Place order"
 
 # TODO
-
-* markets to load proper data
 
 * UX: your orders to be more understandable visually
 
 * UX: asset name to be obvious (probably in the header)
 
-* UX: show total available balance in "Place order"
 
 ## mañana but important
 
