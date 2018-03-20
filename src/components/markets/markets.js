@@ -82,24 +82,30 @@
 
             batch.execute()
 
-            /*
             var addrs = $scope.markets.map(function(x) { return x.token[0] })
-            fetch(cfg.endpoint + "/markets?tokens=" + encodeURIComponent(JSON.stringify(addrs)))
+            fetch(cfg.endpoint + '/markets?tokens=' + encodeURIComponent(JSON.stringify(addrs)))
             .then(function(res) { return res.json() })
             .then(function(all) {
-                console.log(all)
+                $scope.markets.forEach(function (x) {
+                    var info = all[x.token[0]]
+
+                    if (! info) return
+
+                    console.log(info)
+
+                })
+                $scope.delayedApply()
             })
             .catch(function (err) {
                 toastr.error('Error loading markets data')
                 console.error(err)
             })
-            */
         })
 
         var t
         $scope.delayedApply = function() {
             clearTimeout(t)
-            t = setTimeout(function() { !$scope.$$phase && $scope.$digest() }, 200)
+            t = setTimeout(function() { !$scope.$$phase && $scope.$digest() }, CONSTS.MARKETS_SCOPE_UPDATE_DEBOUNCE)
         }
 
         $scope.fiatValue = function (value) {
