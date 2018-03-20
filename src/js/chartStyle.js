@@ -168,7 +168,7 @@ window.chartStyle = (function() {
                 var c = this.points[0] ? this.points[0].point : undefined;
                 var v = this.points[1] ? this.points[1].point : undefined;
                 var $scope = angular.element('[id=exchange]').scope();
-                var volume = (v.y / CONSTS.ETH_MUL).toLocaleString() + ' ETH';
+                var volume = (v.y / CONSTS.ETH_MUL).toFixed(3) + ' ETH';
                 $scope.meta.open = c.open.toFixed(8);
                 $scope.meta.high = c.high.toFixed(8);
                 $scope.meta.low = c.low.toFixed(8);
