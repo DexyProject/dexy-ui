@@ -5,7 +5,7 @@
         .module('dexyApp')
         .controller('MarketsController', MarketsController);
 
-    MarketsController.$inject = ['$scope', '$state', 'cmc', 'user'];
+    MarketsController.$inject = ['$scope', '$state', '$interval', 'cmc', 'user'];
 
     var markets = cfg.markets.map(function (x) {
         var m = { name: x, symbol: x }
@@ -24,7 +24,7 @@
         return m
     })
 
-    function MarketsController($scope, $state, cmc, user) {
+    function MarketsController($scope, $state, $interval, cmc, user) {
         $scope.orderByField = 'vol';
         $scope.reverseSort = true;
         $scope.searchKeyword = '';
@@ -42,16 +42,25 @@
 
         $scope.markets = markets
 
-        // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract
-        // once we have to get from the contract too
+        var intvl = $interval(function () {
+            updateMarkets()
+        }, CONSTS.UPDATE_MARKETS_INTVL)
+        $scope.$on('$destroy', function () {
+            $interval.cancel(intvl)
+        })
         $scope.$watch(function () {
             return user.publicAddr
-        }, function (addr) {
+        }, function() {
+            updateMarkets()
+        })
+
+        function updateMarkets() {
+            var addr = user.publicAddr
             if (!addr) return
 
-            var batch = new web3.eth.BatchRequest()
-
             console.log('Markets: fetching all balances for ' + addr)
+
+            var batch = new web3.eth.BatchRequest()
 
             $scope.markets.forEach(function (x) {
                 if (!x.token) return
@@ -95,7 +104,7 @@
                 toastr.error('Error loading markets data')
                 console.error(err)
             })
-        })
+        }
 
         var t
         $scope.delayedApply = function() {

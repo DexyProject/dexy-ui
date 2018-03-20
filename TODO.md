@@ -122,6 +122,8 @@
 
 # TODO
 
+* Markets: pagination
+
 * UX: your orders to be more understandable visually
 
 * UX: asset name to be obvious (probably in the header)
