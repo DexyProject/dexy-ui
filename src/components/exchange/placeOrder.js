@@ -50,6 +50,20 @@
             order.amount = parseInt(order.amount * 10000) / 10000
         }
 
+        $scope.showAvail = function (order) {
+            if (! order)
+                return
+
+            var avail
+            if (order.type === 'BUY') {
+                avail = exchange.user.ethBal.onExchange - exchange.onOrders.eth
+                return 'Available: ' + avail.toFixed(6) + ' ETH'
+            } else {
+                avail = exchange.onExchange - exchange.onOrders.token
+                return 'Available: ' + avail.toFixed(3) + ' ' + exchange.symbol
+            }
+        }
+
         $scope.$watch(function () {
             return $scope.orders
         }, function (orders) {

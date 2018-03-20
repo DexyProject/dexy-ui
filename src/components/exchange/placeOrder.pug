@@ -7,7 +7,7 @@
             | Best #{side === "SELL" ? "bid" : "ask"}
 .form-row.align-items-end.mt-1
     .form-group.col
-        label.col-form-label(for='amount') Amount
+        label.col-form-label(for='amount') Amount {{exchange.symbol}}
         input#amount.form-control(type='text', placeholder='Amount', ng-model='orders.' + side + '.amount')
 .row
     .col.mb-3.text-center
@@ -20,6 +20,10 @@
                 | 75%
             button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 1.00)')
                 | 100%
+
+.form-row.align-items-end.mt-1
+    .form-group.col
+        label.col-form-label(for='available', ng-bind='showAvail(orders.' + side + ')')
 
 .form-row.align-items-end
     .form-group.col-9.mb-0
