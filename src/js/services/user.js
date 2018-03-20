@@ -70,6 +70,7 @@
                 if (accounts[0] == user.publicAddr) return
 
                 user.publicAddr = accounts[0]
+                if (user.publicAddr) user.publicAddr = user.publicAddr.toLowerCase()
 
                 if (!$scope.$$phase) $scope.$apply()
             })
