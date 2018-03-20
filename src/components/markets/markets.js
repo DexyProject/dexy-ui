@@ -32,10 +32,10 @@
             return { name: x, symbol: x }
         })
         $scope.markets.forEach(function (x) {
-            x.ask = x.price + Math.random() * 0.2
-            x.bid = x.price - Math.random() * 0.2
-            x.vol = 200 * Math.random()
-            
+
+            x.ask = 0
+            x.bid = 0
+
             x.balanceWallet = 0
             x.balanceExchange = 0
 
@@ -44,6 +44,8 @@
             if (!x.token)
                 console.log('WARNING: no token for ' + x.symbol)
         })
+
+
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract
         // once we have to get from the contract too
@@ -54,7 +56,7 @@
 
             var batch = new web3.eth.BatchRequest()
 
-            console.log('Fetching all balances for ' + addr)
+            console.log('Markets: fetching all balances for ' + addr)
 
             $scope.markets.forEach(function (x) {
                 if (!x.token) return
@@ -65,7 +67,7 @@
                     if (err) console.error(err)
                     else {
                         x.balanceWallet = bal / x.token[1]
-                        if (!$scope.$$phase) $scope.$apply()
+                        $scope.delayedApply()
                     }
                 }))
 
@@ -73,13 +75,32 @@
                     if (err) console.error(err)
                     else {
                         x.balanceExchange = bal / x.token[1]
-                        if (!$scope.$$phase) $scope.$apply()
+                        $scope.delayedApply()
                     }
                 }))
             })
 
             batch.execute()
+
+            /*
+            var addrs = $scope.markets.map(function(x) { return x.token[0] })
+            fetch(cfg.endpoint + "/markets?tokens=" + encodeURIComponent(JSON.stringify(addrs)))
+            .then(function(res) { return res.json() })
+            .then(function(all) {
+                console.log(all)
+            })
+            .catch(function (err) {
+                toastr.error('Error loading markets data')
+                console.error(err)
+            })
+            */
         })
+
+        var t
+        $scope.delayedApply = function() {
+            clearTimeout(t)
+            t = setTimeout(function() { !$scope.$$phase && $scope.$digest() }, 200)
+        }
 
         $scope.fiatValue = function (value) {
             return $scope.useEUR ? '€' + (value * cmc.pairs.ETHEUR).toFixed(2) : '$' + (value * cmc.pairs.ETHUSD).toFixed(2)
