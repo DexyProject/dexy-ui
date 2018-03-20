@@ -25,9 +25,9 @@
 
                 .row
                     .col
-                        p.font-weight-bold(ng-if='exchange.toFill.canTrade === false' ng-bind="'This order for '+amnt.toFixed(4)+' '+exchange.symbol+' cannot be traded. It may be expired or underfunded.'")
+                        p.font-weight-bold.text-danger(ng-if='exchange.toFill.canTrade === false' ng-bind="'This order for '+amnt.toFixed(4)+' '+exchange.symbol+' cannot be traded. It may be expired or underfunded.'")
                         p.font-weight-light(ng-if='exchange.toFill.canTrade !== false' ng-bind="'Summary: ' + getSummary()")
             .modal-footer
                 .row
                     .col.text-right
-                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-disabled='!exchange.toFill.canTrade') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}
+                        button.btn.btn-primary(type='button', ng-click='takeOrder(exchange.toFill)', ng-show='exchange.toFill.canTrade !== false') {{exchange.toFill.side === 'SELL' ? 'Sell' : 'Buy'}}

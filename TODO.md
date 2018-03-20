@@ -116,12 +116,11 @@
 * terraform: firewall
 * new canTrade/trade arg order
 * UX: in the top dropdown, addr and network should not be selectable
+* UX: errors in order form to stand out
 
 # TODO
 
 * markets to load proper data
-
-* UX: errors in order form to stand out
 
 * UX: your orders to be more understandable visually
 

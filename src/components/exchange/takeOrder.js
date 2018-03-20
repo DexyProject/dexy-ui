@@ -111,12 +111,6 @@
                         toastr.error('Cannot trade order: it is expired, filled or the signature is invalid')
                     }
                 })
-
-            // For debugging purposes
-            // user.exchangeContract.methods.didSign(rawOrder.user, rawOrder.hash, sig.v, sig.r, sig.s, sig.sig_mode)
-            //     .call(function (err, resp) {
-            //         console.log('didSign', err, resp)
-            //     })
         }
 
         $scope.getSummary = function()
