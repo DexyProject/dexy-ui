@@ -37,10 +37,10 @@ div(ng-controller='MarketsController as markets')
                         td(ng-bind='market.balanceExchange.toFixed(2)')
                         //-td(ng-bind='market.change.toFixed(2)' ng-class='market.change >= 0 ? "positive" : "negative"')
                         td
-                            div(ng-bind='::(market.bid.toFixed(8))')
+                            div(ng-bind='(market.bid.toFixed(8))')
                             div(class='label', ng-bind='fiatValue(market.bid)')
                         td
-                            div(ng-bind='::(market.ask.toFixed(8))')
+                            div(ng-bind='(market.ask.toFixed(8))')
                             div(class='label', ng-bind='fiatValue(market.ask)')
                         //-td
                             div(ng-bind='::(market.vol.toFixed(8))')

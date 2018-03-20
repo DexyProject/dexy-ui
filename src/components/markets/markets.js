@@ -91,8 +91,8 @@
 
                     if (! info) return
 
-                    console.log(info)
-
+                    x.bid = info.bid ? (parseInt(info.bid.base) / parseInt(info.bid.quote) / x.token[1]) : 0
+                    x.ask = info.ask ? (parseInt(info.ask.base) / parseInt(info.ask.quote) / x.token[1]) : 0
                 })
                 $scope.delayedApply()
             })
