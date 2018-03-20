@@ -7,6 +7,23 @@
 
     MarketsController.$inject = ['$scope', '$state', 'cmc', 'user'];
 
+    var markets = cfg.markets.map(function (x) {
+        var m = { name: x, symbol: x }
+
+        m.ask = 0
+        m.bid = 0
+
+        m.balanceWallet = 0
+        m.balanceExchange = 0
+
+        m.token = cfg.tokens[m.symbol]
+
+        if (!m.token)
+            console.log('WARNING: no token for ' + m.symbol)
+        
+        return m
+    })
+
     function MarketsController($scope, $state, cmc, user) {
         $scope.orderByField = 'vol';
         $scope.reverseSort = true;
@@ -23,29 +40,7 @@
         };
 
 
-        // omWallet, onExchange, bid, ask, vol
-
-        // Fill in vol, price_eth, price_fiat
-        // ugly but works
-        $scope.markets = cfg.markets.map(function (x) {
-            // TEMP
-            return { name: x, symbol: x }
-        })
-        $scope.markets.forEach(function (x) {
-
-            x.ask = 0
-            x.bid = 0
-
-            x.balanceWallet = 0
-            x.balanceExchange = 0
-
-            x.token = cfg.tokens[x.symbol]
-
-            if (!x.token)
-                console.log('WARNING: no token for ' + x.symbol)
-        })
-
-
+        $scope.markets = markets
 
         // NOTE: this is very similar to the code in exchange.js, maybe make it more abstract
         // once we have to get from the contract too
