@@ -126,16 +126,6 @@
 
 * UX: asset name to be obvious (probably in the header)
 
-* terraform: supervisord
-
-* Terraform: mongodb
-
-* Terraform: multiple servers
-
-* IPFS infra: make sure we have our own node & pinning
-
-* deploy msig and such
-
 ## mañana but important
 
 * search bar in header, this should allow users to search for a symbol. If an address is inserted, it should show a dropdown go to blah blah. When clicked a user goes on the trading page for said address, this is to allow custom tokens. Consider using typeahead.js
