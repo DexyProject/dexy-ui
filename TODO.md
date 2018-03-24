@@ -122,6 +122,8 @@
 
 # TODO
 
+* Balance check when deposit/withdraw
+
 * Markets: pagination
 
 * UX: your orders to be more understandable visually

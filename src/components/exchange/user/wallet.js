@@ -81,8 +81,15 @@
             }
         }
 
-        exchange.isValidAmnt = function (n) {
-            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0)
+        exchange.isValidAmnt = function (n, action, isBase) {
+            var max = 0
+            if (action == 'Withdraw') {
+                max = isBase ? exchange.user.ethBal.onExchange : exchange.onExchange
+            }
+            if (action == 'Deposit') {
+                max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
+            }
+            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max
         }
 
         // orders is usually exchange.orders, which is populated in myorders.js

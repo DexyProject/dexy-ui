@@ -24,6 +24,11 @@
         return m
     })
 
+    // Pagination: we can keep the global 'markets' and just change the '$scope.markets'
+    // that means that data like balances and etc. will be cached
+
+    // @TODO: clear balanceWallet/balanaceExchange for all markets immediately on change user
+
     function MarketsController($scope, $state, $interval, cmc, user) {
         $scope.orderByField = 'vol';
         $scope.reverseSort = true;
