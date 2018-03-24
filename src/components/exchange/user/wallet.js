@@ -81,6 +81,11 @@
         }
 
         $scope.isValidAmnt = function (n, action, isBase) {
+            var max = $scope.calcMax(action, isBase)
+            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max
+        }
+
+        $scope.calcMax = function (action, isBase) {
             var max = 0
             if (action == 'Withdraw') {
                 max = isBase ? exchange.user.ethBal.onExchange : exchange.onExchange
@@ -88,7 +93,13 @@
             if (action == 'Deposit') {
                 max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
             }
-            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max
+            return max    
+        }
+
+        $scope.calcMaxLabel = function (action, isBase) {
+            return 'Max: ' 
+                + $scope.calcMax(action, isBase).toFixed(isBase ? 6 : 4)
+                + ' ' + (isBase ? 'ETH' : exchange.symbol)
         }
     }
 })();
