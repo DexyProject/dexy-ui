@@ -16,8 +16,7 @@
         exchange.quoteMove = {Deposit: 0, Withdraw: 0}
 
         // Move assets (deposit/withdraw)
-        // TODO: moveAssets.js
-        exchange.assetsMove = function (isBase, direction, amnt) {
+        $scope.assetsMove = function (isBase, direction, amnt) {
             if (!user.publicAddr) {
                 toastr.error('Please authenticate with Metamask, Trezor or Ledger')
                 return
@@ -81,7 +80,7 @@
             }
         }
 
-        exchange.isValidAmnt = function (n, action, isBase) {
+        $scope.isValidAmnt = function (n, action, isBase) {
             var max = 0
             if (action == 'Withdraw') {
                 max = isBase ? exchange.user.ethBal.onExchange : exchange.onExchange
@@ -90,25 +89,6 @@
                 max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
             }
             return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max
-        }
-
-        // orders is usually exchange.orders, which is populated in myorders.js
-        exchange.calculateOnOrders = function (orders, ethOrToken) {
-            if (!Array.isArray(orders))
-                return
-
-            var total = orders.filter(function (x) {
-                var givingEth = x.order.give.token === CONSTS.ZEROADDR
-                return ethOrToken ? givingEth : !givingEth
-            })
-                .map(function (x) {
-                    return ethOrToken ? x.leftInEth : x.amount
-                })
-                .reduce(function (a, b) {
-                    return a + b
-                }, 0)
-
-            return total
         }
     }
 })();

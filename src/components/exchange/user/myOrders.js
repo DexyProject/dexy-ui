@@ -26,8 +26,8 @@
                 .then(function (ob) {
                     exchange.orders = (ob || []).map(exchange.mapOrder)
                     exchange.onOrders = {
-                        eth: exchange.calculateOnOrders(exchange.orders, true),
-                        token: exchange.calculateOnOrders(exchange.orders, false)
+                        eth: $scope.calculateOnOrders(exchange.orders, true),
+                        token: $scope.calculateOnOrders(exchange.orders, false)
                     }
                     if (!$scope.$$phase) $scope.$digest()
                 })
@@ -48,6 +48,25 @@
 
                 if (txid) $scope.exchange.txSuccess(txid)
             })
+        }
+
+        // orders is usually exchange.orders, which is populated in myorders.js
+        $scope.calculateOnOrders = function (orders, ethOrToken) {
+            if (!Array.isArray(orders))
+                return
+
+            var total = orders.filter(function (x) {
+                var givingEth = x.order.give.token === CONSTS.ZEROADDR
+                return ethOrToken ? givingEth : !givingEth
+            })
+            .map(function (x) {
+                return ethOrToken ? x.leftInEth : x.amount
+            })
+            .reduce(function (a, b) {
+                return a + b
+            }, 0)
+
+            return total
         }
     }
 })();
