@@ -97,9 +97,7 @@
         }
 
         $scope.calcMaxLabel = function (action, isBase) {
-            return 'Max: ' 
-                + $scope.calcMax(action, isBase).toFixed(isBase ? 6 : 4)
-                + ' ' + (isBase ? 'ETH' : exchange.symbol)
+            return $scope.calcMax(action, isBase).toFixed(isBase ? 6 : 4) + ' ' + (isBase ? 'ETH' : exchange.symbol)
         }
     }
 })();
