@@ -5,9 +5,8 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
     #navbarCollapse.collapse.navbar-collapse
-        ul.navbar-nav.mr-auto
-            li.nav-item.active
-                a.nav-link(href='#') Markets
+        form.form-inline.my-2.my-lg-0
+            input.form-control.mr-sm-2(type='search', placeholder='Search or address')
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown(ng-controller='GasPriceCtrl')
                 a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-bind="'Gas price: ' + $root.gas + ' gwei'")

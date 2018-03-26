@@ -1,11 +1,7 @@
 div(ng-controller='MarketsController as markets')
 
     .row.mt-3
-        .col-6
-            .col-xs-12.col-sm-6
-                input.form-control(type='text', ng-model='searchKeyword', placeholder='Search')
-
-        .col-6.text-right.align-content-end
+        .col-12.text-right.align-content-end
             .form-check.form-check-inline
                 input.form-check-input(type="checkbox" name="hidezero" id="hidezero" value="hide" ng-model='hideZeroBal')
                 label.form-check-label(for="hidezero") Hide zero balances
