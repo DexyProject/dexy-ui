@@ -7,7 +7,10 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     #navbarCollapse.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
             a(ui-sref='markets')
-                input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
+                .btn-group
+                    input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
+                    span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""; $event.stopPropagation();')
+                        span.fas.fa-times-circle
 
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown(ng-controller='GasPriceCtrl')
