@@ -1,6 +1,9 @@
 (function () {
     'use strict';
 
+    var Buffer = require('buffer').Buffer
+    var ethutil = require('ethereumjs-util')
+
     // Take order ctrl
 
     angular
@@ -40,9 +43,18 @@
                 side: side,
             }
             $('#takeOrder').modal('show')
+        }   
+
+        // @TODO: this does not belong here; as well as the splitting
+        $scope.getSigBuf = function(sig) {
+            var r = ethutil.toBuffer(sig.r)
+            var s = ethutil.toBuffer(sig.s)
+            var v = ethutil.toBuffer(sig.v)
+            var mode = ethutil.toBuffer(sig.sig_mode)
+            return '0x' + Buffer.concat([mode, v, r, s]).toString('hex')
         }
 
-        $scope.getTradeArgs = function (toFill) {
+        $scope.getArgs = function (toFill) {
             var rawOrder = toFill.order.order
 
             // addresses - user, tokenGive, tokenGet
@@ -58,12 +70,17 @@
 
             var sig = rawOrder.signature
 
-            return [addresses, values, amnt, sig.v, sig.r, sig.s, sig.sig_mode]
+            return [addresses, values, amnt, $scope.getSigBuf(rawOrder.signature)]
+        }
+
+        $scope.getCanTradeArgs = function (toFill) {
+            var args = $scope.getArgs(toFill)
+            return [args[0], args[1], args[3]]
         }
 
         $scope.takeOrder = function (toFill) {
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
-            var tx = user.exchangeContract.methods.trade.apply(null, $scope.getTradeArgs(toFill))
+            var tx = user.exchangeContract.methods.trade.apply(null, $scope.getArgs(toFill))
 
             user.sendTx(tx, {from: user.publicAddr, gas: 150 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
                 if (err) return $scope.exchange.txError('Error taking order', err)
@@ -89,7 +106,7 @@
 
             // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet", same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
-            var args = $scope.getTradeArgs($scope.exchange.toFill)
+            var args = $scope.getCanTradeArgs($scope.exchange.toFill)
             user.exchangeContract.methods.canTrade.apply(null, args)
                 .call(function (err, resp) {
                     if (err) {
