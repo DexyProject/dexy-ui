@@ -102,6 +102,8 @@
             var args = $scope.getArgs($scope.exchange.toFill)
             user.exchangeContract.methods.canTrade.apply(null, [args[0], args[1], args[3]])
                 .call(function (err, resp) {
+                    if (! exchange.toFill) return
+
                     if (err) {
                         toastr.error('Error getting order canTrade status')
                         return
@@ -120,6 +122,8 @@
 
             user.exchangeContract.methods.availableAmount.apply(null, [args[0], args[1]])
                 .call(function (err, resp) {
+                    if (! exchange.toFill) return
+
                     var rawOrder = exchange.toFill.order.order
                     var tokenBase = exchange.tokenInf[1]
 
@@ -127,7 +131,6 @@
                     var divider = rawOrder.get.token == CONSTS.ZEROADDR ? exchange.toFill.order.rate : 1
 
                     var availableInToken = (parseInt(resp, 10) / divider) / tokenBase
-                    console.log(availableInToken)
                     exchange.toFill.maxCanFillInToken = Math.min(exchange.toFill.maxCanFillInToken, availableInToken)
                     !$scope.$$phase && $scope.$digest()
                 })
