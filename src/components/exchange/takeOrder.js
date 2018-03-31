@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('takeOrderCtrl', takeOrderCtrl);
 
-    takeOrderCtrl.$inject = ['$scope', '$timeout', 'user'];
+    takeOrderCtrl.$inject = ['$scope', 'user'];
 
-    function takeOrderCtrl($scope, $timeout, user) {
+    function takeOrderCtrl($scope, user) {
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
@@ -91,14 +91,12 @@
         }
 
         // will only get triggered when the reference to the object changes
-        // which essentially means it won't double-trigger once we set toFill.canTrade
         var debouncedUpdate
-        $scope.$watchCollection(function() { 
+        $scope.$watch(function() { 
             if (! $scope.exchange.toFill) return null
-            return [$scope.exchange.toFill, $scope.exchange.toFill.portion] 
+            return $scope.exchange.toFill 
         }, function() {
-            if (debouncedUpdate) $timeout.cancel(debouncedUpdate)
-            debouncedUpdate = $timeout($scope.updateCanTrade, CONSTS.CAN_TRADE_DEBOUNCE)
+            $scope.updateCanTrade()
         })
         
         $scope.updateCanTrade = function() {
@@ -113,7 +111,6 @@
                         toastr.error('Error getting order canTrade status')
                         return
                     }
-                    
                     $scope.exchange.toFill.canTrade = resp
 
                     !$scope.$$phase && $scope.$digest()
