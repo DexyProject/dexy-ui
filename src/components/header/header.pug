@@ -5,11 +5,18 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
     #navbarCollapse.collapse.navbar-collapse
-        ul.navbar-nav.mr-auto(ng-controller='SearchCtrl')
+        ul.navbar-nav(ng-controller='SearchCtrl')
             .btn-group
                 input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
                 span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
+                .dropdown-menu(ng-class='{ show: showDropdown }')
+                    div(ng-repeat='(i, item) in results track by item.symbol')
+                        .dropdown-divider(ng-if='::i > 0')
+                        a.dropdown-item(ng-bind='::item.symbol', ui-sref='exchange.{{item.symbol}}')
+
+        //-ul.navbar-nav.mr-auto.m-1
+            label TULIPS
 
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown(ng-controller='GasPriceCtrl')

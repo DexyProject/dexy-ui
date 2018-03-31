@@ -41,6 +41,24 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
 
         if (!$rootScope.$$phase) $rootScope.$apply();
     }
+
+    // Initialize markets
+    $rootScope.markets = cfg.markets.map(function (x) {
+        var m = { name: x, symbol: x }
+
+        m.ask = 0
+        m.bid = 0
+
+        m.balanceWallet = 0
+        m.balanceExchange = 0
+
+        m.token = cfg.tokens[m.symbol]
+
+        if (!m.token)
+            console.log('WARNING: no token for ' + m.symbol)
+        
+        return m
+    })
 }])
 
 

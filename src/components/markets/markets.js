@@ -7,23 +7,6 @@
 
     MarketsController.$inject = ['$scope', '$state', '$interval', 'cmc', 'user'];
 
-    var markets = cfg.markets.map(function (x) {
-        var m = { name: x, symbol: x }
-
-        m.ask = 0
-        m.bid = 0
-
-        m.balanceWallet = 0
-        m.balanceExchange = 0
-
-        m.token = cfg.tokens[m.symbol]
-
-        if (!m.token)
-            console.log('WARNING: no token for ' + m.symbol)
-        
-        return m
-    })
-
     // Pagination: we can keep the global 'markets' and just change the '$scope.markets'
     // that means that data like balances and etc. will be cached
 
@@ -42,8 +25,6 @@
         $scope.openExchange = function (symbol) {
             $state.go('exchange', { pair: symbol })
         }
-
-        $scope.markets = markets
 
         var intvl = $interval(function () {
             updateMarkets()

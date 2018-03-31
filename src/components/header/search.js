@@ -5,16 +5,22 @@
         .module('dexyApp')
         .controller('SearchCtrl', SearchCtrl);
 
-    SearchCtrl.$inject = ['$scope', '$state', '$rootScope'];
+    SearchCtrl.$inject = ['$scope', '$state', '$rootScope', '$filter'];
 
-    function SearchCtrl($scope, $state, $root) {
+    function SearchCtrl($scope, $state, $root, $filter) {
         $scope.searchKeyword = ''
+        $scope.results = []
 
-        $scope.$watch(function() { return $root.searchKeyword }, function(val) {
-            if (!val) return
-            
-            if ($state.current.name !== 'markets') 
-                console.log('@TODO do dropdown with '+val)
+        var LIMIT = 10
+
+        $scope.$watch(function() { return $root.searchKeyword }, function() {
+            var isOkState = $state.current.name !== 'markets'
+
+            $scope.showDropdown = $root.searchKeyword && isOkState
+            if ($scope.showDropdown) {
+                $scope.results = $filter('filter')($root.markets, $root.searchKeyword)
+                    .slice(0, LIMIT)
+            }
         })
         
     }
