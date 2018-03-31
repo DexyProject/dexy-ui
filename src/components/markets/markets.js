@@ -32,7 +32,6 @@
     function MarketsController($scope, $state, $interval, cmc, user) {
         $scope.orderByField = 'vol';
         $scope.reverseSort = true;
-        $scope.searchKeyword = '';
 
         $scope.hideZeroBal = false;
         $scope.persistingProp($scope, 'hideZeroBal');
@@ -99,7 +98,7 @@
                     var info = all[x.token[0]]
 
                     if (! info) return
-
+                    
                     x.bid = info.bid ? (parseInt(info.bid.base) / parseInt(info.bid.quote) / x.token[1]) : 0
                     x.ask = info.ask ? (parseInt(info.ask.base) / parseInt(info.ask.quote) / x.token[1]) : 0
                 })

@@ -1,13 +1,17 @@
 nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
-    a.navbar-brand(href='#')
+    a.navbar-brand(ui-sref='markets', ng-click='$root.searchKeyword = ""')
         img(src="img/dexy.png", height="30", alt="dexy")
 
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
     #navbarCollapse.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
-            li.nav-item.active
-                a.nav-link(href='#') Markets
+            a(ui-sref='markets')
+                .btn-group
+                    input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
+                    span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""; $event.stopPropagation();')
+                        span.fas.fa-times-circle
+
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown(ng-controller='GasPriceCtrl')
                 a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-bind="'Gas price: ' + $root.gas + ' gwei'")
