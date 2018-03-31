@@ -10,10 +10,13 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                 input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
                 span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
-                .dropdown-menu(ng-class='{ show: showDropdown }')
+                .dropdown-menu.w-100(ng-class='{ show: showDropdown }')
+                    //- @TODO: 'no results' state
                     div(ng-repeat='(i, item) in results track by item.symbol')
                         .dropdown-divider(ng-if='::i > 0')
-                        a.dropdown-item(ng-bind='::item.symbol', ui-sref='exchange({ pair: item.symbol })')
+                        a.dropdown-item(ui-sref='exchange({ pair: item.symbol })')
+                            img(ng-src='img/markets/{{::item.symbol}}-ETH.png' width='20')
+                            span(ng-bind='::item.symbol')
 
         //-ul.navbar-nav.mr-auto.m-1
             label TULIPS
