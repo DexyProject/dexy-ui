@@ -2,6 +2,7 @@
     'use strict';
 
     var Buffer = require('buffer').Buffer
+    var ethutil = require('ethereumjs-util')
 
     // Take order ctrl
 
@@ -42,6 +43,15 @@
                 side: side,
             }
             $('#takeOrder').modal('show')
+        }   
+
+        // @TODO: this does not belong here; as well as the splitting
+        $scope.getSigBuf = function(sig) {
+            var r = ethutil.toBuffer(sig.r)
+            var s = ethutil.toBuffer(sig.s)
+            var v = ethutil.toBuffer(sig.v)
+            var mode = ethutil.toBuffer(sig.sig_mode)
+            return '0x' + Buffer.concat([mode, v, r, s]).toString('hex')
         }
 
         $scope.getArgs = function (toFill) {
@@ -59,8 +69,8 @@
             var amnt = Math.floor(portion * totalCanTake).toString()
 
             var sig = rawOrder.signature
-            var sigBuf = '0x' + Buffer.concat([mode, v, r, s]).toString('hex')
-            return [addresses, values, amnt, sigBuf]
+
+            return [addresses, values, amnt, $scope.getSigBuf(rawOrder.signature)]
         }
 
         $scope.getCanTradeArgs = function (toFill) {
