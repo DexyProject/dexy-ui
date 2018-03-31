@@ -113,11 +113,7 @@
                         toastr.error('Error getting order canTrade status')
                         return
                     }
-
-                    // Note: the cantrade value will be reflected in the modal, but also we close the modal
-                    // and show a toastr
-                    // This is only kept for data consistency (since we have a .canTrade prop there)
-
+                    
                     $scope.exchange.toFill.canTrade = resp
 
                     !$scope.$$phase && $scope.$digest()
