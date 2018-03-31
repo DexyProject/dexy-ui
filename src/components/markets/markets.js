@@ -43,6 +43,11 @@
             $state.go('exchange', { pair: symbol })
         };
 
+        $scope.searchKeyword = ''
+        $scope.$on('search-markets', function(ev, val) {
+            $scope.searchKeyword = val
+        })
+
 
         $scope.markets = markets
 
