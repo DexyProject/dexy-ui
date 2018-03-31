@@ -22,6 +22,9 @@
                     .slice(0, LIMIT)
             }
         })
-        
+
+        $scope.$on('$stateChangeSuccess', function() {
+            $root.searchKeyword = ''
+        })
     }
 })();

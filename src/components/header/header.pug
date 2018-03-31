@@ -1,5 +1,5 @@
 nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
-    a.navbar-brand(ui-sref='markets', ng-click='$root.searchKeyword = ""')
+    a.navbar-brand(ui-sref='markets')
         img(src="img/dexy.png", height="30", alt="dexy")
 
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
@@ -13,7 +13,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                 .dropdown-menu(ng-class='{ show: showDropdown }')
                     div(ng-repeat='(i, item) in results track by item.symbol')
                         .dropdown-divider(ng-if='::i > 0')
-                        a.dropdown-item(ng-bind='::item.symbol', ui-sref='exchange.{{item.symbol}}')
+                        a.dropdown-item(ng-bind='::item.symbol', ui-sref='exchange({ pair: item.symbol })')
 
         //-ul.navbar-nav.mr-auto.m-1
             label TULIPS
