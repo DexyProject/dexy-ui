@@ -36,18 +36,18 @@
                 args = {
                     from: user.publicAddr,
                     value: isBase ? amnt : 0,
-                    gas: 100 * 1000,
+                    gas: 200 * 1000,
                     gasPrice: user.GAS_PRICE
                 }
             } else if (direction === 'Withdraw') {
                 call = user.vaultContract.methods.withdraw(addr, amnt)
-                args = {from: user.publicAddr, gas: 110 * 1000, gasPrice: user.GAS_PRICE}
+                args = {from: user.publicAddr, gas: 160 * 1000, gasPrice: user.GAS_PRICE}
             }
 
             if (direction === 'Deposit' && !isBase) {
                 // We have to set the allowance first
 
-                var sendArgs = {from: user.publicAddr, gas: 60000, gasPrice: user.GAS_PRICE}
+                var sendArgs = {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}
                 if (exchange.rawAllowance == 0) {
                     // Directly approve
                     approveFinal()
