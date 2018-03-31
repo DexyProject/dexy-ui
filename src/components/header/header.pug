@@ -7,8 +7,8 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     #navbarCollapse.collapse.navbar-collapse
         ul.navbar-nav.mr-auto(ng-controller='SearchCtrl')
             .btn-group
-                input.form-control(type='text', ng-model='searchKeyword', placeholder='Search')
-                span.searchClear(ng-show='searchKeyword', ng-click='searchKeyword = ""')
+                input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
+                span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
 
         ul.navbar-nav.ml-auto

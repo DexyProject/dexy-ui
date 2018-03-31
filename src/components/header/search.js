@@ -10,9 +10,11 @@
     function SearchCtrl($scope, $state, $root) {
         $scope.searchKeyword = ''
 
-        $scope.$watch('searchKeyword', function(val) {
-            if ($state.current.name === 'markets') 
-                $root.$broadcast('search-markets', val)
+        $scope.$watch(function() { return $root.searchKeyword }, function(val) {
+            if (!val) return
+            
+            if ($state.current.name !== 'markets') 
+                console.log('@TODO do dropdown with '+val)
         })
         
     }
