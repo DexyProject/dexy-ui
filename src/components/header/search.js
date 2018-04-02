@@ -37,8 +37,6 @@
 
         $scope.$on('$stateChangeSuccess', function() {
             $root.searchKeyword = ''
-
-            //console.log($state.params)
         })
     }
 })();
