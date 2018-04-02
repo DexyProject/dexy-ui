@@ -7,6 +7,10 @@
 
     SearchCtrl.$inject = ['$scope', '$state', '$rootScope', '$filter', '$timeout'];
 
+    // UX issues:
+    // clicking the same item does nothing
+    // unable to navigate via keyboard
+    // needs to disappear by itself
     function SearchCtrl($scope, $state, $root, $filter, $timeout) {
         $scope.searchKeyword = ''
         $scope.results = []
@@ -26,16 +30,15 @@
             }
         })
 
-        // This is horrible, but unfortunately we need it because otherwise 
-        // ui-sref would not register the onclick since we will hide the bar before
-        $scope.onBlur = function() {
-            $timeout(function() {
-                $scope.searchFocused = false
-            }, 200)
+        $scope.clickedItem = function(item) {
+            $state.go('exchange', { pair: item.symbol })
+            $root.searchKeyword = ''
         }
 
         $scope.$on('$stateChangeSuccess', function() {
             $root.searchKeyword = ''
+
+            //console.log($state.params)
         })
     }
 })();
