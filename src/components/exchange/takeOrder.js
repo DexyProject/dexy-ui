@@ -10,9 +10,9 @@
         .module('dexyApp')
         .controller('takeOrderCtrl', takeOrderCtrl);
 
-    takeOrderCtrl.$inject = ['$scope', '$timeout', 'user'];
+    takeOrderCtrl.$inject = ['$scope', 'user'];
 
-    function takeOrderCtrl($scope, $timeout, user) {
+    function takeOrderCtrl($scope, user) {
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
@@ -73,11 +73,6 @@
             return [addresses, values, amnt, $scope.getSigBuf(rawOrder.signature)]
         }
 
-        $scope.getCanTradeArgs = function (toFill) {
-            var args = $scope.getArgs(toFill)
-            return [args[0], args[1], args[3]]
-        }
-
         $scope.takeOrder = function (toFill) {
             // NOTE: this has to be executed in the same tick as the click, otherwise trezor popups will be blocked
             var tx = user.exchangeContract.methods.trade.apply(null, $scope.getArgs(toFill))
@@ -91,14 +86,12 @@
         }
 
         // will only get triggered when the reference to the object changes
-        // which essentially means it won't double-trigger once we set toFill.canTrade
         var debouncedUpdate
-        $scope.$watchCollection(function() { 
+        $scope.$watch(function() { 
             if (! $scope.exchange.toFill) return null
-            return [$scope.exchange.toFill, $scope.exchange.toFill.portion] 
+            return $scope.exchange.toFill 
         }, function() {
-            if (debouncedUpdate) $timeout.cancel(debouncedUpdate)
-            debouncedUpdate = $timeout($scope.updateCanTrade, CONSTS.CAN_TRADE_DEBOUNCE)
+            $scope.updateCanTrade()
         })
         
         $scope.updateCanTrade = function() {
@@ -106,19 +99,17 @@
 
             // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet", same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
-            var args = $scope.getCanTradeArgs($scope.exchange.toFill)
-            user.exchangeContract.methods.canTrade.apply(null, args)
+            var args = $scope.getArgs($scope.exchange.toFill)
+            user.exchangeContract.methods.canTrade.apply(null, [args[0], args[1], args[3]])
                 .call(function (err, resp) {
+                    if (! exchange.toFill) return
+
                     if (err) {
                         toastr.error('Error getting order canTrade status')
                         return
                     }
-
-                    // Note: the cantrade value will be reflected in the modal, but also we close the modal
-                    // and show a toastr
-                    // This is only kept for data consistency (since we have a .canTrade prop there)
-
-                    $scope.exchange.toFill.canTrade = resp
+                    
+                    exchange.toFill.canTrade = resp
 
                     !$scope.$$phase && $scope.$digest()
 
@@ -127,6 +118,21 @@
 
                         toastr.error('Cannot trade order: it is expired, filled or the signature is invalid')
                     }
+                })
+
+            user.exchangeContract.methods.availableAmount.apply(null, [args[0], args[1]])
+                .call(function (err, resp) {
+                    if (! exchange.toFill) return
+
+                    var rawOrder = exchange.toFill.order.order
+                    var tokenBase = exchange.tokenInf[1]
+
+                    // divide by this to make it into a token amount
+                    var divider = rawOrder.get.token == CONSTS.ZEROADDR ? exchange.toFill.order.rate : 1
+
+                    var availableInToken = (parseInt(resp, 10) / divider) / tokenBase
+                    exchange.toFill.maxCanFillInToken = Math.min(exchange.toFill.maxCanFillInToken, availableInToken)
+                    !$scope.$$phase && $scope.$digest()
                 })
         }
 
