@@ -5,9 +5,9 @@
         .module('dexyApp')
         .controller('SearchCtrl', SearchCtrl);
 
-    SearchCtrl.$inject = ['$scope', '$state', '$rootScope', '$filter'];
+    SearchCtrl.$inject = ['$scope', '$state', '$rootScope', '$filter', '$timeout'];
 
-    function SearchCtrl($scope, $state, $root, $filter) {
+    function SearchCtrl($scope, $state, $root, $filter, $timeout) {
         $scope.searchKeyword = ''
         $scope.results = []
 
@@ -25,6 +25,14 @@
                     .slice(0, LIMIT)
             }
         })
+
+        // This is horrible, but unfortunately we need it because otherwise 
+        // ui-sref would not register the onclick since we will hide the bar before
+        $scope.onBlur = function() {
+            $timeout(function() {
+                $scope.searchFocused = false
+            }, 200)
+        }
 
         $scope.$on('$stateChangeSuccess', function() {
             $root.searchKeyword = ''

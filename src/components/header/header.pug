@@ -11,7 +11,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                     ng-model='$root.searchKeyword', 
                     placeholder='Search',
                     ng-focus='searchFocused = true',
-                    ng-blur='searchFocused = false'
+                    ng-blur='onBlur()'
                 )
                 span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
