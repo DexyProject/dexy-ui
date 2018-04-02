@@ -11,6 +11,9 @@
         $scope.searchKeyword = ''
         $scope.results = []
 
+        $scope.showDropdown = false
+        $scope.searchFocused = false
+
         var LIMIT = 10
 
         $scope.$watch(function() { return $root.searchKeyword }, function() {

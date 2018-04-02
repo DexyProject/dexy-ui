@@ -7,12 +7,17 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     #navbarCollapse.collapse.navbar-collapse
         ul.navbar-nav(ng-controller='SearchCtrl')
             .btn-group
-                input.form-control(type='text', ng-model='$root.searchKeyword', placeholder='Search')
+                input.form-control(type='text', 
+                    ng-model='$root.searchKeyword', 
+                    placeholder='Search',
+                    ng-focus='searchFocused = true',
+                    ng-blur='searchFocused = false'
+                )
                 span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
-                .dropdown-menu.w-100(ng-class='{ show: showDropdown }')
-                    //- @TODO: 'no results' state
-                    div(ng-repeat='(i, item) in results track by item.symbol')
+                .dropdown-menu.w-100(ng-class='{ show: showDropdown && searchFocused }')
+                    div.p-3(ng-hide='results.length') No results found.
+                    div(ng-repeat='(i, item) in results track by item.symbol', ng-show='results.length')
                         .dropdown-divider(ng-if='::i > 0')
                         a.dropdown-item(ui-sref='exchange({ pair: item.symbol })')
                             img(ng-src='img/markets/{{::item.symbol}}-ETH.png' width='20')
