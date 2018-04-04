@@ -8,7 +8,6 @@
     SearchCtrl.$inject = ['$scope', '$state', '$rootScope', '$filter', '$timeout'];
 
     // UX issues:
-    // clicking the same item does nothing
     // unable to navigate via keyboard
     // needs to disappear by itself
     function SearchCtrl($scope, $state, $root, $filter, $timeout) {

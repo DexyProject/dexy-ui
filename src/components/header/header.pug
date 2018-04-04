@@ -17,6 +17,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                     span.fas.fa-times-circle
                 .dropdown-menu.w-100(
                     ng-class='{ show: showDropdown }', 
+                    role='menu'
                 )
                     div.p-3(ng-hide='results.length') No results found.
                     div(ng-repeat='(i, item) in results track by item.symbol', ng-show='results.length')
