@@ -27,7 +27,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                             span(ng-bind='::item.symbol')
 
         ul.navbar-nav.mr-auto.m-1(ng-controller='GlobalIndicatorsCtrl')
-            label(ng-bind='pair')
+            li(ng-bind='pair')
 
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown(ng-controller='GasPriceCtrl')
