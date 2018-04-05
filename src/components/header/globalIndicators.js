@@ -9,7 +9,8 @@
 
     function GlobalIndicatorsCtrl($scope, $state) {
         $scope.$on('$stateChangeSuccess', function() {
-            $scope.pair = $state.params.pair + ' / ETH'
+            // @TODO: currently pair is only the quote token, 
+            $scope.symbol = $state.params.pair
         })
     }
 })();
