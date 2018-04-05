@@ -29,7 +29,12 @@
         user.HWWALLET_ADDRESS_COUNT = 10;
 
         // Configurable things
-        user.GAS_PRICE = 30099515020 // 30 gwei
+        user.GAS_PRICE = 3000000000 // 3 gwei
+        $scope.$watch(function() { return $scope.$root.gas }, function(gas) {
+            if (!gas) return
+            // This is in gwei
+            user.GAS_PRICE = gas * 1000000000
+        })
 
         user.chainId = cfg.chainId
 
