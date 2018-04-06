@@ -74,14 +74,23 @@
             fetch(cfg.endpoint + '/markets?tokens=' + encodeURIComponent(JSON.stringify(addrs)))
             .then(function(res) { return res.json() })
             .then(function(all) {
+                var allByToken = {}
+
+                all.forEach(function(m) {
+                    allByToken[m.token.toLowerCase()] = m
+                })
+
                 $scope.markets.forEach(function (x) {
-                    var info = all[x.token[0]]
+                    var info = allByToken[x.token[0].toLowerCase()]
 
                     if (! info) return
                     
-                    x.bid = info.bid ? (parseInt(info.bid.base) / parseInt(info.bid.quote) / x.token[1]) : 0
-                    x.ask = info.ask ? (parseInt(info.ask.base) / parseInt(info.ask.quote) / x.token[1]) : 0
+                    x.bid = parseInt(info.bid, 10)
+                    x.ask = parseInt(info.ask, 10)
+                    x.last = parseInt(info.last, 10)
+                    x.volume = parseInt(info.volume, 10)
                 })
+
                 $scope.delayedApply()
             })
             .catch(function (err) {
