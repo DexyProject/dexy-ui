@@ -14,7 +14,7 @@
 
     function MarketsController($scope, $state, $interval, cmc, user) {
         $scope.orderByField = 'volume';
-        $scope.reverseSort = true;
+        $scope.reverseSort = false;
 
         $scope.hideZeroBal = false;
         $scope.persistingProp($scope, 'hideZeroBal');
