@@ -13,7 +13,7 @@
     // @TODO: clear balanceWallet/balanaceExchange for all markets immediately on change user
 
     function MarketsController($scope, $state, $interval, cmc, user) {
-        $scope.orderByField = 'vol';
+        $scope.orderByField = 'volume';
         $scope.reverseSort = true;
 
         $scope.hideZeroBal = false;

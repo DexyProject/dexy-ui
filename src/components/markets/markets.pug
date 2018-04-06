@@ -21,7 +21,7 @@ div(ng-controller='MarketsController')
                         th(scope='col' ng-click="setOrderBy('balanceExchange')") Balance On Exchange
                         th(scope='col' ng-click="setOrderBy('bic')") Bid
                         th(scope='col' ng-click="setOrderBy('ask')") Ask
-                        th(scope='col' ng-click="setOrderBy('vol')") 24h Volume
+                        th(scope='col' ng-click="setOrderBy('volume')") 24h Volume
 
                 tbody
                     tr(ng-repeat='market in markets | orderBy:orderByField:reverseSort | filter:$root.searchKeyword track by market.symbol', ng-click='openExchange(market.symbol)', ng-hide='hideZeroBal && market.balanceExchange <= 0')
