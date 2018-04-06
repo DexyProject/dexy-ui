@@ -85,10 +85,10 @@
 
                     if (! info) return
                     
-                    x.bid = parseFloat(info.bid, 10)
-                    x.ask = parseFloat(info.ask, 10)
-                    x.last = parseFloat(info.last, 10)
-                    x.volume = parseFloat(info.volume, 10)
+                    x.bid = info.bid
+                    x.ask = info.ask
+                    x.last = info.last
+                    x.volume = info.volume
                 })
 
                 $scope.delayedApply()
