@@ -2,15 +2,11 @@
 
 ## Running
 
-### Running in development
-
 `npm start`: this will run `build/dev-server.js`, which is a basic script that compiles Pug, Stylus and JS deps (browserify)
 
 To run with the mainnet config, do `node build/dev-server.js --mainnet`
 
-### Running in production
-
-TODO
+To run the production build, you can follow the steps to build and then do `http-server dist`
 
 
 ## Deploying
