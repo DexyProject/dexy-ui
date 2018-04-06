@@ -21,6 +21,7 @@ div(ng-controller='MarketsController')
                         th(scope='col' ng-click="setOrderBy('balanceExchange')") Balance On Exchange
                         th(scope='col' ng-click="setOrderBy('bic')") Bid
                         th(scope='col' ng-click="setOrderBy('ask')") Ask
+                        th(scope='col' ng-click="setOrderBy('last')") Last Price
                         th(scope='col' ng-click="setOrderBy('volume')") 24h Volume
 
                 tbody
@@ -39,5 +40,8 @@ div(ng-controller='MarketsController')
                             div(ng-bind='(market.ask.toFixed(8))')
                             div(class='label', ng-bind='fiatValue(market.ask)')
                         td
-                            div(ng-bind='::(market.volume.toFixed(8))')
+                            div(ng-bind='(market.last.toFixed(8))')
+                            div(class='label', ng-bind='fiatValue(market.last)')
+                        td
+                            div(ng-bind='(market.volume.toFixed(8))')
                             div(class='label', ng-bind='fiatValue(market.volume)')

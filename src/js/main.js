@@ -48,6 +48,8 @@ app.run(['$rootScope', '$state', 'user', function ($rootScope, $state, user) {
 
         m.ask = 0
         m.bid = 0
+        m.last = 0
+        m.volume = 0
 
         m.balanceWallet = 0
         m.balanceExchange = 0

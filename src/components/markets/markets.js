@@ -14,7 +14,7 @@
 
     function MarketsController($scope, $state, $interval, cmc, user) {
         $scope.orderByField = 'volume';
-        $scope.reverseSort = false;
+        $scope.reverseSort = true;
 
         $scope.hideZeroBal = false;
         $scope.persistingProp($scope, 'hideZeroBal');
@@ -40,35 +40,38 @@
 
         function updateMarkets() {
             var addr = user.publicAddr
-            if (!addr) return
 
-            console.log('Markets: fetching all balances for ' + addr)
+            console.log('Markets: updating')
 
-            var batch = new web3.eth.BatchRequest()
+            if (addr) {
+                console.log('Markets: fetching all balances for ' + addr)
 
-            $scope.markets.forEach(function (x) {
-                if (!x.token) return
+                var batch = new web3.eth.BatchRequest()
 
-                //console.log('Fetching ' + x.symbol + ' balances for ' + addr)
-                var contract = new web3.eth.Contract(CONSTS.erc20ABI, x.token[0])
-                batch.add(contract.methods.balanceOf(addr).call.request(function (err, bal) {
-                    if (err) console.error(err)
-                    else {
-                        x.balanceWallet = bal / x.token[1]
-                        $scope.delayedApply()
-                    }
-                }))
+                $scope.markets.forEach(function (x) {
+                    if (!x.token) return
 
-                batch.add(user.vaultContract.methods.balanceOf(x.token[0], addr).call.request(function(err, bal) {
-                    if (err) console.error(err)
-                    else {
-                        x.balanceExchange = bal / x.token[1]
-                        $scope.delayedApply()
-                    }
-                }))
-            })
+                    //console.log('Fetching ' + x.symbol + ' balances for ' + addr)
+                    var contract = new web3.eth.Contract(CONSTS.erc20ABI, x.token[0])
+                    batch.add(contract.methods.balanceOf(addr).call.request(function (err, bal) {
+                        if (err) console.error(err)
+                        else {
+                            x.balanceWallet = bal / x.token[1]
+                            $scope.delayedApply()
+                        }
+                    }))
 
-            batch.execute()
+                    batch.add(user.vaultContract.methods.balanceOf(x.token[0], addr).call.request(function(err, bal) {
+                        if (err) console.error(err)
+                        else {
+                            x.balanceExchange = bal / x.token[1]
+                            $scope.delayedApply()
+                        }
+                    }))
+                })
+
+                batch.execute()
+            }
 
             var addrs = $scope.markets.map(function(x) { return x.token[0] })
             fetch(cfg.endpoint + '/markets?tokens=' + encodeURIComponent(JSON.stringify(addrs)))
