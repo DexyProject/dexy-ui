@@ -39,6 +39,9 @@
 
         function updateChart(chart)
         {
+            if (! exchange.tokenInf) 
+                return
+            
             fetch(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0])
             .then(function(resp) { return resp.json() })
             .then(function (data) {
