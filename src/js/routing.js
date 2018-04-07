@@ -1,6 +1,6 @@
 angular.module('dexyApp')
     .config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
-        $urlRouterProvider.when('', '/').when('/', '/markets');
+        $urlRouterProvider.when('', '/').when('/', '/markets').otherwise('/markets');
 
         $stateProvider.state({
             name: 'markets',
