@@ -32,8 +32,8 @@
         user.GAS_PRICE = 3000000000 // 3 gwei
         $scope.$watch(function() { return $scope.$root.gas }, function(gas) {
             if (!gas) return
-            // This is in gwei
-            user.GAS_PRICE = gas * 1000000000
+            // $root.gas is one denomination below gwei
+            user.GAS_PRICE = gas * 100000000
         })
 
         user.chainId = cfg.chainId

@@ -31,12 +31,12 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
 
         ul.navbar-nav.ml-auto
             li.nav-item.dropdown(ng-controller='GasPriceCtrl')
-                a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-bind="'Gas price: ' + $root.gas + ' gwei'")
+                a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-bind="'Gas price: ' + $root.gas/10 + ' gwei'")
                 .dropdown-menu.right(aria-labelledby='gas', ng-cloak)
                     .dropdown-item(
                     ng-repeat='level in ["safe", "average", "fast"]'
                     ng-click='$root.gas = gas.prices[level]'
-                    ng-class='isSelected(level) ? "selected" : ""') {{gas.prices[level] + ' gwei ('+level+')'}}
+                    ng-class='isSelected(level) ? "selected" : ""') {{gas.prices[level]/10 + ' gwei ('+level+')'}}
             li.nav-item.dropdown
                 include ./user
             li.nav-item.d-none.d-lg-inline-block

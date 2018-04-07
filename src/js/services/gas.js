@@ -16,9 +16,9 @@
         function update() {
             $http.get(URL)
                 .then(function (resp) {
-                    gas.prices.fast = (resp.data.fast / 10).toFixed(0)
-                    gas.prices.safe = (resp.data.safeLow / 10).toFixed(0)
-                    gas.prices.average = (resp.data.average / 10).toFixed(0)
+                    gas.prices.fast = resp.data.fast
+                    gas.prices.safe = resp.data.safeLow
+                    gas.prices.average = resp.data.average
 
                     if (!$root.gas) $root.gas = gas.prices.average
                 })
