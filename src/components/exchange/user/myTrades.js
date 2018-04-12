@@ -6,9 +6,9 @@
         .module('dexyApp')
         .controller('myTradesCtrl', myTradesCtrl);
 
-    myTradesCtrl.$inject = ['$scope', 'user'];
+    myTradesCtrl.$inject = ['$scope', 'user', '$window'];
 
-    function myTradesCtrl($scope, user) {
+    function myTradesCtrl($scope, user, $window) {
 
         var exchange = $scope.exchange
 
@@ -31,6 +31,10 @@
                 .catch(function (err) {
                     console.error(err)
                 })
+        }
+
+        $scope.openTransaction = function (tx) {
+            $window.open(cfg.etherscan + "/tx/" + tx, '_blank');
         }
 
     }
