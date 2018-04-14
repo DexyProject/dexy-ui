@@ -20,6 +20,7 @@
         // 
         // Chart
         Highcharts.setOptions({
+            global: { useUTC: false },
             lang: {
                 rangeSelectorZoom: ''
             }

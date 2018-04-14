@@ -124,7 +124,7 @@ window.chartStyle = (function() {
                 enabled: false
             }
         }],
-        xAxis: [{
+        xAxis: {
             dateTimeLabelFormats: {
                 day: '%b %e',
                 week: '%b %e',
@@ -155,7 +155,7 @@ window.chartStyle = (function() {
                 }
             },
             minRange: 60 * 1000,
-        }],
+        },
         tooltip: {
             backgroundColor: 'transparent',
             borderColor: 'transparent',
