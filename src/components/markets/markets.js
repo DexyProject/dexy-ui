@@ -29,8 +29,8 @@
         $scope.hideZeroBal = false;
         $scope.persistingProp($scope, 'hideZeroBal');
 
-        $scope.useEUR = false
-        $scope.persistingProp($scope, 'useEUR')
+        $scope.currency = 'USD';
+        $scope.persistingProp($scope, 'currency')
 
         $scope.openExchange = function (symbol) {
             $state.go('exchange', { pair: symbol })
@@ -119,7 +119,7 @@
         }
 
         $scope.fiatValue = function (value) {
-            return $scope.useEUR ? '€' + (value * cmc.pairs.ETHEUR).toFixed(2) : '$' + (value * cmc.pairs.ETHUSD).toFixed(2)
+            return $scope.currency === 'EUR' ? '€' + (value * cmc.pairs.ETHEUR).toFixed(2) : '$' + (value * cmc.pairs.ETHUSD).toFixed(2)
         }
 
         $scope.setOrderBy = function (keyName) {
