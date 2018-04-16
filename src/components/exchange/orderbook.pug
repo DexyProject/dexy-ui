@@ -1,7 +1,7 @@
 table.table.table-hover.orderbook
     tbody.text-right
         tr(ng-repeat='order in exchange.orderbook.asks | orderBy:"-rate" track by order.id', ng-click='!order.isMine && openTakeOrderDialog("BUY", order)', ng-class='{ buy: true, isMine: order.isMine }')
-            td
+            td(style='width: 15px; padding-right: 0px;')
                 i.far.fa-star(ng-if='order.isMine')
             td(ng-bind='::order.rate.toFixed(8)')
             td(ng-bind='order.amount.toFixed(4)')
@@ -12,7 +12,7 @@ table.table.table-hover.orderbook
             td Amount
             td Total (ETH)
         tr(ng-repeat='order in exchange.orderbook.bids track by order.id', ng-click='!order.isMine && openTakeOrderDialog("SELL", order)', ng-class='{ sell: true, isMine: order.isMine }')
-            td
+            td(style='width: 15px; padding-right: 0px;')
                 i.far.fa-star(ng-if='order.isMine')
             td(ng-bind='::order.rate.toFixed(8)')
             td(ng-bind='order.amount.toFixed(4)')
