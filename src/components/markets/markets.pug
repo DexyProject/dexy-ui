@@ -18,9 +18,9 @@ div(ng-controller='MarketsController')
                             //- for the icon
                         th(scope='col', ng-repeat='f in fields', ng-click="setOrderBy(f.field)") 
                             span(ng-show="orderByField==f.field && !reverseSort")
-                                i.fas.fa-sort-up.fa-2x.mr-2
+                                i.fas.fa-arrow-up.fa-lg.mr-2
                             span(ng-show="orderByField==f.field && reverseSort")
-                                i.fas.fa-sort-down.fa-2x.mr-2
+                                i.fas.fa-arrow-down.fa-lg.mr-2
                             | {{::f.name}}
                 tbody
                     tr(ng-repeat='market in markets | orderBy:orderByField:reverseSort | filter:$root.searchKeyword track by market.symbol', ng-click='openExchange(market.symbol)', ng-hide='hideZeroBal && market.balanceExchange <= 0')
