@@ -34,7 +34,7 @@
                 var symbol = props.symbol
                 var token = [lastPart, multiplier, symbol]
 
-                if (cfg.tokens[symbol] && cfg.tokens[symbol][0] === lastPart) {
+                if (cfg.tokens[symbol] && cfg.tokens[symbol][0].toLowerCase() === lastPart.toLowerCase()) {
                     $state.go('exchange', {pair: symbol}, {replace: true})
                 } else {
                     $state.go('exchange', {pair: $stateParams.pair, token: token}, {replace: true})
@@ -44,7 +44,7 @@
             return
         }
 
-        var token = $stateParams.token || cfg.tokens[lastPart]
+        var token = $stateParams.token || cfg.tokens[lastPart.toUpperCase()]
 
         if (!token) {
             // TODO 404
