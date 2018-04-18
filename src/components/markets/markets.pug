@@ -28,7 +28,6 @@ div(ng-controller='MarketsController')
                         td
                             img(ng-src='img/markets/{{market.symbol}}-ETH.png' width='30')
                         td(ng-bind='market.symbol')
-                        td(ng-bind='market.name')
                         td(ng-bind='market.balanceWallet.toFixed(2)')
                         td(ng-bind='market.balanceExchange.toFixed(2)')
                         //-td(ng-bind='market.change.toFixed(2)' ng-class='market.change >= 0 ? "positive" : "negative"')
