@@ -182,7 +182,7 @@
                     expires: expires,
                     nonce: nonce,
                     exchange: cfg.exchangeContract,
-                    user: user.publicAddr,
+                    maker: user.publicAddr,
                     signature: {r: r, s: s, v: v, sig_mode: sigMode}
                 }
                 fetch(cfg.endpoint + '/orders', {
