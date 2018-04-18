@@ -40,9 +40,7 @@
             var addresses = [order.maker, order.make.token, order.take.token]
             var values = [order.make.amount, order.take.amount, order.expires, order.nonce]
 
-            var sig = order.signature
-
-            var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
+            var tx = user.exchangeContract.methods.cancel(addresses, values)
             user.sendTx(tx, {from: user.publicAddr, gas: 70 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
                 if (err) return $scope.exchange.txError('Error canceling order', err)
 
