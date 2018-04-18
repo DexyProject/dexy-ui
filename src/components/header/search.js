@@ -22,6 +22,11 @@
         $scope.$watch(function() { return $root.searchKeyword }, function() {
             var isOkState = $state.current.name !== 'markets'
 
+            if (web3.utils.isAddress($root.searchKeyword)) {
+                $state.go('exchange', { pair: $root.searchKeyword })
+                return
+            }
+
             $scope.showDropdown = $root.searchKeyword && isOkState
             if ($scope.showDropdown) {
                 $scope.results = $filter('filter')($root.markets, $root.searchKeyword)
