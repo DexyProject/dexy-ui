@@ -120,39 +120,39 @@
 
             var userAddr = user.publicAddr
 
-            var tokenGet, amountGet, tokenGive, amountGive, availableAmnt
+            var takerToken, takerTokenAmount, makerToken, makerTokenAmount, availableAmnt
 
             var nonce = Date.now()
 
             if (order.type === 'SELL') {
-                tokenGive = token[0]
-                tokenGet = CONSTS.ZEROADDR
-                amountGive = tokenUint
-                amountGet = weiUint
+                makerToken = token[0]
+                takerToken = CONSTS.ZEROADDR
+                makerTokenAmount = tokenUint
+                takerTokenAmount = weiUint
                 availableAmnt = (exchange.onExchange - exchange.onOrders.token) * exchange.tokenInf[1]
             } else {
-                tokenGive = CONSTS.ZEROADDR
-                tokenGet = token[0]
-                amountGive = weiUint
-                amountGet = tokenUint
+                makerToken = CONSTS.ZEROADDR
+                takerToken = token[0]
+                makerTokenAmount = weiUint
+                takerTokenAmount = tokenUint
                 availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) * CONSTS.ETH_MUL
             }
 
-            if (amountGive > availableAmnt) {
+            if (makerTokenAmount > availableAmnt) {
                 toastr.error('Insufficient funds to place order')
                 return
             }
 
-            // keccak256(order.tokenGet, order.amountGet, order.tokenGive, order.amountGive, order.expires, order.nonce, order.user, this)
+            // keccak256(order.takerToken, order.takerTokenAmount, order.makerToken, order.makerTokenAmount, order.expires, order.nonce, order.maker, this)
             var typed = [
-                {type: 'address', name: 'Token Get', value: tokenGet},
-                {type: 'uint', name: 'Amount Get', value: amountGet.toString()},
-                {type: 'address', name: 'Token Give', value: tokenGive},
-                {type: 'uint', name: 'Amount Give', value: amountGive.toString()},  // fails on this line
+                {type: 'address', name: 'Taker Token', value: takerToken},
+                {type: 'uint', name: 'Taker Token Amount', value: takerTokenAmount.toString()},
+                {type: 'address', name: 'Maker Token', value: makerToken},
+                {type: 'uint', name: 'Maker Token Amount', value: makerTokenAmount.toString()},
 
                 {type: 'uint', name: 'Expires', value: expires},
                 {type: 'uint', name: 'Nonce', value: nonce},
-                {type: 'address', name: 'User', value: userAddr},
+                {type: 'address', name: 'Maker', value: userAddr},
                 {type: 'address', name: 'Exchange', value: cfg.exchangeContract}
             ]
 
@@ -171,18 +171,18 @@
                 var v = parseInt(sig.substring(128, 130), 16)
 
                 var body = {
-                    get: {
-                        token: tokenGet,
-                        amount: amountGet,
+                    make: {
+                        token: makerToken,
+                        amount: makerTokenAmount,
                     },
-                    give: {
-                        token: tokenGive,
-                        amount: amountGive,
+                    take: {
+                        token: takerToken,
+                        amount: takerTokenAmount,
                     },
                     expires: expires,
                     nonce: nonce,
                     exchange: cfg.exchangeContract,
-                    user: user.publicAddr,
+                    maker: user.publicAddr,
                     signature: {r: r, s: s, v: v, sig_mode: sigMode}
                 }
                 fetch(cfg.endpoint + '/orders', {

@@ -17,7 +17,7 @@
             if (!user.publicAddr) return
             if (!exchange.tokenInf) return
 
-            fetch(cfg.endpoint + '/orders?token=' + exchange.tokenInf[0] + '&user=' + user.publicAddr)
+            fetch(cfg.endpoint + '/orders?token=' + exchange.tokenInf[0] + '&maker=' + user.publicAddr)
                 .then(function (res) {
                     return res.json()
                 })
@@ -35,12 +35,10 @@
         }
 
         $scope.cancel = function (order) {
-            var addresses = [order.user, order.give.token, order.get.token]
-            var values = [order.give.amount, order.get.amount, order.expires, order.nonce]
+            var addresses = [order.maker, order.make.token, order.take.token]
+            var values = [order.make.amount, order.take.amount, order.expires, order.nonce]
 
-            var sig = order.signature
-
-            var tx = user.exchangeContract.methods.cancel(addresses, values, sig.v, sig.r, sig.s, sig.sig_mode)
+            var tx = user.exchangeContract.methods.cancel(addresses, values)
             user.sendTx(tx, {from: user.publicAddr, gas: 70 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
                 if (err) return $scope.exchange.txError('Error canceling order', err)
 
@@ -54,7 +52,7 @@
                 return
 
             var total = orders.filter(function (x) {
-                var givingEth = x.order.give.token === CONSTS.ZEROADDR
+                var givingEth = x.order.make.token === CONSTS.ZEROADDR
                 return ethOrToken ? givingEth : !givingEth
             })
             .map(function (x) {

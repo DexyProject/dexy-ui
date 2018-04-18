@@ -1,6 +1,6 @@
 module.exports = {
-    exchangeContract: '0x0584d28d5f9f28356fc93c6732c69ef6aef716f6',
-    vaultContract: '0xbad42fee6a0518f2a7d33c02969475f2dcdb7283',
+    exchangeContract: '0x4f09a1292a4ec37e7186fe2d9bdfd2252427c5e9',
+    vaultContract: '0x2be091449b89a15fb6b959f3da35ffb419620f89',
     endpoint: 'https://testnet.dexy.exchange',
 
     exchangeFee: 0.25,

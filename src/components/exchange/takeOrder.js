@@ -58,19 +58,19 @@
             var rawOrder = toFill.order.order
 
             // addresses - user, tokenGive, tokenGet
-            var addresses = [rawOrder.user, rawOrder.give.token, rawOrder.get.token]
-            var values = [rawOrder.give.amount, rawOrder.get.amount, rawOrder.expires, rawOrder.nonce]
+            var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
+            var values = [rawOrder.make.amount, rawOrder.take.amount, rawOrder.expires, rawOrder.nonce]
 
             // portion is calculated in terms of portion from what CAN be filled
             // maxCanFillInToken is used in the UI to calculate it
             var portion = toFill.portion / 1000
 
-            var totalCanTake = parseInt(rawOrder.get.amount, 10) * toFill.maxCanFillInToken / toFill.tokenAmount
+            var totalCanTake = parseInt(rawOrder.take.amount, 10) * toFill.maxCanFillInToken / toFill.tokenAmount
             var amnt = Math.floor(portion * totalCanTake).toString()
 
             var sig = rawOrder.signature
 
-            return [addresses, values, amnt, $scope.getSigBuf(rawOrder.signature)]
+            return [addresses, values, $scope.getSigBuf(rawOrder.signature), amnt]
         }
 
         $scope.takeOrder = function (toFill) {
@@ -128,7 +128,7 @@
                     var tokenBase = exchange.tokenInf[1]
 
                     // divide by this to make it into a token amount
-                    var divider = rawOrder.get.token == CONSTS.ZEROADDR ? exchange.toFill.order.rate : 1
+                    var divider = rawOrder.take.token == CONSTS.ZEROADDR ? exchange.toFill.order.rate : 1
 
                     var availableInToken = (parseInt(resp, 10) / divider) / tokenBase
                     exchange.toFill.maxCanFillInToken = Math.min(exchange.toFill.maxCanFillInToken, availableInToken)
