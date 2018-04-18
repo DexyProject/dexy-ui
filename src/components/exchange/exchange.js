@@ -168,7 +168,7 @@
                 amount: leftInToken / tokenBase,
                 filledInToken: filledInToken / tokenBase,
                 leftInEth: leftInEth / ethBase,
-                isMine: user.publicAddr && order.user.toLowerCase() == user.publicAddr.toLowerCase(),
+                isMine: user.publicAddr && order.maker.toLowerCase() == user.publicAddr.toLowerCase(),
                 type: order.take.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
                 expires: expires
             }

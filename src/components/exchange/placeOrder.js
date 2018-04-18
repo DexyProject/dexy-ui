@@ -143,7 +143,7 @@
                 return
             }
 
-            // keccak256(order.takerToken, order.takerTokenAmount, order.makerToken, order.makerTokenAmount, order.expires, order.nonce, order.user, this)
+            // keccak256(order.takerToken, order.takerTokenAmount, order.makerToken, order.makerTokenAmount, order.expires, order.nonce, order.maker, this)
             var typed = [
                 {type: 'address', name: 'Taker Token', value: takerToken},
                 {type: 'uint', name: 'Taker Token Amount', value: takerTokenAmount.toString()},

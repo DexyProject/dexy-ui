@@ -58,7 +58,7 @@
             var rawOrder = toFill.order.order
 
             // addresses - user, tokenGive, tokenGet
-            var addresses = [rawOrder.user, rawOrder.make.token, rawOrder.take.token]
+            var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
             var values = [rawOrder.make.amount, rawOrder.take.amount, rawOrder.expires, rawOrder.nonce]
 
             // portion is calculated in terms of portion from what CAN be filled

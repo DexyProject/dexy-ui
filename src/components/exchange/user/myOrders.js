@@ -19,7 +19,7 @@
         function fetchOrders() {
             if (!user.publicAddr) return
 
-            fetch(cfg.endpoint + '/orders?token=' + exchange.tokenInf[0] + '&user=' + user.publicAddr)
+            fetch(cfg.endpoint + '/orders?token=' + exchange.tokenInf[0] + '&maker=' + user.publicAddr)
                 .then(function (res) {
                     return res.json()
                 })
@@ -37,7 +37,7 @@
         }
 
         $scope.cancel = function (order) {
-            var addresses = [order.user, order.make.token, order.take.token]
+            var addresses = [order.maker, order.make.token, order.take.token]
             var values = [order.make.amount, order.take.amount, order.expires, order.nonce]
 
             var sig = order.signature

@@ -20,7 +20,7 @@
         function fetchTrades() {
             if (!user.publicAddr) return
 
-            fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0] + '&user=' + user.publicAddr)
+            fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0] + '&maker=' + user.publicAddr)
                 .then(function (res) {
                     return res.json()
                 })
