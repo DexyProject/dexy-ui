@@ -11,9 +11,9 @@
     function tradeHistoryCtrl($scope, user, $window) {
         var exchange = $scope.exchange
 
-        loadHistory()
-
         function loadHistory() {
+            if (! exchange.tokenInf) return
+            
             fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0])
                 .then(function (res) {
                     return res.json()

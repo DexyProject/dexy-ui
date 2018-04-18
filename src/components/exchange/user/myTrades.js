@@ -12,13 +12,11 @@
 
         var exchange = $scope.exchange
 
-        $scope.$watch(function () {
-            return user.publicAddr
-        }, fetchTrades)
         $scope.$on('reload-orders', fetchTrades)
 
         function fetchTrades() {
             if (!user.publicAddr) return
+            if (!exchange.tokenInf) return
 
             fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0] + '&user=' + user.publicAddr)
                 .then(function (res) {
