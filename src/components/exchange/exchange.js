@@ -120,15 +120,15 @@
         }
 
         exchange.mapOrder = function (order, i) {
-            var getAmnt = parseInt(order.get.amount)
-            var giveAmnt = parseInt(order.give.amount)
+            var takeAmnt = parseInt(order.take.amount)
+            var makeAmnt = parseInt(order.make.amount)
 
-            // assert that order.give.token or order.get.token is ZEROADDR ?
+            // assert that order.make.token or order.take.token is ZEROADDR ?
 
-            var tokenAmount = (order.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
+            var tokenAmount = (order.make.token === CONSTS.ZEROADDR ? takeAmnt : makeAmnt)
             var tokenBase = exchange.tokenInf[1]
 
-            var ethAmount = (order.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
+            var ethAmount = (order.make.token === CONSTS.ZEROADDR ? makeAmnt : takeAmnt)
             var ethBase = CONSTS.ETH_MUL
 
             // Essentially divide ETH/tokens, but divide by bases first in order to convert the uints to floats
@@ -136,26 +136,26 @@
 
             var expires = new Date(order.expires * 1000)
 
-            var left = getAmnt - parseInt(order.filled, 10)
+            var left = takeAmnt - parseInt(order.filled, 10)
 
-            // filled is in getAmnt
-            var getFilled = order.filled
+            // filled is in takeAmnt (taken)
+            var takeFilled = order.filled
 
             //
-            // since order.filled (from the back-end) always comes in getAmnt, we need to convert it to eth and in token
+            // since order.filled (from the back-end) always comes in takeAmnt, we need to convert it to eth and in token
             //
-            // we take what % it is of the getAmnt; essentially this is what % the order is filled at
-            var proportion = getFilled / getAmnt
+            // we take what % it is of the takeAmnt; essentially this is what % the order is filled at
+            var proportion = takeFilled / takeAmnt
 
-            // this is the filled converted to the giveAmnt
-            var giveFilled = proportion * giveAmnt
+            // this is the filled converted to the makeAmnt
+            var makeFilled = proportion * makeAmnt
 
-            // if the get token is ETH, that means we need to convert filled - we use the converted giveFilled value
-            var filledInToken = order.get.token === CONSTS.ZEROADDR ? giveFilled : getFilled
+            // if the get token is ETH, that means we need to convert filled - we use the converted makeFilled value
+            var filledInToken = order.take.token === CONSTS.ZEROADDR ? makeFilled : takeFilled
 
             // if the get token is in ETH, then there's no need to convert
-            // otherwise, we use the converted value - giveFilled
-            var filledInETH = order.get.token === CONSTS.ZEROADDR ? getFilled : giveFilled
+            // otherwise, we use the converted value - makeFilled
+            var filledInETH = order.take.token === CONSTS.ZEROADDR ? takeFilled : makeFilled
 
             // Divide the leftover amount by the bases
             var leftInEth = ethAmount - filledInETH
@@ -169,15 +169,15 @@
                 filledInToken: filledInToken / tokenBase,
                 leftInEth: leftInEth / ethBase,
                 isMine: user.publicAddr && order.user.toLowerCase() == user.publicAddr.toLowerCase(),
-                type: order.get.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
+                type: order.take.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
                 expires: expires
             }
         }
 
         exchange.mapTransaction = function (tx, i) {
 
-            var amount = parseInt(tx.give.token === CONSTS.ZEROADDR ? tx.get.amount : tx.give.amount) / exchange.tokenInf[1];
-            var side = (tx.give.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
+            var amount = parseInt(tx.make.token === CONSTS.ZEROADDR ? tx.take.amount : tx.make.amount) / exchange.tokenInf[1];
+            var side = (tx.make.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
 
             var time = new Date(tx.timestamp * 1000)
 
@@ -196,13 +196,13 @@
 
         // NOTE: similar math is used for the orderbook
         function calculatePrice(o) {
-            var getAmnt = parseInt(o.get.amount)
-            var giveAmnt = parseInt(o.give.amount)
+            var takeAmnt = parseInt(o.take.amount)
+            var makeAmnt = parseInt(o.make.amount)
 
-            var tokenAmount = (o.give.token === CONSTS.ZEROADDR ? getAmnt : giveAmnt)
+            var tokenAmount = (o.make.token === CONSTS.ZEROADDR ? takeAmnt : makeAmnt)
             var tokenBase = exchange.tokenInf[1]
 
-            var ethAmount = (o.give.token === CONSTS.ZEROADDR ? giveAmnt : getAmnt)
+            var ethAmount = (o.make.token === CONSTS.ZEROADDR ? makeAmnt : takeAmnt)
             var ethBase = CONSTS.ETH_MUL
 
             return (ethAmount / ethBase) / (tokenAmount / tokenBase)

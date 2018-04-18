@@ -37,8 +37,8 @@
         }
 
         $scope.cancel = function (order) {
-            var addresses = [order.user, order.give.token, order.get.token]
-            var values = [order.give.amount, order.get.amount, order.expires, order.nonce]
+            var addresses = [order.user, order.make.token, order.take.token]
+            var values = [order.make.amount, order.take.amount, order.expires, order.nonce]
 
             var sig = order.signature
 
@@ -56,7 +56,7 @@
                 return
 
             var total = orders.filter(function (x) {
-                var givingEth = x.order.give.token === CONSTS.ZEROADDR
+                var givingEth = x.order.make.token === CONSTS.ZEROADDR
                 return ethOrToken ? givingEth : !givingEth
             })
             .map(function (x) {
