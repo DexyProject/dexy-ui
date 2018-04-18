@@ -70,7 +70,7 @@
 
             var sig = rawOrder.signature
 
-            return [addresses, values, amnt, $scope.getSigBuf(rawOrder.signature)]
+            return [addresses, values, $scope.getSigBuf(rawOrder.signature), amnt]
         }
 
         $scope.takeOrder = function (toFill) {
