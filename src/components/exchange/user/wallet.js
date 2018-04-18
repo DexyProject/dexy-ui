@@ -87,6 +87,9 @@
 
         $scope.calcMax = function (action, isBase) {
             var max = 0
+            
+            if (!exchange.user) return 0
+
             if (action == 'Withdraw') {
                 max = isBase ? exchange.user.ethBal.onExchange : exchange.onExchange
             }

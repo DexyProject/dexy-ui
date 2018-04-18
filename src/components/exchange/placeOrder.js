@@ -51,9 +51,9 @@
         }
 
         $scope.showAvail = function (order) {
-            if (! order)
-                return
-
+            if (!order) return
+            if (!exchange.user) return
+            
             var avail
             if (order.type === 'BUY') {
                 avail = exchange.user.ethBal.onExchange - exchange.onOrders.eth
