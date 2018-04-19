@@ -100,7 +100,7 @@
             // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet", same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             var args = $scope.getArgs($scope.exchange.toFill)
-            user.exchangeContract.methods.canTrade.apply(null, [args[0], args[1], args[3]])
+            user.exchangeContract.methods.canTrade.apply(null, [args[0], args[1], args[2]])
                 .call(function (err, resp) {
                     if (! exchange.toFill) return
 
