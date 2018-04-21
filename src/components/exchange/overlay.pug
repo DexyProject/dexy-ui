@@ -1,0 +1,7 @@
+div.overlay(
+	ng-if='!exchange.isVaultApproved'
+)
+	//- @TODO
+
+	span You have to approve the exchange contract before proceeding
+	button(type="button",class="btn btn-info btn-lg",data-toggle="modal",data-target="#approveExchangeByVault") Approve
