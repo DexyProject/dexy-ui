@@ -75,6 +75,11 @@ function persistingProp(scope, prop) {
 
     scope.$watch(prop, function (newVal, o) {
         if (o === undefined) return
-        if (newVal != o) localStorage['persist_' + prop] = JSON.stringify(newVal)
+
+        try {
+            if (newVal != o) localStorage['persist_' + prop] = JSON.stringify(newVal)
+        } catch(e) {
+            toastr.error('Error persisting property: '+prop)
+        }
     })
 }
