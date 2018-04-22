@@ -8,6 +8,8 @@
 
     walletCtrl.$inject = ['$scope', 'user'];
 
+    var GAS_ON_DEPOSIT = 200 * 1000
+
     function walletCtrl($scope, user) {
         var exchange = $scope.exchange
 
@@ -36,7 +38,7 @@
                 args = {
                     from: user.publicAddr,
                     value: isBase ? amnt : 0,
-                    gas: 200 * 1000,
+                    gas: GAS_ON_DEPOSIT,
                     gasPrice: user.GAS_PRICE
                 }
             } else if (direction === 'Withdraw') {
@@ -95,6 +97,7 @@
             }
             if (action == 'Deposit') {
                 max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
+                if (isBase) max -= (user.GAS_PRICE * (GAS_ON_DEPOSIT+21000)) / CONSTS.ETH_MUL
             }
             return max    
         }
