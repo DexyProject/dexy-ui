@@ -28,6 +28,10 @@
                 })
         }
 
+        $scope.getExchangeContract = function() {
+            return cfg.exchangeContract
+        }
+
         $scope.approveExchangeByVault = function () {
             var tx = user.vaultContract.methods.approve(cfg.exchangeContract)
 
