@@ -24,7 +24,7 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
                         .dropdown-divider(ng-if='::i > 0')
                         a.dropdown-item(ng-click='clickedItem(item)')
                             img(ng-src='img/markets/{{::item.symbol}}-ETH.png' width='20')
-                            span.ml-2(ng-bind='::item.symbol')
+                            span.ml-2(ng-bind='::item.symbol', style='vertical-align: middle;')
 
         ul.navbar-nav.mr-auto.ml-2.m-1(ng-controller='GlobalIndicatorsCtrl')
             li(ng-hide='!symbol', ng-bind='symbol + " / ETH"')
