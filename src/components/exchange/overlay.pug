@@ -1,11 +1,11 @@
-div.overlay(
-	ng-if='!exchange.isVaultApproved || !(exchange.onExchange || exchange.user.ethBal.onExchange)'
-)
+div.overlay(ng-if='exchange.showOverlay("any")')
 	//- @TODO
 	.container.h-100
 		.row.h-100.justify-content-center.align-items-center
-			.col-12.align-items-center.text-center.p-3(ng-if='!exchange.isVaultApproved')
+			.col-12.align-items-center.text-center.p-3(ng-if='exchange.showOverlay("authenticate")')
+				label.font-weight-bold Please authenticate with Metamask/Ledger/Trezor to trade
+			.col-12.align-items-center.text-center.p-3(ng-if='exchange.showOverlay("approval")')
 				label.font-weight-bold Please approve the exchange contract before trading
 				button.m-1(type="button",class="btn btn-primary",data-toggle="modal",data-target="#approveExchangeByVault") Approve
-			.col-12.align-items-center.text-center.p-3(ng-if='exchange.isVaultApproved')
+			.col-12.align-items-center.text-center.p-3(ng-if='exchange.showOverlay("deposit")')
 				label.font-weight-bold Please deposit funds before trading
