@@ -8,7 +8,8 @@
             .modal-body
                 p In order to trade, you need to approve a new exchange contract.
                 p To keep DEXY upgradable, your funds are deposited to a separate vault contract, which in turn allows the exchange contract to operate with those funds. When we release a new exchange contract, you need to approve it in order to allow exchanging funds through it.
-                p(ng-bind='getExchangeContract()')
+                p
+                    a(ng-bind='getExchangeContract()',ng-href='{{getExchangeContractUrl()}}',target='_blank')
             .modal-footer
                 .row
                     .col.text-right
