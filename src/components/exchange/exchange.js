@@ -223,6 +223,16 @@
                 {escapeHtml: false}
             )
         }
+
+        exchange.showOverlay = function (s) {
+            var stage
+            if (! user.publicAddr) stage = 'authenticate'
+            else if (!exchange.isVaultApproved) stage = 'approval'
+            else if (! (exchange.onExchange || user.ethBal.onExchange)) stage = 'deposit'
+            
+            if (s === 'any') return !!stage
+            else return s === stage
+        }
     }
 
     // HELPER: Fetch custom token

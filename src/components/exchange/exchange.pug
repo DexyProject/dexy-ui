@@ -22,6 +22,7 @@
                             span.data(ng-bind="meta.vol")
                     #mainChart(ng-controller="chartCtrl")
             .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
+                include ./overlay
                 .col.border
                     .row.mt-3
                         .col-12
@@ -52,6 +53,8 @@
                             #trades.tab-pane.fade.in
                                 include ./user/myTrades
             .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
+                include ./overlay
+
                 .col.border
                     .row.navRow
                         ul.nav.nav-tabs
