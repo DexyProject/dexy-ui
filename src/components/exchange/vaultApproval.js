@@ -32,6 +32,10 @@
             return cfg.exchangeContract
         }
 
+        $scope.getExchangeContractUrl = function() {
+            return cfg.etherscan + '/address/' + cfg.exchangeContract
+        }
+
         $scope.approveExchangeByVault = function () {
             var tx = user.vaultContract.methods.approve(cfg.exchangeContract)
 
