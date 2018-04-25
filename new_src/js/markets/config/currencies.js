@@ -2,4 +2,3 @@ export default {
     USD: '$',
     EUR: '€'
 };
-
