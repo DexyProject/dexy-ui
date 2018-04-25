@@ -1,0 +1,40 @@
+.orderbook
+  overflow-y scroll
+  font-size 0.75rem
+  font-weight 400
+  color rgba(0, 0, 0, 0.54)
+  //
+  tbody tr
+    cursor pointer
+    text-align left
+
+    &.isMine
+      cursor auto
+
+    &.orderbook-header
+      border-left 3px solid #f5f5f5
+      background-color #f5f5f5
+      cursor auto
+
+      &:hover
+        background-color #f5f5f5
+
+    &.isMine
+      background-color #f5f5f5
+
+    &.buy
+      border-left 3px solid #E57373
+
+    &.sell
+      border-left 3px solid #4DB6AC
+
+  td
+    padding-bottom 8px
+    padding-top 8px
+    border 0
+
+.dropdown-menu.show
+  opacity 10;
+
+.modal-content
+  border 0;

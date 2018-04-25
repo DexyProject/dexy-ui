@@ -1,0 +1,44 @@
+nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
+    a.navbar-brand(ui-sref='markets')
+        img(src="img/dexy.png", height="30", alt="dexy")
+
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+    #navbarCollapse.collapse.navbar-collapse
+        ul.navbar-nav(ng-controller='SearchCtrl')
+            .btn-group
+                input.form-control(type='text',
+                ng-model='$root.searchKeyword',
+                placeholder='Search or paste token address',
+                ng-focus='searchFocused = true',
+                ng-blur='searchFocused = false'
+                )
+                span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
+                    span.fas.fa-times-circle
+                .dropdown-menu.w-100(
+                ng-class='{ show: showDropdown }',
+                role='menu'
+                )
+                    div.p-3(ng-hide='results.length') No results found.
+                    div(ng-repeat='(i, item) in results track by item.symbol', ng-show='results.length')
+                        .dropdown-divider(ng-if='::i > 0')
+                        a.dropdown-item(ng-click='clickedItem(item)')
+                            img(ng-src='img/markets/{{::item.symbol}}-ETH.png' width='20')
+                            span.ml-2(ng-bind='::item.symbol', style='vertical-align: middle;')
+
+        ul.navbar-nav.mr-auto.ml-2.m-1(ng-controller='GlobalIndicatorsCtrl')
+            li(ng-hide='!symbol', ng-bind='symbol + " / ETH"')
+
+        ul.navbar-nav.ml-auto
+            li.nav-item.dropdown(ng-controller='GasPriceCtrl')
+                a#gas.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', ng-show="$root.gas", ng-bind="'Gas price: ' + $root.gas/10 + ' gwei'")
+                .dropdown-menu.right(aria-labelledby='gas', ng-cloak)
+                    .dropdown-item(
+                    ng-repeat='level in ["safe", "average", "fast"]'
+                    ng-click='$root.gas = gas.prices[level]'
+                    ng-class='isSelected(level) ? "selected" : ""') {{gas.prices[level]/10 + ' gwei ('+level+')'}}
+            li.nav-item.dropdown
+                include ./user
+            li.nav-item.d-none.d-lg-inline-block
+                button.btn.btn-light(ng-click='toggleFullscreen()' type='button')
+                    i(class="fas fa-expand fullscreen")

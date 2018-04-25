@@ -1,0 +1,12 @@
+div(ng-controller='UserCtrl', ng-cloak)
+    a#account.nav-link.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+        | {{user.publicAddr ? user.publicAddr.slice(0, 6) : 'Select Account'}}
+        // @todo potentially throw the addr into the header. See token.store
+        .dropdown-menu.right(aria-labelledby='account')
+            div.px-3.small {{getNetworkName(user.chainId)}}
+            div.px-3.small {{user.publicAddr ? user.publicAddr.slice(0, 8)+'...' : ''}}
+            .dropdown-item(ng-class="{ selected: user.mode === 'metamask' }", ng-click="enableMetamask()") Metamask
+            .dropdown-item(ng-class="{ selected: user.mode === 'trezor' }", ng-click='enableTrezor()') Trezor
+            .dropdown-item(ng-class="{ selected: user.mode === 'ledger' }", ng-click='enableLedger()') Ledger
+
+    //include ../dialogs/hwWalletChooseAcc
