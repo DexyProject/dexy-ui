@@ -109,11 +109,10 @@ class MarketsCtrl {
             });
 
         let t;
+
         this._$scope.delayedApply = function () {
             clearTimeout(t);
-            t = setTimeout(function () {
-                !this._$scope.$$phase && this._$scope.$digest()
-            }, 150)
+            t = setTimeout(function () {!this._$scope.$$phase && this._$scope.$digest()}, 150)
         }
     }
 
