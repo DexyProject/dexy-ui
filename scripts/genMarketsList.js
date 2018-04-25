@@ -18,7 +18,7 @@ fetch('https://api.coinmarketcap.com/v1/ticker/?limit=200')
         all.push(x.symbol)
 
         var p = './img/markets/'+x.symbol+'-ETH.png'
-        if (! fs.existsSync(p)) {
+        if (!fs.existsSync(p)) {
             var url = 'https://files.coinmarketcap.com/static/widget/coins_legacy/64x64/'+x.id+'.png'
             fetch(url)
             .then(function(res) {

@@ -96,7 +96,7 @@
                 $scope.markets.forEach(function (x) {
                     var info = allByToken[x.token[0].toLowerCase()]
 
-                    if (! info) return
+                    if (!info) return
                     
                     x.bid = info.bid
                     x.ask = info.ask
