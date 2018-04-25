@@ -16,7 +16,7 @@ div
                     tr
                         th(scope='col')
                             //- for the icon
-                        th(scope='col', ng-repeat='f in fields', ng-click="setOrderBy(f.field)")
+                        th(scope='col', ng-repeat='f in fields', ng-click="$ctrl.setOrderBy(f.field)")
                             span(ng-show="orderByField==f.field && !reverseSort")
                                 i.fas.fa-arrow-up.fa-lg.mr-2
                             span(ng-show="orderByField==f.field && reverseSort")
@@ -32,13 +32,13 @@ div
                         //-td(ng-bind='market.change.toFixed(2)' ng-class='market.change >= 0 ? "positive" : "negative"')
                         td
                             div(ng-bind='(market.bid.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.bid)')
+                            div(class='label', ng-bind='$ctrl.fiatValue(market.bid)')
                         td
                             div(ng-bind='(market.ask.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.ask)')
+                            div(class='label', ng-bind='$ctrl.fiatValue(market.ask)')
                         td
                             div(ng-bind='(market.last.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.last)')
+                            div(class='label', ng-bind='$ctrl.fiatValue(market.last)')
                         td
                             div(ng-bind='(market.volume.toFixed(8))')
-                            div(class='label', ng-bind='fiatValue(market.volume)')
+                            div(class='label', ng-bind='$ctrl.fiatValue(market.volume)')

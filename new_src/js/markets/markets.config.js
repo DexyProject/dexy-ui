@@ -9,7 +9,6 @@ function MarketsConfig($stateProvider) {
             templateUrl: 'js/markets/markets.html',
             title: 'Markets',
         });
-
 };
 
 export default MarketsConfig;
