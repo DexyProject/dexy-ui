@@ -40,7 +40,7 @@
 
         function updateChart(chart)
         {
-            if (! exchange.tokenInf) 
+            if (!exchange.tokenInf)
                 return
             
             fetch(cfg.endpoint + '/ticks?token=' + exchange.tokenInf[0])

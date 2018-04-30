@@ -12,7 +12,7 @@
         var exchange = $scope.exchange
 
         function loadHistory() {
-            if (! exchange.tokenInf) return
+            if (!exchange.tokenInf) return
             
             fetch(cfg.endpoint + '/trades?token=' + exchange.tokenInf[0])
                 .then(function (res) {

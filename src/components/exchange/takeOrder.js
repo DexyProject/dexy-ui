@@ -88,21 +88,21 @@
         // will only get triggered when the reference to the object changes
         var debouncedUpdate
         $scope.$watch(function() { 
-            if (! $scope.exchange.toFill) return null
+            if (!$scope.exchange.toFill) return null
             return $scope.exchange.toFill 
         }, function() {
             $scope.updateCanTrade()
         })
         
         $scope.updateCanTrade = function() {
-            if (! $scope.exchange.toFill) return
+            if (!$scope.exchange.toFill) return
 
             // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet", same goes for filling
             // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             var args = $scope.getArgs($scope.exchange.toFill)
             user.exchangeContract.methods.canTrade.apply(null, [args[0], args[1], args[2]])
                 .call(function (err, resp) {
-                    if (! exchange.toFill) return
+                    if (!exchange.toFill) return
 
                     if (err) {
                         toastr.error('Error getting order canTrade status')
@@ -122,7 +122,7 @@
 
             user.exchangeContract.methods.availableAmount.apply(null, [args[0], args[1]])
                 .call(function (err, resp) {
-                    if (! exchange.toFill) return
+                    if (!exchange.toFill) return
 
                     var rawOrder = exchange.toFill.order.order
                     var tokenBase = exchange.tokenInf[1]
@@ -138,7 +138,7 @@
 
         $scope.getSummary = function()
         {
-            if (! exchange.toFill) return
+            if (!exchange.toFill) return
 
             var p = exchange.toFill.portion/1000
             var amnt = exchange.toFill.maxCanFillInToken * p
