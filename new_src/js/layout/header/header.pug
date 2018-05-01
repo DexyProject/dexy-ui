@@ -7,17 +7,17 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     #navbarCollapse.collapse.navbar-collapse
         ul.navbar-nav(ng-controller='SearchCtrl')
             .btn-group
-                input.form-control(type='text', 
-                    ng-model='$root.searchKeyword', 
-                    placeholder='Search or paste token address',
-                    ng-focus='searchFocused = true',
-                    ng-blur='searchFocused = false'
+                input.form-control(type='text',
+                ng-model='$root.searchKeyword',
+                placeholder='Search or paste token address',
+                ng-focus='searchFocused = true',
+                ng-blur='searchFocused = false'
                 )
                 span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
                 .dropdown-menu.w-100(
-                    ng-class='{ show: showDropdown }', 
-                    role='menu'
+                ng-class='{ show: showDropdown }',
+                role='menu'
                 )
                     div.p-3(ng-hide='results.length') No results found.
                     div(ng-repeat='(i, item) in results track by item.symbol', ng-show='results.length')

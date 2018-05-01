@@ -17,16 +17,16 @@ var configPath = require('./get-config-path')
 
 router.get('/', function(req, res) {
     var u = url.parse(req.url, true);
-    fs.readFile('./src/index.pug', function(err, template) {
+    fs.readFile('./new_src/index.pug', function(err, template) {
         if (err) { console.error(err); res.writeHead(500); return res.end(); }
-        res.end(pug.render(template, { mode: u.query.mode || 'web', filename: './src/index.pug', pkg: pkg }));
+        res.end(pug.render(template, { mode: u.query.mode || 'web', filename: './new_src/index.pug', pkg: pkg }));
     });
 });
 
 router.get(/^\/css\/(.*).css/, function(req, res, next) {
     var pathname = url.parse(req.url).pathname.slice('/css/'.length);
     var styl_file = pathname.replace('.css', '.styl');
-    var p = (pathname.indexOf('/') === -1 ? './src/styl/' : './') + styl_file; // put /styl in front if it's top-level
+    var p = (pathname.indexOf('/') === -1 ? './new_src/styl/' : './') + styl_file; // put /styl in front if it's top-level
     fs.readFile(p, function(err, str) {
         if (err) { console.error(err); return next(); }
         stylus(str.toString()).set('filename', p).use(nib()).render(serveCss.bind(null, req, res));
