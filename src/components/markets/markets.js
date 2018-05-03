@@ -129,5 +129,9 @@
             }
             $scope.orderByField = keyName
         }
+
+        $scope.getOrder = function() {
+            return [($scope.reverseSort ? '-' : '') + $scope.orderByField, 'name']
+        }
     }
 })();
