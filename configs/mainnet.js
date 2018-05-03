@@ -1,7 +1,7 @@
 module.exports = {
     exchangeContract: '0x1d150cfcd9bfa01e754e034442341ba85b85f1bb',
     vaultContract: '0x3956925d7d5199a6db1f42347fedbcd35312ae82',
-    endpoint: 'https://api.dexy.exchange',
+    endpoint: 'https://api.dexy.exchange/v1',
 
     exchangeFee: 0.0,
 
