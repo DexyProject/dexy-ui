@@ -7,13 +7,12 @@ var tokens = require('../configs/tokens')
 
 var excludes = { BTC: true, ETH: true, TRX: true, EOS: true }
 var all = []
-fetch('https://api.coinmarketcap.com/v1/ticker/?limit=200')
+fetch('https://api.coinmarketcap.com/v1/ticker/?limit=300')
 .then(function(res) { return res.json() })
 .then(function(res) {
     res.forEach(function(x) {
         if (excludes[x.symbol]) return
         if (!tokens[x.symbol]) return
-
 
         all.push(x.symbol)
 
