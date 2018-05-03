@@ -44,12 +44,12 @@ gulp.task('client-bundle-js', function(cb) {
 	.pipe(addsrc.append(scripts))
 	.on('error', createErrorHandler('addsrc'))
 	.pipe(sourcemaps.init())
-	/*.pipe(minify({
+	.pipe(minify({
 		mangle: {
 			keepClassName: true
 		}
 	}))
-	.on('error', createErrorHandler('uglify'))*/
+	.on('error', createErrorHandler('uglify'))
 	.pipe(concat('blob.js'))
 	.pipe(sourcemaps.write('../sourcemaps', { addComment: false }))
 	.pipe(gulp.dest('./dist'))
