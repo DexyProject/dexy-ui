@@ -66,6 +66,11 @@
                     ])
                 });
 
+                let now = Date.now();
+
+                prices.push([now, 0, 0, 0, 0]);
+                volume.push([now, 0]);
+
                 prices = prices.sort(function(a, b) { return a[0] - b[0] })
                 volume = volume.sort(function(a, b) { return a[0] - b[0] })
 
