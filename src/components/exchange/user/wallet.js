@@ -97,9 +97,14 @@
             }
             if (action == 'Deposit') {
                 max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
+                
+                // if in ETH, reduce the ETH fee
                 if (isBase) max -= (user.GAS_PRICE * (GAS_ON_DEPOSIT+21000)) / CONSTS.ETH_MUL
+
+                // because of the previous reduction, this can go under 0
+                max = Math.max(0, max)
             }
-            return max    
+            return max
         }
 
         $scope.calcMaxLabel = function (action, isBase) {
