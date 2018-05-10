@@ -50,7 +50,7 @@
                 // We have to set the allowance first
 
                 var sendArgs = {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}
-                if (exchange.rawAllowance == 0) {
+                if (exchange.rawAllowance == 0 || exchange.rawAllowance == amnt) {
                     // Directly approve
                     approveFinal()
                 } else {
