@@ -3,6 +3,7 @@
 
     var Buffer = require('buffer').Buffer
     var ethutil = require('ethereumjs-util')
+    var BigNumber = require('bignumber.js')
 
     // Take order ctrl
 
@@ -63,10 +64,14 @@
 
             // portion is calculated in terms of portion from what CAN be filled
             // maxCanFillInToken is used in the UI to calculate it
+
+            // toFill.portion is always an integer from 0 to 1000
             var portion = toFill.portion / 1000
 
-            var totalCanTake = parseInt(rawOrder.take.amount, 10) * toFill.maxCanFillInToken / toFill.tokenAmount
-            var amnt = Math.floor(portion * totalCanTake).toString()
+            var orderTakeAmount = new BigNumber(rawOrder.take.amount, 10)
+            // @TODO: toFill.maxCanFillInToken and toFill.tokenAmount
+            var totalCanTake = orderTakeAmount.multipliedBy(toFill.maxCanFillInToken).dividedBy(toFill.tokenAmount)
+            var amnt = totalCanTake.multipliedBy(portion).integerValue()
 
             var sig = rawOrder.signature
 
