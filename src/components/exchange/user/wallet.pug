@@ -4,20 +4,20 @@
             .col-4
                 h5 Wallet
                 .row
-                    .col-md-12 {{exchange.onWallet.toFixed(3)}} {{exchange.symbol}}
+                    .col-md-12 {{exchange.onWallet.toFixed(4)}} {{exchange.symbol}}
                     .col-md-12  {{exchange.user.ethBal.onWallet.toFixed(6)}} ETH
 
             .col-4
                 h5 Exchange
                 .row
-                    .col-md-12 {{exchange.onExchange.toFixed(3)}} {{exchange.symbol}}
+                    .col-md-12 {{exchange.onExchange.toFixed(4)}} {{exchange.symbol}}
                     .col-md-12  {{exchange.user.ethBal.onExchange.toFixed(6)}} ETH
 
             .col-4
                 h5 On orders
                 .row
-                    .col-md-12 {{exchange.onOrders.token.toFixed(3)}} {{exchange.symbol}}
-                    .col-md-12  {{exchange.onOrders.eth.toFixed(3)}} ETH
+                    .col-md-12 {{exchange.onOrders.token.toFixed(4)}} {{exchange.symbol}}
+                    .col-md-12  {{exchange.onOrders.eth.toFixed(6)}} ETH
     - var direction = 'Deposit'
     include walletControls
     - var direction = 'Withdraw'
