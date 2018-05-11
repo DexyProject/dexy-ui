@@ -25,7 +25,7 @@
             }
 
             var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
-            var amnt = parseInt(parseFloat(amnt) * (isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1]))
+            var amnt = Math.floor(parseFloat(amnt) * (isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1]))
 
             var call
             var args
