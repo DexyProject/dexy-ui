@@ -8,6 +8,8 @@
 
     walletCtrl.$inject = ['$scope', 'user'];
 
+    var BigNumber = require('bignumber.js')
+
     var GAS_ON_DEPOSIT = 200 * 1000
 
     function walletCtrl($scope, user) {
@@ -18,20 +20,24 @@
         exchange.quoteMove = {Deposit: 0, Withdraw: 0}
 
         // Move assets (deposit/withdraw)
-        $scope.assetsMove = function (isBase, direction, amnt) {
+        $scope.assetsMove = function (isBase, direction, floatAmount) {
             if (!user.publicAddr) {
                 toastr.error('Please authenticate with Metamask, Trezor or Ledger')
                 return
             }
 
             var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
-            var amnt = Math.floor(parseFloat(amnt) * (isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1]))
+
+            // floatAmount is currently coming in as a String of the floating point amount
+            var amnt = new BigNumber(floatAmount)
+
+            // TODO: how to handle this? we need validation on that input field
+            if (amnt.isNaN()) return
+
+            amnt = amnt.multipliedBy(isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1])
 
             var call
             var args
-
-            // TODO: how to handle this? we need validation on that input field
-            if (isNaN(amnt)) return
 
             if (direction === 'Deposit') {
                 call = user.vaultContract.methods.deposit(addr, isBase ? 0 : amnt)
