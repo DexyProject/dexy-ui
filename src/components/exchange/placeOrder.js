@@ -3,6 +3,8 @@
 
     // Place order ctrl
 
+    var BigNumber = require('bignumber.js')
+
     angular
         .module('dexyApp')
         .controller('placeOrderCtrl', placeOrderCtrl);
@@ -10,7 +12,8 @@
     placeOrderCtrl.$inject = ['$scope', '$stateParams', 'user'];
 
     function placeOrderCtrl($scope, $stateParams, user) {
-        // Orders
+        // @TODO: consider BigNumber every time order.amount or order.rate is set
+
         var exchange = $scope.exchange
 
         $scope.orders = {
@@ -29,10 +32,10 @@
             var best = $scope.getBest()
 
             if (side === 'BUY' && best.ask) {
-                order.rate = best.ask.rate
+                order.rate = best.ask.rate.toString()
             }
             if (side === 'SELL' && best.bid) {
-                order.rate = best.bid.rate
+                order.rate = best.bid.rate.toString()
             }
         }
 
@@ -40,10 +43,10 @@
             var best = $scope.getBest()
 
             if (order.type === 'BUY') {
-                order.rate = order.rate || (best.ask && best.ask.rate)
+                order.rate = order.rate || (best.ask && best.ask.rate.toString())
                 order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / order.rate) * part
             } else {
-                order.rate = order.rate || (best.bid && best.bid.rate)
+                order.rate = order.rate || (best.bid && best.bid.rate.toString())
                 order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
 
@@ -93,11 +96,14 @@
                 return
             }
 
+            var rate = new BigNumber(order.rate)
+            var amount = new BigNumber(order.amount)
+
             // Warn the user if the the order is not much in the user's benefit
             var best = $scope.getBest()
             var shouldWarnUser = 
-                (order.type === 'SELL' && best.ask && order.rate/best.ask.rate < CONSTS.SELL_WARN_THRESHOLD)
-                || (order.type === 'BUY' && best.bid && order.rate/best.bid.rate > CONSTS.BUY_WARN_THRESHOLD)
+                (order.type === 'SELL' && best.ask && rate.dividedBy(best.ask.rate).comparedTo(CONSTS.SELL_WARN_THRESHOLD) === -1)
+                || (order.type === 'BUY' && best.bid && rate.dividedBy(best.bid.rate).comparedTo(CONSTS.BUY_WARN_THRESHOLD) === 1)
 
             if (shouldWarnUser && !noConfirm) {
                 $('#placeOrderConfirm').modal('show')
@@ -112,8 +118,8 @@
             // Calculate all the values needed to place the order
             var token = exchange.tokenInf
 
-            var tokenUint = Math.floor(order.amount * token[1])
-            var weiUint = Math.floor(order.rate * order.amount * Math.pow(10, 18))
+            var tokenUint = amount.multipliedBy(token[1]).integerValue()
+            var weiUint = rate.multipliedBy(amount).multipliedBy(CONSTS.ETH_MUL).integerValue()
 
             // hardcoded for now
             var expires = Math.floor((Date.now() / 1000) + CONSTS.DEFAULT_ORDER_LIFETIME)
@@ -138,7 +144,7 @@
                 availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) * CONSTS.ETH_MUL
             }
 
-            if (makerTokenAmount > availableAmnt) {
+            if (makerTokenAmount.comparedTo(availableAmnt) === 1) {
                 toastr.error('Insufficient funds to place order')
                 return
             }
@@ -173,11 +179,11 @@
                 var body = {
                     make: {
                         token: makerToken,
-                        amount: makerTokenAmount,
+                        amount: makerTokenAmount.toNumber(),
                     },
                     take: {
                         token: takerToken,
-                        amount: takerTokenAmount,
+                        amount: takerTokenAmount.toNumber(),
                     },
                     expires: expires,
                     nonce: nonce,
@@ -185,6 +191,7 @@
                     maker: user.publicAddr,
                     signature: {r: r, s: s, v: v, sig_mode: sigMode}
                 }
+
                 fetch(cfg.endpoint + '/orders', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
