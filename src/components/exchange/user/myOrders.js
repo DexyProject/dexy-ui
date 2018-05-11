@@ -34,9 +34,9 @@
                 })
         }
 
-        $scope.cancel = function (order) {
-            var addresses = [order.maker, order.make.token, order.take.token]
-            var values = [order.make.amount, order.take.amount, order.expires, order.nonce]
+        $scope.cancel = function (rawOrder) {
+            var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
+            var values = [rawOrder.make.amount, rawOrder.take.amount, rawOrder.expires, rawOrder.nonce]
 
             var tx = user.exchangeContract.methods.cancel(addresses, values)
             user.sendTx(tx, {from: user.publicAddr, gas: 70 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {

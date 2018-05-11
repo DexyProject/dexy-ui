@@ -16,4 +16,4 @@
                     td(ng-bind='::order.expires.toLocaleString()')
                     td(ng-bind='::order.type')
                     td
-                        button.btn.btn-light.btn-outline-danger.btn-sm(type='button', ng-click='cancel(order.order)') Cancel
+                        button.btn.btn-light.btn-outline-danger.btn-sm(type='button', ng-click='cancel(order.rawOrder)') Cancel

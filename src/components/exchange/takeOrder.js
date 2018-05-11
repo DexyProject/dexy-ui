@@ -17,12 +17,12 @@
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
-            if (order.order.exchange !== cfg.exchangeContract) {
+            if (order.rawOrder.exchange !== cfg.exchangeContract) {
                 toastr.error('Order exchange address different than ours')
                 return
             }
 
-            // order.amount is how much is left in token
+            // max amount of token that the user can take with their funds
             var maxUserAmnt = side === 'SELL' ?
                 (exchange.onExchange - exchange.onOrders.token)
                 : (user.ethBal.onExchange - exchange.onOrders.eth) / order.rate
@@ -32,9 +32,9 @@
                 return
             }
 
-            var tokenAmount = order.filledInToken + order.amount
-            var maxCanFillInToken = Math.min(maxUserAmnt, order.amount)
-            var maxPortion = Math.floor(maxCanFillInToken / tokenAmount * 1000)
+            // order.amount is how much is left in token
+            var tokenAmount = order.filledInToken.plus(order.amount)
+            var maxCanFillInToken = BigNumber.min(maxUserAmnt, order.amount)
 
             $scope.exchange.toFill = {
                 order: order,
@@ -56,7 +56,7 @@
         }
 
         $scope.getArgs = function (toFill) {
-            var rawOrder = toFill.order.order
+            var rawOrder = toFill.order.rawOrder
 
             // addresses - user, tokenGive, tokenGet
             var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
@@ -69,7 +69,6 @@
             var portion = toFill.portion / 1000
 
             var orderTakeAmount = new BigNumber(rawOrder.take.amount, 10)
-            // @TODO: toFill.maxCanFillInToken and toFill.tokenAmount
             var totalCanTake = orderTakeAmount.multipliedBy(toFill.maxCanFillInToken).dividedBy(toFill.tokenAmount)
             var amnt = totalCanTake.multipliedBy(portion).integerValue()
 
@@ -129,14 +128,14 @@
                 .call(function (err, resp) {
                     if (!exchange.toFill) return
 
-                    var rawOrder = exchange.toFill.order.order
+                    var rawOrder = exchange.toFill.order.rawOrder
                     var tokenBase = exchange.tokenInf[1]
 
                     // divide by this to make it into a token amount
                     var divider = rawOrder.take.token == CONSTS.ZEROADDR ? exchange.toFill.order.rate : 1
 
-                    var availableInToken = (parseInt(resp, 10) / divider) / tokenBase
-                    exchange.toFill.maxCanFillInToken = Math.min(exchange.toFill.maxCanFillInToken, availableInToken)
+                    var availableInToken = new BigNumber(resp).dividedBy(divider).dividedBy(tokenBase)
+                    exchange.toFill.maxCanFillInToken = BigNumber.min(exchange.toFill.maxCanFillInToken, availableInToken)
                     !$scope.$$phase && $scope.$digest()
                 })
         }
@@ -146,13 +145,20 @@
             if (!exchange.toFill) return
 
             var p = exchange.toFill.portion/1000
-            var amnt = exchange.toFill.maxCanFillInToken * p
-            var ethAmount  = amnt * exchange.toFill.order.rate
-            var feePortion = cfg.exchangeFee/100
+            var amnt = exchange.toFill.maxCanFillInToken.multipliedBy(p)
+            var ethAmount  = amnt.multipliedBy(exchange.toFill.order.rate)
 
-            if (feePortion) {
-                if (exchange.toFill.side === 'SELL') ethAmount -= ethAmount * feePortion
-                else amnt -= amnt * feePortion
+            var fee = new BigNumber(0)
+
+            if (cfg.exchangeFee) {
+                if (exchange.toFill.side === 'SELL') {
+                    fee = ethAmount.multipliedBy(cfg.exchangeFee).dividedBy(100)
+                    ethAmount = ethAmount.minus(fee)
+                }
+                else {
+                    fee = amnt.multipliedBy(cfg.exchangeFee).dividedBy(100)
+                    amnt = amnt.minus(fee)
+                }
             }
 
             var summary = (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
@@ -160,8 +166,8 @@
             + exchange.symbol + ' for ' + ethAmount.toFixed(6) + ' ETH'
             + '\n(Fee: '+
                 (exchange.toFill.side == 'SELL' 
-                    ? (ethAmount*feePortion.toFixed(12))+' ETH'
-                    : (amnt * feePortion).toFixed(6)+' '+exchange.symbol
+                    ? fee.toFixed(12)+' ETH'
+                    : fee.toFixed(6)+' '+exchange.symbol
                 )+')'
 
             return summary

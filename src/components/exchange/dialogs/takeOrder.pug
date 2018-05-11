@@ -7,7 +7,7 @@
             .modal-body
                 //- This describes the WHOLE order
                 h5 Order&nbsp;
-                    small.text-muted {{exchange.toFill.order.amount}} {{exchange.symbol}} for {{exchange.toFill.order.rate}} ETH/{{exchange.symbol}}
+                    small.text-muted {{exchange.toFill.order.amount.toFixed(6)}} {{exchange.symbol}} for {{exchange.toFill.order.rate.toFixed(12)}} ETH/{{exchange.symbol}}
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label Fill %
@@ -17,11 +17,11 @@
                     .form-group.col
                         label.col-form-label Amount {{exchange.symbol}}
                         //- This is supposed to describe the token amount, in terms of what will be filled by the user
-                        input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.maxCanFillInToken * (exchange.toFill.portion/1000)).toFixed(4)', disabled='')
+                        input.form-control(type='text', placeholder='amount', ng-value='(exchange.toFill.maxCanFillInToken.multipliedBy(exchange.toFill.portion/1000)).toFixed(6)', disabled='')
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label ETH
-                        input.form-control(type='text', placeholder='eth', ng-value='(exchange.toFill.maxCanFillInToken * (exchange.toFill.portion/1000) * exchange.toFill.order.rate).toFixed(6)', disabled='')
+                        input.form-control(type='text', placeholder='eth', ng-value='exchange.toFill.maxCanFillInToken.multipliedBy(exchange.toFill.portion/1000).multipliedBy(exchange.toFill.order.rate).toFixed(12)', disabled='')
 
                 .row
                     .col
