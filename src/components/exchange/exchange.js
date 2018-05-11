@@ -5,6 +5,7 @@
     // Using a directive for charts considered harmful
     // We will have to update the charts often, and often just a small portion (e.g. inserting a new bar)
     // Directives will require angular to re-render the whole page, which is not efficient
+    var BigNumber = require('bignumber.js')
 
     angular
         .module('dexyApp')
@@ -104,8 +105,8 @@
             exchange.token.methods.allowance(user.publicAddr, cfg.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
-                    // used by placeOrder
-                    exchange.rawAllowance = parseInt(allowance)
+                    // used by wallet.js (assetsMove)
+                    exchange.rawAllowance = new BigNumber(allowance)
                 }
             })
 
