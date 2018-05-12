@@ -22,7 +22,18 @@
                 return
             }
 
+            if (!user.publicAddr) {
+                toastr.error('Please authenticate with Metamask/Trezor/Ledger before trading')
+                return
+            }
+            
+            if (!exchange.isVaultApproved) {
+                toastr.error('Please approve the vault before trading')
+                return
+            }
+
             // max amount of token that the user can take with their funds
+            // order.amount is how much is left in token
             var maxUserAmnt = side === 'SELL' ?
                 (exchange.onExchange - exchange.onOrders.token)
                 : (user.ethBal.onExchange - exchange.onOrders.eth) / order.rate
