@@ -21,13 +21,18 @@ Before deploying, please ensure
 
 ```
 gulp --mainnet
-ipfs add -r dist
  ```
 
 And then, in the `dexy-infra` repo:
 
 ```
 ./deploy-scripts/app.sh USER@WEB_SERVER_IP
+```
+
+If you also want to deploy to IPFS, do:
+
+```
+ipfs add -r dist
 ```
 
 #### Ropsten
