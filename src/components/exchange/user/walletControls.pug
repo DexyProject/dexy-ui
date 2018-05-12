@@ -9,7 +9,7 @@
                     input#eth-deposit.form-control(type='text', placeholder='ETH', ng-model="exchange.baseMove." + direction)
                 .col-5.text-right
                     button.btn.btn-light.btn-outline-primary(type='button', ng-disabled='!isValidAmnt(exchange.baseMove.' + direction + ', "' + direction + '", true)', ng-click='assetsMove(true, "' + direction + '", exchange.baseMove.' + direction + ')') #{direction}
-            .form-row(ng-click='exchange.baseMove.' + direction + ' = calcMax("'+direction+'", true).toString()' class='max')
+            .form-row(ng-click='exchange.baseMove.' + direction + ' = calcMax("'+direction+'", true).toString(10)' class='max')
                 label.col-form-label.max
                     span Max:&nbsp;
                     span.label(ng-bind='calcMaxLabel("' + direction + '", true)')
@@ -20,7 +20,7 @@
                     input#token-deposit.form-control(type='text', placeholder='{{::exchange.symbol}}', ng-model="exchange.quoteMove." + direction)
                 .col-5.text-right
                     button.btn.btn-light.btn-outline-primary(type='button', ng-disabled='!isValidAmnt(exchange.quoteMove.' + direction + ', "' + direction + '", false)', ng-click='assetsMove(false, "' + direction + '", exchange.quoteMove.' + direction + ')') #{direction}
-            .form-row(ng-click='exchange.quoteMove.' + direction + ' = calcMax("'+direction+'", false).toString()')
+            .form-row(ng-click='exchange.quoteMove.' + direction + ' = calcMax("'+direction+'", false).toString(10)')
                 label.col-form-label.max
                     span Max:&nbsp;
                     span.label(ng-bind='calcMaxLabel("'+direction+'", false)')

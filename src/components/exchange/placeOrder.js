@@ -32,10 +32,10 @@
             var best = $scope.getBest()
 
             if (side === 'BUY' && best.ask) {
-                order.rate = best.ask.rate.toString()
+                order.rate = best.ask.rate.toString(10)
             }
             if (side === 'SELL' && best.bid) {
-                order.rate = best.bid.rate.toString()
+                order.rate = best.bid.rate.toString(10)
             }
         }
 
@@ -43,10 +43,10 @@
             var best = $scope.getBest()
 
             if (order.type === 'BUY') {
-                order.rate = order.rate || (best.ask && best.ask.rate.toString())
-                order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / order.rate) * part
+                order.rate = order.rate || (best.ask && best.ask.rate.toString(10))
+                order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / parseFloat(order.rate)) * part
             } else {
-                order.rate = order.rate || (best.bid && best.bid.rate.toString())
+                order.rate = order.rate || (best.bid && best.bid.rate.toString(10))
                 order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
 
@@ -87,7 +87,7 @@
         }, refreshTotal, true)
 
         function refreshTotal(order) {
-            if (order.valid) order.total = parseFloat((order.amount * order.rate).toFixed(6))
+            if (order.valid) order.total = (parseFloat(order.amount) * parseFloat(order.rate)).toFixed(6)
         }
 
         $scope.placeOrder = function (order, noConfirm) {
@@ -152,9 +152,9 @@
             // keccak256(order.takerToken, order.takerTokenAmount, order.makerToken, order.makerTokenAmount, order.expires, order.nonce, order.maker, this)
             var typed = [
                 {type: 'address', name: 'Taker Token', value: takerToken},
-                {type: 'uint', name: 'Taker Token Amount', value: takerTokenAmount.toString()},
+                {type: 'uint', name: 'Taker Token Amount', value: takerTokenAmount.toString(10)},
                 {type: 'address', name: 'Maker Token', value: makerToken},
-                {type: 'uint', name: 'Maker Token Amount', value: makerTokenAmount.toString()},
+                {type: 'uint', name: 'Maker Token Amount', value: makerTokenAmount.toString(10)},
 
                 {type: 'uint', name: 'Expires', value: expires},
                 {type: 'uint', name: 'Nonce', value: nonce},
@@ -179,11 +179,11 @@
                 var body = {
                     make: {
                         token: makerToken,
-                        amount: makerTokenAmount.toString(),
+                        amount: makerTokenAmount.toString(10),
                     },
                     take: {
                         token: takerToken,
-                        amount: takerTokenAmount.toString(),
+                        amount: takerTokenAmount.toString(10),
                     },
                     expires: expires,
                     nonce: nonce,
