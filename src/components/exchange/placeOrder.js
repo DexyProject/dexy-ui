@@ -179,11 +179,11 @@
                 var body = {
                     make: {
                         token: makerToken,
-                        amount: makerTokenAmount.toNumber(),
+                        amount: makerTokenAmount.toString(),
                     },
                     take: {
                         token: takerToken,
-                        amount: takerTokenAmount.toNumber(),
+                        amount: takerTokenAmount.toString(),
                     },
                     expires: expires,
                     nonce: nonce,
