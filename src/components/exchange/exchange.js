@@ -176,7 +176,7 @@
 
         exchange.mapTransaction = function (tx, i) {
 
-            var amount = parseInt(tx.make.token === CONSTS.ZEROADDR ? tx.take.amount : tx.make.amount) / exchange.tokenInf[1];
+            var amount = Math.floor(tx.make.token === CONSTS.ZEROADDR ? tx.take.amount : tx.make.amount) / exchange.tokenInf[1];
             var side = (tx.make.token === CONSTS.ZEROADDR ? 'buy' : 'sell');
 
             var time = new Date(tx.timestamp * 1000)

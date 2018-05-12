@@ -47,7 +47,7 @@
                 order.amount = (exchange.onExchange - exchange.onOrders.token) * part
             }
 
-            order.amount = parseInt(order.amount * 10000) / 10000
+            order.amount = Math.floor(order.amount * 10000) / 10000
         }
 
         $scope.showAvail = function (order) {
@@ -112,8 +112,8 @@
             // Calculate all the values needed to place the order
             var token = exchange.tokenInf
 
-            var tokenUint = parseInt(order.amount * token[1])
-            var weiUint = parseInt(order.rate * order.amount * Math.pow(10, 18))
+            var tokenUint = Math.floor(order.amount * token[1])
+            var weiUint = Math.floor(order.rate * order.amount * Math.pow(10, 18))
 
             // hardcoded for now
             var expires = Math.floor((Date.now() / 1000) + CONSTS.DEFAULT_ORDER_LIFETIME)

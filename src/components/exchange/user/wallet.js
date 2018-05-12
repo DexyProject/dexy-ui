@@ -25,7 +25,7 @@
             }
 
             var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
-            var amnt = parseInt(parseFloat(amnt) * (isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1]))
+            var amnt = Math.floor(parseFloat(amnt) * (isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1]))
 
             var call
             var args
@@ -50,7 +50,11 @@
                 // We have to set the allowance first
 
                 var sendArgs = {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}
-                if (exchange.rawAllowance == 0) {
+                
+                if (exchange.rawAllowance == amnt) {
+                    // Approved amount is already right
+                    user.sendTx(call, args, finalCb)                    
+                } else if (exchange.rawAllowance == 0) {
                     // Directly approve
                     approveFinal()
                 } else {
