@@ -44,13 +44,18 @@
 
             if (order.type === 'BUY') {
                 order.rate = order.rate || (best.ask && best.ask.rate.toString(10))
-                order.amount = ((exchange.user.ethBal.onExchange - exchange.onOrders.eth) / parseFloat(order.rate)) * part
+                order.amount = user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL)
+                    .minus(exchange.onOrders.eth)
+                    .dividedBy(parseFloat(order.rate))
+                    .multipliedBy(part)
             } else {
                 order.rate = order.rate || (best.bid && best.bid.rate.toString(10))
-                order.amount = (exchange.onExchange - exchange.onOrders.token) * part
+                order.amount = exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1])
+                    .minus(exchange.onOrders.token)
+                    .multipliedBy(part)
             }
 
-            order.amount = Math.floor(order.amount * 10000) / 10000
+            order.amount = order.amount.decimalPlaces(4).toString(10)
         }
 
         $scope.showAvail = function (order) {
@@ -59,10 +64,10 @@
             
             var avail
             if (order.type === 'BUY') {
-                avail = exchange.user.ethBal.onExchange - exchange.onOrders.eth
+                avail = user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL).minus(exchange.onOrders.eth)
                 return 'Available: ' + avail.toFixed(6) + ' ETH'
             } else {
-                avail = exchange.onExchange - exchange.onOrders.token
+                avail = exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1]).minus(exchange.onOrders.token)
                 return 'Available: ' + avail.toFixed(3) + ' ' + exchange.symbol
             }
         }
@@ -87,7 +92,9 @@
         }, refreshTotal, true)
 
         function refreshTotal(order) {
-            if (order.valid) order.total = (parseFloat(order.amount) * parseFloat(order.rate)).toFixed(6)
+            var amount = new BigNumber(order.amount)
+            var rate = new BigNumber(order.rate)
+            if (order.valid) order.total = amount.multipliedBy(rate).toFixed(6)
         }
 
         $scope.placeOrder = function (order, noConfirm) {
@@ -135,13 +142,13 @@
                 takerToken = CONSTS.ZEROADDR
                 makerTokenAmount = tokenUint
                 takerTokenAmount = weiUint
-                availableAmnt = (exchange.onExchange - exchange.onOrders.token) * exchange.tokenInf[1]
+                availableAmnt = exchange.onExchangeTokenBaseUnit.minus(exchange.onOrders.token.multipliedBy(exchange.tokenInf[1]))
             } else {
                 makerToken = CONSTS.ZEROADDR
                 takerToken = token[0]
                 makerTokenAmount = weiUint
                 takerTokenAmount = tokenUint
-                availableAmnt = (user.ethBal.onExchange - exchange.onOrders.eth) * CONSTS.ETH_MUL
+                availableAmnt = user.ethBal.onExchangeBaseUnit.minus(exchange.onOrders.eth.multipliedBy(CONSTS.ETH_MUL))
             }
 
             if (makerTokenAmount.comparedTo(availableAmnt) === 1) {

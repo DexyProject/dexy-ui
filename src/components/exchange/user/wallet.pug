@@ -4,14 +4,14 @@
             .col-4
                 h5 Wallet
                 .row
-                    .col-md-12 {{exchange.onWallet.toFixed(4)}} {{exchange.symbol}}
-                    .col-md-12  {{exchange.user.ethBal.onWallet.toFixed(6)}} ETH
+                    .col-md-12 {{onWalletToken().toFixed(4)}} {{exchange.symbol}}
+                    .col-md-12  {{onWalletEth().toFixed(6)}} ETH
 
             .col-4
                 h5 Exchange
                 .row
-                    .col-md-12 {{exchange.onExchange.toFixed(4)}} {{exchange.symbol}}
-                    .col-md-12  {{exchange.user.ethBal.onExchange.toFixed(6)}} ETH
+                    .col-md-12 {{onExchangeToken().toFixed(4)}} {{exchange.symbol}}
+                    .col-md-12  {{onExchangeEth().toFixed(6)}} ETH
 
             .col-4
                 h5 On orders

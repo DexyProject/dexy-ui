@@ -35,10 +35,10 @@
             // max amount of token that the user can take with their funds
             // order.amount is how much is left in token
             var maxUserAmnt = side === 'SELL' ?
-                (exchange.onExchange - exchange.onOrders.token)
-                : (user.ethBal.onExchange - exchange.onOrders.eth) / order.rate
+                exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1]).minus(exchange.onOrders.token)
+                : user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL).minus(exchange.onOrders.eth).dividedBy(order.rate)
 
-            if (maxUserAmnt <= 0) {
+            if (maxUserAmnt.comparedTo(0) < 1) {
                 toastr.error('Insufficient funds to take order')
                 return
             }

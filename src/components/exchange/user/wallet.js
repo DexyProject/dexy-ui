@@ -16,8 +16,8 @@
         var exchange = $scope.exchange
 
         // Amounts to move (deposit/withdraw)
-        exchange.baseMove = {Deposit: 0, Withdraw: 0}
-        exchange.quoteMove = {Deposit: 0, Withdraw: 0}
+        exchange.baseMove = { Deposit: 0, Withdraw: 0 }
+        exchange.quoteMove = { Deposit: 0, Withdraw: 0 }
 
         // Move assets (deposit/withdraw)
         $scope.assetsMove = function (isBase, direction, floatAmount) {
@@ -94,7 +94,7 @@
 
         $scope.isValidAmnt = function (n, action, isBase) {
             var max = $scope.calcMax(action, isBase)
-            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max
+            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max.toNumber()
         }
 
         $scope.calcMax = function (action, isBase) {
@@ -103,22 +103,45 @@
             if (!exchange.user) return 0
 
             if (action == 'Withdraw') {
-                max = isBase ? exchange.user.ethBal.onExchange : exchange.onExchange
+                max = isBase ? exchange.user.ethBal.onExchangeBaseUnit : exchange.onExchangeTokenBaseUnit
             }
             if (action == 'Deposit') {
-                max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
+                max = isBase ? exchange.user.ethBal.onWalletBaseUnit : exchange.onWalletTokenBaseUnit
                 
                 // if in ETH, reduce the ETH fee
-                if (isBase) max -= (user.GAS_PRICE * (GAS_ON_DEPOSIT+21000)) / CONSTS.ETH_MUL
+                if (isBase) max = max.minus(user.GAS_PRICE * (GAS_ON_DEPOSIT+21000))
 
                 // because of the previous reduction, this can go under 0
-                max = Math.max(0, max)
+                max = BigNumber.max(0, max)
             }
+
+            if (isBase) {
+                max = max.dividedBy(CONSTS.ETH_MUL)
+            } else {
+                max = max.dividedBy(exchange.tokenInf[1])
+            }
+
             return max
         }
 
         $scope.calcMaxLabel = function (action, isBase) {
             return $scope.calcMax(action, isBase).toFixed(isBase ? 6 : 4) + ' ' + (isBase ? 'ETH' : exchange.symbol)
+        }
+
+        $scope.onExchangeToken = function() {
+            return exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1])
+        }
+
+        $scope.onExchangeEth = function() {
+            return user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL)
+        }
+
+        $scope.onWalletToken = function() {
+            return exchange.onWalletTokenBaseUnit.dividedBy(exchange.tokenInf[1])
+        }
+
+        $scope.onWalletEth = function() {
+            return user.ethBal.onWalletBaseUnit.dividedBy(CONSTS.ETH_MUL)
         }
     }
 })();

@@ -64,9 +64,9 @@
         exchange.symbol = token[2] || lastPart
         exchange.user = user
 
-        exchange.onOrders = { eth: 0, token: 0 }
-        exchange.onExchange = 0
-        exchange.onWallet = 0
+        exchange.onOrders = { eth: new BigNumber(0), token: new BigNumber(0) }
+        exchange.onExchangeTokenBaseUnit = new BigNumber(0)
+        exchange.onWalletTokenBaseUnit = new BigNumber(0)
 
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
@@ -95,8 +95,7 @@
             exchange.token.methods.balanceOf(addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    var tokenBal = bal / token[1]
-                    exchange.onWallet = tokenBal
+                    exchange.onWalletTokenBaseUnit = new BigNumber(bal)
                     exchange.walletAddr = addr
                     if (!$scope.$$phase) $scope.$apply()
                 }
@@ -113,8 +112,7 @@
             user.vaultContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    var tokenBal = bal / token[1]
-                    exchange.onExchange = tokenBal
+                    exchange.onExchangeTokenBaseUnit = new BigNumber(bal)
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })
@@ -232,7 +230,7 @@
             var stage
             if (!user.publicAddr) stage = 'authenticate'
             else if (!exchange.isVaultApproved) stage = 'approval'
-            else if (!(exchange.onExchange || user.ethBal.onExchange)) stage = 'deposit'
+            else if (exchange.onExchangeTokenBaseUnit.eq(0) && user.ethBal.onExchangeBaseUnit.eq(0)) stage = 'deposit'
             
             if (s === 'any') return !!stage
             else return s === stage
