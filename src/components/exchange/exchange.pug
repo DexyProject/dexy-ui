@@ -28,7 +28,7 @@
                         .col-12
                             h3 Orders
                     .row(ng-controller='orderbookCtrl')
-                        .col-12(style='max-height: 340px; overflow-y: auto')
+                        .col-12(style='max-height: 340px; overflow-y: auto;padding: 0')
                             include ./orderbook
             .col-md-8.col-xs-6.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border
@@ -79,6 +79,6 @@
                 .col-12
                     h3 History
             .row
-                .col-lg-12(style='overflow-y: auto; max-height: 745px;')
+                .col-lg-12(style='overflow-y: auto; max-height: 745px; padding: 0')
                     include ./tradeHistory
 
