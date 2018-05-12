@@ -23,3 +23,9 @@ html(lang="en", ng-app="dexyApp", ng-class="{ nightMode: nightMode }")
         //- Main view
         main.container-fluid.mb-3(ui-view='main')
 
+        //- Sentry - raven
+        script(type="text/javascript").
+            Raven
+            .config('https://1a21874b245641e499f4fae142ded08d@sentry.io/1205600')
+            .addPlugin(Raven.Plugins.Angular)
+            .install()
