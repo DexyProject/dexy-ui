@@ -5,6 +5,7 @@
     // Using a directive for charts considered harmful
     // We will have to update the charts often, and often just a small portion (e.g. inserting a new bar)
     // Directives will require angular to re-render the whole page, which is not efficient
+    var BigNumber = require('bignumber.js')
 
     angular
         .module('dexyApp')
@@ -63,9 +64,9 @@
         exchange.symbol = token[2] || lastPart
         exchange.user = user
 
-        exchange.onOrders = { eth: 0, token: 0 }
-        exchange.onExchange = 0
-        exchange.onWallet = 0
+        exchange.onOrders = { eth: new BigNumber(0), token: new BigNumber(0) }
+        exchange.onExchangeTokenBaseUnit = new BigNumber(0)
+        exchange.onWalletTokenBaseUnit = new BigNumber(0)
 
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
@@ -94,8 +95,7 @@
             exchange.token.methods.balanceOf(addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    var tokenBal = bal / token[1]
-                    exchange.onWallet = tokenBal
+                    exchange.onWalletTokenBaseUnit = new BigNumber(bal)
                     exchange.walletAddr = addr
                     if (!$scope.$$phase) $scope.$apply()
                 }
@@ -104,72 +104,73 @@
             exchange.token.methods.allowance(user.publicAddr, cfg.vaultContract).call(function (err, allowance) {
                 if (err) console.error(err)
                 else {
-                    // used by placeOrder
-                    exchange.rawAllowance = parseInt(allowance)
+                    // used by wallet.js (assetsMove)
+                    exchange.rawAllowance = new BigNumber(allowance)
                 }
             })
 
             user.vaultContract.methods.balanceOf(token[0], addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    var tokenBal = bal / token[1]
-                    exchange.onExchange = tokenBal
+                    exchange.onExchangeTokenBaseUnit = new BigNumber(bal)
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })
         }
 
-        exchange.mapOrder = function (order, i) {
-            var takeAmnt = parseInt(order.take.amount)
-            var makeAmnt = parseInt(order.make.amount)
+        exchange.mapOrder = function (rawOrder, i) {
+            // rawOrder - as it comes from the API; all numbers are strings
 
-            // assert that order.make.token or order.take.token is ZEROADDR ?
+            var takeAmnt = new BigNumber(rawOrder.take.amount)
+            var makeAmnt = new BigNumber(rawOrder.make.amount)
 
-            var tokenAmount = (order.make.token === CONSTS.ZEROADDR ? takeAmnt : makeAmnt)
+            // assert that rawOrder.make.token or order.take.token is ZEROADDR ?
+
+            var tokenAmount = (rawOrder.make.token === CONSTS.ZEROADDR ? takeAmnt : makeAmnt)
             var tokenBase = exchange.tokenInf[1]
 
-            var ethAmount = (order.make.token === CONSTS.ZEROADDR ? makeAmnt : takeAmnt)
+            var ethAmount = (rawOrder.make.token === CONSTS.ZEROADDR ? makeAmnt : takeAmnt)
             var ethBase = CONSTS.ETH_MUL
 
-            // Essentially divide ETH/tokens, but divide by bases first in order to convert the uints to floats
-            var price = (ethAmount / ethBase) / (tokenAmount / tokenBase)
+            // Essentially divide ETH/tokens, but divide by bases first in rawOrder to convert the integers to floats
+            var price = (ethAmount.dividedBy(ethBase))
+                .dividedBy(tokenAmount.dividedBy(tokenBase))
 
-            var expires = new Date(order.expires * 1000)
+            var expires = new Date(parseInt(rawOrder.expires, 10) * 1000)
 
-            var left = takeAmnt - parseInt(order.filled, 10)
 
             // filled is in takeAmnt (taken)
-            var takeFilled = order.filled
+            var takeFilled = new BigNumber(rawOrder.filled)
 
-            //
-            // since order.filled (from the back-end) always comes in takeAmnt, we need to convert it to eth and in token
-            //
             // we take what % it is of the takeAmnt; essentially this is what % the order is filled at
-            var proportion = takeFilled / takeAmnt
+            var proportion = takeFilled.dividedBy(takeAmnt)
 
             // this is the filled converted to the makeAmnt
-            var makeFilled = proportion * makeAmnt
+            var makeFilled = proportion.multipliedBy(makeAmnt)
 
+            //
+            // since rawOrder.filled (from the back-end) always comes in takeAmnt, we need to convert it to eth and in token
+            //
             // if the get token is ETH, that means we need to convert filled - we use the converted makeFilled value
-            var filledInToken = order.take.token === CONSTS.ZEROADDR ? makeFilled : takeFilled
+            var filledInToken = rawOrder.take.token === CONSTS.ZEROADDR ? makeFilled : takeFilled
 
             // if the get token is in ETH, then there's no need to convert
             // otherwise, we use the converted value - makeFilled
-            var filledInETH = order.take.token === CONSTS.ZEROADDR ? takeFilled : makeFilled
+            var filledInETH = rawOrder.take.token === CONSTS.ZEROADDR ? takeFilled : makeFilled
 
             // Divide the leftover amount by the bases
-            var leftInEth = ethAmount - filledInETH
-            var leftInToken = tokenAmount - filledInToken
+            var leftInEth = ethAmount.minus(filledInETH)
+            var leftInToken = tokenAmount.minus(filledInToken)
 
             return {
-                order: order,
-                id: order.hash,
+                rawOrder: rawOrder,
+                id: rawOrder.hash,
                 rate: price,
-                amount: leftInToken / tokenBase,
-                filledInToken: filledInToken / tokenBase,
-                leftInEth: leftInEth / ethBase,
-                isMine: user.publicAddr && order.maker.toLowerCase() == user.publicAddr.toLowerCase(),
-                type: order.take.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
+                amount: leftInToken.dividedBy(tokenBase),
+                filledInToken: filledInToken.dividedBy(tokenBase),
+                leftInEth: leftInEth.dividedBy(ethBase),
+                isMine: user.publicAddr && rawOrder.maker.toLowerCase() == user.publicAddr.toLowerCase(),
+                type: rawOrder.take.token === CONSTS.ZEROADDR ? 'SELL' : 'BUY',
                 expires: expires
             }
         }
@@ -195,9 +196,10 @@
         }
 
         // NOTE: similar math is used for the orderbook
+        // This is only used for display purposes (in tx history), so no BigNumber for now
         function calculatePrice(o) {
-            var takeAmnt = parseInt(o.take.amount)
-            var makeAmnt = parseInt(o.make.amount)
+            var takeAmnt = parseInt(o.take.amount, 10)
+            var makeAmnt = parseInt(o.make.amount, 10)
 
             var tokenAmount = (o.make.token === CONSTS.ZEROADDR ? takeAmnt : makeAmnt)
             var tokenBase = exchange.tokenInf[1]
@@ -228,7 +230,7 @@
             var stage
             if (!user.publicAddr) stage = 'authenticate'
             else if (!exchange.isVaultApproved) stage = 'approval'
-            else if (!(exchange.onExchange || user.ethBal.onExchange)) stage = 'deposit'
+            else if (exchange.onExchangeTokenBaseUnit.eq(0) && user.ethBal.onExchangeBaseUnit.eq(0)) stage = 'deposit'
             
             if (s === 'any') return !!stage
             else return s === stage

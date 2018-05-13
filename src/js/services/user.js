@@ -15,6 +15,7 @@
     var wallet = require('ethereumjs-wallet')
     var ethTx = require('ethereumjs-tx')
     var rlp = require('rlp')
+    var BigNumber = require('bignumber.js')
 
     function UserService($scope) {
         initWeb3()
@@ -107,7 +108,10 @@
         setInterval(nonceUpdate, CONSTS.NONCE_UPDATE_INTVL)
 
         // Eth bal - on wallet and exchange
-        user.ethBal = { onExchange: 0, onWallet: 0 }
+        user.ethBal = {
+            onExchangeBaseUnit: new BigNumber(0),
+            onWalletBaseUnit: new BigNumber(0)
+        }
 
         function fetchEthBal() {
             if (!user.publicAddr)
@@ -118,14 +122,14 @@
             console.log('Fetching ETH balances for ' + addr)
 
             web3.eth.getBalance(addr).then(function (bal) {
-                user.ethBal.onWallet = bal / CONSTS.ETH_MUL
+                user.ethBal.onWalletBaseUnit = new BigNumber(bal)
                 if (!$scope.$$phase) $scope.$apply()
             })
 
             user.vaultContract.methods.balanceOf(CONSTS.ZEROADDR, addr).call(function (err, bal) {
                 if (err) console.error(err)
                 else {
-                    user.ethBal.onExchange = bal / CONSTS.ETH_MUL
+                    user.ethBal.onExchangeBaseUnit = new BigNumber(bal)
                     if (!$scope.$$phase) $scope.$apply()
                 }
             })

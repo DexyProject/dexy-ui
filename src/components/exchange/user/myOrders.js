@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var BigNumber = require('bignumber.js')
+
     // My orders ctrl
     angular
         .module('dexyApp')
@@ -34,9 +36,9 @@
                 })
         }
 
-        $scope.cancel = function (order) {
-            var addresses = [order.maker, order.make.token, order.take.token]
-            var values = [order.make.amount, order.take.amount, order.expires, order.nonce]
+        $scope.cancel = function (rawOrder) {
+            var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
+            var values = [rawOrder.make.amount, rawOrder.take.amount, rawOrder.expires, rawOrder.nonce]
 
             var tx = user.exchangeContract.methods.cancel(addresses, values)
             user.sendTx(tx, {from: user.publicAddr, gas: 70 * 1000, gasPrice: user.GAS_PRICE}, function (err, txid) {
@@ -52,15 +54,15 @@
                 return
 
             var total = orders.filter(function (x) {
-                var givingEth = x.order.make.token === CONSTS.ZEROADDR
+                var givingEth = x.rawOrder.make.token === CONSTS.ZEROADDR
                 return ethOrToken ? givingEth : !givingEth
             })
             .map(function (x) {
                 return ethOrToken ? x.leftInEth : x.amount
             })
             .reduce(function (a, b) {
-                return a + b
-            }, 0)
+                return a.plus(b)
+            }, new BigNumber(0))
 
             return total
         }

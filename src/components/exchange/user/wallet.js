@@ -8,30 +8,36 @@
 
     walletCtrl.$inject = ['$scope', 'user'];
 
+    var BigNumber = require('bignumber.js')
+
     var GAS_ON_DEPOSIT = 200 * 1000
 
     function walletCtrl($scope, user) {
         var exchange = $scope.exchange
 
         // Amounts to move (deposit/withdraw)
-        exchange.baseMove = {Deposit: 0, Withdraw: 0}
-        exchange.quoteMove = {Deposit: 0, Withdraw: 0}
+        exchange.baseMove = { Deposit: 0, Withdraw: 0 }
+        exchange.quoteMove = { Deposit: 0, Withdraw: 0 }
 
         // Move assets (deposit/withdraw)
-        $scope.assetsMove = function (isBase, direction, amnt) {
+        $scope.assetsMove = function (isBase, direction, floatAmount) {
             if (!user.publicAddr) {
                 toastr.error('Please authenticate with Metamask, Trezor or Ledger')
                 return
             }
 
             var addr = isBase ? CONSTS.ZEROADDR : exchange.tokenInf[0]
-            var amnt = Math.floor(parseFloat(amnt) * (isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1]))
+
+            // floatAmount is currently coming in as a String of the floating point amount
+            var amnt = new BigNumber(floatAmount)
+
+            // TODO: how to handle this? we need validation on that input field
+            if (amnt.isNaN()) return
+
+            amnt = amnt.multipliedBy(isBase ? CONSTS.ETH_MUL : exchange.tokenInf[1])
 
             var call
             var args
-
-            // TODO: how to handle this? we need validation on that input field
-            if (isNaN(amnt)) return
 
             if (direction === 'Deposit') {
                 call = user.vaultContract.methods.deposit(addr, isBase ? 0 : amnt)
@@ -51,10 +57,10 @@
 
                 var sendArgs = {from: user.publicAddr, gas: 100 * 1000, gasPrice: user.GAS_PRICE}
                 
-                if (exchange.rawAllowance == amnt) {
+                if (exchange.rawAllowance.eq(amnt)) {
                     // Approved amount is already right
                     user.sendTx(call, args, finalCb)                    
-                } else if (exchange.rawAllowance == 0) {
+                } else if (exchange.rawAllowance.eq(0)) {
                     // Directly approve
                     approveFinal()
                 } else {
@@ -88,7 +94,7 @@
 
         $scope.isValidAmnt = function (n, action, isBase) {
             var max = $scope.calcMax(action, isBase)
-            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max
+            return !isNaN(parseFloat(n)) && isFinite(n) && (n > 0) && n <= max.toNumber()
         }
 
         $scope.calcMax = function (action, isBase) {
@@ -97,22 +103,45 @@
             if (!exchange.user) return 0
 
             if (action == 'Withdraw') {
-                max = isBase ? exchange.user.ethBal.onExchange : exchange.onExchange
+                max = isBase ? exchange.user.ethBal.onExchangeBaseUnit : exchange.onExchangeTokenBaseUnit
             }
             if (action == 'Deposit') {
-                max = isBase ? exchange.user.ethBal.onWallet : exchange.onWallet
+                max = isBase ? exchange.user.ethBal.onWalletBaseUnit : exchange.onWalletTokenBaseUnit
                 
                 // if in ETH, reduce the ETH fee
-                if (isBase) max -= (user.GAS_PRICE * (GAS_ON_DEPOSIT+21000)) / CONSTS.ETH_MUL
+                if (isBase) max = max.minus(user.GAS_PRICE * (GAS_ON_DEPOSIT+21000))
 
                 // because of the previous reduction, this can go under 0
-                max = Math.max(0, max)
+                max = BigNumber.max(0, max)
             }
+
+            if (isBase) {
+                max = max.dividedBy(CONSTS.ETH_MUL)
+            } else {
+                max = max.dividedBy(exchange.tokenInf[1])
+            }
+
             return max
         }
 
         $scope.calcMaxLabel = function (action, isBase) {
             return $scope.calcMax(action, isBase).toFixed(isBase ? 6 : 4) + ' ' + (isBase ? 'ETH' : exchange.symbol)
+        }
+
+        $scope.onExchangeToken = function() {
+            return exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1])
+        }
+
+        $scope.onExchangeEth = function() {
+            return user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL)
+        }
+
+        $scope.onWalletToken = function() {
+            return exchange.onWalletTokenBaseUnit.dividedBy(exchange.tokenInf[1])
+        }
+
+        $scope.onWalletEth = function() {
+            return user.ethBal.onWalletBaseUnit.dividedBy(CONSTS.ETH_MUL)
         }
     }
 })();

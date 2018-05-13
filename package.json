@@ -1,6 +1,6 @@
 {
   "name": "dexy-ui",
-  "version": "1.0.7",
+  "version": "1.0.11",
   "description": "DEXY UI - first iteration",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
   "dependencies": {
     "angular": "^1.5.11",
     "angular-ui-router": "^0.4.3",
+    "bignumber.js": "^7.0.1",
     "bootstrap": "^4.0.0",
     "ethereumjs-tx": "^1.3.3",
     "ethereumjs-util": "^5.1.5",
