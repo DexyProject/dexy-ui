@@ -32,12 +32,12 @@
         }
 
         function lowestToHighest(a, b){
-            return a.rate.minus(b.rate).toNumber()
+            return a.rate.comparedTo(b.rate)
         }
 
         function highestToLowest(a, b) 
         {
-            return b.rate.minus(a.rate).toNumber()
+            return b.rate.comparedTo(a.rate)
         }
 
         $scope.$on('reload-orders', function () {
