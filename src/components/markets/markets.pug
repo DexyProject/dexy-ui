@@ -1,6 +1,10 @@
 div(ng-controller='MarketsController')
 
-    .row.mt-3
+    .row.p-3
+        .col-12.alert.alert-info(role='alert')
+            .text-center 0 Fee Trading During Beta Launch!
+
+    .row
         .col-12.text-right.align-content-end
             .form-check.form-check-inline
                 input.form-check-input(type="checkbox" name="hidezero" id="hidezero" value="hide" ng-model='hideZeroBal')
