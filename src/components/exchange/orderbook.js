@@ -23,6 +23,10 @@
                         asks: (ob.asks || []).map(exchange.mapOrder).sort(lowestToHighest),
                         bids: (ob.bids || []).map(exchange.mapOrder).sort(highestToLowest),
                     }
+                    
+                    // temporary hack because of the way ng-repeat works (even with 'track by')
+                    exchange.orderbook.asksHighestToLowest = exchange.orderbook.asks.reverse()
+
                     if (!$scope.$$phase) $scope.$digest()
                 })
                 .catch(function (err) {

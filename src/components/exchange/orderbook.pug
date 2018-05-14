@@ -1,6 +1,6 @@
 table.table.table-hover.orderbook
     tbody.text-right
-        tr(ng-repeat='order in exchange.orderbook.asks | orderBy:"-rate" track by order.id', ng-click='!order.isMine && openTakeOrderDialog("BUY", order)', ng-class='{ buy: true, isMine: order.isMine }')
+        tr(ng-repeat='order in exchange.orderbook.asksHighestToLowest track by order.id', ng-click='!order.isMine && openTakeOrderDialog("BUY", order)', ng-class='{ buy: true, isMine: order.isMine }')
             td(style='width: 15px; padding-right: 0px;')
                 div(ng-if='order.isMine')
                     i.far.fa-star
