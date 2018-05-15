@@ -5,8 +5,8 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarCollapse', aria-controls='navbarCollapse', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
     #navbarCollapse.collapse.navbar-collapse
-        ul.navbar-nav(ng-controller='SearchCtrl')
-            .btn-group
+        ul.navbar-nav.col-5(ng-controller='SearchCtrl')
+            .col-12
                 input.form-control(type='text', 
                     ng-model='$root.searchKeyword', 
                     placeholder='Search or paste token address',
