@@ -8,8 +8,10 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
         ul.navbar-nav.col-5(ng-controller='SearchCtrl')
             .col-12
                 .input-group
-                    span.input-group-addon
-                        i.fas.fa-search
+                    div.input-group-prepend
+                        span.input-group-text
+                            div
+                                i.fas.fa-search
                     input.form-control(type='text', 
                         ng-model='$root.searchKeyword', 
                         placeholder='Search or paste token address',
