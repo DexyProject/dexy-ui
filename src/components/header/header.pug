@@ -7,12 +7,17 @@ nav.navbar.navbar-expand-md.navbar-light.box-shadow.header
     #navbarCollapse.collapse.navbar-collapse
         ul.navbar-nav.col-5(ng-controller='SearchCtrl')
             .col-12
-                input.form-control(type='text', 
-                    ng-model='$root.searchKeyword', 
-                    placeholder='Search or paste token address',
-                    ng-focus='searchFocused = true',
-                    ng-blur='searchFocused = false'
-                )
+                .input-group
+                    div.input-group-prepend
+                        span.input-group-text
+                            div
+                                i.fas.fa-search
+                    input.form-control(type='text', 
+                        ng-model='$root.searchKeyword', 
+                        placeholder='Search or paste token address',
+                        ng-focus='searchFocused = true',
+                        ng-blur='searchFocused = false'
+                    )
                 span.searchClear(ng-show='$root.searchKeyword', ng-click='$root.searchKeyword = ""')
                     span.fas.fa-times-circle
                 .dropdown-menu.w-100(
