@@ -45,10 +45,15 @@
             return
         }
 
+        exchange.onOrders = { eth: new BigNumber(0), token: new BigNumber(0) }
+        exchange.onExchangeTokenBaseUnit = new BigNumber(0)
+        exchange.onWalletTokenBaseUnit = new BigNumber(0)
+
         var token = $stateParams.token || cfg.tokens[lastPart.toUpperCase()]
 
         if (!token) {
-            // TODO 404
+            toastr.error('Unrecognized token: "'+$stateParams.pair+'"')
+            $state.go('markets')
             return
         }
 
@@ -63,10 +68,6 @@
         exchange.pair = $stateParams.pair
         exchange.symbol = token[2] || lastPart
         exchange.user = user
-
-        exchange.onOrders = { eth: new BigNumber(0), token: new BigNumber(0) }
-        exchange.onExchangeTokenBaseUnit = new BigNumber(0)
-        exchange.onWalletTokenBaseUnit = new BigNumber(0)
 
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])

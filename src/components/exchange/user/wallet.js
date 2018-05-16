@@ -129,6 +129,7 @@
         }
 
         $scope.onExchangeToken = function() {
+            if (!exchange.tokenInf) return new BigNumber(0)
             return exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1])
         }
 
@@ -137,6 +138,7 @@
         }
 
         $scope.onWalletToken = function() {
+            if (!exchange.tokenInf) return new BigNumber(0)
             return exchange.onWalletTokenBaseUnit.dividedBy(exchange.tokenInf[1])
         }
 
