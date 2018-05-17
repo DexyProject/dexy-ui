@@ -7,6 +7,8 @@ html(lang="en", ng-app="dexyApp", ng-class="{ nightMode: nightMode }")
         meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
         meta(name='viewport', content='width=device-width', initial-scale='1')
 
+        link(rel='icon', type='image/png', href='/img/favicon.png')
+
         if (mode === 'production')
             link(rel='stylesheet', href='css/blob.css')
             script(type='text/javascript', src='blob.js?cacheBreak=' + pkg.version)
