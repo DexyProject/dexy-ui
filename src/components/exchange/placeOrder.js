@@ -42,20 +42,23 @@
         $scope.setAmount = function (order, part) {
             var best = $scope.getBest()
 
-            if (order.type === 'BUY') {
-                order.rate = order.rate || (best.ask && best.ask.rate.toString(10))
+            if (order.type === 'BUY' && (order.rate || best.ask)) {
+                order.rate = order.rate || best.ask.rate.toString(10)
                 order.amount = user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL)
                     .minus(exchange.onOrders.eth)
                     .dividedBy(parseFloat(order.rate))
                     .multipliedBy(part)
-            } else {
-                order.rate = order.rate || (best.bid && best.bid.rate.toString(10))
+                order.amount = order.amount.decimalPlaces(4).toString(10)
+            } 
+
+            if (order.type === 'SELL' && (order.rate || best.bid)) {
+                order.rate = order.rate || best.bid.rate.toString(10)
                 order.amount = exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1])
                     .minus(exchange.onOrders.token)
                     .multipliedBy(part)
+                order.amount = order.amount.decimalPlaces(4).toString(10)
             }
 
-            order.amount = order.amount.decimalPlaces(4).toString(10)
         }
 
         $scope.showAvail = function (order) {
