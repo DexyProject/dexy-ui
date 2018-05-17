@@ -10,7 +10,7 @@ var all = []
 fetch('https://api.coinmarketcap.com/v1/ticker/?limit=300')
 .then(function(res) { return res.json() })
 .then(function(res) {
-    res.forEach(function(x) {
+    res.concat([{ symbol: 'DICE', id: 'etheroll' }]).forEach(function(x) {
         if (excludes[x.symbol]) return
         if (!tokens[x.symbol]) return
 
