@@ -5,6 +5,10 @@
     var ethutil = require('ethereumjs-util')
     var BigNumber = require('bignumber.js')
 
+    // constants
+    var TOKEN_AMNT_DECIMALS = 6
+    var ETH_AMNT_DECIMALS = 12
+
     // Take order ctrl
 
     angular
@@ -17,7 +21,9 @@
         var exchange = $scope.exchange
 
         $scope.openTakeOrderDialog = function (side, order) {
-            if (order.rawOrder.exchange !== cfg.exchangeContract) {
+            var rawOrder = order.rawOrder
+
+            if (rawOrder.exchange !== cfg.exchangeContract) {
                 toastr.error('Order exchange address different than ours')
                 return
             }
@@ -34,28 +40,33 @@
 
             // max amount of token that the user can take with their funds
             // order.amount is how much is left in token
-            var maxUserAmnt = side === 'SELL' ?
+            var maxUserTokenAmnt = side === 'SELL' ?
                 exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1]).minus(exchange.onOrders.token)
                 : user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL).minus(exchange.onOrders.eth).dividedBy(order.rate)
 
-            if (maxUserAmnt.comparedTo(0) < 1) {
+            if (maxUserTokenAmnt.comparedTo(0) < 1) {
                 toastr.error('Insufficient funds to take order')
                 return
             }
 
             // order.amount is how much is left in token
             var tokenAmount = order.filledInToken.plus(order.amount)
-            var maxCanFillInToken = BigNumber.min(maxUserAmnt, order.amount)
+            var maxCanFillInToken = BigNumber.min(maxUserTokenAmnt, order.amount)
 
             $scope.exchange.toFill = {
                 order: order,
+                side: side,
                 maxCanFillInToken: maxCanFillInToken,
                 tokenAmount: tokenAmount,
+
+                // Mutable stuff
                 portion: 1000,
-                side: side,
             }
+            // this will set tokenAmountStr and ethAmountStr
+            $scope.recalcStrValues()
+
             $('#takeOrder').modal('show')
-        }   
+        }
 
         // @TODO: this does not belong here; as well as the splitting
         $scope.getSigBuf = function(sig) {
@@ -73,15 +84,9 @@
             var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
             var values = [rawOrder.make.amount, rawOrder.take.amount, rawOrder.expires, rawOrder.nonce]
 
-            // portion is calculated in terms of portion from what CAN be filled
-            // maxCanFillInToken is used in the UI to calculate it
-
-            // toFill.portion is always an integer from 0 to 1000
-            var portion = toFill.portion / 1000
-
-            var orderTakeAmount = new BigNumber(rawOrder.take.amount, 10)
-            var totalCanTake = orderTakeAmount.multipliedBy(toFill.maxCanFillInToken).dividedBy(toFill.tokenAmount)
-            var amnt = totalCanTake.multipliedBy(portion).integerValue()
+            var amnt = (rawOrder.take.token == CONSTS.ZEROADDR) ?
+                new BigNumber(toFill.ethAmountStr).multipliedBy(CONSTS.ETH_MUL).integerValue()
+                : new BigNumber(toFill.tokenAmountStr).multipliedBy(exchange.tokenInf[1]).integerValue()
 
             var sig = rawOrder.signature
 
@@ -112,8 +117,6 @@
         $scope.updateCanTrade = function() {
             if (!$scope.exchange.toFill) return
 
-            // @TODO: call isApproved before that, and if it's not, make the user wait. or say "you cannot submit an order yet", same goes for filling
-            // NOTE: this has to be shown upon opening the dialog; so the things that getAddresses, values, and amount, should be functions
             var args = $scope.getArgs($scope.exchange.toFill)
             user.exchangeContract.methods.canTrade.apply(null, [args[0], args[1], args[2]])
                 .call(function (err, resp) {
@@ -146,16 +149,52 @@
                     var divider = rawOrder.take.token == CONSTS.ZEROADDR ? exchange.toFill.order.rate : 1
 
                     var availableInToken = new BigNumber(resp).dividedBy(divider).dividedBy(tokenBase)
-                    exchange.toFill.maxCanFillInToken = BigNumber.min(exchange.toFill.maxCanFillInToken, availableInToken)
+                    var maxCanFillInToken = BigNumber.min(exchange.toFill.maxCanFillInToken, availableInToken)
+                    exchange.toFill.maxCanFillInToken = maxCanFillInToken
+                    $scope.recalcStrValues()
                     !$scope.$$phase && $scope.$digest()
                 })
+        }
+
+        $scope.onPortionChanged = function() {
+            $scope.recalcStrValues()
+        }
+
+        $scope.onAmountChanged = function(valueStr, isEth) {
+            var toFill = exchange.toFill
+            var amnt = new BigNumber(valueStr)
+            if (amnt.isNaN()) {
+                $scope.recalcStrValues()
+                return
+            }
+            var max = toFill.maxCanFillInToken
+            if (isEth)  max = max.multipliedBy(toFill.order.rate)
+            amnt = BigNumber.min(amnt, max)
+            toFill.portion = amnt.dividedBy(max).multipliedBy(1000).integerValue().toNumber()
+            $scope.recalcStrValues()
+        }
+
+        $scope.onEthAmountChanged = function() {
+            $scope.onAmountChanged(exchange.toFill.ethAmountStr, true)
+        }
+
+        $scope.onTokenAmountChanged = function() {
+            $scope.onAmountChanged(exchange.toFill.tokenAmountStr, false)
+        }
+
+        $scope.recalcStrValues = function() {
+            var toFill = exchange.toFill
+            var p = toFill.portion / 1000
+            var maxCanFillInToken = toFill.maxCanFillInToken
+            toFill.tokenAmountStr = maxCanFillInToken.multipliedBy(p).toFixed(TOKEN_AMNT_DECIMALS)
+            toFill.ethAmountStr = maxCanFillInToken.multipliedBy(p).multipliedBy(toFill.order.rate).toFixed(ETH_AMNT_DECIMALS)
         }
 
         $scope.getSummary = function()
         {
             if (!exchange.toFill) return
 
-            var p = exchange.toFill.portion/1000
+            var p = exchange.toFill.portion / 1000
             var amnt = exchange.toFill.maxCanFillInToken.multipliedBy(p)
             var ethAmount  = amnt.multipliedBy(exchange.toFill.order.rate)
 
@@ -173,12 +212,12 @@
             }
 
             var summary = (exchange.toFill.side == 'SELL' ? 'Selling' : 'Buying') + ' ' 
-            + amnt.toFixed(4) + ' ' 
-            + exchange.symbol + ' for ' + ethAmount.toFixed(6) + ' ETH'
+            + amnt.toFixed(TOKEN_AMNT_DECIMALS) + ' ' 
+            + exchange.symbol + ' for ' + ethAmount.toFixed(ETH_AMNT_DECIMALS) + ' ETH'
             + '\n(Fee: '+
                 (exchange.toFill.side == 'SELL' 
-                    ? fee.toFixed(12)+' ETH'
-                    : fee.toFixed(6)+' '+exchange.symbol
+                    ? fee.toFixed(ETH_AMNT_DECIMALS)+' ETH'
+                    : fee.toFixed(TOKEN_AMNT_DECIMALS)+' '+exchange.symbol
                 )+')'
 
             return summary
