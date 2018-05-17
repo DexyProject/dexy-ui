@@ -69,6 +69,10 @@
         exchange.symbol = token[2] || lastPart
         exchange.user = user
 
+        // This is a temporary measure to workaround the fact we need this in the header
+        // The proper solution would be a router view (in the past, we had this for indicators)
+        $scope.$root.symbol = exchange.symbol
+
         exchange.tokenInf = token
         exchange.token = new web3.eth.Contract(CONSTS.erc20ABI, token[0])
 

@@ -8,9 +8,6 @@
     GlobalIndicatorsCtrl.$inject = ['$scope', '$state'];
 
     function GlobalIndicatorsCtrl($scope, $state) {
-        $scope.$on('$stateChangeSuccess', function() {
-            // @TODO: currently pair is only the quote token, 
-            $scope.symbol = $state.params.pair
-        })
+        // @TODO: volume, price, 24hr high, 24hr low
     }
 })();
