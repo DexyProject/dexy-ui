@@ -251,7 +251,7 @@
             var token = new web3.eth.Contract(CONSTS.erc20ABI, addr)
             token.methods.symbol().call(function (err, res) {
                 if (err) return cb(err)
-                props.symbol = res
+                props.symbol = res.toUpperCase()
                 cb(null, props)
             })
         })
