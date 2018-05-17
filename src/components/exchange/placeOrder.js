@@ -28,6 +28,15 @@
             }
         }
 
+        $scope.getBestForSide = function(side) {
+            if (! exchange.orderbook) return null
+            
+            var best = $scope.getBest()
+
+            if (side === 'BUY') return best.ask
+            else return best.bid
+        }
+
         $scope.setToBest = function (side, order) {
             var best = $scope.getBest()
 

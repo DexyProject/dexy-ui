@@ -12,14 +12,12 @@
 .row
     .col.mb-3.text-center
         .btn-group(role='group', aria-label='Percent')
-            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 0.25)')
-                | 25%
-            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 0.50)')
-                | 50%
-            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 0.75)')
-                | 75%
-            button.btn.btn-light.btn-outline-primary(type='button',ng-click='setAmount(orders.' + side + ', 1.00)')
-                | 100%
+            button.btn.btn-light.btn-outline-primary(
+                type='button',
+                ng-repeat='portion in [0.25, 0.50, 0.75, 1.00]',
+                ng-disabled='!getBestForSide("' + side + '")'
+                ng-click='setAmount(orders.' + side + ', portion)'
+                ) {{portion*100}}%
 
 .form-row.align-items-end.mt-1
     .form-group.col
