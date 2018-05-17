@@ -160,6 +160,28 @@
             $scope.recalcStrValues()
         }
 
+        $scope.onAmountChanged = function(valueStr, isEth) {
+            var toFill = exchange.toFill
+            var amnt = new BigNumber(valueStr)
+            if (amnt.isNaN()) {
+                $scope.recalcStrValues()
+                return
+            }
+            var max = toFill.maxCanFillInToken
+            if (isEth)  max = max.multipliedBy(toFill.order.rate)
+            amnt = BigNumber.min(amnt, max)
+            toFill.portion = amnt.dividedBy(max).multipliedBy(1000).integerValue().toNumber()
+            $scope.recalcStrValues()
+        }
+
+        $scope.onEthAmountChanged = function() {
+            $scope.onAmountChanged(exchange.toFill.ethAmountStr, true)
+        }
+
+        $scope.onTokenAmountChanged = function() {
+            $scope.onAmountChanged(exchange.toFill.tokenAmountStr, false)
+        }
+
         $scope.recalcStrValues = function() {
             var toFill = exchange.toFill
             var p = toFill.portion / 1000

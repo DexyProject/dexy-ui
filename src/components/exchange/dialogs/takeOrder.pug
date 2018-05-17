@@ -17,11 +17,11 @@
                     .form-group.col
                         label.col-form-label Amount {{exchange.symbol}}
                         //- This is supposed to describe the token amount, in terms of what will be filled by the user
-                        input.form-control(type='text', placeholder='amount', ng-model='exchange.toFill.tokenAmountStr', disabled='')
+                        input.form-control(type='text', placeholder='amount', ng-model='exchange.toFill.tokenAmountStr', ng-blur='onTokenAmountChanged()')
                 .form-row.align-items-end
                     .form-group.col
                         label.col-form-label ETH
-                        input.form-control(type='text', placeholder='eth', ng-value='exchange.toFill.ethAmountStr', disabled='')
+                        input.form-control(type='text', placeholder='eth', ng-model='exchange.toFill.ethAmountStr', ng-blur='onEthAmountChanged()')
 
                 .row
                     .col
