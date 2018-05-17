@@ -84,16 +84,9 @@
             var addresses = [rawOrder.maker, rawOrder.make.token, rawOrder.take.token]
             var values = [rawOrder.make.amount, rawOrder.take.amount, rawOrder.expires, rawOrder.nonce]
 
-            // portion is calculated in terms of portion from what CAN be filled
-            // maxCanFillInToken is used in the UI to calculate it
-
-            // toFill.portion is always an integer from 0 to 1000
-            var portion = toFill.portion / 1000
-
-            var orderTakeAmount = new BigNumber(rawOrder.take.amount, 10)
-            var totalCanTake = orderTakeAmount.multipliedBy(toFill.maxCanFillInToken).dividedBy(toFill.tokenAmount)
-            var amnt = totalCanTake.multipliedBy(portion).integerValue()
-            // @TODO
+            var amnt = (rawOrder.take.token == CONSTS.ZEROADDR) ?
+                new BigNumber(toFill.ethAmountStr).multipliedBy(CONSTS.ETH_MUL).integerValue()
+                : new BigNumber(toFill.tokenAmountStr).multipliedBy(exchange.tokenInf[1]).integerValue()
 
             var sig = rawOrder.signature
 
