@@ -15,7 +15,6 @@
             button.btn.btn-light.btn-outline-primary(
                 type='button',
                 ng-repeat='portion in [0.25, 0.50, 0.75, 1.00]',
-                ng-disabled='!getBestForSide("' + side + '")'
                 ng-click='setAmount(orders.' + side + ', portion)'
                 ) {{portion*100}}%
 

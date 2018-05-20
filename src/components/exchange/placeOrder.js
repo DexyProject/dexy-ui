@@ -28,15 +28,6 @@
             }
         }
 
-        $scope.getBestForSide = function(side) {
-            if (! exchange.orderbook) return null
-            
-            var best = $scope.getBest()
-
-            if (side === 'BUY') return best.ask
-            else return best.bid
-        }
-
         $scope.setToBest = function (side, order) {
             var best = $scope.getBest()
 
@@ -51,17 +42,26 @@
         $scope.setAmount = function (order, part) {
             var best = $scope.getBest()
 
-            if (order.type === 'BUY' && (order.rate || best.ask)) {
-                order.rate = order.rate || best.ask.rate.toString(10)
+            var rate = new BigNumber(order.rate)
+            if (rate.isNaN() || rate.comparedTo(0) === 0) {
+                var bestOrder = best.bid || best.ask
+                
+                // no price or market price, can't do anything
+                if (! bestOrder) return
+
+                order.rate = bestOrder.rate.toString(10)
+                rate = bestOrder.rate
+            }
+
+            if (order.type === 'BUY') {
                 order.amount = user.ethBal.onExchangeBaseUnit.dividedBy(CONSTS.ETH_MUL)
                     .minus(exchange.onOrders.eth)
-                    .dividedBy(parseFloat(order.rate))
+                    .dividedBy(rate)
                     .multipliedBy(part)
                 order.amount = order.amount.decimalPlaces(4).toString(10)
             } 
 
-            if (order.type === 'SELL' && (order.rate || best.bid)) {
-                order.rate = order.rate || best.bid.rate.toString(10)
+            if (order.type === 'SELL') {
                 order.amount = exchange.onExchangeTokenBaseUnit.dividedBy(exchange.tokenInf[1])
                     .minus(exchange.onOrders.token)
                     .multipliedBy(part)
