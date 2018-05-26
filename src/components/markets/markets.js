@@ -24,6 +24,7 @@
             { name: 'Ask', field: 'ask' },
             { name: 'Last Price', field: 'last' },
             { name: '24h Volume', field: 'volume' },
+            { name: 'Depth', field: 'depth' },
         ]
 
         $scope.hideZeroBal = false;
@@ -102,6 +103,7 @@
                     x.ask = info.ask
                     x.last = info.last
                     x.volume = info.volume
+                    x.bid =  (new BigNumber(x.bid)).dividedBy(18).toString()
                 })
 
                 $scope.delayedApply()

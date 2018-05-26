@@ -46,3 +46,6 @@ div(ng-controller='MarketsController')
                         td
                             div(ng-bind='(market.volume.toFixed(8))')
                             div(class='label', ng-bind='fiatValue(market.volume)')
+                        td
+                            div(ng-bind='(market.depth.toFixed(8))')
+                            div(class='label', ng-bind='fiatValue(market.depth)')
