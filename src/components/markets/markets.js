@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var BigNumber = require('bignumber.js');
+
     angular
         .module('dexyApp')
         .controller('MarketsController', MarketsController);
@@ -103,7 +105,7 @@
                     x.ask = info.ask
                     x.last = info.last
                     x.volume = info.volume
-                    x.bid =  (new BigNumber(x.bid)).dividedBy(18).toString()
+                    x.depth = (new BigNumber(info.depth)).dividedBy(CONSTS.ETH_MUL)
                 })
 
                 $scope.delayedApply()
