@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    var BigNumber = require('bignumber.js');
+
     angular
         .module('dexyApp')
         .controller('MarketsController', MarketsController);
@@ -24,6 +26,7 @@
             { name: 'Ask', field: 'ask' },
             { name: 'Last Price', field: 'last' },
             { name: '24h Volume', field: 'volume' },
+            { name: 'Depth', field: 'depth' },
         ]
 
         $scope.hideZeroBal = false;
@@ -102,6 +105,7 @@
                     x.ask = info.ask
                     x.last = info.last
                     x.volume = info.volume
+                    x.depth = (new BigNumber(info.depth)).dividedBy(CONSTS.ETH_MUL)
                 })
 
                 $scope.delayedApply()
