@@ -105,7 +105,7 @@
                     x.ask = info.ask
                     x.last = info.last
                     x.volume = info.volume
-                    x.depth = (new BigNumber(info.depth)).dividedBy(CONSTS.ETH_MUL)
+                    x.depth = (new BigNumber(info.depth)).dividedBy(CONSTS.ETH_MUL).toNumber()
                 })
 
                 $scope.delayedApply()
