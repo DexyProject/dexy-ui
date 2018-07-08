@@ -1,6 +1,6 @@
 {
   "name": "dexy-ui",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "DEXY UI - first iteration",
   "main": "index.js",
   "scripts": {
