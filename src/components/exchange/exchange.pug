@@ -6,7 +6,7 @@
     .col-xs-12.col-lg-9.col-xs-12(ng-controller='takeOrderCtrl')
         include ./dialogs/takeOrder
         .row
-            .col-xs-12.col-lg-8.mt-3
+            //-.col-xs-12.col-lg-8.mt-3
                 .col.border
                     .meta
                         span O&nbsp;
@@ -21,7 +21,7 @@
                         span VOL&nbsp;
                             span.data(ng-bind="meta.vol")
                     #mainChart(ng-controller="chartCtrl")
-            .col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
+            //-.col-md-4.col-xs-4.mt-3.d-flex.align-content-stretch.flex-wrap
                 .col.border
                     .row.mt-3
                         .col-12
@@ -51,7 +51,7 @@
                                 include ./user/myOrders
                             #trades.tab-pane.fade.in
                                 include ./user/myTrades
-            .col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
+            //-.col-lg-4.col-xs-12.mt-3.d-flex.align-content-stretch.flex-wrap
                 include ./overlay
 
                 .col.border
@@ -72,7 +72,7 @@
                             #sell.tab-pane.fade.in
                                 include ./placeOrder
 
-    .col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap(ng-controller='tradeHistoryCtrl')
+    //-.col-xs-12.col-lg-3.order-lg-first.mt-3.d-flex.align-content-stretch.flex-wrap(ng-controller='tradeHistoryCtrl')
         .col.border
             .row.mt-3
                 .col-12
